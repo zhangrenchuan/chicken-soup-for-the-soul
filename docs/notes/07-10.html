@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>模块分类 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html">路径</a><a href="07-10.html" aria-current="page">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>模块分类</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>Node.js 可以加载内置模块、第三方包和本地文件。<code>require(&#39;./utils&#39;)</code> 从当前模块的位置找本地文件，<code>require(&#39;fs&#39;)</code> 加载内置模块。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-Node-E6-A8-A1-E5-9D-97-E5-88-86-E7-B1-BB">Node模块分类<span><a href="#label-Node-E6-A8-A1-E5-9D-97-E5-88-86-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><strong>原生模块(核心模块)</strong></p>
+
+<p>Node.js标准API中提供的模块. 即为核心模块 诸如: jshttpnetvm</p>
+
+<p>用法: var http = require(&#39;http&#39;);</p>
+
+<p>require 的参数就是模块名</p>
+
+<p><strong>文件模块(非官方编写)</strong></p>
+
+<p>用法:</p>
+
+<p>模块 – var http = require(&#39;/myDir/myModule.js&#39;);</p>
+
+<p>包 – var http = require(&#39;/myDir/myPackage&#39;);</p>
+
+<p>require 的参数是明确的路径</p>
+
+<p>网络下载的包不明确路径时require会从当前目录下开始寻找,如果找不到继续就继续向上级目录寻找. 直到根目录. 都没有就会报错.(建议目录越短越好节省磁盘空间)</p>
+
+<p>IO操作就是磁盘做操</p>
+
+<p><strong>注意: 包中的json文件需要配置一个入口决定先用哪个文件&#39;main&#39; : &#39;xxx.js&#39;</strong></p>
+<hr>
+
+<h2 id="label-Node-E6-A8-A1-E5-9D-97-E5-8A-A0-E8-BD-BD">Node模块加载<span><a href="#label-Node-E6-A8-A1-E5-9D-97-E5-8A-A0-E8-BD-BD">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>加载机制: 使用缓存机制</p>
+
+<p>加载过程：</p>
+<ol><li>
+<p>从磁盘读取 js 文件</p>
+</li><li>
+<p>一行一行执行 js 代码</p>
+</li><li>
+<p>收集向外暴露的信息，放到一个对象里</p>
+</li><li>
+<p>把这个对象放到缓存中, 下次读取从缓存中直接获得这个对象</p>
+<ul><li>
+<p>无论调用多少次，事实上只是从磁盘加载一次</p>
+</li><li>
+<p>第一次运行形成对象，将对象存储在缓存中</p>
+</li><li>
+<p>以后都是从缓存中获取对象</p>
+</li></ul>
+</li></ol>
+
+<p>查找规则: 优先去缓存中查找.没有再去磁盘上找</p>
+
+<p>核心(原生)模块: 程序启动就被加载到内存中</p>
+
+<p>文件模块: 调用require函数时才去读取文件</p>
+<hr>
+
+<h2 id="label-Common.Js">Common.Js<span><a href="#label-Common.Js">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>CommonJS 试图定义一套普通应用程序使用的API，从而填补 JavaScript 标准库过于简单的不足.</p>
+</li><li>
+<p>CommonJS 拟定一套完整的规范，用来规范譬如文件系统访问、命令行、模块管理、函数库集成等功能。</p>
+</li><li>
+<p>CommonJS两大核心: exports/require组合和package.json</p>
+</li></ul>
+
+<h4 id="label-CommonJS+-E6-A8-A1-E5-9D-97-E7-B3-BB-E7-BB-9F-3A">CommonJS 模块系统:<span><a href="#label-CommonJS+-E6-A8-A1-E5-9D-97-E7-B3-BB-E7-BB-9F-3A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>exports 暴露文件 require 引入文件 <img src="https://i.imgur.com/UgjIDFN.jpg"></p>
+
+<h4 id="label-package.json">package.json<span><a href="#label-package.json">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>json里不可以加注释</p>
+</li><li>
+<p>package.json所需属性:</p>
+</li><li>
+<p><strong>name</strong> 名 必须</p>
+</li><li>
+<p><strong>version</strong> 版本号 必须</p>
+</li><li>
+<p>main 程序执行的入口地址</p>
+</li><li>
+<p>scripts 项目生命周期各环节需要执行的命令(对象)</p>
+</li><li>
+<p>dependencies 项目运行依赖的模块(对象) npm install express –save</p>
+</li><li>
+<p>devDependencies 项目开发所需模块(对象) npm install express –save-dev</p>
+</li></ul>
+
+<p><strong>name 和 version 属性共同确定了一个包</strong></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/%E6%A8%A1%E5%9D%97%E5%88%86%E7%B1%BB.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-09.html">上一篇 · 路径</a><a href="07-11.html">下一篇 · 数据库Mongoose</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

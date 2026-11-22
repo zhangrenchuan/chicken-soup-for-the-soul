@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>前端模版引擎 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-08.html">AJAX：请求数据与更新页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AJAX：请求数据与更新页面</strong><a href="08-01.html">简介</a><a href="08-02.html">ajax请求</a><a href="08-03.html">前后端交互</a><a href="08-04.html">用 jQuery 发请求</a><a href="08-05.html">小练习</a><a href="08-06.html">跨域请求</a><a href="08-07.html" aria-current="page">前端模版引擎</a><a href="08-08.html">上传下载文件</a><a href="08-09.html">ajax高级</a><a href="08-10.html">版本控制工具</a></nav>
+<article class="paper"><h1>前端模版引擎</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>模板把数据放进预先写好的 HTML 结构。比如准备一段列表项模板，再把商品名称逐条填进去。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-JS+-E6-A8-A1-E7-89-88-E5-BC-95-E6-93-8E">JS 模版引擎<span><a href="#label-JS+-E6-A8-A1-E7-89-88-E5-BC-95-E6-93-8E">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>模板预定义一些模板语法</p>
+</li><li>
+<p>程序员使用模板简洁的展现数据</p>
+</li></ul>
+
+<p><strong>模版引擎的作用:</strong></p>
+<ul><li>
+<p>当我们请求(Ajax)得到一个较大量的数据需要显示</p>
+</li><li>
+<p>模板引擎可以极大简化编码</p>
+</li><li>
+<p>提交运行效率</p>
+</li></ul>
+
+<p><strong>常用的前端模版引擎</strong></p>
+<ul><li>
+<p>百度 <a href="http://tangram.baidu.com/BaiduTemplate">tangram.baidu.com/BaiduTemplate</a>/</p>
+</li><li>
+<p>腾讯 <a href="https://github.com/aui/artTemplate">github.com/aui/artTemplate</a></p>
+</li><li>
+<p>淘宝 <a href="https://github.com/ktmud/kissy">github.com/ktmud/kissy</a></p>
+</li></ul>
+
+<p><strong>使用前端引擎模版步骤</strong></p>
+
+<pre class="ruby"><span class="ruby-value">1</span>. <span class="ruby-identifier">引入</span>  <span class="ruby-identifier">js</span> <span class="ruby-identifier">模版包</span>
+<span class="ruby-value">2</span>. <span class="ruby-identifier">创建模版</span> <span class="ruby-identifier">设置id和type</span>=<span class="ruby-string">&quot;text/html&quot;</span>
+<span class="ruby-value">3</span>. <span class="ruby-identifier">创建数据</span>
+<span class="ruby-value">4</span>. <span class="ruby-identifier">生成html</span>
+<span class="ruby-value">5</span>. <span class="ruby-identifier">把html加载在页面上</span>
+</pre>
+
+<p><strong>模版的优势</strong></p>
+<ol><li>
+<p>当内容比较复杂的时候, 使用模版比使用字符串更加简洁</p>
+</li><li>
+<p>降低浏览器的负载</p>
+</li></ol>
+<hr>
+
+<pre>前端引擎模版小demo
+
+//1. 引入模版包
+  &lt;script type=&quot;text/javascript&quot; src=&quot;template-native.js&quot;&gt;&lt;/script&gt;
+&lt;body&gt;
+&lt;div id=&quot;div&quot;&gt;&lt;/div&gt;
+
+//2. 创建模版
+&lt;script id=&quot;test&quot; type=&quot;text/html&quot;&gt;
+  &lt;% for(var i=0; i&lt;list.length; i++){%&gt;
+      &lt;li&gt; 索引: &lt;%= i %&gt; --- &lt;%= list[i]%&gt;  &lt;/li&gt;
+  &lt;%}%&gt;
+&lt;/script&gt;
+
+//3. 创建数据
+&lt;script type=&quot;text/javascript&quot;&gt;
+  var data = {
+    list : [&#39;你好&#39;,&#39;呵呵&#39;,&#39;哈哈&#39;]
+  };
+
+//4. 生成html
+//template第一个参数是模版的id 第二个参数是数据的对象
+  var html = template(&#39;test&#39;, data); 
+
+// 5. 渲染页面上
+  document.getElementById(&#39;div&#39;).innerHTML = html;
+
+&lt;/script&gt;
+&lt;/body&gt;
+
+*页面样式*
+索引: 0 --- 你好
+索引: 1 --- 呵呵
+索引: 2 --- 哈哈</pre>
+
+<p>———-  模版引擎文件夹详解  demo 模版小样简介  dist 发布时使用  doc 文档  node 后台使用  src 源代码  test 测试使用  package.json 模版依赖包  README 说明文档</p>
+
+<h4 id="label-E5-8D-95-E4-BE-8B-E6-A8-A1-E5-BC-8F+-28-E5-8F-AA-E6-9C-89-E4-B8-80-E4-B8-AA-E5-AE-9E-E4-BE-8B-29">单例模式 (只有一个实例)<span><a href="#label-E5-8D-95-E4-BE-8B-E6-A8-A1-E5-BC-8F+-28-E5-8F-AA-E6-9C-89-E4-B8-80-E4-B8-AA-E5-AE-9E-E4-BE-8B-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>XMLHttpRequest.abort() 取消之前的请求</p>
+
+<pre>var xhrObj = null;
+
+function getReqObj2() { //如果不存在创建发起一个请求
+	if(xhrObj == null){
+      xhrObj = createReq();
+    }else{
+      xhrObj.abort(); 
+    }
+
+    return xhrObj;
+}
+
+//创建发送ajax请求的XMLHttpRequest对象
+function createReq() {
+    var httpReq = null;
+    if(window.XMLHttpRequest) {
+        httpReq = new XMLHttpRequest();
+    } else {//IE6/5
+        httpReq = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+    }
+
+    return httpReq;
+}</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/08_AJAX/%E5%89%8D%E7%AB%AF%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="08-06.html">上一篇 · 跨域请求</a><a href="08-08.html">下一篇 · 上传下载文件</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>FS模块 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html" aria-current="page">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>FS模块</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>fs</code> 用来读写文件和目录。读文件时先看路径从哪里算起，再处理文件不存在等错误。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-FS-E6-A8-A1-E5-9D-97-EF-BC-9A+File+System">FS模块： File System<span><a href="#label-FS-E6-A8-A1-E5-9D-97-EF-BC-9A+File+System">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>FS模块是文件操作的封装，提供了文件的读取、写入、更名、删除、遍历目录等操作</p>
+</li><li>
+<p>任何一个程序都没有能力直接操作磁盘. 引入FS模块和OS操作系统建立连接机制</p>
+</li><li>
+<p>异步读取 在读取文件时,后面的代码就紧接着执行</p>
+</li><li>
+<p>同步读取 需要等待文件读取完成后再执行后面的代码</p>
+
+<pre>var fs = require(&#39;fs&#39;); 引入FS模块
+fs.readFile(filename,[encoding],[callback(err,data)]) 异步读文件
+- filename 文件路径(文件夹路径+文件名后缀)
+- callback(err,data) 回调函数 (错误优先机制)
+  * err 错误信息
+  * data 最后读取后的数据(返回是一个二进制字节)
+  	 - 文字: buffter.toString()
+
+fs.readFileSync(filename, [encoding]) 同步读取文件
+- filename 文件路径(文件夹路径+文件名后缀)
+- 可以用try{} catch(err){}接收同步读取的错误信息.防止系统崩溃
+
+fs.writeFile(file, data[, options], callback) 异步写文件
+- file  文件写在哪
+- data 写的内容
+- [options]  以什么方式写
+	* {flag:&#39;a&#39;} //追加内容
+	* {flag:&#39;r&#39;} //以读取模式打开文件
+	* {flag:&#39;w&#39;} //以写入模式打开文件(默认)
+- callback(err)  回调函数
+
+fs.writeFileSync(file, data[, options]) 同步写文件</pre>
+</li></ul>
+<hr>
+
+<p><strong>官方已建议采用异步的方式</strong></p>
+
+<p>1.异步的优点: 后面的代码会尽早的执行, 程序执行效能比较高</p>
+
+<p>2.异步的缺点: 程序员变成思维要求高, 出错容易, 调试困难. 嵌套回调函数可读性低</p>
+
+<p>3.同步的优点: 编程简单,对程序员的思维要求比较低</p>
+
+<p>4.同步的缺点: 代码执行效率较低, 在大规模访问情况下, 整个系统的响应速度慢</p>
+<ul><li>
+<p>异步的特点:</p>
+</li><li>
+<p>具有事件和回调函数</p>
+</li><li>
+<p>只有事件发生,回调函数才执行</p>
+</li><li>
+<p>同步的特点:</p>
+<ul><li>
+<p>没有回调函数,也没有事件</p>
+</li><li>
+<p>完全按照行号一行一行的执行</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<pre>异步读取
+var fs = require(&#39;fs&#39;);
+console.log(&#39;tb_before&#39;);
+
+var path =&#39;./test_content.txt&#39;;
+
+fs.readFile(path,function (err,data) {
+    if(err){
+      console.error(err);
+    }else{
+      //console.log(data);
+      //console.log(data.toString());
+      console.log(&#39;tb_finish&#39;);
+    }
+
+});
+for (var i = 0; i &lt; 999999; i++) {
+
+}
+console.log(&#39;tb_after&#39;); //按照回调函数什么时候触发时决定的顺序
+
+
+同步读取: try catch方法用来接收错误信息
+var fs1 = require(&#39;fs&#39;);
+console.log(&#39;yb_before&#39;);
+
+try{
+  var path1 =&#39;./test_content.txt&#39;;
+  var data = fs1.readFileSync(path1); //同步读文件
+  console.log(&#39;yb_finish&#39;);
+}
+catch(err){
+  console.error(err);
+}
+console.log(&#39;yb_after&#39;);</pre>
+<hr>
+
+<pre>  //异步实现顺序书写. 嵌套的函数
+  //回调地狱
+  fs.writeFile(path,day1,{flag:&#39;a&#39;},function (err) {
+      if(err){
+        console.error(err);
+      }else{
+        console.log(&#39;写完1&#39;);
+        fs.writeFile(path,day2,{flag:&#39;a&#39;},function (err) {
+          if(err){
+            console.error(err);
+          }else{
+            console.log(&#39;写完了2&#39;);
+            fs.writeFile(path,day3,{flag:&#39;a&#39;},function (err) {
+              if(err){
+                console.error(err);
+              }else{
+                console.log(&#39;写完了3&#39;);
+              }
+            });
+          }
+        });
+      }
+  });</pre>
+
+<h4 id="label-2Ffavicon.ico-E5-A4-84-E7-90-86">/favicon.ico处理<span><a href="#label-2Ffavicon.ico-E5-A4-84-E7-90-86">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>使用 路由分发</p>
+</li><li>
+<p>使用 读文件</p>
+</li><li>
+<p>返回 数据</p>
+</li></ul>
+
+<h4 id="label-log-28-E6-97-A5-E5-BF-97-29">log(日志)<span><a href="#label-log-28-E6-97-A5-E5-BF-97-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>作用: 记录系统的行为</p>
+</li><li>
+<p>俗称: 打log (计算机写文件)</p>
+</li><li>
+<p>信息存储的位置 : 写入文件中</p>
+</li></ul>
+
+<h3 id="label-E7-BB-9D-E5-AF-B9-E8-B7-AF-E5-BE-84-2F-E7-9B-B8-E5-AF-B9-E8-B7-AF-E5-BE-84">绝对路径/相对路径<span><a href="#label-E7-BB-9D-E5-AF-B9-E8-B7-AF-E5-BE-84-2F-E7-9B-B8-E5-AF-B9-E8-B7-AF-E5-BE-84">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>文件系统</p>
+</li><li>
+<p>绝对路径: 根目录</p>
+</li><li>
+<p>相对路径: 当前目录为基准</p>
+</li><li>
+<p>http url文件路径</p>
+</li><li>
+<p>绝对路径</p>
+<ul><li>
+<p>从http: 开始的路径</p>
+</li><li>
+<p>从http url文件路径的根目录开始</p>
+</li></ul>
+</li><li>
+<p>相对路径:</p>
+<ul><li>
+<p>./ 表示当前目录下的文件. 当前目录就是当前的文件路径最后一个目录</p>
+</li><li>
+<p>../ 上一层的目录</p>
+</li></ul>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/FS%E6%A8%A1%E5%9D%97.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-05.html">上一篇 · Buffer 缓冲区</a><a href="07-07.html">下一篇 · Node模块系统</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

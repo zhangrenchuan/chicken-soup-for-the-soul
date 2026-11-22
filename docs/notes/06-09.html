@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>原型链继承 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-06.html">JavaScript 进阶：作用域、闭包和原型</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 进阶：作用域、闭包和原型</strong><a href="06-01.html">数据类型</a><a href="06-02.html">原型</a><a href="06-03.html">this</a><a href="06-04.html">提升</a><a href="06-05.html">上下文环境对象</a><a href="06-06.html">作用域与作用域链</a><a href="06-07.html">闭包</a><a href="06-08.html">对象创建模式</a><a href="06-09.html" aria-current="page">原型链继承</a><a href="06-10.html">线程机制</a><a href="06-11.html">JS引擎</a><a href="06-12.html">Web Workers API</a></nav>
+<article class="paper"><h1>原型链继承</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>可以让子对象通过原型链使用父对象的方法，同时让每个实例保存自己的数据。阅读传统构造函数示例时，留意这两部分分别在哪里设置。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E5-8E-9F-E5-9E-8B-E9-93-BE-E7-BB-A7-E6-89-BF">原型链继承<span><a href="#label-E5-8E-9F-E5-9E-8B-E9-93-BE-E7-BB-A7-E6-89-BF">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><strong>原理: 子类型的原型是父类型的实例对象</strong></p>
+<ol><li>
+<p>创建父类型的构造函数</p>
+</li><li>
+<p>在父函数的原型中添加方法</p>
+</li><li>
+<p>创建子类型的构造函数</p>
+</li><li>
+<p>将子类型的原型属性指向父类型的实例对象(子.prototype = new 父)</p>
+</li><li>
+<p>创建子类型函数的实例对象</p>
+</li><li>
+<p>子类型的实例对象可以直接调用父构造函数原型中的方法</p>
+
+<pre>  function Parent() {
+  	  this.pName = &#39;the parent&#39;
+  }
+  Parent.prototype.showP = function () { //Parent的实例对象才可调用
+  	  console.log(&#39;Parent &#39; + this.pName); //此时this是child
+  };
+
+  //定义一个子类型的构造函数
+  function Child() {
+    this.cName = &#39;the child&#39;
+  }
+
+  //让child的父对象(原型)是一个Parent的实例对象
+  //由于Child的prototype默认指向一个空的object()
+  //将Child的prototype指向Parent的实例对象
+  Child.prototype = new Parent(); //将父类型的实例赋值给子类型的原型属性
+
+  Child.prototype.showC = function () {
+    console.log(&#39;Child &#39; + this.cName);
+  };
+
+  var child = new Child();
+
+  child.showP(); //实现了继承
+  Parent the parent //输出结果</pre>
+</li></ol>
+
+<h3 id="label-E5-80-9F-E7-94-A8-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-E7-BB-A7-E6-89-BF">借用构造函数继承<span><a href="#label-E5-80-9F-E7-94-A8-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-E7-BB-A7-E6-89-BF">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><strong>原理:在子类型构造函数中通过call/apply()调用父构造函数中的属性</strong></p>
+
+<pre>  function Person(name,age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  function Student(name,age,price) {
+    //去掉重复代码 借用Person的代码
+    Person.call(this,name,age); //相当于 this.Person(name,age)
+    //Person.apply(this,[name,age])
+    this.price = price;
+  }
+
+  var s = new Student(&#39;tom&#39;,25,2000);
+  console.log(s);
+  Student {name: &quot;tom&quot;, age: 25, price: 2000}</pre>
+
+<h3 id="label-E5-8E-9F-E5-9E-8B-E9-93-BE-E7-BB-A7-E6-89-BF+-2B+-E5-80-9F-E7-94-A8-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-E7-BB-84-E5-90-88-E7-BB-A7-E6-89-BF">原型链继承 + 借用构造函数组合继承<span><a href="#label-E5-8E-9F-E5-9E-8B-E9-93-BE-E7-BB-A7-E6-89-BF+-2B+-E5-80-9F-E7-94-A8-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-E7-BB-84-E5-90-88-E7-BB-A7-E6-89-BF">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>原理:</p>
+
+<p>1.利用原型链实现对父函数原型中方法的继承</p>
+
+<p>2.利用call/apply()借用父函数初始化的相同属性</p>
+
+<p>优点:节省了不必要的重复性代码</p>
+
+<p><img src="https://i.imgur.com/bWm406I.png"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/06_JavaScript%E9%AB%98%E7%BA%A7/%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%BB%A7%E6%89%BF.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="06-08.html">上一篇 · 对象创建模式</a><a href="06-10.html">下一篇 · 线程机制</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

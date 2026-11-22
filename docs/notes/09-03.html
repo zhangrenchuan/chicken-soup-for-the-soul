@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>四个重要对象 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-09.html">AngularJS 1.x（旧版）</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AngularJS 1.x（旧版）</strong><a href="09-01.html">简介</a><a href="09-02.html">四个重要概念</a><a href="09-03.html" aria-current="page">四个重要对象</a><a href="09-04.html">三个页面语法</a><a href="09-05.html">三个对象详解</a><a href="09-06.html">两个重要扩展模块</a><a href="09-07.html">ajax封装</a></nav>
+<article class="paper"><h1>四个重要对象</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>scope</code> 给视图提供数据，控制器处理交互，模块组织功能，服务负责复用跨页面的逻辑。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E5-9B-9B-E4-B8-AA-E9-87-8D-E8-A6-81-E5-AF-B9-E8-B1-A1">四个重要对象<span><a href="#label-E5-9B-9B-E4-B8-AA-E9-87-8D-E8-A6-81-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E4-BD-9C-E7-94-A8-E5-9F-9F-E5-AF-B9-E8-B1-A1-28scope-29">作用域对象(scope)<span><a href="#label-E4-BD-9C-E7-94-A8-E5-9F-9F-E5-AF-B9-E8-B1-A1-28scope-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>JS实例对象</p>
+</li><li>
+<p>ng-app指令默认创建一个根作用域对象 ($rootscope)</p>
+</li><li>
+<p>属性和方法与页面中的指令或表达式是关联的</p>
+</li></ul>
+
+<h4 id="label-E6-8E-A7-E5-88-B6-E5-99-A8-E5-AF-B9-E8-B1-A1-28controller-29">控制器对象(controller)<span><a href="#label-E6-8E-A7-E5-88-B6-E5-99-A8-E5-AF-B9-E8-B1-A1-28controller-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>控制AngularJS应用数据的实例对象</p>
+</li><li>
+<p>页面指令ng-controller负责管理页面中一部分的内容并生成作用域</p>
+</li><li>
+<p>ng-controller指向模块对象中controller定义的方法</p>
+</li><li>
+<p>同时创建一个新的域对象 $scope. 它是$rootScope的子对象.可以继承$rootScope的属性</p>
+</li><li>
+<p>在函数中以声明式注入 $scope形参.</p>
+</li><li>
+<p>所有的属性和方法都在 $scope 上创建</p>
+</li></ul>
+
+<h4 id="label-E6-A8-A1-E5-9D-97-E5-AF-B9-E8-B1-A1-28module-29">模块对象(module)<span><a href="#label-E6-A8-A1-E5-9D-97-E5-AF-B9-E8-B1-A1-28module-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>可在全局位置创建</p>
+</li><li>
+<p>所有模块都必须使用这个机制才能在应用中生效</p>
+</li><li>
+<p>一个模块是服务, 指定, 控制器, 过滤器和配置信息的集合</p>
+</li><li>
+<p>语法:</p>
+<ul><li>
+<p>angular.module(name, [requires], [configFn]);</p>
+</li><li>
+<p>第一个参数: 创建模块的名字</p>
+</li><li>
+<p>第二个参数: [可选] 需要依赖的其他模块对象</p>
+</li><li>
+<p>第三个参数: [可选] 模块的可选配置函数</p>
+</li><li>
+<p>注意:模块对象创建的name需要传入ng-app中</p>
+</li></ul>
+</li><li>
+<p>隐式依赖</p>
+<ul><li>
+<p>问题: 压缩版本中核心形参会被替换</p>
+</li><li>
+<p>controller方法创建控制器对象</p>
+</li><li>
+<p>第一个参数: 控制器的名字</p>
+</li><li>
+<p>第二个参数: 回调函数(形参中传入依赖注入的对象)</p>
+</li></ul>
+</li><li>
+<p>显示依赖</p>
+<ul><li>
+<p>解决了压缩版本中核心形参被替换的场景</p>
+</li><li>
+<p>controller方法创建控制器对象</p>
+</li><li>
+<p>第一个参数: 控制器的名字</p>
+</li><li>
+<p>第二个参数: [] 中括号</p>
+<ul><li>
+<p>第一个位置传入需要依赖注入的对象(形参名)</p>
+</li><li>
+<p>第二个位置传入回调函数(此时的形参可自定义)</p>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E6-9C-8D-E5-8A-A1-28server-29">服务(server)<span><a href="#label-E6-9C-8D-E5-8A-A1-28server-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Angular内置多个服务.并以$开头.</p>
+</li><li>
+<p>在controller函数中以声明式注入服务即可使用</p>
+</li><li>
+<p>除了内置服务外还可以自定义服务</p>
+</li><li>
+<p>常用内置服务</p>
+<ul><li>
+<p>$rootscope &amp; $scope</p>
+</li><li>
+<p>$timeout &amp; $interval</p>
+</li><li>
+<p>$filter</p>
+</li><li>
+<p>$http</p>
+</li></ul>
+</li><li>
+<p>自定义服务方法</p>
+<ul><li>
+<p>factory()</p>
+<ul><li>
+<p>可定义任意类型服务.</p>
+</li><li>
+<p>一般返回对象或函数</p>
+</li><li>
+<p>第一个参数: 自定义服务的名称</p>
+</li><li>
+<p>第二个参数: 工厂函数(return返回一个对象)</p>
+</li></ul>
+</li><li>
+<p>server()</p>
+<ul><li>
+<p>只定义Object类型对象</p>
+</li><li>
+<p>第一个参数: 自定义服务的名称</p>
+</li><li>
+<p>第二个参数: 构造函数</p>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/09_Angular/%E5%9B%9B%E4%B8%AA%E9%87%8D%E8%A6%81%E5%AF%B9%E8%B1%A1.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="09-02.html">上一篇 · 四个重要概念</a><a href="09-04.html">下一篇 · 三个页面语法</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

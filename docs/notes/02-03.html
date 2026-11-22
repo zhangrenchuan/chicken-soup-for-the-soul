@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>定位 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-02.html">CSS：样式与布局</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>CSS：样式与布局</strong><a href="02-01.html">css基础</a><a href="02-02.html">浮动与父元素高度</a><a href="02-03.html" aria-current="page">定位</a><a href="02-04.html">css2文本</a><a href="02-05.html">css2字体</a><a href="02-06.html">css2背景</a><a href="02-07.html">css2垂直对齐</a></nav>
+<article class="paper"><h1>定位</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>relative</code> 按元素原来的位置偏移，并保留原来的空间。<code>absolute</code> 会退出普通布局，常以最近的已定位祖先为参照。<code>fixed</code> 通常以浏览器视口为参照。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E5-AE-9A-E4-BD-8D">定位<span><a href="#label-E5-AE-9A-E4-BD-8D">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>更高级的布局方式.比浮动更加灵活</p>
+</li><li>
+<p>通过定位可以将元素摆放到页面中任意位置</p>
+</li><li>
+<p>定位分为三种: 相对定位. 绝对定位. 固定定位</p>
+</li><li>
+<p>通过position属性来设置元素的定位</p>
+<ul><li>
+<p>static 默认值 没有开启定位</p>
+</li><li>
+<p>relative 开启相对定位</p>
+</li><li>
+<p>absolute 开启绝对定位</p>
+</li><li>
+<p>fixed 开启固定定位</p>
+</li></ul>
+</li><li>
+<p>偏移量</p>
+<ul><li>
+<p>当元素开启定位以后,可以通过四个偏移量来设置元素位置</p>
+</li><li>
+<p>top 元素距离定位元素上边的偏移量</p>
+</li><li>
+<p>bottom 元素距离定位元素底部的偏移量</p>
+</li><li>
+<p>left 元素距离定位元素左侧的偏移量</p>
+</li><li>
+<p>right 元素距离定位元素右侧的偏移量</p>
+</li><li>
+<p>一般偏移量只需要两个即可.一个水平方向,一个垂直方向</p>
+</li></ul>
+</li><li>
+<p>层级</p>
+<ul><li>
+<p>当元素开启定位以后会提升层级. 可通过z-index来设置元素层级</p>
+</li><li>
+<p>z-index需要一个正整数作为参数.</p>
+</li><li>
+<p>值越大层级越高.层级越高越优先显示</p>
+</li><li>
+<p>层级一样靠后面的显示</p>
+</li><li>
+<p>父元素永远都不会盖住子元素</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E7-9B-B8-E5-AF-B9-E5-AE-9A-E4-BD-8D">相对定位<span><a href="#label-E7-9B-B8-E5-AF-B9-E5-AE-9A-E4-BD-8D">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>当元素的position属性设置为relative就开启了相对定位</p>
+</li><li>
+<p>相对定位特点:</p>
+<ol><li>
+<p>当给元素开启相对定位而不设置偏移量时,元素为不会发生改变</p>
+</li><li>
+<p>相对定位的元素是相对于元素自身在文档流中的位置进行定位</p>
+</li><li>
+<p>相对定位的元素不会脱离文档流.占据空间</p>
+</li><li>
+<p>相对定位不会改变元素的性质</p>
+</li><li>
+<p>相对定位会提升元素的层级</p>
+</li></ol>
+</li></ul>
+
+<h4 id="label-E7-BB-9D-E5-AF-B9-E5-AE-9A-E4-BD-8D">绝对定位<span><a href="#label-E7-BB-9D-E5-AF-B9-E5-AE-9A-E4-BD-8D">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>当元素的position属性设置为absolute就开启了绝对定位</p>
+</li><li>
+<p>绝对定位特点:</p>
+<ol><li>
+<p>绝对定位的元素会完全脱离文档流.不占据空间</p>
+</li><li>
+<p>绝对定位的元素会相对于<strong>离它最近的开启了定位的祖先元素定位</strong>. 如果祖先元素没有开启定位则以浏览器窗口定位</p>
+</li><li>
+<p>绝对定位会提升元素的层级</p>
+</li><li>
+<p>绝对定位会改变元素的性质. 内联元素变成块元素</p>
+</li></ol>
+</li></ul>
+
+<h4 id="label-E5-9B-BA-E5-AE-9A-E5-AE-9A-E4-BD-8D">固定定位<span><a href="#label-E5-9B-BA-E5-AE-9A-E5-AE-9A-E4-BD-8D">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>当元素的position属性设置为fixed就开启了固定定位</p>
+</li><li>
+<p>固定定位也是一种绝对定位. 大部分功能和绝对定位一致</p>
+</li><li>
+<p>固定定位的特点</p>
+<ol><li>
+<p>固定定位永远相对于浏览器窗口定位 (隐藏整屏小广告链接)</p>
+</li><li>
+<p>固定定位的元素一旦定位则会固定在浏览器窗口中不动</p>
+</li><li>
+<p>固定定位元素不会随滚动条滚动</p>
+</li></ol>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/02_CSS/%E5%AE%9A%E4%BD%8D.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="02-02.html">上一篇 · 浮动与父元素高度</a><a href="02-04.html">下一篇 · css2文本</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

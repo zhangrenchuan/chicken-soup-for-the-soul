@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>Buffer 缓冲区 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html" aria-current="page">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>Buffer 缓冲区</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>Buffer</code> 保存字节，适合处理文件和网络数据。把它转成文字时，需要使用正确的字符编码。</p>
+</section>
+<h3 id="label-E4-BB-8E-E5-AD-97-E7-AC-A6-E4-B8-B2-E5-BE-97-E5-88-B0-E5-AD-97-E8-8A-82">从字符串得到字节<span><a href="#label-E4-BB-8E-E5-AD-97-E7-AC-A6-E4-B8-B2-E5-BE-97-E5-88-B0-E5-AD-97-E8-8A-82">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre>const bytes = Buffer.from(&#39;你好&#39;, &#39;utf8&#39;);
+console.log(bytes.length);           // 6 个字节
+console.log(bytes.toString(&#39;utf8&#39;)); // 你好</pre>
+<ul><li>
+<p>一个字节有 8 <a>位。bytes</a> 读取第一个字节的数值。</p>
+</li><li>
+<p><code>Buffer.alloc(4)</code> 创建一个长度为 4、初始值全为 0 的缓冲区。</p>
+</li><li>
+<p>把字节解码成字符串时，用与生成字节时一致的编码。</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/buffter%E7%BC%93%E5%86%B2%E5%8C%BA.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-04.html">上一篇 · 路由</a><a href="07-06.html">下一篇 · FS模块</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

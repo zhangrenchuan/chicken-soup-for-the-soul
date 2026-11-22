@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>ref：访问页面元素 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-11.html">React：组件、状态与路由</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>React：组件、状态与路由</strong><a href="11-01.html">入门</a><a href="11-02.html">props：接收父组件的数据</a><a href="11-03.html" aria-current="page">ref：访问页面元素</a><a href="11-04.html">state：保存组件状态</a><a href="11-05.html">生命周期</a><a href="11-06.html">脚手架</a><a href="11-07.html">在 React 中获取数据</a><a href="11-08.html">服务器渲染</a><a href="11-09.html">React 界面组件库</a><a href="11-10.html">组件通信</a><a href="11-11.html">React Router 路由</a></nav>
+<article class="paper"><h1>ref：访问页面元素</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>ref</code> 可以在必要时直接拿到 DOM 节点，例如让输入框获得焦点。原文部分例子使用旧版 React 写法。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E7-BB-84-E4-BB-B6-E7-9A-843-E5-A4-A7-E5-B1-9E-E6-80-A7-E4-B9-8B-E4-BA-8C-3A+refs-E5-B1-9E-E6-80-A7">组件的3大属性之二: refs属性<span><a href="#label-E7-BB-84-E4-BB-B6-E7-9A-843-E5-A4-A7-E5-B1-9E-E6-80-A7-E4-B9-8B-E4-BA-8C-3A+refs-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ol><li>
+<p>组件内的标签都可以定义ref属性来标识自己</p>
+</li><li>
+<p>在组件中可以通过this.refs.ref属性名得到对应的真实DOM对象</p>
+</li><li>
+<p>作用: 用于操作指定的ref属性的dom元素对象(表单标签居多)</p>
+<ul><li>
+<p><code>&lt;input ref=&#39;username&#39;&gt;</code></p>
+</li><li>
+<p><code>this.refs.username</code></p>
+</li></ul>
+</li></ol>
+
+<h5 id="label-E4-BA-8B-E4-BB-B6-E5-A4-84-E7-90-86">事件处理<span><a href="#label-E4-BA-8B-E4-BB-B6-E5-A4-84-E7-90-86">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>通过onXxx属性指定组件的事件处理函数(注意大小写)</p>
+</li><li>
+<p>React使用的是自定义(合成)事件, 而不是使用的DOM事件</p>
+</li><li>
+<p>React中的事件是通过委托方式处理的(委托给组件最外层的元素)</p>
+</li><li>
+<p>必须通过this把事件绑定给组件的实例对象(不需要调用)</p>
+</li><li>
+<p>通过event.target得到发生事件的DOM元素对象</p>
+</li></ul>
+
+<h5 id="label-this-E7-9A-84-E6-B3-A8-E6-84-8F-E4-BA-8B-E9-A1-B9">this的注意事项<span><a href="#label-this-E7-9A-84-E6-B3-A8-E6-84-8F-E4-BA-8B-E9-A1-B9">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>组件内置的方法中的this为组件对象</p>
+</li><li>
+<p><strong>自定义的function(方法)都指向null</strong></p>
+<ul><li>
+<p>使用类的继承控制器对象修改this</p>
+</li><li>
+<p>使用类的继承控制器对象修改this</p>
+
+<pre class="ruby"><span class="ruby-identifier">constructor</span>(<span class="ruby-identifier">props</span>){
+   <span class="ruby-keyword">super</span>(<span class="ruby-identifier">props</span>)
+   <span class="ruby-identifier">this</span>.<span class="ruby-identifier">xxx</span> = <span class="ruby-identifier">this</span>.<span class="ruby-identifier">xxx</span>.<span class="ruby-identifier">bind</span>(<span class="ruby-identifier">this</span>)
+}
+</pre>
+</li></ul>
+</li></ul>
+<hr>
+
+<h6 id="label-E8-87-AA-E5-AE-9A-E4-B9-89-E7-BB-84-E4-BB-B6-E5-AE-9E-E7-8E-B0-E5-BC-B9-E6-A1-86-E6-8F-90-E7-A4-BA">自定义组件实现弹框提示<span><a href="#label-E8-87-AA-E5-AE-9A-E4-B9-89-E7-BB-84-E4-BB-B6-E5-AE-9E-E7-8E-B0-E5-BC-B9-E6-A1-86-E6-8F-90-E7-A4-BA">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<pre>//创建组件
+class App extends React.Component{
+  constructor(props){
+    super(props);
+
+    //修改this(this指向肯定是组件类的实例对象)
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+
+  //定义点击事件的方法
+  handleClick(){
+    let value = this.refs.msg.value;
+    alert(value)
+  }
+  //定义失去焦点的方法
+  handleBlur(event){
+    let value = event.target.value;
+    alert(value)
+  }
+  render(){
+    return (
+        &lt;div&gt;
+          &lt;input type=&quot;text&quot; ref=&quot;msg&quot;/&gt;
+          &lt;button onClick={this.handleClick}&gt;提示输入数据&lt;/button&gt;
+          &lt;input onBlur={this.handleBlur} type=&quot;text&quot; placeholder=&quot;失去焦点显示数据&quot;/&gt;
+        &lt;/div&gt;
+    )
+  }
+}
+
+//渲染
+ReactDOM.render(
+    &lt;App/&gt;,
+    document.getElementById(&#39;example&#39;)
+)</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/11_ReactJs/%E7%BB%84%E4%BB%B6%E5%B1%9E%E6%80%A7%E3%81%AErefs.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="11-02.html">上一篇 · props：接收父组件的数据</a><a href="11-04.html">下一篇 · state：保存组件状态</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

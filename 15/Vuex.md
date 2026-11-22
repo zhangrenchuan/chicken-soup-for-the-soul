@@ -1,3 +1,11 @@
+# Vuex
+
+## 先弄懂这件事
+
+Vuex 把多个组件要共用的状态集中管理。`state` 存数据，`mutation` 修改数据，`action` 可以先处理异步操作，再提交修改。
+
+## 笔记与示例
+
 ## Vuex
 - Github: [https://github.com/vuejs/vuex](https://github.com/vuejs/vuex)
 - 文档: vuex.vuejs.org

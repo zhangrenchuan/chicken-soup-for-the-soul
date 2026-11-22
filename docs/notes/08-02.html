@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>ajax请求 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-08.html">AJAX：请求数据与更新页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AJAX：请求数据与更新页面</strong><a href="08-01.html">简介</a><a href="08-02.html" aria-current="page">ajax请求</a><a href="08-03.html">前后端交互</a><a href="08-04.html">用 jQuery 发请求</a><a href="08-05.html">小练习</a><a href="08-06.html">跨域请求</a><a href="08-07.html">前端模版引擎</a><a href="08-08.html">上传下载文件</a><a href="08-09.html">ajax高级</a><a href="08-10.html">版本控制工具</a></nav>
+<article class="paper"><h1>ajax请求</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>用 <code>XMLHttpRequest</code> 发请求时，先用 <code>open()</code> 设置方法和地址，再用 <code>send()</code> 发送。收到结果后还要判断 HTTP 状态码。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-AJAX-E8-AF-B7-E6-B1-82">AJAX请求<span><a href="#label-AJAX-E8-AF-B7-E6-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><strong>1.采用异步方式与后台交互</strong></p>
+
+<p>2.优点</p>
+<ul><li>
+<p>无需刷新整个页面, 减少用户等待时间 (用js语言控制html 局部刷新页面)</p>
+</li><li>
+<p>减轻服务器的负担，AJAX一般只从服务器获取只需要的数据</p>
+</li><li>
+<p>节约网络资源，提高用户体验, 将一些服务器的工作转移到客户端完成</p>
+</li><li>
+<p>基于标准化的对象没有兼容性问题，不需要安装特定的插件, 浏览器都支持Ajax</p>
+</li><li>
+<p>彻底将页面与数据分离</p>
+</li></ul>
+
+<p>3.缺点:</p>
+<ul><li>
+<p>没有浏览历史. 不能回退</p>
+</li><li>
+<p>存在跨域请求的问题</p>
+</li><li>
+<p>对搜索引擎支持比较弱</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/bw7giWQ.png"> <img src="https://i.imgur.com/eh1UREq.png"></p>
+
+<p>———-</p>
+
+<h2 id="label-E5-8E-9F-E7-94-9FAPI">原生API<span><a href="#label-E5-8E-9F-E7-94-9FAPI">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-xmlHttp">xmlHttp<span><a href="#label-xmlHttp">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>XmlHttp是一套可以在Javascript、VbScript、Jscript等脚本语言中通过http协议传送或从接收XML及其他数据的一套API</p>
+
+<p>XmlHttp最大的用处是可以更新网页的部分内容而不需要刷新整个页面</p>
+
+<h4 id="label-xmlhttp+-E5-B1-9E-E6-80-A7">xmlhttp 属性<span><a href="#label-xmlhttp+-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>readyState 当前的请求状态</strong></p>
+
+<p>0 (未初始化) 对象已建立，但是尚未初始化（尚未调用open方法）</p>
+
+<p>1 (初始化) 对象已建立，尚未调用send方法</p>
+
+<p>2 (发送数据) send方法已调用，但是当前的状态及http头未知</p>
+
+<p>3 (数据传送中) 已接收部分数据，因为响应及http头不全，这时通过responseBody和responseText获取部分数据会出现错误</p>
+
+<p>4 (完成) 数据接收完毕,此时可以通过通过responseBody和responseText获取完整的回应数据</p>
+
+<p>xmlHttp.onreadystatechange = function (){}该函数会执行四次</p>
+
+<p><strong>responseText</strong></p>
+
+<p>将响应信息作为字符串返回</p>
+
+<p><strong>responseXML</strong></p>
+
+<p>将响应信息格式化为Xml Document对象并返回</p>
+
+<p><strong>status</strong></p>
+
+<p>返回当前请求的http状态码</p>
+<ul><li>
+<p>200: “OK”</p>
+</li><li>
+<p>304: Not Modified</p>
+</li><li>
+<p>404: 未找到页面</p>
+</li><li>
+<p>500: Internal Server Error</p>
+</li></ul>
+
+<h4 id="label-xmlhtp+-E6-96-B9-E6-B3-95">xmlhtp 方法<span><a href="#label-xmlhtp+-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>open()</strong> 创建一个新的http请求，并指定此请求的方法、URL以及验证信息</p>
+
+<p>接收三个参数:</p>
+<ol><li>
+<p>请求方法 (get/post) httpMethod</p>
+</li><li>
+<p>发给服务器的文件路径 httpUrl</p>
+</li><li>
+<p>是否异步发送 默认为true</p>
+</li></ol>
+
+<p><strong>send()</strong> 发送请求到http服务器并接收回应</p>
+
+<p>注意:</p>
+
+<p>1.post请求必须要在发送前设置请求头 xmlHttp.setRequestHeader(“Content-type”,“application/x-www-form-urlencoded”);</p>
+
+<p>2.post请求可以在send()内发送数据内容 xmlHttp.send(&#39;username=zrc&amp;password=123&#39;);</p>
+
+<p><strong>abort()</strong> 取消当前请求</p>
+
+<p>XMLHttpRequest.abort();</p>
+<hr>
+
+<h3 id="label-E5-8E-9F-E7-94-9FAPI+-E5-85-B7-E4-BD-93-E6-93-8D-E4-BD-9C">原生API 具体操作<span><a href="#label-E5-8E-9F-E7-94-9FAPI+-E5-85-B7-E4-BD-93-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h5 id="label-1.-E5-BB-BA-E7-AB-8BXMLHttpRequest-E5-AF-B9-E8-B1-A1">1.建立XMLHttpRequest对象<span><a href="#label-1.-E5-BB-BA-E7-AB-8BXMLHttpRequest-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>window.onload = function(){
+	document.getElementById(&#39;btn&#39;).onclick = function(){
+		var xmlhttp;
+		if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+			 xmlhttp=new XMLHttpRequest();
+		} else { // code for IE6, IE5
+			 xmlhttp=new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+		}
+	}	
+}</pre>
+
+<p>也可以封装成一个方法进行调用</p>
+
+<pre>function createXmlHttp() {
+  var xmlHttp  = null;
+  if(window.XMLHttpRequest){
+    xmlHttp = new XMLHttpRequest();
+  }else{
+    xmlHttp = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+  }
+  return xmlHttp;
+}
+
+var xmlHttp = createXmlHttp();</pre>
+
+<h5 id="label-2.-E8-AE-BE-E7-BD-AE-E5-9B-9E-E8-B0-83-E7-9B-91-E5-90-AC">2.设置回调监听<span><a href="#label-2.-E8-AE-BE-E7-BD-AE-E5-9B-9E-E8-B0-83-E7-9B-91-E5-90-AC">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>  xmlHttp.onreadystatechange = function () {</pre>
+
+<p> if(xmlHttp.readyState === 4 &amp;&amp; xmlHttp.status ===200){  var result = xmlHttp.responseText;</p>
+
+<pre>    //把服务器的返回值显示在页面上
+    document.getElementById(&#39;btnID&#39;).innerHTML = result;
+
+	//将服务器返回的结果打印到控制台
+    console.log(result);
+  }</pre>
+
+<p> };</p>
+
+<h5 id="label-3.-E5-8F-91-E9-80-81get-E8-AF-B7-E6-B1-82">3.发送get请求<span><a href="#label-3.-E5-8F-91-E9-80-81get-E8-AF-B7-E6-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>//准备发送
+xmlHttp.open(&#39;get&#39;,&#39;/node_ajax/test/get?username=zrc&#39;); 
+
+//真实发送
+xmlHttp.send();</pre>
+
+<h5 id="label-4.-E5-8F-91-E9-80-81post-E8-AF-B7-E6-B1-82">4.发送post请求<span><a href="#label-4.-E5-8F-91-E9-80-81post-E8-AF-B7-E6-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>  //准备发送
+  xmlHttp.open(&#39;post&#39;,&#39;/node_ajax/test/post&#39;);
+
+  //post必须需要设置请求头
+  xmlHttp.setRequestHeader(&quot;Content-type&quot;,&quot;application/x-www-form-urlencoded&quot;);
+
+  //真实发送
+  xmlHttp.send(&#39;username=zrc&amp;password=123&#39;);</pre>
+<hr>
+
+<h2 id="label-E5-BC-82-E6-AD-A5-E5-92-8C-E5-90-8C-E6-AD-A5-E7-9A-84-E5-8C-BA-E5-88-AB">异步和同步的区别<span><a href="#label-E5-BC-82-E6-AD-A5-E5-92-8C-E5-90-8C-E6-AD-A5-E7-9A-84-E5-8C-BA-E5-88-AB">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>request.open(method, url, async) 第三个参数:是否异步发送</p>
+
+<p>async 异步 默认为true</p>
+
+<p>sync 同步 设置为false</p>
+
+<p><strong>区别:</strong></p>
+
+<p>1.异步:</p>
+<ul><li>
+<p>send()方法立即返回, 后面立即获取请求结果但数据(responseText)得不到</p>
+</li><li>
+<p>只能在监听回调中获取(当结果数据返回后回调函数执行)</p>
+</li></ul>
+
+<p>2.同步:</p>
+<ul><li>
+<p>send()方法不会立即返回, 只有在服务器返回结果后才返回</p>
+</li><li>
+<p>在后面可以直接获取返回的结果数据(responseText), 没有必要再设置监听回调</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/08_AJAX/ajax%E8%AF%B7%E6%B1%82.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="08-01.html">上一篇 · 简介</a><a href="08-03.html">下一篇 · 前后端交互</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

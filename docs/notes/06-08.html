@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>对象创建模式 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-06.html">JavaScript 进阶：作用域、闭包和原型</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 进阶：作用域、闭包和原型</strong><a href="06-01.html">数据类型</a><a href="06-02.html">原型</a><a href="06-03.html">this</a><a href="06-04.html">提升</a><a href="06-05.html">上下文环境对象</a><a href="06-06.html">作用域与作用域链</a><a href="06-07.html">闭包</a><a href="06-08.html" aria-current="page">对象创建模式</a><a href="06-09.html">原型链继承</a><a href="06-10.html">线程机制</a><a href="06-11.html">JS引擎</a><a href="06-12.html">Web Workers API</a></nav>
+<article class="paper"><h1>对象创建模式</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>只需要一个对象时，可以直接写 <code>{ ... }</code>。需要反复造出结构相似的对象时，再考虑工厂函数或构造函数。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h1 id="label-E5-AF-B9-E8-B1-A1-E5-88-9B-E5-BB-BA-E6-A8-A1-E5-BC-8F">对象创建模式<span><a href="#label-E5-AF-B9-E8-B1-A1-E5-88-9B-E5-BB-BA-E6-A8-A1-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<h4 id="label-Object+-E5-AF-B9-E8-B1-A1-E5-88-9B-E9-80-A0-E6-A8-A1-E5-BC-8F">Object 对象创造模式<span><a href="#label-Object+-E5-AF-B9-E8-B1-A1-E5-88-9B-E9-80-A0-E6-A8-A1-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>问题: 语句太多</p>
+
+<p>适应条件: 当对象的属性在起始时还不确定的时候</p>
+
+<pre>  //先创建一个空的object对象  再动态给对象添加属性/方法
+  var p = new Object();
+  p = {};
+  p.name = &#39;Tom&#39;;
+  p.age = 12;
+  p.setName = function (name) {
+  	  this.name = name
+  };
+
+  //测试
+  console.log(p.name,p.age); //Tom 12
+  p.setName(&#39;jack&#39;);
+  console.log(p.name,p.age); //jack 12</pre>
+
+<h4 id="label-E5-AF-B9-E8-B1-A1-E5-AD-97-E9-9D-A2-E9-87-8F">对象字面量<span><a href="#label-E5-AF-B9-E8-B1-A1-E5-AD-97-E9-9D-A2-E9-87-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>问题: 如果创建多个对象 会产生重复代码</p>
+
+<p>适应条件: 当对象的属性在起始时就确定了</p>
+
+<pre>  var p = {
+    name:&#39;tom&#39;,
+    age:12,
+    setName:function (name) {
+    	  this.name = name
+    }
+  };
+
+
+  //测试
+  console.log(p.name,p.age); //tom 12
+  p.setName(&#39;jack&#39;);
+  console.log(p.name,p.age); //jack 12</pre>
+
+<h4 id="label-E5-B7-A5-E5-8E-82-E5-87-BD-E6-95-B0-E6-A8-A1-E5-BC-8F-28-E8-BF-94-E5-9B-9E-E4-B8-80-E4-B8-AA-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-87-BD-E6-95-B0-29">工厂函数模式(返回一个对象的函数)<span><a href="#label-E5-B7-A5-E5-8E-82-E5-87-BD-E6-95-B0-E6-A8-A1-E5-BC-8F-28-E8-BF-94-E5-9B-9E-E4-B8-80-E4-B8-AA-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-87-BD-E6-95-B0-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>问题: 对象没有一个具体的类型. 只是Object</p>
+
+<p>适应条件: 解决了字面量创建多个对象有重复代码的问题</p>
+
+<pre>  function Person(name,age) {
+  	  var obj = {
+  	    name:name,
+        age:age,
+        setName:function (name) {
+        	  this.name = name
+        }
+  	  };
+    return obj
+  }
+
+  var p1 = Person(&#39;jason&#39;,12);
+  p1.setName(&#39;tom&#39;);
+  console.log(p1.name,p1.age); //tom 12
+
+  var p2 = Person(&#39;bob&#39;,12);//只需要调用工厂函数就可以得到需要的对象
+  console.log(p2.name,p2.age); //bob 12</pre>
+
+<h4 id="label-E8-87-AA-E5-AE-9A-E4-B9-89-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-E6-A8-A1-E5-BC-8F">自定义构造函数模式<span><a href="#label-E8-87-AA-E5-AE-9A-E4-B9-89-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-E6-A8-A1-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>问题: 数据没有复用. 会占有多个内存空间
+
+  function Person(name,age) {
+  	  this.name = name;
+  	  this.age = age;
+  	  this.setName = function (name) {
+  	  	  this.name = name
+  	  }
+  }
+  var p1 = new Person(&#39;Tom&#39;,12);
+  var p2 = new Person(&#39;jack&#39;,15);
+
+  console.log(p1,p2); //setName方法 占用两个内存
+Person {name: &quot;Tom&quot;, age: 12, setName: function}
+Person {name: &quot;jack&quot;, age: 15, setName: function}</pre>
+
+<h4 id="label-E5-8E-9F-E5-9E-8B-E6-A8-A1-E5-BC-8F">原型模式<span><a href="#label-E5-8E-9F-E5-9E-8B-E6-A8-A1-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>问题: 在创建时不能动态设置属性
+
+  function Person() {}
+  Person.prototype.name = &#39;tom&#39;; //必须写死初始值
+  Person.prototype.age = 12;
+  Person.prototype.setName = function (name) {
+  	  this.name = name;
+  };
+
+  var p1 = new Person();
+  p1.name = &#39;jason&#39;;
+  p1.age = 15;
+
+  var p2 = new Person();
+  p2.name = &#39;bob&#39;;
+  p2.age = 17;
+
+  console.log(p1);
+  console.log(p2);
+Person {name: &quot;jason&quot;, age: 15}
+Person {name: &quot;bob&quot;, age: 17}</pre>
+
+<h3 id="label-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0+-2B+-E5-8E-9F-E5-9E-8B-E7-BB-84-E5-90-88-E6-A8-A1-E5-BC-8F-28-E6-8E-A8-E8-8D-90-29">构造函数 + 原型组合模式(推荐)<span><a href="#label-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0+-2B+-E5-8E-9F-E5-9E-8B-E7-BB-84-E5-90-88-E6-A8-A1-E5-BC-8F-28-E6-8E-A8-E8-8D-90-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre>优点: 可以创建多个不同类型的对象, 并且节省内存空间
+
+  function Person(name,age) { //在函数中只初始化一般属性.
+    this.name = name;
+    this.age = age;
+  }
+  Person.prototype.setName = function (name) {//在原型中定义方法
+    this.name = name;
+    this.age = age;
+  };
+
+  var p1 = new Person(&#39;Tom&#39;,12);
+  var p2 = new Person(&#39;jack&#39;,15);
+  console.log(p1,p2);
+Person {name: &quot;Tom&quot;, age: 12}
+Person {name: &quot;jack&quot;, age: 15}</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/06_JavaScript%E9%AB%98%E7%BA%A7/%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%BC%8F.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="06-07.html">上一篇 · 闭包</a><a href="06-09.html">下一篇 · 原型链继承</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

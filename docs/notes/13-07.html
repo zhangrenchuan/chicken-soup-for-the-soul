@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>移动端事件&amp;问题综合 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-13.html">移动网页：像素、视口和适配</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>移动网页：像素、视口和适配</strong><a href="13-01.html">像素概念</a><a href="13-02.html">视口概念</a><a href="13-03.html">缩放行为</a><a href="13-04.html">META标签</a><a href="13-05.html">适配方案</a><a href="13-06.html">画一条物理像素宽的线</a><a href="13-07.html" aria-current="page">移动端事件&amp;问题综合</a><a href="13-08.html">移动端价值链&amp;浏览器</a><a href="13-09.html">zepto框架</a></nav>
+<article class="paper"><h1>移动端事件&amp;问题综合</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>触摸开始、移动和结束对应不同事件。排查点击问题时，先确认触摸后是否还有点击事件，以及是哪一个元素接到了它。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E4-BA-8B-E4-BB-B6">移动端事件<span><a href="#label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E4-BA-8B-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>touchstart == mousedown 手指触摸</p>
+</li><li>
+<p>touchend == mouseup 手指抬起</p>
+</li><li>
+<p>touchmove == mousmove 手指移动</p>
+</li><li>
+<p>event.touches 当前操作的所有手指列表</p>
+</li><li>
+<p>event.targetTouches 当前元素上的手指列表</p>
+</li><li>
+<p>event.changedTouches 触发当前事件的手指列表</p>
+<ul><li>
+<p><a>changedTouches</a>.clientX 获取手指X轴坐标</p>
+</li><li>
+<p><a>changedTouches</a>.clientY 获取手指Y轴坐标</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E7-82-B9-E9-80-8F-E9-97-AE-E9-A2-98">移动端点透问题<span><a href="#label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E7-82-B9-E9-80-8F-E9-97-AE-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>点透产生的条件：</p>
+<ol><li>
+<p>浮层</p>
+</li><li>
+<p>点击浮层，让浮层 display: none;</p>
+</li><li>
+<p>点击处的下方有 a 连接</p>
+</li><li>
+<p>移动端</p>
+</li></ol>
+</li><li>
+<p>点透产生的原因:</p>
+<ol><li>
+<p>PC事件在移动端执行有300ms的延迟</p>
+</li><li>
+<p>我们点击了页面之后，浏览器会记录点击下去的坐标</p>
+</li><li>
+<p>300ms后，在该坐标找到现在在这的元素 执行事件</p>
+</li></ol>
+</li></ul>
+
+<blockquote>
+<p>1.touchstart 和 click (PC端的事件) 会依次执行，click 会在touchstart执行后 300ms 执行。</p>
+
+<p>2.如果当touchstart 调用了 display: none; 后续的 click 就会点击到 a 链接元素，造成页面跳转</p>
+</blockquote>
+<ul><li>
+<p>点透的解决办法</p>
+<ol><li>
+<p>阻止默认事件 (部分安卓机型不支持)</p>
+<ul><li>
+<p>ev.preventDefault()</p>
+</li></ul>
+</li><li>
+<p>不在移动端使用鼠标事件，不用a标签做页面跳转</p>
+</li></ol>
+</li></ul>
+
+<h3 id="label-E6-B8-85-E9-99-A4-E7-A7-BB-E5-8A-A8-E7-AB-AF-E6-89-80-E6-9C-89-E7-B3-BB-E7-BB-9F-E9-BB-98-E8-AE-A4-E8-A1-8C-E4-B8-BA">清除移动端所有系统默认行为<span><a href="#label-E6-B8-85-E9-99-A4-E7-A7-BB-E5-8A-A8-E7-AB-AF-E6-89-80-E6-9C-89-E7-B3-BB-E7-BB-9F-E9-BB-98-E8-AE-A4-E8-A1-8C-E4-B8-BA">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre>document.addEventListener(&#39;touchstart&#39;, function (e) {
+    e.preventDefault();
+  })
+
+//隐患: 会使系统上所有的滚动条失效</pre>
+
+<h4 id="label-E5-85-BC-E5-AE-B9IE8-E8-AE-BE-E7-BD-AE-26-E9-87-8A-E6-94-BE-E5-85-A8-E5-B1-80-E6-8D-95-E8-8E-B7">兼容IE8设置&amp;释放全局捕获<span><a href="#label-E5-85-BC-E5-AE-B9IE8-E8-AE-BE-E7-BD-AE-26-E9-87-8A-E6-94-BE-E5-85-A8-E5-B1-80-E6-8D-95-E8-8E-B7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>在处理一个 mousedown 事件过程中调用这个方法来把全部的鼠标事件重新定向到这个元素，通过<strong>调用 element.setCapture() 实现在一个元素上启用鼠标捕获</strong></p>
+</li><li>
+<p>如果该 document 中的一个元素之上当前启用了鼠标捕获，则释放鼠标捕获。<strong>调用 document.releaseCapture()</strong></p>
+</li></ul>
+
+<h4 id="label-E6-B8-85-E9-99-A4-E5-85-83-E7-B4-A0-E9-BB-98-E8-AE-A4-E8-A1-8C-E4-B8-BA">清除元素默认行为<span><a href="#label-E6-B8-85-E9-99-A4-E5-85-83-E7-B4-A0-E9-BB-98-E8-AE-A4-E8-A1-8C-E4-B8-BA">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>h1,h2,h3,h4,ul,li,body,html清除padding和margin为0</p>
+</li><li>
+<p>ul去除小圆点 <code>list-style:none;</code></p>
+</li><li>
+<p>img去除链接图片底部3px空隙 <code>display:block</code></p>
+</li><li>
+<p>a链接</p>
+<ul><li>
+<p>去除下划线 <code>text-decoration:none;</code></p>
+</li><li>
+<p>解决标签高亮 <code>-webkit-tap-highlight-color: rgba(0,0,0,0);</code></p>
+</li></ul>
+</li><li>
+<p>input</p>
+<ul><li>
+<p>解决边框高亮 <code>outline:none</code>  - 清除input内阴影 <code>border:none</code></p>
+</li><li>
+<p>解决ios下圆角过分渲染 <code>-webkit-appearance:none</code></p>
+</li><li>
+<p>设置input的placeholder样式 <code>input::-webkit-input-placeholder</code></p>
+</li><li>
+<p>设置input焦点触发时的样式 <code>input:focus</code></p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E8-B7-B3-E8-BD-AC-E6-96-B9-E6-A1-88">移动端跳转方案<span><a href="#label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E8-B7-B3-E8-BD-AC-E6-96-B9-E6-A1-88">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>&lt;a href=&quot;http://www.baidu.com&quot;&gt;点我&lt;/a&gt;
+
+document.addEventListener(&#39;touchstart&#39;, function (e) {
+  e=e||event;
+  e.preventDefault();
+});
+
+var a = document.querySelectorAll(&#39;a&#39;);
+for (var i = 0; i &lt; a.length; i++) {
+  a[i].addEventListener(&#39;touchstart&#39;,function () {
+        this.ismoveed = false;
+  });
+  a[i].addEventListener(&#39;touchmove&#39;,function () {
+     if(!this.ismoveed){
+       this.ismoveed = true;
+     }
+  });
+
+  a[i].addEventListener(&#39;touchend&#39;,function () {
+    if(!this.ismoveed){
+      location.href = this.href;
+    }
+  })
+}</pre>
+
+<h4 id="label-E7-A6-81-E6-AD-A2-E5-8F-B3-E9-94-AE-E8-8F-9C-E5-8D-95">禁止右键菜单<span><a href="#label-E7-A6-81-E6-AD-A2-E5-8F-B3-E9-94-AE-E8-8F-9C-E5-8D-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>document.addEventListener(&#39;contextmenu&#39;,function (e) {
+	  e = e||event;
+	  e.preventDefault();
+});</pre>
+
+<h4 id="label-E8-87-AA-E5-AE-9A-E4-B9-89-E5-8F-B3-E9-94-AE-E8-8F-9C-E5-8D-95">自定义右键菜单<span><a href="#label-E8-87-AA-E5-AE-9A-E4-B9-89-E5-8F-B3-E9-94-AE-E8-8F-9C-E5-8D-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>#wrap {
+  position: absolute;
+  display: none;
+  width: 50px;
+  height: 100px;
+  background: greenyellow;
+}
+
+&lt;div id=&quot;wrap&quot;&gt;&lt;/div&gt;
+
+
+document.addEventListener(&#39;contextmenu&#39;,function (e) {
+	  e = e||event;
+	  wrap.style.display = &#39;block&#39;;
+	  wrap.style.left = e.clientX +&quot;px&quot;;
+      wrap.style.top = e.clientY + &quot;px&quot;;
+	  e.preventDefault();
+});
+
+document.addEventListener(&#39;click&#39;,function () {
+  wrap.style.display = &#39;none&#39;;
+})</pre>
+<hr>
+
+<h3 id="label-transition-E7-9A-84-E9-97-AE-E9-A2-98">transition的问题<span><a href="#label-transition-E7-9A-84-E9-97-AE-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ol><li>
+<p>扇形导航时: 缩放和旋转同时存在时, 如果这些变换的位置和个数不一致的话. transition失效</p>
+</li><li>
+<p>transition没有办法检测元素每一帧的执行状态. 无法实现即点即停所以只能使用Tween模拟过渡</p>
+</li><li>
+<p>transition 在元素首次绘制没有完成的情况下. 会失效</p>
+</li></ol>
+
+<h3 id="label-E5-85-B6-E4-BB-96-E9-97-AE-E9-A2-98">其他问题<span><a href="#label-E5-85-B6-E4-BB-96-E9-97-AE-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>queryselector的坑: 页面重排重绘之后 该属性失效</p>
+</li><li>
+<p>存值存址问题: 在一些移动端浏览器上. 事件内的event对象会有传址现象的存在. 所以需要给事件保存“快照”</p>
+<ul><li>
+<p>startPoint = {clientX:touchC.clientX,clientY:touchC.clientY};</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E8-AE-A9-E5-85-83-E7-B4-A0-E6-B6-88-E5-A4-B1-E7-9A-84-E5-8A-9E-E6-B3-95">让元素消失的办法<span><a href="#label-E8-AE-A9-E5-85-83-E7-B4-A0-E6-B6-88-E5-A4-B1-E7-9A-84-E5-8A-9E-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>visibility: hidden</p>
+</li><li>
+<p>display: none</p>
+</li><li>
+<p>opacity: 0</p>
+</li><li>
+<p>scale: 0</p>
+</li></ul>
+<hr>
+
+<h3 id="label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E5-A4-9A-E6-8C-87-E4-BA-8B-E4-BB-B6+-E4-BB-85-E9-99-90ios-E7-B3-BB-E7-BB-9F">移动端多指事件 仅限ios系统<span><a href="#label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E5-A4-9A-E6-8C-87-E4-BA-8B-E4-BB-B6+-E4-BB-85-E9-99-90ios-E7-B3-BB-E7-BB-9F">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>gesturestart 手指触碰当前元素且屏幕上有两个或两个以上的手指时触发事件</p>
+</li><li>
+<p>gesturechange 手指触碰当前元素且屏幕上有两个或两个以上的手指且有手指发生移动时触发事件</p>
+</li><li>
+<p>gestureend 在触发了gesturestart后屏幕上剩下两根（不包括两根）以下的手指时触发事件</p>
+</li></ul>
+
+<h4 id="label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E5-A4-9A-E6-8C-87-E4-BA-8B-E4-BB-B6+-E5-85-BC-E5-AE-B9-E5-AE-89-E5-8D-93">移动端多指事件 兼容安卓<span><a href="#label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E5-A4-9A-E6-8C-87-E4-BA-8B-E4-BB-B6+-E5-85-BC-E5-AE-B9-E5-AE-89-E5-8D-93">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>function gesture(node,callback) {
+    //判断是否多指触碰
+    var hasStart = false;
+    //TODO 缩放开始比例
+    var scaleStart = 0;
+    //TODO 旋转开始比例
+    var rotateStart = 0;
+
+
+    //手指触碰当前元素, 屏幕上有两个或两个以上的手指
+    node.addEventListener(&#39;touchstart&#39;,function (e) {
+      hasStart = false;
+      //拿到屏幕上手指的个数
+      var touch = e.touches;
+
+      //gesturestart 判断
+      if(touch.length &gt;=2){
+          hasStart = true;
+          //TODO 缩放: 得到一开始屏幕上手指之间的距离
+          scaleStart = getC(touch[0],touch[1]);
+          //TODO 旋转: 得到一开始屏幕上手指之间的距离
+          rotateStart = getDeg(touch[0],touch[1]);
+
+          if(callback &amp;&amp; typeof callback[&#39;start&#39;] == &#39;function&#39;){
+            callback[&#39;start&#39;].call(this,e);
+          }
+      }
+    });
+
+    //手指触碰当前元素, 屏幕上有两个或两个以上的手指并且有手指发生移动
+    node.addEventListener(&#39;touchmove&#39;,function (e) {
+      var touch = e.touches;
+
+	  //gesturechange时的判断
+      if(hasStart &amp;&amp; touch.length &gt;=2){
+          //TODO 缩放: 得到移动时手指之间的距离
+          var scaleMove = getC(touch[0],touch[1]);
+          e.scale = scaleMove / scaleStart;
+          //TODO 旋转: 得到移动时手指之间的距离
+          var rotateMove = getDeg(touch[0],touch[1]);
+          e.rotation = rotateMove - rotateStart;
+
+          if(callback &amp;&amp; typeof callback[&#39;change&#39;] == &#39;function&#39;){
+            callback[&#39;change&#39;].call(this,e);
+          }
+      }
+    });
+
+    //触发gesturestart后 屏幕上只剩下两根或两根以下的手指
+    node.addEventListener(&#39;touchend&#39;,function (e) {
+        var touch = e.touches;
+		//gestureend时的判断
+        if(hasStart &amp;&amp; touch.length&lt;2){
+          if(callback &amp;&amp; typeof callback[&#39;end&#39;] == &#39;function&#39;){
+            callback[&#39;end&#39;].call(this,e);
+          }
+        }
+    });
+
+
+    //TODO 缩放: 传入的两根手指. 求两点之间的斜线
+    function getC(p1,p2) {
+    	  var a = p1.clientY - p2.clientY;
+    	  var b = p1.clientX - p2.clientX;
+    	  return Math.sqrt(a*a + b*b);
+    }
+
+    //TODO 旋转: 两个点确定角度 参照X轴正方向的夹角 Math.atan2()
+    function getDeg(p1,p2) {
+        var a = p1.clientY - p2.clientY;
+        var b = p1.clientX - p2.clientX;
+        return Math.atan2(a,b) * 180 /Math.PI;
+     }
+}</pre>
+<ol><li>
+<p>获得手指列表使用: event.touches</p>
+</li><li>
+<p>在touchstart时判断手指列表是否大于等于2. 如果判断成立则进入多指操作的gesturestart逻辑 (获得手指旋转缩放的初始值)</p>
+</li><li>
+<p>在touchmove时判断手指列表是否大于等于2且已经触碰过. 如果判断成立则进入多指操作的gesturechange逻辑 (旋转和缩放)</p>
+</li><li>
+<p>在touchend时判断手指是否已经小于2. 如果是则进入多指操作的gestureend逻辑</p>
+</li></ol>
+
+<blockquote>
+<p><strong>实现缩放</strong>: 通过勾股定理获得两点之间的险些. start时获得手指两点之间的距离再在move时再获得一次.然后用move时的比例除start时的比例就是缩放比例</p>
+
+<p><strong>实现旋转</strong>: 通过Math.atan2()函数获得两个点参照X轴正方向之间的角度. start时获得手指两点之间的角度再在move时再获得一次.然后用move时的比例减去start时的比例 (这样为了兼顾安卓下的反向旋转问题)</p>
+</blockquote>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/13_%E7%A7%BB%E5%8A%A8%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%BA%8B%E4%BB%B6%26%E9%97%AE%E9%A2%98%E7%BB%BC%E5%90%88.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="13-06.html">上一篇 · 画一条物理像素宽的线</a><a href="13-08.html">下一篇 · 移动端价值链&amp;浏览器</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

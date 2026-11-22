@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>小练习 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-08.html">AJAX：请求数据与更新页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AJAX：请求数据与更新页面</strong><a href="08-01.html">简介</a><a href="08-02.html">ajax请求</a><a href="08-03.html">前后端交互</a><a href="08-04.html">用 jQuery 发请求</a><a href="08-05.html" aria-current="page">小练习</a><a href="08-06.html">跨域请求</a><a href="08-07.html">前端模版引擎</a><a href="08-08.html">上传下载文件</a><a href="08-09.html">ajax高级</a><a href="08-10.html">版本控制工具</a></nav>
+<article class="paper"><h1>小练习</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>先选省，再拿该省的城市列表。省份变了要清空原来的城市和县，城市变了也要重置县。这样各级选项才不会串在一起。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E7-9C-81-E5-B8-82-E5-8E-BF-E4-B8-89-E7-BA-A7-E8-81-94-E5-8A-A8">省市县三级联动<span><a href="#label-E7-9C-81-E5-B8-82-E5-8E-BF-E4-B8-89-E7-BA-A7-E8-81-94-E5-8A-A8">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E9-9C-80-E6-B1-82-3A">需求:<span><a href="#label-E9-9C-80-E6-B1-82-3A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>自动填充省份</p>
+</li><li>
+<p>选择某个省, 填充该省的所有的市</p>
+</li><li>
+<p>选择某个市, 填充该市所有的区县</p>
+<ol><li>
+<p>动态获取数据  ajax</p>
+</li><li>
+<p>服务器必须响应请求</p>
+</li></ol>
+</li></ol>
+
+<h4 id="label-E5-89-8D-E5-90-8E-E7-AB-AF-E6-8E-A5-E5-8F-A3-E6-96-87-E6-A1-A3">前后端接口文档<span><a href="#label-E5-89-8D-E5-90-8E-E7-AB-AF-E6-8E-A5-E5-8F-A3-E6-96-87-E6-A1-A3">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>   1. 获得省的数据
+     发出去的数据
+       - 方法: get
+       - url文件路径: /province
+       - 参数:
+    收到的数据
+       {
+         province: []
+       }
+
+
+   2. 获得城市的数据
+   发出去的数据
+      - 方法: get
+      - url文件路径: /city
+      - 参数: provinceId
+   收到的数据
+      {
+        city: []
+      }
+
+  3. 获得区县的数据
+    发出去的数据
+      - 方法: get
+      - url文件路径: /county
+      - 参数: cityId
+    收到的数据
+      {
+        county: []
+       }</pre>
+<hr>
+
+<h3 id="label-E5-90-8E-E5-8F-B0-E6-9C-8D-E5-8A-A1-E5-99-A8-E8-AE-BE-E7-BD-AE">后台服务器设置<span><a href="#label-E5-90-8E-E5-8F-B0-E6-9C-8D-E5-8A-A1-E5-99-A8-E8-AE-BE-E7-BD-AE">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><strong>1.引入国家省市县</strong></p>
+
+<pre>var china_area = require(&#39;../china.json&#39;); //require自动转换对象</pre>
+
+<p><strong>2.省的接口</strong></p>
+
+<pre>router.get(&#39;/province&#39;,function (req,res,next) {
+  //根据接口文档规范编写
+  var obj = {
+    province : china_area.province
+  };
+	  res.send(obj)
+});</pre>
+
+<p><strong>3.市的接口</strong></p>
+
+<pre>router.get(&#39;/city&#39;,function (req,res,next) {
+	//获取省的id
+  var provinceId = req.query.provinceId;
+  var cities = [];
+
+	//遍历城市
+  china_area.city.forEach(function (ele,index) {
+	//进行城市匹配省份判断 普通城市或直辖市
+    if(ele.parent === provinceId || ele.id === provinceId){ //普通城市或直辖市
+      cities.push(ele);
+    }
+  });
+
+  //根据接口文档规范编写
+  var obj = {
+    cities : cities
+  };
+  res.send(obj)
+});</pre>
+
+<p><strong>4.区县的接口</strong></p>
+
+<pre>router.get(&#39;/county&#39;,function (req,res,next) {
+	   //获取市的id
+	  var cityId = req.query.cityId;
+	  var countys = [];
+
+//遍历区和县
+china_area.county.forEach(function (ele,index) {
+		//进行区县匹配城市的判断
+	  if(ele.parent === cityId){
+      countys.push(ele)
+    }
+});
+
+    //根据接口文档规范编写
+    var obj = {
+      countys : countys
+    };
+    res.send(obj)
+});</pre>
+<hr>
+
+<h3 id="label-E5-89-8D-E7-AB-AF-E6-98-BE-E7-A4-BA-E9-A1-B5-E9-9D-A2-E8-AE-BE-E7-BD-AE">前端显示页面设置<span><a href="#label-E5-89-8D-E7-AB-AF-E6-98-BE-E7-A4-BA-E9-A1-B5-E9-9D-A2-E8-AE-BE-E7-BD-AE">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre>&lt;select id=&quot;selProvince&quot;&gt;
+  &lt;option value=&quot;&quot;&gt;--请选择省份--&lt;/option&gt;
+&lt;/select&gt;
+&lt;select id=&quot;selCity&quot;&gt;
+  &lt;option value=&quot;&quot;&gt;--请选择城市--&lt;/option&gt;
+&lt;/select&gt;
+&lt;select id=&quot;selCounty&quot;&gt;
+  &lt;option value=&quot;&quot;&gt;--请选择区/县--&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;../js/jquery-1.11.1.js&quot;&gt;&lt;/script&gt;</pre>
+<hr>
+
+<p><strong>1.获取多选框</strong></p>
+
+<pre>$(function () {
+
+  var $province = $(&#39;#selProvince&#39;);
+  var $city = $(&#39;#selCity&#39;);
+  var $county = $(&#39;#selCounty&#39;);</pre>
+
+<p><strong>2.把省份的数据从服务器传送回来</strong></p>
+
+<p>//forEach()遍历接收一个函数作为参数.</p>
+
+<p>//该函数接收两个参数 1. 元素ele, 2. 下标index</p>
+
+<pre>  $.getJSON(&#39;/province&#39;,function (data) {
+    //获取省份数据的数组
+    var provinceArr = data.province;
+
+	//遍历省份数据
+    provinceArr.forEach(function (ele,index) {
+      //把获取到的数据显示到下拉列表中
+      var str = &#39;&lt;option value=&quot;&#39;+ ele.id +&#39;&quot;&gt;&#39;+ ele.province +&#39;&lt;/option&gt;&#39;;
+      $(str).appendTo($province)
+    });
+  });</pre>
+
+<p><strong>3.当选择某个省市, 出现对应的市</strong></p>
+
+<pre>  $province.change(function () {
+	  //得到用户选择的省的id
+  	  var provinceId = this.value; 
+
+      //清空市和区县下拉列表之前的数据
+      $city.children().not(&#39;:first&#39;).remove();
+      $county.children().not(&#39;:first&#39;).remove();
+
+	  //如果不选择市的话不需要进行ajax请求
+      if(provinceId === &quot;&quot;){
+        return;
+      }
+
+      $.getJSON(&#39;/city&#39;,{provinceId:provinceId},function (data) {
+
+		//城市数据遍历
+        data.cities.forEach(function (ele,index) {
+          var str = &#39;&lt;option value=&quot;&#39;+ ele.id +&#39;&quot;&gt;&#39;+ ele.city +&#39;&lt;/option&gt;&#39;;
+          $(str).appendTo($city);
+        })
+      });
+  });</pre>
+
+<p><strong>选择市之后, 出现对应的区 县</strong></p>
+
+<pre> $city.change(function () {
+	//得到用户选择的市的id
+    var cityId = this.value; 
+
+	//清除县或区之前的数据
+    $county.children().not(&#39;:first&#39;).remove();
+
+	//如果不选择市的话不需要进行ajax请求
+    if(cityId === &quot;&quot;){
+      return;
+    }
+
+  $.getJSON(&#39;/county&#39;,{cityId:cityId},function (data) {
+
+	//区和县数据遍历
+      data.countys.forEach(function (ele,index) {
+        var str = &#39;&lt;option value=&quot;&#39;+ ele.id +&#39;&quot;&gt;&#39;+ ele.county +&#39;&lt;/option&gt;&#39;;
+        $(str).appendTo($county);
+      })
+    });
+  });
+})</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/08_AJAX/ajax%E5%9F%BA%E7%A1%80%E7%BB%83%E4%B9%A0--%E7%9C%81%E5%B8%82%E5%8E%BF%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="08-04.html">上一篇 · 用 jQuery 发请求</a><a href="08-06.html">下一篇 · 跨域请求</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

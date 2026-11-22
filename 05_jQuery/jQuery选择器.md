@@ -1,3 +1,11 @@
+# jQuery选择器
+
+## 先弄懂这件事
+
+jQuery 的选择器和 CSS 写法相似。`#menu` 找指定 ID，`.item` 找同类元素，`#menu .item` 只找菜单里的这一类元素。
+
+## 笔记与示例
+
 ## jQuery选择器
 
 ### 什么是jQuery的选择器

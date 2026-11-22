@@ -1,3 +1,11 @@
+# css2字体
+
+## 先弄懂这件事
+
+`font-family` 决定用什么字体，`font-size` 决定字号，`font-weight` 决定粗细。字体列表按顺序尝试，最后可放 `sans-serif` 作为备选。
+
+## 笔记与示例
+
 ## CSS2 字体样式
 ##### font-family 字体族
 - 规定元素的字体系列

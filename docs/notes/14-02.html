@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>使用Vue · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-14.html">Vue：基础用法与原理（含旧版示例）</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Vue：基础用法与原理（含旧版示例）</strong><a href="14-01.html">概述</a><a href="14-02.html" aria-current="page">使用Vue</a><a href="14-03.html">生命周期</a><a href="14-04.html">重要属性</a><a href="14-05.html">插件</a><a href="14-06.html">Vue重要知识支持</a><a href="14-07.html">Vue 响应式原理示例</a></nav>
+<article class="paper"><h1>使用Vue</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>v-if</code> 控制是否显示，<code>v-for</code> 生成列表，<code>v-model</code> 连接表单输入与状态。原文包含旧版过滤器等写法。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E4-BD-BF-E7-94-A8VUE">使用VUE<span><a href="#label-E4-BD-BF-E7-94-A8VUE">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>引入 vue.js</p>
+</li><li>
+<p>创建vue实例对象 <code>new Vue({})</code></p>
+</li><li>
+<p>页面模版使用vue指令</p>
+<ul><li>
+<p>使用v-model实现双向数据绑定</p>
+</li><li>
+<p>显示数据</p>
+<ul><li>
+<p>使用 <code>{{}}</code> 相当于innerText</p>
+</li><li>
+<p>使用 <code>{{{}}}</code> 相当于innerHTML</p>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<h3 id="label-Vue-E5-AE-9E-E4-BE-8B">Vue实例<span><a href="#label-Vue-E5-AE-9E-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>每个 Vue.js 应用的起步都是通过构造函数 Vue 创建一个 Vue 的根实例</p>
+</li><li>
+<p>一个 Vue 实例其实正是一个 MVVM 模式中所描述的 ViewModel</p>
+
+<pre>var vm = new Vue({
+  // 选项
+})</pre>
+</li></ul>
+
+<h4 id="label-Vue-E5-AF-B9-E8-B1-A1-E9-85-8D-E7-BD-AE-E9-80-89-E9-A1-B9">Vue对象配置选项<span><a href="#label-Vue-E5-AF-B9-E8-B1-A1-E9-85-8D-E7-BD-AE-E9-80-89-E9-A1-B9">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>el: 指定dom标签容器的选择器</p>
+<ul><li>
+<p>指定后管理其对应标签及其子标签</p>
+</li></ul>
+</li><li>
+<p>data: 指定初始化状态属性数据的对象</p>
+<ul><li>
+<p>vm代理了data中所有的属性的操作 (读写)</p>
+</li><li>
+<p>可以指定对象或函数 (返回一个对象)</p>
+</li><li>
+<p>Vue.js 会递归地将它全部属性转为 getter/setter来响应数据变化</p>
+</li></ul>
+</li><li>
+<p>methods: 包含多个实例方法的对象. 供页面中的事件指令来绑定回调</p>
+<ul><li>
+<p>this自动绑定到实例对象</p>
+</li><li>
+<p>回调函数默认有event参数, 但也可以指定自己的参数</p>
+</li><li>
+<p>所有的方法由vue对象来调用, 访问data中的属性直接使用</p>
+</li></ul>
+</li><li>
+<p>computed: 实例计算属性. 对状态属性进行计算返回一个新的数据, 供页面获取显示</p>
+<ul><li>
+<p>getter 和 setter 的 this 自动地绑定到实例</p>
+</li><li>
+<p>一般情况下相当于是一个只读属性</p>
+</li><li>
+<p>利用set/get方法来实现属性数据的计算读取. 同时监视属性数据的变化</p>
+</li><li>
+<p>xxx : { get(){}, set(value){}  }</p>
+</li></ul>
+</li><li>
+<p>watch: 包含多个属性监视的对象.</p>
+<ul><li>
+<p>Vue.$watch(propertyName,function(val){})</p>
+<ul><li>
+<p>propertyName 要监视的属性名</p>
+</li><li>
+<p>回调中形参是最新更新的数据</p>
+</li></ul>
+</li><li>
+<p>分为一般监视和深度监视</p>
+<ul><li>
+<p>handler:function(val,oldVal){}</p>
+</li><li>
+<p>deep:true</p>
+</li></ul>
+</li></ul>
+</li></ul>
+<hr>
+
+<h3 id="label-Vue-E9-A1-B5-E9-9D-A2-E6-8C-87-E4-BB-A4">Vue页面指令<span><a href="#label-Vue-E9-A1-B5-E9-9D-A2-E6-8C-87-E4-BB-A4">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>v-text/v-html: 指定标签体</p>
+<ul><li>
+<p>v-text: 当作纯文本; 相当于{{}}</p>
+</li><li>
+<p>v-html: 将value作为html标签来解析; 相当于{{{}}}</p>
+</li><li>
+<p>可以防止显示时闪屏</p>
+</li></ul>
+</li><li>
+<p>v-el: 为某个元素注册一个唯一标识, vue对象通过$els属性访问这个元素对象</p>
+<ul><li>
+<p>v-el:xxx</p>
+</li><li>
+<p>读取得到标签对象: this.$els.xxx</p>
+</li><li>
+<p>HTML <code>&lt;span v-el:msg&gt;baidu&lt;/span&gt;</code></p>
+</li><li>
+<p>vm <code>this.$els.msg;</code></p>
+</li></ul>
+</li><li>
+<p>v-ref: 标识组件</p>
+</li><li>
+<p>v-model: 在表单控件上创建双向绑定</p>
+<ul><li>
+<p>只限于 <code>input</code> / <code>select</code> / <code>textarea</code></p>
+</li><li>
+<p>表单项新特性指令</p>
+<ul><li>
+<p>lazy 表单失去焦点时同步</p>
+</li><li>
+<p>number 将输入内容转换成number类型</p>
+</li><li>
+<p>debounce 设置一个最小的延时.在输入后延时同步</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>v-if / v-else / v-show</p>
+<ul><li>
+<p>v-if: 如果vlaue为true, 当前标签会输出在页面中</p>
+</li><li>
+<p>v-else: 与v-if一起使用, 如果value为false, 将当前标签输出到页面中</p>
+</li><li>
+<p>v-show: 根据表达式值的真假切换元素的 <code>display</code> CSS属性</p>
+</li><li>
+<p>template模版标签 不会出现在页面上</p>
+</li><li>
+<p>如果需要频繁切换 v-show 较好，如果在运行时条件不大可能改变 v-if 较好</p>
+</li></ul>
+</li><li>
+<p>v-for: 遍历</p>
+<ul><li>
+<p>遍历数组: <code>v-for=&quot;person in persons&quot;</code></p>
+</li><li>
+<p>$index 当前数组元素的索引</p>
+</li><li>
+<p>扩展数组方法: 对数组的常用方法进行了包装(用于数据绑定)</p>
+<ul><li>
+<p>$remove(item) : 删除数组中对应的元素 (存在过滤索引会出错)</p>
+</li><li>
+<p>$set(index, ele) : 给数组中指定下标指定对应的元素</p>
+</li></ul>
+</li><li>
+<p>遍历对象: <code>v-for=&quot;value in person&quot;</code></p>
+</li><li>
+<p>$key 当前对象的属性名</p>
+</li></ul>
+</li><li>
+<p>v-on: 绑定事件监听</p>
+<ul><li>
+<p>格式: <code>v-on:事件名</code></p>
+</li><li>
+<p>简写: <code>@事件名</code></p>
+</li><li>
+<p>可指定参数也可不指定参数</p>
+</li><li>
+<p>按键修饰符</p>
+<ul><li>
+<p>@keyup.keyCode</p>
+</li><li>
+<p>@keyup.enter</p>
+</li></ul>
+</li><li>
+<p>事件修饰符</p>
+<ul><li>
+<p>@click.stop 阻止事件冒泡行为</p>
+</li><li>
+<p>@click.prevent 阻止事件默认行为</p>
+</li></ul>
+</li><li>
+<p>隐含对象: $event</p>
+</li></ul>
+</li><li>
+<p>v-bind: 强制数据绑定</p>
+<ul><li>
+<p><code>&lt;img v-bind:src=&quot;imgSrc&quot; alt=&quot;&quot;&gt;</code></p>
+</li><li>
+<p>简写: 可直接省略v-bind只写冒号 <code>&lt;img :src=&quot;imgSrc&quot; alt=&quot;&quot;&gt;</code></p>
+</li><li>
+<p>强制绑定不写冒号传的是字符串. 写了冒号传的是变量 (动态的)</p>
+</li></ul>
+</li><li>
+<p>v-cloak: 使用它防止闪现表达式, 与css配合</p>
+<ul><li>
+<p>CSS: <code>[v-cloak] {display: none}</code></p>
+</li><li>
+<p>HTML: <code>&lt;p v-cloak&gt;{{msg}}&lt;/p&gt;</code></p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E8-87-AA-E5-AE-9A-E4-B9-89Vue-E6-8C-87-E4-BB-A4">自定义Vue指令<span><a href="#label-E8-87-AA-E5-AE-9A-E4-B9-89Vue-E6-8C-87-E4-BB-A4">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>注册全局指令 <code>Vue.directive</code></p>
+</li><li>
+<p>第一个参数: 自定义指令名 (去掉前缀 v-)</p>
+</li><li>
+<p>第二个参数: 指令的回调 形参value</p>
+
+<pre class="ruby">  <span class="ruby-constant">Vue</span>.<span class="ruby-identifier">directive</span>(<span class="ruby-string">&#39;my-directive&#39;</span>, <span class="ruby-identifier">function</span>(<span class="ruby-identifier">value</span>){
+    <span class="ruby-identifier">this</span>.<span class="ruby-identifier">el</span>.<span class="ruby-identifier">innerHTML</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">toUpperCase</span>();
+  })
+</pre>
+</li><li>
+<p>注册局部指令; 在对象配置选项中</p>
+</li><li>
+<p>属性名: 自定义指令名 (去掉前缀 v- 并加引号)</p>
+</li><li>
+<p>属性值: 函数 形参value</p>
+
+<pre>  directives : {
+    &#39;my-directive&#39; : function(value) {
+      this.el.innerHTML = value.toLowerCase();
+    }
+  }</pre>
+</li><li>
+<p>使用指令: <code>v-upper-zrc=&#39;xxx&#39;</code></p>
+</li><li>
+<p>在标签中使用: <code>&lt;p v-upper-zrc=&quot;msg&quot;&gt;&lt;/p&gt;</code></p>
+<ul><li>
+<p>必须 <code>v-</code> 开头</p>
+</li><li>
+<p>全部都为小写. 可以用 <code>-</code>作为分割</p>
+</li></ul>
+</li><li>
+<p>获取指令所在dom对象: this.el</p>
+</li></ul>
+<hr>
+
+<h3 id="label-Vue-E5-86-85-E7-BD-AE-E8-BF-87-E6-BB-A4-E5-99-A8">Vue内置过滤器<span><a href="#label-Vue-E5-86-85-E7-BD-AE-E8-BF-87-E6-BB-A4-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>capitalize : 首字母大写</p>
+</li><li>
+<p>uppercase : 全部大写</p>
+</li><li>
+<p>lowercase : 全部小写</p>
+</li><li>
+<p>currency : 货币化 (空格之后添加货币符号)</p>
+</li><li>
+<p>pluralize : 单数/复数处理</p>
+</li><li>
+<p>json : json格式化</p>
+</li><li>
+<p>limitBy : 限定数组的部分元素(下标)</p>
+<ul><li>
+<p>第一个参数: 从下标第N个起</p>
+</li><li>
+<p>第二个参数: 偏移数值</p>
+</li><li>
+<p>limitBy 2 1 从下标第二个起偏移1个</p>
+</li></ul>
+</li><li>
+<p>filterBy : 限定数组的部分元素(值)</p>
+<ul><li>
+<p>第一个参数可以是字符串或函数</p>
+</li><li>
+<p>in分割</p>
+</li><li>
+<p>第二个参数为根据某属性筛选</p>
+</li><li>
+<p>格式: &#39;a&#39; in &#39;name&#39; name属性中有a的</p>
+</li></ul>
+</li><li>
+<p>orderBy : 对数组进行排序 (默认升序)</p>
+<ul><li>
+<p>可指定具体属性来排序</p>
+</li><li>
+<p>-1为降序</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E8-87-AA-E5-AE-9A-E4-B9-89Vue-E8-BF-87-E6-BB-A4-E5-99-A8">自定义Vue过滤器<span><a href="#label-E8-87-AA-E5-AE-9A-E4-B9-89Vue-E8-BF-87-E6-BB-A4-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>全局过滤器 <code>Vue.filter</code></p>
+</li><li>
+<p>第一个参数: 自定义过滤器名</p>
+</li><li>
+<p>第二个参数: 过滤器回调. 可传参数;回调内必须return出结果</p>
+
+<pre>&lt;!--过滤器reverse: 对指定值进行倒序显示--&gt;
+&lt;p&gt;{{msg | reverse}}&lt;/p&gt;
+
+Vue.filter(&#39;reverse&#39;, function(value) {
+  //处理逻辑
+  return  value.split(&#39;&#39;).reverse().join(&#39;&#39;);
+})</pre>
+</li><li>
+<p>局部过滤器; 在对象配置选项中</p>
+</li><li>
+<p>属性名: 过滤器名</p>
+</li><li>
+<p>属性值: 函数</p>
+
+<p>&lt;!–过滤器wrap: 在指定值的左侧和右侧添加指定的文本–&gt;  &lt;p&gt;{{msg | wrap &#39;左边的文本&#39; &#39;右边的文本&#39;}}&lt;/p&gt;</p>
+
+<pre>new Vue({
+  filters : {
+    &#39;wrap&#39; : function(value, left, right) {
+        //处理逻辑
+        return left + &#39; &#39; + value + &#39; &#39; + right;
+    }
+  }
+})</pre>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/14_Vue/%E4%BD%BF%E7%94%A8Vue.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="14-01.html">上一篇 · 概述</a><a href="14-03.html">下一篇 · 生命周期</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

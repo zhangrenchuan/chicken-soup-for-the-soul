@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>JS高级2.0 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-12.html">JavaScript 与 CSS 进阶练习</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 与 CSS 进阶练习</strong><a href="12-01.html" aria-current="page">JS高级2.0</a><a href="12-02.html">正则表达式2.0</a><a href="12-03.html">BOM2.0</a><a href="12-04.html">DOM2.0</a><a href="12-05.html">CSS高级</a></nav>
+<article class="paper"><h1>JS高级2.0</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>作用域回答“这个名字在哪里能用”，执行上下文回答“这一次调用正在用哪些数据”。遇到赋值和读取时，可以顺着代码走一遍看看访问的是哪个变量。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-JS-E9-AB-98-E7-BA-A72.0">JS高级2.0<span><a href="#label-JS-E9-AB-98-E7-BA-A72.0">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-E4-BD-9C-E7-94-A8-E5-9F-9F">作用域<span><a href="#label-E4-BD-9C-E7-94-A8-E5-9F-9F">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>只是维护自己范围内变量的集合. 实际就是一套规则</p>
+</li><li>
+<p>作用域负责收集并维护由所有声明的标识符组成的一系列查询，并实施一套非常严格的<strong>规则</strong>，确定当前执行的代码对这些标识符的访问权限</p>
+</li><li>
+<p>狭义上来说作用域就是一个对象（更确切的来说应该是集合）</p>
+</li><li>
+<p>广义上来说作用域是一套用来存储变量，并且之后可以方便的找到这些变量的规则</p>
+</li><li>
+<p>javascript中最普遍的作用域是函数作用域</p>
+</li></ul>
+
+<h3 id="label-E4-B8-8A-E4-B8-8B-E6-96-87-E7-8E-AF-E5-A2-83">上下文环境<span><a href="#label-E4-B8-8A-E4-B8-8B-E6-96-87-E7-8E-AF-E5-A2-83">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>上下文环境也是一个规则</p>
+</li><li>
+<p>代码（全局代码，函数体，eval代码）执行前的准备工作：</p>
+<ul><li>
+<p>1.提升（变量 函数 函数表达式）</p>
+</li><li>
+<p>2.确定this指向</p>
+</li><li>
+<p>3.与对应作用域关联(实际就是赋值操作)</p>
+</li><li>
+<p>4.函数体还需要参数赋值,arguments赋值</p>
+</li></ul>
+</li><li>
+<p>可以理解为一个看不见摸不着的对象（有若干个属性），虽然看不见摸不着，但确实实实在在存在的，因为所有的变量的值都在里面存储着</p>
+</li><li>
+<p>另外，对于函数来说，上下文环境是在调用时创建的</p>
+</li></ul>
+
+<h4 id="label-E4-BD-9C-E7-94-A8-E5-9F-9F-E5-92-8C-E4-B8-8A-E4-B8-8B-E6-96-87-E7-8E-AF-E5-A2-83-E5-85-B3-E7-B3-BB">作用域和上下文环境关系<span><a href="#label-E4-BD-9C-E7-94-A8-E5-9F-9F-E5-92-8C-E4-B8-8A-E4-B8-8B-E6-96-87-E7-8E-AF-E5-A2-83-E5-85-B3-E7-B3-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>一个作用域内可能包含若干个上下文环境。</p>
+</li><li>
+<p>有可能从来没有过上下文环境(函数从来就没有被调用过)</p>
+</li><li>
+<p>也有可能有过，但在函数被调用完毕后，上下文环境被销毁了</p>
+</li><li>
+<p>除了全局作用域外,每个函数都要创建一个作用域(函数作用域).作用域的查找: 函数作用域+1</p>
+</li><li>
+<p>在程序执行之前就会生成全局上下文环境. 每调用一次函数就产生一次上下文环境.上下文环境的查找: 调用次数+1</p>
+</li></ul>
+<hr>
+
+<h3 id="label-E5-8F-98-E9-87-8F-E5-B7-A6-E6-9F-A5-E8-AF-A2-26-E5-8F-B3-E6-9F-A5-E8-AF-A2">变量左查询&amp;右查询<span><a href="#label-E5-8F-98-E9-87-8F-E5-B7-A6-E6-9F-A5-E8-AF-A2-26-E5-8F-B3-E6-9F-A5-E8-AF-A2">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>左查询: 赋值符号的左侧</p>
+<ul><li>
+<p>赋值操作的目标</p>
+</li><li>
+<p>函数调用时实参与形参的关系就是一次左查询</p>
+</li></ul>
+</li><li>
+<p>右查询: 赋值符号的非左侧</p>
+<ul><li>
+<p>赋值操作的源头</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-8F-98-E9-87-8F-E6-9F-A5-E8-AF-A2-E8-A7-84-E5-88-99">变量查询规则<span><a href="#label-E5-8F-98-E9-87-8F-E6-9F-A5-E8-AF-A2-E8-A7-84-E5-88-99">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>非严格模式:</p>
+<ul><li>
+<p>LHS在查询所有的嵌套作用域中遍寻不到所需变量时,全局作用域中会创建具有该名称的变量</p>
+</li><li>
+<p>RHS在查询所有的嵌套作用域中遍寻不到所需的变量时，引擎就会抛出ReferenceError异常</p>
+</li><li>
+<p>注意: RHS在typeof时不会报异常</p>
+</li></ul>
+</li><li>
+<p>严格模式:</p>
+<ul><li>
+<p>未查询到变量时RHS和LHS都会抛出ReferenceError异常</p>
+</li></ul>
+</li><li>
+<p>ReferenceError: 在作用域中找不到变量</p>
+</li><li>
+<p>typeError: 执行错误. 跟作用域判别无关</p>
+</li></ul>
+
+<h4 id="label-E4-BD-9C-E7-94-A8-E5-9F-9F-E6-9F-A5-E6-89-BE-E5-8F-98-E9-87-8F">作用域查找变量<span><a href="#label-E4-BD-9C-E7-94-A8-E5-9F-9F-E6-9F-A5-E6-89-BE-E5-8F-98-E9-87-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>先基于作用域链找到最顶层. 如果都没有去原型链上找. 如果有的话就拿来用</p>
+</li><li>
+<p>window.xx直接从全局中找</p>
+</li><li>
+<p>xx 会一层一层找直到找到全局</p>
+
+<pre>Object.prototype.a = 1;
+(function () {
+  //var a = 3;
+	  function foo() {
+	  	  return function () {
+	  	  	  console.log(a); //1
+	  	  	  console.log(window.a);//1
+	  	  }
+	  }
+	  foo()()
+})();</pre>
+</li></ul>
+
+<h4 id="label-typeof+-E5-AE-89-E5-85-A8-E6-9C-BA-E5-88-B6">typeof 安全机制<span><a href="#label-typeof+-E5-AE-89-E5-85-A8-E6-9C-BA-E5-88-B6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>意义</p>
+<ul><li>
+<p>只在开发和测试程序使用全局变量DEBUG调试模式开关时</p>
+</li><li>
+<p>为某个缺失的功能写衬垫代码时</p>
+</li><li>
+<p>只在开发和测试程序使用全局变量DEBUG调试模式开关时</p>
+</li><li>
+<p>为某个缺失的功能写衬垫代码时</p>
+</li></ul>
+</li><li>
+<p><strong>typeof做右查询最终会返回变量的值的类型并不会报错</strong></p>
+</li><li>
+<p>undefined: 已经在作用域中声明但还没有赋值的变量.typeof返回的是 undefined</p>
+</li><li>
+<p>undeclared: 没有在作用域中声明过的变量.typeof返回的还是 undefined</p>
+
+<pre>console.log(typeof a); //undefined
+console.log(typeof typeof 42); //string
+
+var a1;
+console.log(typeof a1); //undefined
+
+var b =42;
+console.log(typeof b); //number
+var c;
+b = c;
+console.log(typeof b); //undefined</pre>
+</li></ul>
+<hr>
+
+<h3 id="label-E6-8F-90-E5-8D-87-28-E9-A2-84-E8-A7-A3-E6-9E-90-29">提升(预解析)<span><a href="#label-E6-8F-90-E5-8D-87-28-E9-A2-84-E8-A7-A3-E6-9E-90-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>提升是上下文环境这套规则在管理</p>
+</li><li>
+<p>变量提升</p>
+<ul><li>
+<p>变量的提升是声明的提升</p>
+</li><li>
+<p>变量提升不受if判断暗示影响照常提升</p>
+</li></ul>
+</li><li>
+<p>函数提升</p>
+<ul><li>
+<p>函数的提升是函数整体的提升 (声明式函数 function关键字)</p>
+</li><li>
+<p>函数提升优于变量的提升</p>
+</li><li>
+<p>函数表达式是变量的声明提升 (var或者IIFE)</p>
+</li><li>
+<p>函数提升会受到if判断暗示影响不会被提升.<strong>在块中不要定义函数</strong></p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E9-97-AD-E5-8C-85">闭包<span><a href="#label-E9-97-AD-E5-8C-85">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>当函数可以访问并记住自己所处的作用域时，就会产生闭包。</p>
+</li><li>
+<p>常见场景:</p>
+<ul><li>
+<p>函数作为返回值</p>
+</li><li>
+<p>函数作为参数传递</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<h3 id="label-E5-80-BC-E4-BC-A0-E9-80-92-E4-B8-8E-E5-BC-95-E7-94-A8-E5-80-BC-E7-9A-84-E4-BC-A0-E9-80-92">值传递与引用值的传递<span><a href="#label-E5-80-BC-E4-BC-A0-E9-80-92-E4-B8-8E-E5-BC-95-E7-94-A8-E5-80-BC-E7-9A-84-E4-BC-A0-E9-80-92">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><strong>JS中所有的传递都是值的传递. 没有引用传递</strong></p>
+<ul><li>
+<p>基本值的传递 (基本值都储存在栈里)</p>
+</li><li>
+<p>引用值的传递 (引用值都储存在堆里)</p>
+</li></ul>
+</li><li>
+<p>JS中变量不可能成为指向另外一个变量的指针</p>
+</li><li>
+<p>基本数据类型总是通过值复制的方式来赋值/传递</p>
+</li><li>
+<p>引用数据类型总是通过引用复制来完成赋值/传递</p>
+</li><li>
+<p><strong>注意: 引用指向的是值而非变量.所以一个引用无法更改另一个引用的指向,但是可以更改不同变量共同指向的值</strong></p>
+</li></ul>
+
+<blockquote>
+<p>引用传递:</p>
+
+<p>1.同一个引用被多个变量同时指向的时候.任一变量修改引用结果其他变量都会被修改.</p>
+
+<p>2.引用修改时,变量也会同时改变</p>
+</blockquote>
+
+<p><img src="https://i.imgur.com/OlnSqjV.png"></p>
+
+<p><img src="https://i.imgur.com/bbTDLi8.png"></p>
+<hr>
+
+<h3 id="label-this">this<span><a href="#label-this">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>this是上下文环境管理.跟作用域无关</p>
+</li><li>
+<p>根据<strong>调用位置</strong>上函数的<strong>调用方式</strong>来确定函数中this使用的绑定规则</p>
+</li></ul>
+
+<h4 id="label-this-E7-BB-91-E5-AE-9A-E8-A7-84-E5-88-99-E4-B8-80-3A+-E9-BB-98-E8-AE-A4-E7-BB-91-E5-AE-9A">this绑定规则一: 默认绑定<span><a href="#label-this-E7-BB-91-E5-AE-9A-E8-A7-84-E5-88-99-E4-B8-80-3A+-E9-BB-98-E8-AE-A4-E7-BB-91-E5-AE-9A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>无法应用其他规则时的默认规则就是独立函数调用 <code>foo()</code></p>
+</li><li>
+<p>独立函数调用在非严格模式下会绑定给window</p>
+</li><li>
+<p>独立函数调用时this整个机制在严格模式下会绑定给undefined</p>
+<ul><li>
+<p>严格模式下进行函数调用不会影响默认绑定规则</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-this-E7-BB-91-E5-AE-9A-E8-A7-84-E5-88-99-E4-BA-8C-3A+-E9-9A-90-E5-BC-8F-E7-BB-91-E5-AE-9A">this绑定规则二: 隐式绑定<span><a href="#label-this-E7-BB-91-E5-AE-9A-E8-A7-84-E5-88-99-E4-BA-8C-3A+-E9-9A-90-E5-BC-8F-E7-BB-91-E5-AE-9A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>隐式绑定的规则是调用位置是否有上下文对象，或者说是否被某个对象拥有或者包含</p>
+</li><li>
+<p>当函数引用有上下文对象时，隐式绑定规则会把函数调用中的 this 绑定到这个上下文对象</p>
+</li><li>
+<p>以 对象 点 的形式调用.谁调用this就指向谁 <code>obj.foo()</code></p>
+</li><li>
+<p>以对象连缀形式调用,this只看离它最近的对象并确认绑定</p>
+</li></ul>
+
+<h5 id="label-E9-9A-90-E5-BC-8F-E4-B8-A2-E5-A4-B1">隐式丢失<span><a href="#label-E9-9A-90-E5-BC-8F-E4-B8-A2-E5-A4-B1">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>隐式丢失场景</p>
+<ul><li>
+<p>隐式绑定的形式作赋值</p>
+</li><li>
+<p>参数的传递</p>
+</li><li>
+<p>函数传入JS内置的函数.比如setTimeout</p>
+</li></ul>
+</li><li>
+<p>看似是对象dian的形式,但实际是独立函数形式调用</p>
+</li><li>
+<p>被隐式绑定的函数在丢失绑定对象后导致this的绑定变成默认绑定,即window或undefined上</p>
+</li></ul>
+
+<h4 id="label-this-E7-BB-91-E5-AE-9A-E8-A7-84-E5-88-99-E4-B8-89-3A+-E6-98-BE-E7-A4-BA-E7-BB-91-E5-AE-9A">this绑定规则三: 显示绑定<span><a href="#label-this-E7-BB-91-E5-AE-9A-E8-A7-84-E5-88-99-E4-B8-89-3A+-E6-98-BE-E7-A4-BA-E7-BB-91-E5-AE-9A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><strong>call()和apply() 方法实现显示绑定</strong></p>
+<ul><li>
+<p>第一个参数绑定this</p>
+</li><li>
+<p>第二个参数赋值</p>
+</li></ul>
+</li></ul>
+
+<p>““ Array.apply(null,{length:3}); 相当于Array(undefined,undefined,undefined) ““`</p>
+
+<p><code> var b=new Array(3); 相当于 Array(undefined * 3) </code></p>
+
+<blockquote>
+<p>apply() 传递的是数组或伪数组</p>
+
+<p>任何有length属性的对象都可称为伪数组</p>
+
+<p>只有长度没有值的数组称为稀疏数组(数组中有些API无法使用)</p>
+</blockquote>
+
+<h5 id="label-E6-98-BE-E7-A4-BA-E7-BB-91-E5-AE-9A-E7-9A-84-E7-A1-AC-E7-BB-91-E5-AE-9A">显示绑定的硬绑定<span><a href="#label-E6-98-BE-E7-A4-BA-E7-BB-91-E5-AE-9A-E7-9A-84-E7-A1-AC-E7-BB-91-E5-AE-9A">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ol><li>
+<p>要有一个包裹函数</p>
+</li><li>
+<p>在包裹函数内必须有一个函数的显示绑定</p>
+</li><li>
+<p>外层包裹函数的绑定不会影响内层绑定形式</p>
+</li><li>
+<p>典型应用场景:创建一个包裹函数，传入所有的参数并返回接收到的所有值</p>
+
+<pre>function foo() {
+	console.log( this.a );
+}
+
+var a =1;
+var obj = {
+	a:2
+};
+
+var bar = function() {
+	console.log( this.a ); 
+	foo.call( obj ); //硬绑定
+};
+
+bar(); //1  2</pre>
+</li></ol>
+
+<h5 id="label-bind-28-29-E7-A1-AC-E7-BB-91-E5-AE-9Athis">bind()硬绑定this<span><a href="#label-bind-28-29-E7-A1-AC-E7-BB-91-E5-AE-9Athis">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>返回一个新的函数并指定该新函数的this指向</p>
+</li><li>
+<p>硬绑定解决隐式绑定的隐式丢失(尤其是异步函数时)</p>
+</li><li>
+<p>第一个参数绑定this</p>
+</li><li>
+<p>第二个参数赋值</p>
+
+<pre>function foo() {
+	console.log( this.a );
+}
+
+var a = 1; // a是全局对象的属性
+var obj = {
+	a: 2,
+	foo: foo
+};
+
+setTimeout( foo.bind(obj), 1000 ); // &quot;2&quot;</pre>
+</li></ul>
+
+<h4 id="label-this-E7-BB-91-E5-AE-9A-E8-A7-84-E5-88-99-E5-9B-9B-3A+new-E7-BB-91-E5-AE-9A">this绑定规则四: new绑定<span><a href="#label-this-E7-BB-91-E5-AE-9A-E8-A7-84-E5-88-99-E5-9B-9B-3A+new-E7-BB-91-E5-AE-9A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>JS中构造函数只是一些使用 new 操作符时被调用的普通函数</p>
+</li><li>
+<p>实际并不存在构造函数</p>
+</li><li>
+<p>使用 new 来调用函数，或者说发生构造函数调用时，this 的绑定就是new出来的实例对象</p>
+</li></ul>
+
+<h4 id="label-this-E7-BB-91-E5-AE-9A-E7-9A-84-E4-BC-98-E5-85-88-E7-BA-A7">this绑定的优先级<span><a href="#label-this-E7-BB-91-E5-AE-9A-E7-9A-84-E4-BC-98-E5-85-88-E7-BA-A7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>new绑定 &gt; 显示绑定 &gt; 隐式绑定 &gt; 默认绑定</p>
+
+<h4 id="label-this-E7-9A-84-E5-85-B6-E4-BB-96-E7-BB-91-E5-AE-9A">this的其他绑定<span><a href="#label-this-E7-9A-84-E5-85-B6-E4-BB-96-E7-BB-91-E5-AE-9A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>ES6箭头函数的this要看外层作用域.如果有函数则this绑定该函数的this.如果没有函数则this绑定window</p>
+</li><li>
+<p>null 或者 undefined 作为 this 的绑定对象传入call或apply时,this会被忽略. 使用默认绑定规则</p>
+</li></ul>
+
+<h4 id="label-E6-9F-AF-E9-87-8C-E5-8C-96">柯里化<span><a href="#label-E6-9F-AF-E9-87-8C-E5-8C-96">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>给目标函数预绑定一些参数</p>
+</li><li>
+<p>主要作用在于不会污染全局. 仅作this指向</p>
+
+<pre>function foo(a,b) {
+	console.log( &quot;a:&quot; + a + &quot;, b:&quot; + b );
+}
+// 我们的DMZ空对象,“DMZ”（demilitarized zone，非军事区）
+var ø = Object.create( null );//{}
+// 把数组展开成参数
+foo.apply( ø, [2, 3] ); // a:2, b:3
+// 使用bind(..)进行柯里化
+var bar = foo.bind( ø, 2 );
+bar( 3 ); // a:2, b:3</pre>
+</li></ul>
+<hr>
+
+<h3 id="label-E5-AF-B9-E8-B1-A1-E6-89-A9-E5-B1-95+-+-E5-B1-9E-E6-80-A7-E6-8F-8F-E8-BF-B0-E7-AC-A6">对象扩展 - 属性描述符<span><a href="#label-E5-AF-B9-E8-B1-A1-E6-89-A9-E5-B1-95+-+-E5-B1-9E-E6-80-A7-E6-8F-8F-E8-BF-B0-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>对象所有的属性都具备了属性描述符</p>
+</li><li>
+<p>Object.getOwnPropertyDescriptor()方法来获取一个属性的对应描述符</p>
+</li></ul>
+
+<h5 id="label-E5-B1-9E-E6-80-A7-E7-9A-84-E6-8F-8F-E8-BF-B0-E7-AC-A6+-28-E5-85-83-E5-B1-9E-E6-80-A7-3A-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E7-9A-84-E5-B1-9E-E6-80-A7-29">属性的描述符 (元属性:对象属性的属性)<span><a href="#label-E5-B1-9E-E6-80-A7-E7-9A-84-E6-8F-8F-E8-BF-B0-E7-AC-A6+-28-E5-85-83-E5-B1-9E-E6-80-A7-3A-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E7-9A-84-E5-B1-9E-E6-80-A7-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>configurable:true 可配置</p>
+</li><li>
+<p>enumerable:true 可枚举</p>
+</li><li>
+<p>writable:true 可读写</p>
+</li></ul>
+
+<h5 id="label-Object.getOwnPropertyDescriptor-28-29+-E8-8E-B7-E5-8F-96-E5-B1-9E-E6-80-A7-E5-AF-B9-E5-BA-94-E6-8F-8F-E8-BF-B0-E7-AC-A6">Object.getOwnPropertyDescriptor() 获取属性对应描述符<span><a href="#label-Object.getOwnPropertyDescriptor-28-29+-E8-8E-B7-E5-8F-96-E5-B1-9E-E6-80-A7-E5-AF-B9-E5-BA-94-E6-8F-8F-E8-BF-B0-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>第一个参数: 对象</p>
+</li><li>
+<p>第二个参数: 要获取描述符的对象属性</p>
+</li></ul>
+
+<h5 id="label-Object.defineProperty-28-29+-E4-B8-BA-E5-AF-B9-E8-B1-A1-E6-96-B0-E5-A2-9E-E5-AE-9A-E4-B9-89-E6-88-96-E4-BF-AE-E6-94-B9-E5-B1-9E-E6-80-A7">Object.defineProperty() 为对象新增定义或修改属性<span><a href="#label-Object.defineProperty-28-29+-E4-B8-BA-E5-AF-B9-E8-B1-A1-E6-96-B0-E5-A2-9E-E5-AE-9A-E4-B9-89-E6-88-96-E4-BF-AE-E6-94-B9-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>第一个参数: 对象</p>
+</li><li>
+<p>第二个参数: 新定义或修改的属性名</p>
+</li><li>
+<p>第三个参数: 配置对象(value指定属性值)</p>
+</li><li>
+<p>defineProperty的属性描述符的默认值都是false(可配置是否为true)</p>
+</li></ul>
+
+<h5 id="label-E6-8F-8F-E8-BF-B0-E7-AC-A6-E4-B9-8B+writable">描述符之 writable<span><a href="#label-E6-8F-8F-E8-BF-B0-E7-AC-A6-E4-B9-8B+writable">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>writable决定是否可以修改属性的值,即value的值</p>
+</li><li>
+<p>当writable为false时,对应的属性的值是无法修改的</p>
+</li><li>
+<p>非严格模式下继续修改会静默失败. 反之会报错(typeError)</p>
+</li></ul>
+
+<h5 id="label-E6-8F-8F-E8-BF-B0-E7-AC-A6-E4-B9-8B+configurable">描述符之 configurable<span><a href="#label-E6-8F-8F-E8-BF-B0-E7-AC-A6-E4-B9-8B+configurable">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>configurable 来决定属性是否可以配置</p>
+</li><li>
+<p>当configurable为false时,对应的属性是无法重新定义和无法删除的。但该对象还可以继续添加属性的。</p>
+</li><li>
+<p>不管是否为严格模式,configurable为false时进行重新定义或删除都会报错.</p>
+</li><li>
+<p>window上的configurable是false.所以不能删</p>
+</li><li>
+<p>例外: configurable为false时, 只允许writable从true到false</p>
+
+<pre>//给对象定义属性(新增)
+Object.defineProperty(obj,&#39;age&#39;,{
+  value:50,
+  writable:true
+});
+
+//重新定义属性 
+Object.defineProperty(obj,&#39;age&#39;,{
+  value:40,
+  writable:false
+});
+
+//继续添加属性 {name: &quot;wukong&quot;, age: 40, sex: &quot;男&quot;}
+Object.defineProperty(obj,&#39;sex&#39;,{
+   value:&#39;男&#39;,
+});
+
+//writable为false无法修改 则报错!!! 
+Object.defineProperty(obj,&#39;age&#39;,{
+   value:58,
+});</pre>
+</li></ul>
+
+<h5 id="label-E6-8F-8F-E8-BF-B0-E7-AC-A6-E4-B9-8B+enumerable">描述符之 enumerable<span><a href="#label-E6-8F-8F-E8-BF-B0-E7-AC-A6-E4-B9-8B+enumerable">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>enumerable是否支持属性出现在对象属性的遍历中（for in循环）</p>
+</li><li>
+<p>不可枚举的属性不会出现在 <code>for..in</code> 循环中</p>
+
+<pre>var obj = {};
+
+Object.defineProperty(obj,&#39;a&#39;,{
+  value:&#39;a&#39;,
+  enumerable:true
+});
+Object.defineProperty(obj,&#39;b&#39;,{
+  value:&#39;a&#39;,
+});
+Object.defineProperty(obj,&#39;c&#39;,{
+  value:&#39;a&#39;,
+});
+
+for(item in obj){
+  console.log(item); //a
+}</pre>
+</li><li>
+<p>obj.propertyIsEnumerable() 判断属性是否可枚举 (参数为对象属性)</p>
+</li><li>
+<p>Object.keys() 获取可枚举的属性列表 (参数为对象)</p>
+</li><li>
+<p>Object.getOwnPropertyNames() 获取所有属性列表 (参数为对象)</p>
+</li><li>
+<p>以上三个方法都不会遍历原型链</p>
+
+<pre>console.log(obj.propertyIsEnumerable(&#39;b&#39;)); //false
+console.log(Object.keys(obj)); // [&#39;a&#39;]
+console.log(Object.getOwnPropertyNames(obj));//(3) [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</pre>
+</li></ul>
+
+<h5 id="label-E6-8F-8F-E8-BF-B0-E7-AC-A6-E5-B0-8F-E6-A6-82-E5-BF-B5">描述符小概念<span><a href="#label-E6-8F-8F-E8-BF-B0-E7-AC-A6-E5-B0-8F-E6-A6-82-E5-BF-B5">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>属性描述符: 用来形容属性的属性.</p>
+</li><li>
+<p>数据描述符: 具有writable和value的属性描述符的属性.本质是属性</p>
+</li><li>
+<p>访问描述符: 具有set和get属性描述符的属性. 本质是属性</p>
+</li></ul>
+<hr>
+
+<h3 id="label-E5-AF-B9-E8-B1-A1-E6-89-A9-E5-B1-95+-+-E5-AF-B9-E8-B1-A1-E7-9A-84-E4-B8-8D-E5-8F-98-E6-80-A7">对象扩展 - 对象的不变性<span><a href="#label-E5-AF-B9-E8-B1-A1-E6-89-A9-E5-B1-95+-+-E5-AF-B9-E8-B1-A1-E7-9A-84-E4-B8-8D-E5-8F-98-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>注意! JS中所有方法的创建都是浅不变性的，只会影响目标对象和它的直接属性</p>
+</li><li>
+<p>深层次嵌套的影响不了,原型链中的更加影响不了</p>
+</li></ul>
+
+<h5 id="label-E5-AF-B9-E8-B1-A1-E5-B8-B8-E9-87-8F-E5-B1-9E-E6-80-A7">对象常量属性<span><a href="#label-E5-AF-B9-E8-B1-A1-E5-B8-B8-E9-87-8F-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>值不可修改,不可重新定义,不可删除就是常量属性</p>
+</li><li>
+<p>常量属性跟对象无关</p>
+</li><li>
+<p>configurable和writable为false就是常量属性</p>
+</li></ul>
+
+<h5 id="label-E7-A6-81-E6-AD-A2-E5-AF-B9-E8-B1-A1-E6-89-A9-E5-B1-95-E5-B1-9E-E6-80-A7">禁止对象扩展属性<span><a href="#label-E7-A6-81-E6-AD-A2-E5-AF-B9-E8-B1-A1-E6-89-A9-E5-B1-95-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>调用 Object.preventExtensions(obj)</p>
+<ul><li>
+<p>参数: 要求禁止扩展的对象</p>
+</li></ul>
+</li><li>
+<p>非严格模式下为对象添加新属性会静默失败.反之则会报错(typeError)</p>
+</li><li>
+<p>注意: 之前的属性还是可以进行重新定义和删除的.属性值也可修改</p>
+</li></ul>
+
+<h5 id="label-E5-AF-86-E5-B0-81-E5-AF-B9-E8-B1-A1">密封对象<span><a href="#label-E5-AF-86-E5-B0-81-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>调用 Object.seal(obj)</p>
+<ul><li>
+<p>参数: 要求被密封的对象</p>
+</li><li>
+<p>参数: 要求被密封的对象</p>
+</li></ul>
+</li><li>
+<p>密封后原有的属性不可进行重新定义和删除.但属性值可以修改</p>
+</li><li>
+<p>密封对象只针对一层.如果有嵌套对象不会受影响</p>
+
+<pre>  var obj = {
+    name:&#39;wukong&#39;,
+    wife:{
+      w1:&#39;小a&#39;,
+      w2:&#39;小b&#39;
+    }
+  };
+
+  &quot;use strict&quot;;
+  Object.seal(obj); //密封对象
+  delete obj.name; //无法删除
+
+  obj.name = &#39;bajie&#39;; //可修改属性值
+  obj.wife.w1= 1; //嵌套对象不受影响
+  delete obj.wife.w2; //删除嵌套对象内的属性
+  console.log(obj); //name:&quot;bajie&quot;wife:{w1:1}</pre>
+</li></ul>
+
+<h5 id="label-E5-86-BB-E7-BB-93-E5-AF-B9-E8-B1-A1">冻结对象<span><a href="#label-E5-86-BB-E7-BB-93-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>调用 Object.freeze(obj)</p>
+<ul><li>
+<p>参数: 要求被冻结的对象</p>
+</li></ul>
+</li><li>
+<p>冻结后禁止了对象扩展属性.原有属性不可重新定义和删除并且属性值也不可以修改</p>
+</li></ul>
+<hr>
+
+<h3 id="label-E5-AF-B9-E8-B1-A1-E6-89-A9-E5-B1-95+-+-E5-AF-B9-E8-B1-A1-E7-9A-84-E8-AE-BF-E9-97-AE-E6-8F-8F-E8-BF-B0-E7-AC-A6">对象扩展 - 对象的访问描述符<span><a href="#label-E5-AF-B9-E8-B1-A1-E6-89-A9-E5-B1-95+-+-E5-AF-B9-E8-B1-A1-E7-9A-84-E8-AE-BF-E9-97-AE-E6-8F-8F-E8-BF-B0-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>当给属性定义get和set时,这个属性会被定义为 访问描述符</p>
+</li><li>
+<p>set和get为属性描述符.可以定义方法</p>
+</li><li>
+<p>当前属性的属性值是根据一个或多个其他属性计算得来时,属性动态查找或获取时调用get方法</p>
+</li><li>
+<p>当其他属性根据当前属性值变化而变化时,监视当前属性时调用set方法 (参数传入value. set中不能有原生属性)</p>
+</li><li>
+<p>set和get方法里可以处理更多的逻辑.并且给属性创造更安全的环境</p>
+
+<pre>var obj = {
+  get a(){
+    return 1;
+  },
+  set a(val){
+    console.log(&#39;set&#39;);
+  }
+};
+obj.a = 2; //只认set
+console.log(obj.a); //&#39;set&#39;  1</pre>
+</li><li>
+<p>当给属性定义value和writable时,这个属性会被定义为 数据描述符</p>
+</li><li>
+<p>当有访问描述符时,JS会忽略value和writable特性. 这两对无法兼容</p>
+</li><li>
+<p>因为有value和writable时属性称为数据描述符. 而有set和get时属性称为访问描述符</p>
+
+<pre>var obj = {};
+
+Object.defineProperty(obj,&#39;age&#39;,{
+  //value:1,
+  //writable:true, 冲突会报错
+
+  set : function (value) {
+    if (value&lt;0){ //如果年龄小于0无意义则就等于0
+      console.log(&#39;set&#39;); 
+      this._a_ = 0; 
+    }else{
+      this._a_ = value;
+    }
+  },
+  get : function () {
+     return this._a_;
+  }
+});
+obj.age = -1; //调用set方法
+console.log(obj.age); //&#39;set&#39; 0</pre>
+</li></ul>
+<hr>
+
+<h3 id="label-E5-AF-B9-E8-B1-A1-E6-89-A9-E5-B1-95+-+-E5-AD-98-E5-9C-A8-E6-80-A7-E6-A3-80-E6-9F-A5">对象扩展 - 存在性检查<span><a href="#label-E5-AF-B9-E8-B1-A1-E6-89-A9-E5-B1-95+-+-E5-AD-98-E5-9C-A8-E6-80-A7-E6-A3-80-E6-9F-A5">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>不能确定属性是否存在于对象中</p>
+</li><li>
+<p><code>in</code> 操作符进行存在性检查 (会遍历原型链)</p>
+</li><li>
+<p>obj.hasOwnProperty(); 不会遍历原型链，只在对象中查找(参数是要确认存在性的属性名)</p>
+</li></ul>
+<hr>
+
+<h3 id="label-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-89-A9-E5-B1-95+-+-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E7-9A-84-E8-8E-B7-E5-8F-96">对象的扩展 - 对象属性的获取<span><a href="#label-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-89-A9-E5-B1-95+-+-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E7-9A-84-E8-8E-B7-E5-8F-96">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h5 id="label-E5-89-8D-E6-8F-90-3A-E5-B1-9E-E6-80-A7-E6-98-AF-E6-95-B0-E6-8D-AE-E6-8F-8F-E8-BF-B0-E7-AC-A6.-E4-B8-94-E5-B1-9E-E6-80-A7-E7-9A-84writable-E4-B8-BAtrue">前提:属性是数据描述符.且属性的writable为true<span><a href="#label-E5-89-8D-E6-8F-90-3A-E5-B1-9E-E6-80-A7-E6-98-AF-E6-95-B0-E6-8D-AE-E6-8F-8F-E8-BF-B0-E7-AC-A6.-E4-B8-94-E5-B1-9E-E6-80-A7-E7-9A-84writable-E4-B8-BAtrue">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>先从对象的直接属性去找.找不到去原型链找 (原型链包括对象的直接属性)</p>
+</li><li>
+<p>如果整条原型链上都没有就返回 undefined</p>
+
+<pre>Foo.prototype.age = 10;
+function Foo() {
+    this.age = 8
+}
+
+var foo = new Foo(); //实例对象
+
+console.log(foo.age);//8
+console.log(Foo.prototype.age);//10</pre>
+</li></ul>
+
+<h5 id="label-E5-89-8D-E6-8F-90-3A+-E5-B1-9E-E6-80-A7-E6-98-AF-E8-AE-BF-E9-97-AE-E6-8F-8F-E8-BF-B0-E7-AC-A6">前提: 属性是访问描述符<span><a href="#label-E5-89-8D-E6-8F-90-3A+-E5-B1-9E-E6-80-A7-E6-98-AF-E8-AE-BF-E9-97-AE-E6-8F-8F-E8-BF-B0-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>调用get方法获取</p>
+</li><li>
+<p>如果get方法没有,则返回undefined</p>
+
+<p>function Foo() {}</p>
+
+<p>var foo = new Foo();</p>
+
+<p>Object.defineProperty(foo,&#39;age&#39;,{  get:function () {  return this._age;  },  set:function (value) {  this._age = value  } }); foo.age = 15; console.log(foo.age); //15</p>
+</li></ul>
+<hr>
+
+<h3 id="label-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-89-A9-E5-B1-95+-+-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E7-9A-84-E8-AE-BE-E7-BD-AE">对象的扩展 - 对象属性的设置<span><a href="#label-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-89-A9-E5-B1-95+-+-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E7-9A-84-E8-AE-BE-E7-BD-AE">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h5 id="label-E5-89-8D-E6-8F-90I-3A-E5-B1-9E-E6-80-A7-E7-9B-B4-E6-8E-A5-E5-AD-98-E5-9C-A8-E4-BA-8E-E5-AF-B9-E8-B1-A1-E4-B8-AD-E4-B8-8D-E5-9C-A8-E5-8E-9F-E5-9E-8B-E9-93-BE-E4-B8-8A">前提I:属性直接存在于对象中不在原型链上<span><a href="#label-E5-89-8D-E6-8F-90I-3A-E5-B1-9E-E6-80-A7-E7-9B-B4-E6-8E-A5-E5-AD-98-E5-9C-A8-E4-BA-8E-E5-AF-B9-E8-B1-A1-E4-B8-AD-E4-B8-8D-E5-9C-A8-E5-8E-9F-E5-9E-8B-E9-93-BE-E4-B8-8A">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>属性为数据描述符:</p>
+<ul><li>
+<p>writbale为true: 直接修改对象中的属性</p>
+</li><li>
+<p>writbale为false: 静默失败或严格模式下报错</p>
+</li></ul>
+</li><li>
+<p>属性为访问描述符:</p>
+<ul><li>
+<p>调用set方法 (属性设置只看set)</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-E5-89-8D-E6-8F-90II-3A+-E5-B1-9E-E6-80-A7-E7-9B-B4-E6-8E-A5-E5-AD-98-E5-9C-A8-E4-BA-8E-E5-AF-B9-E8-B1-A1-E4-B8-AD.-E4-B9-9F-E5-9C-A8-E5-8E-9F-E5-9E-8B-E9-93-BE-E4-B8-8A">前提II: 属性直接存在于对象中.也在原型链上<span><a href="#label-E5-89-8D-E6-8F-90II-3A+-E5-B1-9E-E6-80-A7-E7-9B-B4-E6-8E-A5-E5-AD-98-E5-9C-A8-E4-BA-8E-E5-AF-B9-E8-B1-A1-E4-B8-AD.-E4-B9-9F-E5-9C-A8-E5-8E-9F-E5-9E-8B-E9-93-BE-E4-B8-8A">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>属性为数据描述符:</p>
+<ul><li>
+<p>原型链中的属性不会被修改</p>
+</li><li>
+<p>writbale为true: 直接修改对象中的属性</p>
+</li><li>
+<p>writbale为false: 静默失败或严格模式下报错</p>
+</li></ul>
+</li><li>
+<p>属性为访问描述符:</p>
+<ul><li>
+<p>调用set方法 (属性设置只看set)</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-E5-89-8D-E6-8F-90III-3A-E5-B1-9E-E6-80-A7-E4-B8-8D-E7-9B-B4-E6-8E-A5-E5-AD-98-E5-9C-A8-E4-BA-8E-E5-AF-B9-E8-B1-A1-E4-B8-AD-E4-B9-9F-E4-B8-8D-E5-9C-A8-E5-8E-9F-E5-9E-8B-E9-93-BE-E4-B8-8A">前提III:属性不直接存在于对象中也不在原型链上<span><a href="#label-E5-89-8D-E6-8F-90III-3A-E5-B1-9E-E6-80-A7-E4-B8-8D-E7-9B-B4-E6-8E-A5-E5-AD-98-E5-9C-A8-E4-BA-8E-E5-AF-B9-E8-B1-A1-E4-B8-AD-E4-B9-9F-E4-B8-8D-E5-9C-A8-E5-8E-9F-E5-9E-8B-E9-93-BE-E4-B8-8A">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>属性为数据描述符:</p>
+<ul><li>
+<p>writbale为true: 在对象的直接属性中直接添加属性</p>
+</li><li>
+<p>writbale为false: 静默失败或严格模式下报错</p>
+</li></ul>
+</li><li>
+<p>属性为访问描述符:</p>
+<ul><li>
+<p>调用set方法 (属性设置只看set)</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-E5-89-8D-E6-8F-90IV-3A+-E5-B1-9E-E6-80-A7-E4-B8-8D-E7-9B-B4-E6-8E-A5-E5-AD-98-E5-9C-A8-E4-BA-8E-E5-AF-B9-E8-B1-A1-E4-B8-AD.-E4-BD-86-E5-9C-A8-E5-8E-9F-E5-9E-8B-E9-93-BE-E4-B8-8A">前提IV: 属性不直接存在于对象中.但在原型链上<span><a href="#label-E5-89-8D-E6-8F-90IV-3A+-E5-B1-9E-E6-80-A7-E4-B8-8D-E7-9B-B4-E6-8E-A5-E5-AD-98-E5-9C-A8-E4-BA-8E-E5-AF-B9-E8-B1-A1-E4-B8-AD.-E4-BD-86-E5-9C-A8-E5-8E-9F-E5-9E-8B-E9-93-BE-E4-B8-8A">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>原型链上属性为数据描述符</p>
+<ul><li>
+<p>writbale为true: 在对象的直接属性中添加一个属性，我们称之为屏蔽属性</p>
+</li><li>
+<p>writbale为false: 不会生成屏蔽属性(静默失败).严格模式下报错</p>
+</li></ul>
+</li><li>
+<p>原型链上属性为访问描述符</p>
+<ul><li>
+<p>调用set方法，不会生成屏蔽属性. 具体看set方法的实现</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-E6-B3-A8-E6-84-8F-E4-BA-8B-E9-A1-B9">注意事项<span><a href="#label-E6-B3-A8-E6-84-8F-E4-BA-8B-E9-A1-B9">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>属性是数据描述符在writable为false时. 有可能在做属性赋值操作时, 属性的值会赋值不上</p>
+</li><li>
+<p>对象中没有该属性. 原型链上有该属性,且属性为访问描述符.或属性是数据描述符且writable为false时,可能在做属性赋值操作时, 属性添加不到对象中</p>
+</li></ul>
+<hr>
+
+<h4 id="label-E8-87-AA-E5-AE-9A-E4-B9-89+getElementsByClassName+-E5-85-BC-E5-AE-B9IE8">自定义 getElementsByClassName 兼容IE8<span><a href="#label-E8-87-AA-E5-AE-9A-E4-B9-89+getElementsByClassName+-E5-85-BC-E5-AE-B9IE8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>获取所有className并返回数组</p>
+</li><li>
+<p>功能:获取指定父节点下指定className下的指定节点</p>
+</li><li>
+<p>技术点: 正则表达式杠b (匹配独立单词两边的空白字符)</p>
+
+<pre>function getElementsByClassName(parentNode,className,targetName) {</pre>
+
+<p> var arr = [];</p>
+
+<p> //找到父节点下的指定class  var allNodes = parentNode.getElementsByTagName(targetName);</p>
+
+<pre> //遍历所有的节点
+  for(var i=0;i&lt;allNodes.length;i++){
+
+  //每一个节点里的class中是否有className
+   var reg = new RegExp(&quot;\\b&quot; + className + &quot;\\b&quot;); 
+
+   if(reg.test(allNodes[i].className)){
+      arr.push(allNodes[i])
+   }
+ }</pre>
+
+<p> return arr //直接返回出一个数组  }</p>
+</li></ul>
+
+<h4 id="label-E8-87-AA-E5-AE-9A-E4-B9-89+addClass+-E6-96-B9-E6-B3-95">自定义 addClass 方法<span><a href="#label-E8-87-AA-E5-AE-9A-E4-B9-89+addClass+-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>  function addClass(node,className) {
+    //匹配className两边的空白字符
+    var reg = new RegExp(&quot;\\b&quot; + className + &quot;\\b&quot;);
+    //原来的class中没有就添加class. 有的话直接忽略
+    if(!reg.test(node.className)){ //属性的查找走原型链
+      node.className += (&quot; &quot;+ className) //变量的查找 走的是作用域链
+    }
+  }</pre>
+
+<h4 id="label-E8-87-AA-E5-AE-9A-E4-B9-89+removeClass+-E6-96-B9-E6-B3-95">自定义 removeClass 方法<span><a href="#label-E8-87-AA-E5-AE-9A-E4-B9-89+removeClass+-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>  function removeClass(node,className) {
+    //匹配className两边的空白字符
+    var reg = new RegExp(&quot;\\b&quot; + className + &quot;\\b&quot;,&quot;g&quot;);
+    //原来的class中有就删掉 (用空白字符替换)
+    if(reg.test(node.className)){
+      node.className = node.className.replace(reg,&quot;&quot;);
+      if(/^\s+$/.test(node.className)){
+        node.removeAttribute(&quot;class&quot;)
+      }
+    }else{
+      node.removeAttribute(&quot;class&quot;)
+    }
+  }</pre>
+<hr>
+
+<h2 id="label-3D-3D+-E6-93-8D-E4-BD-9C-E7-AC-A6">== 操作符<span><a href="#label-3D-3D+-E6-93-8D-E4-BD-9C-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-3D-3D-E6-93-8D-E4-BD-9C-E7-AC-A6-E8-A7-A3-E6-9E-90">==操作符解析<span><a href="#label-3D-3D-E6-93-8D-E4-BD-9C-E7-AC-A6-E8-A7-A3-E6-9E-90">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>第一大类(有的状态): String. Number. Boolean. Object</p>
+</li><li>
+<p>第二大类(无的状态): Undefined. Null</p>
+</li><li>
+<p>第一大类和第二大类比较永远都是false</p>
+</li><li>
+<p>第二大类之间比较永远是true</p>
+</li><li>
+<p>对象与对象之间比较比较的都是栈中保存的地址值</p>
+</li><li>
+<p>NaN 不等于NaN</p>
+</li></ul>
+
+<h4 id="label-null-E5-92-8Cundefined">null和undefined<span><a href="#label-null-E5-92-8Cundefined">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>null是关键字. undefined是标识符</p>
+</li><li>
+<p>初始的想法:</p>
+<ul><li>
+<p>var a = null 当引用数据类型用</p>
+</li><li>
+<p>var a = undefined 当基本数据类型用</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-parseInt-28-29+-E5-92-8C+parseFloat-28-29">parseInt() 和 parseFloat()<span><a href="#label-parseInt-28-29+-E5-92-8C+parseFloat-28-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>字符串: 第一位是数字则转换成Number. 否则都是NaN</p>
+</li><li>
+<p>其他(不包括Number类型): NaN</p>
+</li></ul>
+
+<h4 id="label-Number-28-29">Number()<span><a href="#label-Number-28-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>字符串: 去除字符串两边空白字符和引号.</p>
+<ul><li>
+<p>如果是合法数字就转换为数字. 否则是NaN</p>
+</li><li>
+<p>空白字符串转换为 0</p>
+</li></ul>
+</li><li>
+<p>Boolean: true为1. false为0</p>
+</li><li>
+<p>Null: 0</p>
+</li><li>
+<p>Undefined: NaN</p>
+</li><li>
+<p>Object: NaN</p>
+</li></ul>
+
+<h4 id="label-valueOf-28-29+-E5-92-8CtoString-28-29">valueOf() 和toString()<span><a href="#label-valueOf-28-29+-E5-92-8CtoString-28-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>valueOf() 对象转换成原始类型的值（数值、字符串和布尔值）</p>
+<ul><li>
+<p>对象转基本数据类型 –&gt; 拆包(包装类)</p>
+</li></ul>
+</li><li>
+<p>toString() 对象转换为字符串时，会调用它的toString()方法</p>
+<ul><li>
+<p>new String()</p>
+</li><li>
+<p>new Number()</p>
+</li><li>
+<p>new Boolean()</p>
+</li><li>
+<p>以上都是装包 (包装类)</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E7-9B-B8-E5-90-8C-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E6-AF-94-E8-BE-83+-28-E5-8C-85-E6-8B-AC-E5-85-A8-E7-AD-89-3D-3D-3D-29">相同数据类型比较 (包括全等===)<span><a href="#label-E7-9B-B8-E5-90-8C-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E6-AF-94-E8-BE-83+-28-E5-8C-85-E6-8B-AC-E5-85-A8-E7-AD-89-3D-3D-3D-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>必须类型相同. 值也相同 ==才能返回true</p>
+</li><li>
+<p>对象不等于对象. 除非发生引用值的传递</p>
+</li><li>
+<p>NaN 永远不等于NaN</p>
+</li></ul>
+
+<h4 id="label-E4-B8-8D-E5-90-8C-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E6-AF-94-E8-BE-83">不同数据类型比较<span><a href="#label-E4-B8-8D-E5-90-8C-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E6-AF-94-E8-BE-83">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>== 趋于数字化</p>
+</li><li>
+<p>基本数据类型 –&gt; 调用Number()方法</p>
+</li><li>
+<p>引用数据类型 –&gt; 首先调用valueOf() 方法</p>
+<ul><li>
+<p>如果返回是基本数据类型 –&gt; 直接进行比较 调用Number()方法</p>
+</li><li>
+<p>如果返回是引用数据类型 –&gt; 再调用本身的 toString() 方法</p>
+<ul><li>
+<p>如果返回是基本数据类型 –&gt; 直接进行比较</p>
+</li><li>
+<p>如果返回是引用数据类型 (除非重写对象) –&gt; 报错</p>
+</li></ul>
+</li><li>
+<p>例外: Date 先调用toString再调用valueOf</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-BC-95-E7-94-A8-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E6-96-B9-E6-B3-95-E9-87-8D-E5-86-99-E7-9A-84-E6-AF-94-E8-BE-83-E5-AE-9E-E4-BE-8B">引用数据类型方法重写的比较实例<span><a href="#label-E5-BC-95-E7-94-A8-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E6-96-B9-E6-B3-95-E9-87-8D-E5-86-99-E7-9A-84-E6-AF-94-E8-BE-83-E5-AE-9E-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>function Test() {
+	  this.toString = function () {
+	  	  return 1;
+	  }
+}
+
+//方法的重写
+Array.prototype.valueOf = function () {
+	  return new Test();
+};
+
+Array.prototype.toString = function () {
+	  return 1
+};
+console.log([&quot;&quot;] == false); //false</pre>
+
+<h4 id="label-3D-3D+-E6-93-8D-E4-BD-9C-E7-AC-A6-E6-80-BB-E7-BB-93">== 操作符总结<span><a href="#label-3D-3D+-E6-93-8D-E4-BD-9C-E7-AC-A6-E6-80-BB-E7-BB-93">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>undefined == null，结果是true。且它俩与所有其他值比较的结果都是false。</p>
+</li><li>
+<p>String == Boolean，需要两个操作数同时转为Number。</p>
+</li><li>
+<p>String/Boolean == Number，需要String/Boolean转为Number。</p>
+</li><li>
+<p>Object == Primitive，需要Object转为Primitive(具体通过valueOf和toString方法)。</p>
+<ul><li>
+<p>Date 先调用tostring 后调用valueof</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-3D-3D+-E6-93-8D-E4-BD-9C-E7-AC-A6-E7-9A-84-E5-9D-91">== 操作符的坑<span><a href="#label-3D-3D+-E6-93-8D-E4-BD-9C-E7-AC-A6-E7-9A-84-E5-9D-91">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>[] == []  //false
+{} == {} //false
+var a={}; var b=a; b==a //true
+NaN == NaN  //false
+null == fasle  //false
+null == &quot;&quot;  //false
+null == undefined //true
+parseInt(null)  //NaN
+parseInt(&quot;&quot;)  //NaN
+parseInt(true)  //NaN
+Number(&quot;11111ssss&quot;)  //NaN
+!1 == 2  //false
+0.1+0.2 == 0.3 //false
+
+[&quot;&quot;].valueOf()  // [&quot;&quot;]
+[&quot;&quot;].toString()  //&quot;&quot;
+[&quot;&quot;] == 0  //true
+[&quot;&quot;] == false  //true</pre>
+
+<p><img src="https://i.imgur.com/WlwF05e.png"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/12_JS2.0_CSS2.0/JS%E9%AB%98%E7%BA%A72.0.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="12-02.html">下一篇 · 正则表达式2.0</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

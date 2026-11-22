@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>前后端交互 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-08.html">AJAX：请求数据与更新页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AJAX：请求数据与更新页面</strong><a href="08-01.html">简介</a><a href="08-02.html">ajax请求</a><a href="08-03.html" aria-current="page">前后端交互</a><a href="08-04.html">用 jQuery 发请求</a><a href="08-05.html">小练习</a><a href="08-06.html">跨域请求</a><a href="08-07.html">前端模版引擎</a><a href="08-08.html">上传下载文件</a><a href="08-09.html">ajax高级</a><a href="08-10.html">版本控制工具</a></nav>
+<article class="paper"><h1>前后端交互</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>前端负责发请求和显示结果，后端负责处理请求并返回数据。接口文档应写清地址、请求参数、返回格式和错误情况。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-E5-89-8D-E5-90-8E-E7-AB-AF-E4-BA-A4-E4-BA-92-E8-BF-87-E7-A8-8B">前后端交互过程<span><a href="#label-E5-89-8D-E5-90-8E-E7-AB-AF-E4-BA-A4-E4-BA-92-E8-BF-87-E7-A8-8B">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ol><li>
+<p>确认产品需求</p>
+</li><li>
+<p>前后端人员一同写接口文档</p>
+</li><li>
+<p>前后端分别对接口进行编程 前(js,ajax) 后(服务器,数据库)</p>
+</li><li>
+<p>接口设计不合理. 协商修改接口</p>
+</li><li>
+<p>前后端进行联调</p>
+</li><li>
+<p>如果有BUG 则定位后再进行修改. 修改后再联调</p>
+</li></ol>
+
+<h4 id="label-E6-8E-A5-E5-8F-A3-E6-96-87-E6-A1-A3">接口文档<span><a href="#label-E6-8E-A5-E5-8F-A3-E6-96-87-E6-A1-A3">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>浏览器发出去的数据</p>
+<ul><li>
+<p>请求方法 get/post</p>
+</li><li>
+<p>url文件路径 /xxxx</p>
+</li><li>
+<p>发送的数据 ?xxx=zrc</p>
+</li></ul>
+
+<p>服务器返回的数据</p>
+<ul><li>
+<p>定义返回格式</p>
+<ul><li>
+<p>text:<br> html代码 json字串 string字串</p>
+</li><li>
+<p>xml</p>
+</li></ul>
+</li></ul>
+
+<p><strong>服务器返回json字符串</strong></p>
+<ol><li>
+<p>把服务器返回json字符串的数据转换成obj</p>
+
+<pre class="ruby"><span class="ruby-identifier">var</span> <span class="ruby-identifier">result</span> = <span class="ruby-identifier">xmlhttp</span>.<span class="ruby-identifier">responseText</span>;
+<span class="ruby-identifier">var</span> <span class="ruby-identifier">obj</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">result</span>);
+</pre>
+</li><li>
+<p>判断服务器返回的json字符串是否可用. (分别显示可用和不可用的处理)</p>
+</li></ol>
+
+<p><strong>服务器返回xml字符串</strong></p>
+
+<p>服务器：</p>
+
+<pre class="ruby">    <span class="ruby-identifier">响应头设置为：</span>
+	<span class="ruby-identifier">res</span>.<span class="ruby-identifier">set</span>(<span class="ruby-string">&#39;content-type&#39;</span>, <span class="ruby-string">&#39;text/xml;charset=utf-8&#39;</span>)
+</pre>
+
+<p>浏览器：</p>
+
+<pre class="ruby">    <span class="ruby-value">1</span>.<span class="ruby-identifier">获得</span> <span class="ruby-identifier">xml</span> <span class="ruby-identifier">对象：</span> <span class="ruby-identifier">var</span> <span class="ruby-identifier">doc</span> = <span class="ruby-identifier">req</span>.<span class="ruby-identifier">responseXML</span>;
+    <span class="ruby-value">2</span>.<span class="ruby-identifier">原生</span> <span class="ruby-identifier">js</span> <span class="ruby-identifier">操作</span> <span class="ruby-identifier">xml</span> <span class="ruby-identifier">api</span> (<span class="ruby-identifier">xml返回是一个数组</span>)
+        <span class="ruby-identifier">doc</span>.<span class="ruby-identifier">getElementsByTagName</span>()
+            <span class="ruby-identifier">参数：标签名</span>
+            <span class="ruby-identifier">返回值：数组</span>
+        <span class="ruby-identifier">doc</span>.<span class="ruby-identifier">firstChild</span>.<span class="ruby-identifier">nodeValue</span>
+            <span class="ruby-identifier">前端节点的第一个子节点中的值</span>
+</pre>
+<ol><li>
+<p>网络传输的数据只能是 字符串</p>
+</li><li>
+<p>前端浏览器最开始接收的就是字符串</p>
+</li><li>
+<p>但是字符串操作起来比较麻烦，于是，程序员想要把字符串转成为对象</p>
+</li><li>
+<p>只有 json 形式的字符串才能转化为对象</p>
+</li></ol>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/08_AJAX/%E5%89%8D%E5%90%8E%E7%AB%AF%E4%BA%A4%E4%BA%92.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="08-02.html">上一篇 · ajax请求</a><a href="08-04.html">下一篇 · 用 jQuery 发请求</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,3 +1,11 @@
+# JSON&XML
+
+## 先弄懂这件事
+
+JSON 常用键和值表示数据，XML 用开始标签和结束标签描述结构。交换数据时，先确认双方约定使用哪一种格式。
+
+## 笔记与示例
+
 ## JSON & XML
 
 #### JavaScript Object Notation

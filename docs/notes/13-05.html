@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>适配方案 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-13.html">移动网页：像素、视口和适配</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>移动网页：像素、视口和适配</strong><a href="13-01.html">像素概念</a><a href="13-02.html">视口概念</a><a href="13-03.html">缩放行为</a><a href="13-04.html">META标签</a><a href="13-05.html" aria-current="page">适配方案</a><a href="13-06.html">画一条物理像素宽的线</a><a href="13-07.html">移动端事件&amp;问题综合</a><a href="13-08.html">移动端价值链&amp;浏览器</a><a href="13-09.html">zepto框架</a></nav>
+<article class="paper"><h1>适配方案</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>适配的目标是在不同宽度的屏幕上都能读和操作。百分比依赖容器大小，<code>rem</code> 依赖根元素字号，视口单位依赖视口尺寸。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88">适配方案<span><a href="#label-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E9-80-82-E9-85-8D-E7-9B-AE-E7-9A-84">适配目的<span><a href="#label-E9-80-82-E9-85-8D-E7-9B-AE-E7-9A-84">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>将设计图百分百还原到每一个设备上且等比显示</p>
+
+<h4 id="label-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88-E4-B8-80-3A+-E7-99-BE-E5-88-86-E6-AF-94-E9-80-82-E9-85-8D">适配方案一: 百分比适配<span><a href="#label-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88-E4-B8-80-3A+-E7-99-BE-E5-88-86-E6-AF-94-E9-80-82-E9-85-8D">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h4 id="label-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88-E4-BA-8C-3A+rem-E9-80-82-E9-85-8D">适配方案二: rem适配<span><a href="#label-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88-E4-BA-8C-3A+rem-E9-80-82-E9-85-8D">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li><li>
+<p>rem适配的原理:</p>
+<ul><li>
+<p>改变同一个元素在不同设备上占据的css像素的个数</p>
+</li><li>
+<p>最终使同一个元素在不同设备上所占据的物理像素的个数是不一样的(等比的关系)</p>
+</li><li>
+<p>改变同一个元素在不同设备上占据的css像素的个数</p>
+</li><li>
+<p>最终使同一个元素在不同设备上所占据的物理像素的个数是不一样的(等比的关系)</p>
+</li></ul>
+</li><li>
+<p>rem适配的实现:</p>
+<ul><li>
+<p>本质让1rem等于所有布局视口的宽度(设备物理像素的宽度)</p>
+</li><li>
+<p>可以让<code>width/16</code>让计算rem值的时候避免出现小于1的情况</p>
+</li><li>
+<p>本质让1rem等于所有布局视口的宽度(设备物理像素的宽度)</p>
+</li><li>
+<p>可以让<code>width/16</code>让计算rem值的时候避免出现小于1的情况</p>
+</li></ul>
+</li><li>
+<p>rem适配的方法:</p>
+<ul><li>
+<p>获取布局视口 document.documentElement.clientWidth</p>
+</li><li>
+<p>改变style的样式, 使html的font-size变成布局视口的宽度</p>
+</li><li>
+<p>获取布局视口 document.documentElement.clientWidth</p>
+</li><li>
+<p>改变style的样式, 使html的font-size变成布局视口的宽度</p>
+</li></ul>
+</li><li>
+<p>缺点: 计算复杂</p>
+</li><li>
+<p>优点:</p>
+<ul><li>
+<p>使用meta标签</p>
+</li><li>
+<p>等比效果</p>
+</li><li>
+<p>图片失真不明显</p>
+
+<h6 id="label-rem-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88">rem适配方案<span><a href="#label-rem-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<p>(function(){ var width = document.documentElement.clientWidth;  var styleNode = document.createElement(&#39;style&#39;) styleNode.innerHTML = “html{font-size:” + (width/16) + “px!important}”; document.head.appendChild(styleNode); })();</p>
+</li><li>
+<p>使用meta标签</p>
+</li><li>
+<p>等比效果</p>
+</li><li>
+<p>图片失真不明显</p>
+
+<h6 id="label-rem-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88">rem适配方案<span><a href="#label-rem-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<p>(function(){ var width = document.documentElement.clientWidth;  var styleNode = document.createElement(&#39;style&#39;) styleNode.innerHTML = “html{font-size:” + (width/16) + “px!important}”; document.head.appendChild(styleNode); })();</p>
+</li></ul>
+
+<p>width: 8rem; 就是视口的一半</p>
+
+<h4 id="label-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88-E4-B8-89-3A+viewport-E9-80-82-E9-85-8D">适配方案三: viewport适配<span><a href="#label-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88-E4-B8-89-3A+viewport-E9-80-82-E9-85-8D">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li><li>
+<p>viewport适配的原理:</p>
+<ul><li>
+<p>改变物理像素和css像素之间的比例</p>
+</li></ul>
+</li><li>
+<p>viewport适配的实现:</p>
+<ul><li>
+<p>改变initial-scale的值</p>
+</li></ul>
+</li><li>
+<p>viewport适配的方法:</p>
+<ul><li>
+<p>获得理想视口宽度</p>
+<ul><li>
+<p>可预设meta标签解决screen.width的兼容性</p>
+</li><li>
+<p>document.documentElement.clientWidth</p>
+</li></ul>
+</li><li>
+<p>定义缩放比例为理想视口宽度 / 预定义宽度</p>
+</li><li>
+<p>把定义的缩放比例添加到meta标签里</p>
+</li></ul>
+</li><li>
+<p>缺点:</p>
+<ul><li>
+<p>没有完美视口 (content属性被覆盖)</p>
+</li><li>
+<p>图片会失真</p>
+</li></ul>
+</li><li>
+<p>优点:</p>
+<ul><li>
+<p>设计图中的元素大小可以直接使用</p>
+</li><li>
+<p>等比效果</p>
+</li><li>
+<p>没有复杂计算</p>
+
+<h6 id="label-viewport-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88">viewport适配方案<span><a href="#label-viewport-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<p> var targetWidth = 320;  //获得理想视口的宽度. 但该方式兼容性差  var width = screen.width;  var scale = width / targetWidth;</p>
+</li></ul>
+
+<p>//添加到meta标签  var metaNode = document.createElement(&#39;meta&#39;);  metaNode.setAttribute(&#39;name&#39;,&#39;viewport&#39;);  metaNode.setAttribute(&#39;content&#39;,&#39;initial-scale=&#39;+ scale +&#39;,user-scalable=no&#39;);  document.head.appendChild(metaNode)</p>
+
+<p> width: 160px; 就是视口的一半</p>
+</li></ul>
+
+<h6 id="label-viewport-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88-E4-BC-98-E5-8C-96">viewport适配方案优化<span><a href="#label-viewport-E9-80-82-E9-85-8D-E6-96-B9-E6-A1-88-E4-BC-98-E5-8C-96">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<pre>  var targetWidth = 320;
+  //先添加meta标签再获得屏幕宽度
+  var width = document.documentElement.clientWidth;
+  var scale = width / targetWidth;
+
+  var metaNode = document.querySelector(&#39;meta[name=&quot;viewport&quot;]&#39;);
+  metaNode.setAttribute(&#39;content&#39;,&#39;initial-scale=&#39;+ scale +&#39;,user-scalable=no&#39;);</pre>
+<hr>
+
+<h3 id="label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E8-AE-BE-E8-AE-A1-E5-9B-BE-E7-9A-84-E6-8A-80-E5-B7-A7">移动端设计图的技巧<span><a href="#label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E8-AE-BE-E8-AE-A1-E5-9B-BE-E7-9A-84-E6-8A-80-E5-B7-A7">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>移动端设计图: 750 (更多情况以iPhone6为基准)</p>
+</li><li>
+<p>位图像素要和物理像素一比一才可完美显示</p>
+</li><li>
+<p>更多的位图像素去充斥物理像素顶多锐度有问题, 否则会造成图片失真</p>
+</li><li>
+<p>2x图是给iPhone6及以下分辨率设备使用</p>
+</li><li>
+<p>3x图是给iPhone6 Plus分辨率设备使用</p>
+
+<blockquote>
+<p>以2x图为例: 60*36 位图像素</p>
+
+<p>图片完美清晰的展现: 30*18 CSS像素 (1:2)</p>
+
+<p><code>200*300</code>的img标签(CSS像素) 就需要提供400*600的图片</p>
+</blockquote>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/13_%E7%A7%BB%E5%8A%A8%E7%AB%AF/%E9%80%82%E9%85%8D%E6%96%B9%E6%A1%88.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="13-04.html">上一篇 · META标签</a><a href="13-06.html">下一篇 · 画一条物理像素宽的线</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

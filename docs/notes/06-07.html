@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>闭包 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-06.html">JavaScript 进阶：作用域、闭包和原型</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 进阶：作用域、闭包和原型</strong><a href="06-01.html">数据类型</a><a href="06-02.html">原型</a><a href="06-03.html">this</a><a href="06-04.html">提升</a><a href="06-05.html">上下文环境对象</a><a href="06-06.html">作用域与作用域链</a><a href="06-07.html" aria-current="page">闭包</a><a href="06-08.html">对象创建模式</a><a href="06-09.html">原型链继承</a><a href="06-10.html">线程机制</a><a href="06-11.html">JS引擎</a><a href="06-12.html">Web Workers API</a></nav>
+<article class="paper"><h1>闭包</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>闭包让函数继续访问它定义时所在作用域里的变量。比如计数器返回一个加一函数，外层函数结束后，调用这个函数仍然可以更新原来的计数。</p>
+</section>
+<h3 id="label-E8-AF-95-E8-AF-95-E4-B8-80-E4-B8-AA-E8-AE-A1-E6-95-B0-E5-99-A8">试试一个计数器<span><a href="#label-E8-AF-95-E8-AF-95-E4-B8-80-E4-B8-AA-E8-AE-A1-E6-95-B0-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre>function createCounter() {
+  let count = 0;
+  return function increment() {
+    count += 1;
+    return count;
+  };
+}
+
+const next = createCounter();
+console.log(next()); // 1
+console.log(next()); // 2</pre>
+
+<p><code>createCounter()</code> 只运行了一次。它返回的 <code>increment</code> 仍然能读写那一次调用里的 <code>count</code>。再调用一次 <code>createCounter()</code>，会得到一个独立的计数器。</p>
+
+<h3 id="label-E5-93-AA-E9-87-8C-E4-BC-9A-E7-94-A8-E5-88-B0">哪里会用到<span><a href="#label-E5-93-AA-E9-87-8C-E4-BC-9A-E7-94-A8-E5-88-B0">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>让回调记得创建时的数据，例如给按钮绑定事件时记住当前项目的 ID。</p>
+</li><li>
+<p>将内部数据留在函数里，只把允许外部调用的操作返回出去。</p>
+</li></ul>
+
+<p>如果长期保存的回调引用了大型对象，这些对象可能占用内存更久。清理已经不用的监听器和回调，有助于释放相关数据。</p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/06_JavaScript%E9%AB%98%E7%BA%A7/%E9%97%AD%E5%8C%85.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="06-06.html">上一篇 · 作用域与作用域链</a><a href="06-08.html">下一篇 · 对象创建模式</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

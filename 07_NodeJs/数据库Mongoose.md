@@ -1,3 +1,11 @@
+# 数据库Mongoose
+
+## 先弄懂这件事
+
+Mongoose 让应用用 Schema 描述 MongoDB 文档的形状，再通过 Model 查找、新增和更新数据。先理解这三个词，再读长示例。
+
+## 笔记与示例
+
 ## 数据库大简介
 
 ##### 数据存储基本分类
@@ -830,4 +838,3 @@ Limit(每页的条目数量)
 		Model.find({},null,{limit:20},function(err,docs){
     			console.log(docs);	
 		});
-		

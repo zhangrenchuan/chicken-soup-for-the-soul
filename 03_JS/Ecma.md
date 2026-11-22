@@ -1,46 +1,19 @@
-## ECMAScript
-- 它是一种由ECMA组织（前身为欧洲计算机制造商协会）制定和发布的脚本语言规范
-- JavaScript是ECMA的实现
-- ECMAScript和JavaScript平时表达同一个意思
+# ECMAScript 与 JavaScript
 
-#### JS包含三个部分：
-- ECMAScript（核心）
-- 扩展==>浏览器端
-	* BOM（浏览器对象模型）
-	* DOM（文档对象模型）
-- 扩展==>服务器端
-	* Node
-	
+## 先弄懂这件事
 
-#### ES的几个重要版本
-- ES5 : 09年发布
-- ES6(ES2015) : 15年发布, 也称为ECMA2015
-- ES7(ES2016) : 16年发布, 也称为ECMA2016  (变化不大)
+ECMAScript 规定 JavaScript 语言的语法和行为。操作网页的 DOM 是浏览器提供的接口，学习时可以把语言和运行环境分开理解。
 
-----------
+### 语言规范和运行环境
 
+ECMAScript 是语言规范。我们写的 JavaScript 遵循这套规则。浏览器和 Node.js 还能提供不同的功能，例如浏览器提供 DOM，Node.js 提供文件读写接口。
 
-#### 编写位置
-1. 编写到标签指定属性中. 
-	- 会造成结构和行为的耦合
-	- 不方便后期维护 不推荐使用
-2. 使用````<script>````标签创建JS代码区
-	-  ````<script type="text/javascript"></script>````
-3. 编写在外部js文件里.通过````<script>````标签引入
-	-  ````<script type="text/javascript" src="js/new_file.js"></script>````
+ES5、ES2015（ES6）和 ES2016（ES7）是不同版本的规范。
 
-#### 注释
-- 多行注释(不可被嵌套)  /**/
-- 单行注释 //
+### 把代码放在哪里
 
-#### JS输出
-- 浏览器弹框
-	- ````alert("")````
-- 控制台输出内容
-	- ````console.log()````
-- 控制浏览器页面输出内容
-	- ````document.write()````
-- 开启定时器
-	- ````console.time()````
-- 停止定时器
-	- ````console.timeEnd()````
+网页可以用 `<script>` 写代码，也可以用 `<script src="main.js"></script>` 加载外部文件。把代码放在独立文件中，页面结构和交互代码更容易各自维护。
+
+- `//` 写单行注释，`/* ... */` 写多行注释。
+- 用 `console.log()` 在控制台查看值。
+- 用同一个标签调用 `console.time()` 和 `console.timeEnd()`，可以测量一段代码经过了多久。

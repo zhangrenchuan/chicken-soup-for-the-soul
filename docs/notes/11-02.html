@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>props：接收父组件的数据 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-11.html">React：组件、状态与路由</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>React：组件、状态与路由</strong><a href="11-01.html">入门</a><a href="11-02.html" aria-current="page">props：接收父组件的数据</a><a href="11-03.html">ref：访问页面元素</a><a href="11-04.html">state：保存组件状态</a><a href="11-05.html">生命周期</a><a href="11-06.html">脚手架</a><a href="11-07.html">在 React 中获取数据</a><a href="11-08.html">服务器渲染</a><a href="11-09.html">React 界面组件库</a><a href="11-10.html">组件通信</a><a href="11-11.html">React Router 路由</a></nav>
+<article class="paper"><h1>props：接收父组件的数据</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>props</code> 是上层传给组件的数据。例如父组件传入用户名，子组件负责显示它。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E7-BB-84-E4-BB-B6-E4-B8-89-E5-A4-A7-E5-B1-9E-E6-80-A7+--+props">组件三大属性 – props<span><a href="#label-E7-BB-84-E4-BB-B6-E4-B8-89-E5-A4-A7-E5-B1-9E-E6-80-A7+--+props">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ol><li>
+<p>每个组件实例对象都会有props属性(properties的简写)</p>
+</li><li>
+<p>组件标签的所有 标签属性 都保存在props中</p>
+</li><li>
+<p>作用: 通过标签属性从<strong>组件外部向组件内部传递只读数据</strong>(不可修改props属性)</p>
+</li></ol>
+
+<h5 id="label-props-E6-93-8D-E4-BD-9C-E5-86-85-E9-83-A8-E8-AF-BB-E5-8F-96-E6-9F-90-E4-B8-AA-E5-B1-9E-E6-80-A7-E5-80-BC-3A">props操作内部读取某个属性值:<span><a href="#label-props-E6-93-8D-E4-BD-9C-E5-86-85-E9-83-A8-E8-AF-BB-E5-8F-96-E6-9F-90-E4-B8-AA-E5-B1-9E-E6-80-A7-E5-80-BC-3A">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p><strong>this.props.属性名</strong></p>
+
+<pre>  class Person extends React.Component{
+    render(){
+      return (
+          &lt;ul&gt;
+            &lt;li&gt;姓名: {this.props.name}&lt;/li&gt;
+            &lt;li&gt;年龄: {this.props.age}&lt;/li&gt;
+            &lt;li&gt;性别: {this.props.sex}&lt;/li&gt;
+          &lt;/ul&gt;
+      )
+    }
+  }</pre>
+</li></ul>
+
+<h5 id="label-E5-AE-9A-E4-B9-89-E7-BB-84-E4-BB-B6-E7-9A-84-E9-BB-98-E8-AE-A4props-E5-B1-9E-E6-80-A7">定义组件的默认props属性<span><a href="#label-E5-AE-9A-E4-B9-89-E7-BB-84-E4-BB-B6-E7-9A-84-E9-BB-98-E8-AE-A4props-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p><strong>组件实例.defaultProps = {}</strong></p>
+
+<pre class="ruby">  <span class="ruby-constant">Person</span>.<span class="ruby-identifier">defaultProps</span> = {
+    <span class="ruby-value">age:</span> <span class="ruby-value">18</span>,
+    <span class="ruby-value">sex:</span> <span class="ruby-string">&#39;男&#39;</span>
+  };
+</pre>
+</li></ul>
+
+<h5 id="label-E8-A7-84-E5-AE-9A-E7-BB-84-E4-BB-B6props-E5-B1-9E-E6-80-A7-E7-9A-84-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E5-92-8C-E5-BF-85-E8-A6-81-E6-80-A7">规定组件props属性的数据类型和必要性<span><a href="#label-E8-A7-84-E5-AE-9A-E7-BB-84-E4-BB-B6props-E5-B1-9E-E6-80-A7-E7-9A-84-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E5-92-8C-E5-BF-85-E8-A6-81-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p><strong>组件实例.propTypes = {}</strong></p>
+</li><li>
+<p>isRequired表示该项必填</p>
+
+<pre class="ruby">  <span class="ruby-constant">Person</span>.<span class="ruby-identifier">propTypes</span> = {
+    <span class="ruby-value">name:</span> <span class="ruby-constant">React</span>.<span class="ruby-constant">PropTypes</span>.<span class="ruby-identifier">string</span>.<span class="ruby-identifier">isRequired</span>,
+    <span class="ruby-value">age:</span> <span class="ruby-constant">React</span>.<span class="ruby-constant">PropTypes</span>.<span class="ruby-identifier">number</span>.<span class="ruby-identifier">isRequired</span>
+  }
+</pre>
+</li></ul>
+
+<h5 id="label-E6-89-A9-E5-B1-95-E5-B1-9E-E6-80-A7-3A-E5-AE-9A-E4-B9-89-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-89-80-E6-9C-89-E5-B1-9E-E6-80-A7-E9-80-9A-E8-BF-87props-E4-BC-A0-E9-80-92">扩展属性:定义对象的所有属性通过props传递<span><a href="#label-E6-89-A9-E5-B1-95-E5-B1-9E-E6-80-A7-3A-E5-AE-9A-E4-B9-89-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-89-80-E6-9C-89-E5-B1-9E-E6-80-A7-E9-80-9A-E8-BF-87props-E4-BC-A0-E9-80-92">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>利用三点运算符把定义的对象全部属性传入虚拟dom标签里</p>
+</li><li>
+<p>&lt;组件实例对象 {…定义对象}/&gt;</p>
+</li><li>
+<p>&lt;Person {…person}/&gt;</p>
+
+<pre>  let person1 = {name:&#39;dirk&#39;,age:41,sex:&#39;男&#39;};
+
+  ReactDOM.render(
+    &lt;Person  {...person1}/&gt;,
+    document.getElementById(&#39;example2&#39;)
+  )</pre>
+</li></ul>
+
+<h5 id="label-E7-BB-84-E4-BB-B6-E7-B1-BB-E7-9A-84-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0">组件类的构造函数<span><a href="#label-E7-BB-84-E4-BB-B6-E7-B1-BB-E7-9A-84-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>constructor (props) {
+  super(props);
+  console.log(props); // 查看所有属性
+}</pre>
+
+<p>—</p>
+
+<h6 id="label-E6-8B-86-E5-88-86-E7-BB-84-E4-BB-B6">拆分组件<span><a href="#label-E6-8B-86-E5-88-86-E7-BB-84-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<pre>  //定义Welcom组件
+  function Welcome(props) {
+  	  return &lt;h2&gt;Welcome {props.name}&lt;/h2&gt;
+  }
+
+  //定义app组件 外层
+  class App extends React.Component{
+    render(){
+      return (
+        &lt;div&gt;
+         {
+            this.props.names.map((item,index)=&gt;{
+            return &lt;Welcome key={index} name={item}/&gt;
+         })
+            }
+        &lt;/div&gt;
+      )
+    }
+  }
+
+  let names = [&#39;tom&#39;,&#39;jason&#39;,&#39;bob&#39;];
+  //渲染组件
+  ReactDOM.render(
+      &lt;App names= {names}/&gt;,
+      document.getElementById(&#39;example&#39;)
+  )</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/11_ReactJs/%E7%BB%84%E4%BB%B6%E5%B1%9E%E6%80%A7%E3%81%AEprops.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="11-01.html">上一篇 · 入门</a><a href="11-03.html">下一篇 · ref：访问页面元素</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>META标签 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-13.html">移动网页：像素、视口和适配</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>移动网页：像素、视口和适配</strong><a href="13-01.html">像素概念</a><a href="13-02.html">视口概念</a><a href="13-03.html">缩放行为</a><a href="13-04.html" aria-current="page">META标签</a><a href="13-05.html">适配方案</a><a href="13-06.html">画一条物理像素宽的线</a><a href="13-07.html">移动端事件&amp;问题综合</a><a href="13-08.html">移动端价值链&amp;浏览器</a><a href="13-09.html">zepto框架</a></nav>
+<article class="paper"><h1>META标签</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>视口设置通常放在页面 <code>&lt;head&gt;</code> 里。<code>width=device-width, initial-scale=1</code> 让布局宽度对应设备宽度，并设置初始缩放比例。</p>
+</section>
+<h3 id="label-E5-B8-B8-E8-A7-81-E5-86-99-E6-B3-95">常见写法<span><a href="#label-E5-B8-B8-E8-A7-81-E5-86-99-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</pre>
+<ul><li>
+<p><code>width=device-width</code> 让布局视口宽度对应设备宽度。</p>
+</li><li>
+<p><code>initial-scale=1</code> 把打开页面时的缩放比例设为 1。</p>
+</li><li>
+<p>用户还可以捏合缩放。缩放后，用户此刻看到的范围可能比布局视口小。</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/13_%E7%A7%BB%E5%8A%A8%E7%AB%AF/META%E6%A0%87%E7%AD%BE.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="13-03.html">上一篇 · 缩放行为</a><a href="13-05.html">下一篇 · 适配方案</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

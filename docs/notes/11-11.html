@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>React Router 路由 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-11.html">React：组件、状态与路由</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>React：组件、状态与路由</strong><a href="11-01.html">入门</a><a href="11-02.html">props：接收父组件的数据</a><a href="11-03.html">ref：访问页面元素</a><a href="11-04.html">state：保存组件状态</a><a href="11-05.html">生命周期</a><a href="11-06.html">脚手架</a><a href="11-07.html">在 React 中获取数据</a><a href="11-08.html">服务器渲染</a><a href="11-09.html">React 界面组件库</a><a href="11-10.html">组件通信</a><a href="11-11.html" aria-current="page">React Router 路由</a></nav>
+<article class="paper"><h1>React Router 路由</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>前端路由按地址选择要展示的组件，让浏览器在同一个应用内切换内容。原文 React Router 的写法依赖旧版本。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-React-Router">React-Router<span><a href="#label-React-Router">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h5 id="label-E5-90-8E-E7-AB-AF-E8-B7-AF-E7-94-B1">后端路由<span><a href="#label-E5-90-8E-E7-AB-AF-E8-B7-AF-E7-94-B1">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>path（路由分发）针对不同的路由对应不同的回调函数处理(req, res, next)</p>
+<ul><li>
+<p>req;获取请求参数</p>
+</li><li>
+<p>res：返回请求数据</p>
+</li><li>
+<p>next: 调用后续的回调函数</p>
+
+<h5 id="label-E5-89-8D-E7-AB-AF-E8-B7-AF-E7-94-B1">前端路由<span><a href="#label-E5-89-8D-E7-AB-AF-E8-B7-AF-E7-94-B1">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li></ul>
+</li><li>
+<p>路由是根据不同的url去请求不同的页面内容</p>
+</li><li>
+<p>前端路由就是把不同路由对应不同的内容或页面的任务交给前端来做，之前是通过服务端根据url不同返回不同的页面来实现。</p>
+</li><li>
+<p>利用H5的history.pushState和history.replaceState，这两个history新增的api，为前端操控浏览器历史栈提供了可能性</p>
+</li><li>
+<p>这两个Api都会操作浏览器的历史栈，而不会引起页面的刷新。</p>
+</li><li>
+<p>不同的是，pushState会增加一条新的历史记录，而replaceState则会替换当前的历史记录。</p>
+</li></ul>
+
+<h5 id="label-E5-BA-94-E7-94-A8-EF-BC-9A-E5-8D-95-E9-A1-B5-E9-9D-A2-E5-BA-94-E7-94-A8">应用：单页面应用<span><a href="#label-E5-BA-94-E7-94-A8-EF-BC-9A-E5-8D-95-E9-A1-B5-E9-9D-A2-E5-BA-94-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<h5 id="label-E4-BC-98-E7-82-B9-E5-92-8C-E7-BC-BA-E7-82-B9-EF-BC-9A">优点和缺点：<span><a href="#label-E4-BC-98-E7-82-B9-E5-92-8C-E7-BC-BA-E7-82-B9-EF-BC-9A">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>优点： 用户体验好，不需要每次向服务器发送请求请求页面数据，响应快</p>
+</li><li>
+<p>缺点：使用浏览器的前进，后退键的时候会重新发送请求，没有合理地利用缓存</p>
+</li></ul>
+
+<h3 id="label-HASH-E5-80-BC">HASH值<span><a href="#label-HASH-E5-80-BC">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>将任意长度的二进制字符串通过一定的算法映射成一个固定长度的较小二进制字符串，这个字符串就是对应的hash值，主要特点就是唯一的，不可逆的。</p>
+</li><li>
+<p>hash通常应用在spa单页面应用中。因为通过不同的hash值映射的url可以使浏览器添加一条不同的url历史记录</p>
+</li><li>
+<p>window.location.hash 读取#值</p>
+<ul><li>
+<p>读取时，可以用来判断网页状态是否改变</p>
+</li><li>
+<p>写入时，则会在不重载网页的前提下，创造一条访问历史记录</p>
+</li></ul>
+</li><li>
+<p>window.onhashchange = fun 监听hash值的改变</p>
+</li></ul>
+
+<h3 id="label-URL-E7-9A-84-23-E5-8F-B7">URL的#号<span><a href="#label-URL-E7-9A-84-23-E5-8F-B7">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<h1 id="label-E4-BB-A3-E8-A1-A8-E7-BD-91-E9-A1-B5-E4-B8-AD-E7-9A-84-E4-B8-80-E4-B8-AA-E4-BD-8D-E7-BD-AE-E3-80-82-E5-85-B6-E5-8F-B3-E9-9D-A2-E7-9A-84-E5-AD-97-E7-AC-A6-EF-BC-8C-E5-B0-B1-E6-98-AF-E8-AF-A5-E4-BD-8D-E7-BD-AE-E7-9A-84-E6-A0-87-E8-AF-86-E7-AC-A6">代表网页中的一个位置。其右面的字符，就是该位置的标识符<span><a href="#label-E4-BB-A3-E8-A1-A8-E7-BD-91-E9-A1-B5-E4-B8-AD-E7-9A-84-E4-B8-80-E4-B8-AA-E4-BD-8D-E7-BD-AE-E3-80-82-E5-85-B6-E5-8F-B3-E9-9D-A2-E7-9A-84-E5-AD-97-E7-AC-A6-EF-BC-8C-E5-B0-B1-E6-98-AF-E8-AF-A5-E4-BD-8D-E7-BD-AE-E7-9A-84-E6-A0-87-E8-AF-86-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h1>
+</li><li>
+<h1 id="label-E6-98-AF-E7-94-A8-E6-9D-A5-E6-8C-87-E5-AF-BC-E6-B5-8F-E8-A7-88-E5-99-A8-E5-8A-A8-E4-BD-9C-E7-9A-84-EF-BC-8C-E5-AF-B9-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-AB-AF-E5-AE-8C-E5-85-A8-E6-97-A0-E7-94-A8-E3-80-82-E6-89-80-E4-BB-A5-EF-BC-8CHTTP-E8-AF-B7-E6-B1-82-E4-B8-AD-E4-B8-8D-E5-8C-85-E6-8B-AC">是用来指导浏览器动作的，对服务器端完全无用。所以，HTTP请求中不包括<span><a href="#label-E6-98-AF-E7-94-A8-E6-9D-A5-E6-8C-87-E5-AF-BC-E6-B5-8F-E8-A7-88-E5-99-A8-E5-8A-A8-E4-BD-9C-E7-9A-84-EF-BC-8C-E5-AF-B9-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-AB-AF-E5-AE-8C-E5-85-A8-E6-97-A0-E7-94-A8-E3-80-82-E6-89-80-E4-BB-A5-EF-BC-8CHTTP-E8-AF-B7-E6-B1-82-E4-B8-AD-E4-B8-8D-E5-8C-85-E6-8B-AC">&para;</a> <a href="#top">&uarr;</a></span></h1>
+</li><li>
+<p>单单改变#后的部分，浏览器只会滚动到相应位置，不会重新加载网页</p>
+</li><li>
+<p>这对于ajax应用程序特别有用，可以用不同的#值，表示不同的访问状态，然后向用户给出可以访问某个状态的链接。</p>
+</li><li>
+<p>window.location.hash读取#值</p>
+</li></ul>
+<hr>
+
+<h3 id="label-React-router">React-router<span><a href="#label-React-router">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>react-router库中的相关组件</p>
+<ul><li>
+<p>Router: 路由器组件, 用来包含各个路由组件</p>
+</li><li>
+<p>Route: 路由组件, 注册路由</p>
+</li><li>
+<p>IndexRoute: 默认路由组件</p>
+</li><li>
+<p>hashHistory:路由的切换由URL的hash变化决定，即URL的#部分发生变化</p>
+</li><li>
+<p>Link: 路由链接组件</p>
+</li></ul>
+</li><li>
+<p>Router: 路由器组件</p>
+<ul><li>
+<p>属性: history={hashHistory}用来监听浏览器地址栏的变化</p>
+</li><li>
+<p>hashHistory是react-router提供的对象.保存所有hash的url</p>
+</li><li>
+<p>并将URL解析成一个地址对象，供React Router匹配</p>
+</li><li>
+<p>子组件: Route</p>
+</li></ul>
+</li><li>
+<p>Route: 路由组件</p>
+<ul><li>
+<p>属性1: path=“/xxx” 映射请求的路由路径</p>
+</li><li>
+<p>属性2: component={Xxx} 请求的组件对象</p>
+</li><li>
+<p>根路由组件: path=“/”. 通常对应的是主组件</p>
+</li><li>
+<p>子路由组件: 子&lt;Route&gt;配置的组件</p>
+</li></ul>
+</li><li>
+<p>IndexRoute: 默认路由</p>
+<ul><li>
+<p>当父路由被请求时, 默认就会请求此路由组件</p>
+</li></ul>
+</li><li>
+<p>hashHistory</p>
+<ul><li>
+<p>用于Router组件的history属性</p>
+</li><li>
+<p>作用: 为地址url生成?_k=hash,用于内部保存对应的state</p>
+</li></ul>
+</li><li>
+<p>Link: 路由链接</p>
+<ul><li>
+<p>a标签用Link标签代替. 从react里拿到{Link}</p>
+</li><li>
+<p>属性1: to=“/xxx” 要请求的路由路径</p>
+</li><li>
+<p>属性2: activeClassName=“active” 活动时触发的class名</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-E5-9F-BA-E4-BA-8E-E8-84-9A-E6-89-8B-E6-9E-B6-E5-88-9B-E5-BB-BA-E9-A1-B9-E7-9B-AE">基于脚手架创建项目<span><a href="#label-E5-9F-BA-E4-BA-8E-E8-84-9A-E6-89-8B-E6-9E-B6-E5-88-9B-E5-BB-BA-E9-A1-B9-E7-9B-AE">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p><code>create-react-app hello-react</code></p>
+</li><li>
+<p><code>npm install react-router@3 --save</code></p>
+</li><li>
+<p><strong>定义各个路由组件</strong></p>
+</li><li>
+<p>About.js</p>
+
+<pre>    import React from &#39;react&#39;
+      function About() {
+        return &lt;div&gt;About组件内容&lt;/div&gt;
+    }
+    export default About</pre>
+<ul><li>
+<p>Home.js</p>
+
+<pre>  import React from &#39;react&#39;
+  function Home() {
+    return &lt;div&gt;Home组件内容2&lt;/div&gt;
+  }
+  export default Home</pre>
+</li><li>
+<p>Repos.js</p>
+
+<pre>  import React, {Component} from &#39;react&#39;
+  export default class Repos extends Component {
+    render() {
+      return (
+        &lt;div&gt;Repos组件&lt;/div&gt;
+      )
+    }
+  }</pre>
+</li></ul>
+</li><li>
+<p><strong>定义应用主组件</strong> –&gt; App.js</p>
+
+<pre>import React from &#39;react&#39;;
+import {Link} from &#39;react-router&#39;
+
+class App extends React.Component{
+    render(){
+        return (
+          &lt;div&gt;
+            &lt;h1&gt;Hello. React Router!&lt;/h1&gt;
+
+            &lt;ul&gt;
+              &lt;li&gt;&lt;Link to=&quot;/about&quot;&gt;about&lt;/Link&gt;&lt;/li&gt;
+              &lt;li&gt;&lt;Link to=&quot;/repos&quot;&gt;repos&lt;/Link&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+
+            {this.props.children}
+          &lt;/div&gt;
+        )
+      }
+    }
+export default App</pre>
+</li><li>
+<p>定义配置文件 –&gt; index.js</p>
+
+<pre>   import React from &#39;react&#39;;
+   import ReactDOM from &#39;react-dom&#39;;
+   import {Router,Route,hashHistory,IndexRoute} from &#39;react-router&#39;;
+
+   import App from &#39;./components/App&#39;;
+   import About from &#39;./components/About&#39;;
+   import Repos from &#39;./components/Repos&#39;;
+   import Home from &#39;./components/Home&#39;;
+
+   ReactDOM.render((
+      &lt;Router history={hashHistory}&gt;
+         &lt;Route path=&quot;/&quot; component={App}&gt;
+            &lt;IndexRoute component={Home}&gt;&lt;/IndexRoute&gt;
+            &lt;Route path=&quot;/about&quot; component={About}&gt;&lt;/Route&gt;
+            &lt;Route path=&quot;/repos&quot; component={Repos}&gt;&lt;/Route&gt;
+         &lt;/Route&gt;
+      &lt;/Router&gt;
+    ),
+   document.getElementById(&#39;root&#39;));</pre>
+</li><li>
+<p>配置单页应用链接 Repos.js</p>
+
+<pre>import React, {Component} from &#39;react&#39;;
+import {Link} from &#39;react-router&#39;;
+
+export default class Repos extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      repos:[
+        {name:&#39;facebook&#39;,repo:&#39;yarn&#39;},
+        {name:&#39;facebook&#39;,repo:&#39;react&#39;},
+        {name:&#39;google&#39;,repo:&#39;angular&#39;},
+        {name:&#39;antd&#39;,repo:&#39;antd&#39;}
+      ]
+
+    }
+  }
+render() {
+  return (
+    &lt;div&gt;
+        &lt;h3&gt;Repos组件&lt;/h3&gt;
+        &lt;ul&gt;
+        {
+          this.state.repos.map((item,index)=&gt;{
+          return (
+            &lt;li key={index}&gt;
+                &lt;Link activeClassName=&quot;active&quot;
+                to={`/repos/${item.name}/${item.repo}`}&gt;
+                      {item.repo}
+                &lt;/Link&gt;
+           &lt;/li&gt;
+         )
+      })
+   }
+       &lt;/ul&gt;
+          {this.props.children}
+       &lt;/div&gt;
+    )
+  }
+}</pre>
+</li><li>
+<p>显示 Repo.js</p>
+
+<pre>import React from &#39;react&#39;;
+
+function Repo({params}) {
+  return (
+      &lt;p&gt;
+        用户名:{params.name}
+        仓库名:{params.repo}
+      &lt;/p&gt;
+  )
+}
+
+export default Repo</pre>
+</li><li>
+<p>index.js 补充</p>
+
+<pre>import Repo from &#39;./components/Repo&#39;;
+&lt;Route path=&quot;/repos/:name/:repo&quot; component={Repo}&gt;&lt;/Route&gt;</pre>
+</li></ul>
+<hr>
+
+<h3 id="label-Restless+-28-E9-9D-9Erest-E9-A3-8E-E6-A0-BC-29">Restless (非rest风格)<span><a href="#label-Restless+-28-E9-9D-9Erest-E9-A3-8E-E6-A0-BC-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><a href="http://wangyi.butterfly.mopaasapp.com/detail/api?simpleId=8">wangyi.butterfly.mopaasapp.com/detail/api?simpleId=8</a></p>
+</li><li>
+<p>请求地址里有包含行为的表现</p>
+</li><li>
+<p>请求方式不能决定请求行为</p>
+</li></ul>
+
+<h3 id="label-Restful+API+-28json_server-29">Restful API (json_server)<span><a href="#label-Restful+API+-28json_server-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>请求方式可以决定请求行为</p>
+<ul><li>
+<p>请求行为</p>
+<ul><li>
+<p>添加</p>
+</li><li>
+<p>更新</p>
+</li><li>
+<p>获取</p>
+</li><li>
+<p>删除</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>GET 只能请求数据</p>
+</li><li>
+<p>POST 只能提交数据</p>
+</li><li>
+<p>PUT 只能更新数据</p>
+</li><li>
+<p>DELETE 只能删除数据</p>
+</li><li>
+<p>这种方法各司其职.</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/11_ReactJs/react_router.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="11-10.html">上一篇 · 组件通信</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

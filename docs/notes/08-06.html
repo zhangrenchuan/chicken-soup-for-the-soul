@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>跨域请求 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-08.html">AJAX：请求数据与更新页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AJAX：请求数据与更新页面</strong><a href="08-01.html">简介</a><a href="08-02.html">ajax请求</a><a href="08-03.html">前后端交互</a><a href="08-04.html">用 jQuery 发请求</a><a href="08-05.html">小练习</a><a href="08-06.html" aria-current="page">跨域请求</a><a href="08-07.html">前端模版引擎</a><a href="08-08.html">上传下载文件</a><a href="08-09.html">ajax高级</a><a href="08-10.html">版本控制工具</a></nav>
+<article class="paper"><h1>跨域请求</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>协议、主机或端口不同，就属于不同源。需要前端读取跨源响应时，通常由返回数据的服务器通过 CORS 声明允许哪些来源。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E6-B5-8B-E8-AF-95POST-E8-AF-B7-E6-B1-82-E6-96-B9-E6-B3-95">测试POST请求方法<span><a href="#label-E6-B5-8B-E8-AF-95POST-E8-AF-B7-E6-B1-82-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>使用工具Fiddler</p>
+<ol><li>
+<p>点击Composer</p>
+</li><li>
+<p>选择POST</p>
+</li><li>
+<p>输入服务器的url和路由</p>
+</li><li>
+<p>点 Execute 发送进行测试</p>
+</li></ol>
+<hr>
+
+<h2 id="label-E8-B7-A8-E5-9F-9F-E8-AF-B7-E6-B1-82">跨域请求<span><a href="#label-E8-B7-A8-E5-9F-9F-E8-AF-B7-E6-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>同源策略是浏览器的一种安全策略</p>
+</li><li>
+<p>同源： 域名、协议、端口号 完全相同</p>
+</li></ul>
+
+<h5 id="label-E4-B8-8D-E5-90-8C-E6-BA-90-E5-B0-B1-E6-98-AF-E8-B7-A8-E5-9F-9F">不同源就是跨域<span><a href="#label-E4-B8-8D-E5-90-8C-E6-BA-90-E5-B0-B1-E6-98-AF-E8-B7-A8-E5-9F-9F">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<p><strong>ajax引擎进行同源字符串是否相同的判断</strong></p>
+
+<pre>- 协议名不同
+	http
+	https
+- 域名不同
+	127.0.0.1
+	www.baidu.com
+	www.qq.com
+	localhost
+- 端口不同
+	3000
+	8555</pre>
+<hr>
+
+<pre>举例
+http://www.example.com/dir/page.html 这个网址
+	协议是 ttp://
+	域名是 www.example.com
+	端口是 80（默认端口可以省略）
+它的同源情况如下：
+同源：
+	http://www.example.com/dir2/other.html
+不同源：
+	http://example.com/dir/other.html：不同源（域名不同）
+	http://v2.www.example.com/dir/other.html：不同源（域名不同）
+	http://www.example.com:81/dir/other.html：不同源（端口不同）</pre>
+<hr>
+
+<h3 id="label-E5-AE-9E-E7-8E-B0-E8-B7-A8-E5-9F-9F-E8-AF-B7-E6-B1-82+-28JSONP-29">实现跨域请求 (JSONP)<span><a href="#label-E5-AE-9E-E7-8E-B0-E8-B7-A8-E5-9F-9F-E8-AF-B7-E6-B1-82+-28JSONP-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>JSON with Padding</p>
+
+<p><strong>特点: 只支持get请求, 不支持post请求</strong></p>
+
+<p><strong>原生API实现跨域请求</strong></p>
+
+<p>原理: 用script标签跳过ajax引擎实现跨域</p>
+
+<p>客户端:</p>
+<ol><li>
+<p>动态创建 script 标签</p>
+</li><li>
+<p>适当时机添加创建好的script标签</p>
+</li><li>
+<p>实现功能函数(已经埋伏好html页面中了)</p>
+</li><li>
+<p>埋伏好的参数必须是一个对象</p>
+</li></ol>
+
+<p>服务器端:</p>
+<ol><li>
+<p>var callback = req.query.callback</p>
+</li><li>
+<p>返回的value需要封装成json</p>
+</li><li>
+<p>res.send(callback+&#39;(&#39;<code>json</code>&#39;)&#39;);</p>
+</li></ol>
+
+<p><img src="https://i.imgur.com/Uqs9yj5.png"> <img src="https://i.imgur.com/VGfodjl.png"></p>
+
+<p><strong>jQuery实现跨域请求</strong></p>
+
+<p>客户端: url的后面添加 <code>?callback=?</code></p>
+
+<p><img src="https://i.imgur.com/3sxjDwP.png"></p>
+
+<p>服务器端</p>
+<ol><li>
+<p>var callback = req.query.callback</p>
+</li><li>
+<p>返回的value需要封装成json</p>
+</li><li>
+<p>res.send(callback+&#39;(&#39;<code>json</code>&#39;)&#39;);</p>
+</li></ol>
+
+<p><img src="https://i.imgur.com/JhTCH2P.png"></p>
+<hr>
+
+<h3 id="label-E5-AE-9E-E7-8E-B0-E8-B7-A8-E5-9F-9F-E8-AF-B7-E6-B1-82+-28CORS-29">实现跨域请求 (CORS)<span><a href="#label-E5-AE-9E-E7-8E-B0-E8-B7-A8-E5-9F-9F-E8-AF-B7-E6-B1-82+-28CORS-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Cross-Origin Resource Sharing(跨域资源共享)</p>
+
+<p><strong>特点: 支持get和post请求</strong></p>
+
+<p>客户端 不需要额外做任何工作</p>
+
+<p>服务器端 只需由服务器发送一个响应头即可 <code>Access-Control-Allow-Origin</code></p>
+<ul><li>
+<p>允许所有域访问 Access-Control-Allow-Origin: *</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/ZUM6K2B.png"></p>
+<ul><li>
+<p>允许指定域访问 Access-Control-Allow-Origin: 域名A</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/TNvpnbp.png"></p>
+
+<p><strong>例子</strong></p>
+
+<pre>//客户端
+var url = &#39;http://127.0.0.1:3000/cors&#39;;
+	var data = {username: &#39;haha&#39;};
+	$(function () {
+		  $(&#39;#name&#39;).blur(function () {
+      $.post(url, data, function (responseData) {
+        alert(responseData);
+      }, &#39;text&#39;);
+    })
+	});
+
+//服务器端
+router.post(&#39;/cors&#39;,function (req,res,next) {
+res.setHeader(&#39;Access-Control-Allow-Origin&#39;,&#39;*&#39;);
+  res.send(&#39;cors&#39;)
+});</pre>
+
+<h4 id="label-CORS-E5-AD-98-E5-9C-A8-E6-B5-8F-E8-A7-88-E5-99-A8-E5-85-BC-E5-AE-B9-E7-9A-84-E9-97-AE-E9-A2-98">CORS存在浏览器兼容的问题<span><a href="#label-CORS-E5-AD-98-E5-9C-A8-E6-B5-8F-E8-A7-88-E5-99-A8-E5-85-BC-E5-AE-B9-E7-9A-84-E9-97-AE-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><img src="https://i.imgur.com/DefGTC7.png"></p>
+
+<h4 id="label-JSONP-E5-92-8CCORS-E5-8C-BA-E5-88-AB">JSONP和CORS区别<span><a href="#label-JSONP-E5-92-8CCORS-E5-8C-BA-E5-88-AB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>CORS 除了 GET 方法外，也支持其它的 HTTP 请求方法如 POST、 PUT 等。</p>
+</li><li>
+<p>CORS 可以使用 XmlHttpRequest 进行传输，所以它的错误处理方式比 JSONP 好。</p>
+</li><li>
+<p>JSONP 可以在不支持 CORS 的老旧浏览器上运作。</p>
+</li></ol>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/08_AJAX/%E8%B7%A8%E5%9F%9F%E8%AF%B7%E6%B1%82.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="08-05.html">上一篇 · 小练习</a><a href="08-07.html">下一篇 · 前端模版引擎</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

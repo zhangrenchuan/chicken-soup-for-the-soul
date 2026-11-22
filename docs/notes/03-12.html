@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>BOM · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-03.html">JavaScript 基础</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 基础</strong><a href="03-01.html">ECMAScript 与 JavaScript</a><a href="03-02.html">JS基本语法</a><a href="03-03.html">JS数据类型</a><a href="03-04.html">JS运算符</a><a href="03-05.html">JS语句</a><a href="03-06.html">JS对象</a><a href="03-07.html">JS函数</a><a href="03-08.html">JS数组</a><a href="03-09.html">JS内置对象方法</a><a href="03-10.html">正则表达式</a><a href="03-11.html">DOM</a><a href="03-12.html" aria-current="page">BOM</a><a href="03-13.html">JSON</a></nav>
+<article class="paper"><h1>BOM</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>BOM 指浏览器窗口提供的接口。读当前网址用 <code>location</code>，操作前进后退用 <code>history</code>，这些都属于浏览器环境。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h1 id="label-BOM">BOM<span><a href="#label-BOM">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<h2 id="label-Browser+Object+Model">Browser Object Model<span><a href="#label-Browser+Object+Model">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>浏览器对象模型</p>
+</li><li>
+<p>BOM对象都是作为window对象的属性保存的</p>
+</li><li>
+<p>window 代表浏览器窗口</p>
+</li><li>
+<p>navigator 代表浏览器的信息.可用来识别浏览器</p>
+</li><li>
+<p>history 浏览器的历史记录</p>
+</li><li>
+<p>location 代表浏览器的地址栏信息</p>
+</li><li>
+<p>screen 用户的显示器信息</p>
+</li></ul>
+
+<h4 id="label-window">window<span><a href="#label-window">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>window.innerHeight</p>
+<ul><li>
+<p>浏览器窗口的内部高度(包括滚动条)</p>
+</li></ul>
+</li><li>
+<p>window.innerWidth</p>
+<ul><li>
+<p>浏览器窗口的内部宽度(包括滚动条)</p>
+</li></ul>
+</li><li>
+<p>window.outerWidth</p>
+<ul><li>
+<p>整个浏览器的宽度</p>
+</li></ul>
+</li><li>
+<p>window.outerHeight</p>
+<ul><li>
+<p>整个浏览器的高度</p>
+</li></ul>
+</li><li>
+<p>window.pageXoffset</p>
+<ul><li>
+<p>返回当前页面相对于窗口显示区左上角X的位置</p>
+</li></ul>
+</li><li>
+<p>window.pageYoffset</p>
+<ul><li>
+<p>返回当前页面相对于窗口显示区左上角Y的位置</p>
+</li></ul>
+</li><li>
+<p>window.screenLeft</p>
+<ul><li>
+<p>返回相对于屏幕窗口的x坐标</p>
+</li></ul>
+</li><li>
+<p>window.screenTop</p>
+<ul><li>
+<p>返回相对于屏幕窗口的y坐标</p>
+</li></ul>
+</li><li>
+<p>document.documentElement.clientHeight</p>
+<ul><li>
+<p>获取可见内容的高度(不包括滚动条边框)</p>
+</li></ul>
+</li><li>
+<p>document.documentElement.clientWidth</p>
+<ul><li>
+<p>获取元素内容区宽度(不包括滚动条边框)</p>
+</li></ul>
+</li><li>
+<p>window.open()</p>
+<ul><li>
+<p>打开新窗口</p>
+</li></ul>
+</li><li>
+<p>window.close()</p>
+<ul><li>
+<p>关闭当前窗口</p>
+</li></ul>
+</li><li>
+<p>window.moveTo()</p>
+<ul><li>
+<p>移动当前窗口</p>
+</li></ul>
+</li><li>
+<p>window.resizeTo()</p>
+<ul><li>
+<p>调整当前窗口的尺寸</p>
+</li></ul>
+</li></ul>
+
+<p><img src="https://i.imgur.com/NqKJbKn.gif"></p>
+
+<h4 id="label-navigator">navigator<span><a href="#label-navigator">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>判断浏览器的信息</p>
+</li><li>
+<p>由于历史原因navigator大部分属性都不能用来识别浏览器了</p>
+</li><li>
+<p>仅剩的属性userAgent可判断浏览器版本</p>
+
+<pre>//通过userAgent来判断浏览器的信息
+if(/firefox/i.test(ua)){
+	alert(&quot;火狐浏览器&quot;);
+}else if(/edge/i.test(ua)){
+	alert(&quot;Edge浏览器&quot;)
+}else if(/chrome/i.test(ua)){
+	alert(&quot;chrome浏览器&quot;);
+}else if(/msie/i.test(ua)){
+	alert(&quot;ie11以下浏览器&quot;);
+}else if(&quot;ActiveXObject&quot; in window){
+	alert(&quot;ie11浏览器&quot;);
+}</pre>
+</li></ul>
+
+<h4 id="label-history">history<span><a href="#label-history">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>该对象代表用户的历史记录</p>
+</li><li>
+<p>由于隐私原因该对象只能控制浏览器向前或向后翻页</p>
+</li><li>
+<p>只可访问当次的历史记录</p>
+
+<pre>//history.length 可以获取当次访问历史记录的数量
+
+//history.back(); 可以回退到上一个页面.功能相当于浏览器的后退按钮
+
+//history.forward();可以跳转到下一个页面.功能相当于浏览器的前进按钮
+
+//history.go();可以跳转到指定的页面.
+//需要一个整数作为参数.将会跳转指定数量的页面</pre>
+</li></ul>
+
+<h4 id="label-location">location<span><a href="#label-location">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>表示浏览器地址栏的信息</p>
+</li><li>
+<p>直接输出location会返回当前页面的地址</p>
+</li><li>
+<p>直接修改location的值会使浏览器跳转到修改的地址</p>
+
+<pre>location.assign(); 可以用来跳转到指定的页面.
+  - 需要一个路径作为参数.将会跳转到该路径
+  - 会生成历史记录
+
+location.replace(); 也可以跳转到指定页面
+  - 同样需要一个地址作为参数
+  - 用法和assign()一样
+  - 不会生成历史记录.不可以回退
+
+location.reload(true); 刷新当前页面
+  - 在该方法中可以传递一个true.则会强制清空缓存</pre>
+</li></ul>
+
+<h4 id="label-E5-AE-9A-E6-97-B6-E8-B0-83-E7-94-A8-E5-AE-9A-E6-97-B6-E5-99-A8">定时调用定时器<span><a href="#label-E5-AE-9A-E6-97-B6-E8-B0-83-E7-94-A8-E5-AE-9A-E6-97-B6-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>每间隔一段时间就调用指定的函数一次</p>
+</li><li>
+<p>可执行多次</p>
+</li><li>
+<p><strong>setInterval()开启一个定时</strong></p>
+</li><li>
+<p>参数:</p>
+<ul><li>
+<p>回调函数.</p>
+</li><li>
+<p>函数调用相隔时间的毫秒数</p>
+</li></ul>
+</li><li>
+<p>返回值:</p>
+<ul><li>
+<p>会返回一个number类型的值</p>
+</li><li>
+<p>该number就是定时器的标识.需要有一个变量来接收</p>
+</li></ul>
+</li><li>
+<p><strong>clearInterval() 关闭定时器</strong></p>
+</li><li>
+<p>参数: 定时器的标识</p>
+</li></ul>
+
+<h4 id="label-E5-BB-B6-E6-97-B6-E8-B0-83-E7-94-A8-E5-AE-9A-E6-97-B6-E5-99-A8">延时调用定时器<span><a href="#label-E5-BB-B6-E6-97-B6-E8-B0-83-E7-94-A8-E5-AE-9A-E6-97-B6-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>函数不马上执行,而是过一段时间以后再执行</p>
+</li><li>
+<p>只执行一次</p>
+</li><li>
+<p><strong>setTimeout()来设置延时调用</strong></p>
+</li><li>
+<p>参数:</p>
+<ul><li>
+<p>回调函数</p>
+</li><li>
+<p>延迟执行的毫秒数</p>
+</li></ul>
+</li><li>
+<p><strong>clearTimeout() 关闭延时调用定时器</strong></p>
+</li></ul>
+
+<h4 id="label-E5-BC-B9-E7-AA-97">弹窗<span><a href="#label-E5-BC-B9-E7-AA-97">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>alert() 警告框</p>
+</li><li>
+<p>confirm() 确认框 (含有确认和取消按钮)</p>
+</li><li>
+<p>prompt() 提示输入框</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/03_JS/BOM.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="03-11.html">上一篇 · DOM</a><a href="03-13.html">下一篇 · JSON</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

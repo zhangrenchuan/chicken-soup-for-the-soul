@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>路由 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html" aria-current="page">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>路由</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>路由决定由哪段代码处理请求。先匹配请求方法和路径，再读取参数，最后返回结果。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E8-B7-AF-E7-94-B1">路由<span><a href="#label-E8-B7-AF-E7-94-B1">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h5 id="label-E6-A0-B9-E6-8D-AE-E7-94-A8-E6-88-B7-E8-BE-93-E5-85-A5-E7-9A-84-E6-96-87-E4-BB-B6-E8-B7-AF-E5-BE-84-2C+-E6-89-BE-E5-88-B0-E6-9C-8D-E5-8A-A1-E5-99-A8-E8-B5-84-E6-BA-90-E7-9A-84-E8-BF-87-E7-A8-8B">根据用户输入的文件路径, 找到服务器资源的过程<span><a href="#label-E6-A0-B9-E6-8D-AE-E7-94-A8-E6-88-B7-E8-BE-93-E5-85-A5-E7-9A-84-E6-96-87-E4-BB-B6-E8-B7-AF-E5-BE-84-2C+-E6-89-BE-E5-88-B0-E6-9C-8D-E5-8A-A1-E5-99-A8-E8-B5-84-E6-BA-90-E7-9A-84-E8-BF-87-E7-A8-8B">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<h5 id="label-url-E6-96-87-E4-BB-B6-E8-B7-AF-E5-BE-84-E5-92-8C-E6-9C-8D-E5-8A-A1-E5-99-A8-E8-B5-84-E6-BA-90-E7-9A-84-E6-98-A0-E5-B0-84-E5-85-B3-E7-B3-BB">url文件路径和服务器资源的映射关系<span><a href="#label-url-E6-96-87-E4-BB-B6-E8-B7-AF-E5-BE-84-E5-92-8C-E6-9C-8D-E5-8A-A1-E5-99-A8-E8-B5-84-E6-BA-90-E7-9A-84-E6-98-A0-E5-B0-84-E5-85-B3-E7-B3-BB">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<h3 id="label-E4-B8-89-E6-9D-BF-E6-96-A7">三板斧<span><a href="#label-E4-B8-89-E6-9D-BF-E6-96-A7">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ol><li>
+<p>获得输入数据</p>
+</li><li>
+<p>处理数据服务器寻找对应资源</p>
+</li><li>
+<p>返回数据</p>
+</li></ol>
+
+<p>使用语法: if_else; switch_case</p>
+
+<pre>var http = require(&#39;http&#39;);
+
+var server = http.createServer(function serverHandler(req, res) {
+
+//1. 获得输入数据
+  var url = req.url;
+  console.log(url);
+ /*
+   /                首页
+   /html/index.asp  html的首页
+   /js/index.asp    js的首页
+ */
+
+//2. 找对应资源 处理数据并返回数据
+  if(url === &#39;/&#39;){
+    res.end(&#39;首页&#39;)
+  }else if(url === &#39;/html/index.asp&#39;){
+    res.end(&#39;html教程首页&#39;)
+  }else if(url === &#39;/js/index.asp&#39;){
+    res.end(&#39;js教程首页&#39;)
+  }else{
+    res.statusCode = 404;
+    res.end(&#39;not found&#39;)
+  }
+
+  //3. 返回数据
+  //res.end(&#39;he2&#39;)
+
+}).listen(3000, function () {
+    console.log(&#39;server started&#39;);
+});</pre>
+<hr>
+
+<pre>  var http = require(&#39;http&#39;);
+  var server = http.createServer(function serverHandler(req, res) {
+  var url = req.url;
+
+  switch(url){
+    case &#39;/&#39;:   //匹配资源
+      res.end(&#39;首页&#39;);
+      break;
+    case &#39;/html/index.asp&#39;:
+      res.end(&#39;html教程首页&#39;);
+      break;
+    case &#39;/js/index.asp&#39;:
+      res.end(&#39;js教程首页&#39;);
+      break;
+    default:
+      res.statusCode = 404;
+      res.end(&#39;not found&#39;)
+  }
+
+  res.end()
+
+}).listen(3000, function () {
+    console.log(&#39;server started&#39;);
+});</pre>
+
+<h2 id="label-GET-E8-8E-B7-E5-8F-96-E6-95-B0-E6-8D-AE">GET获取数据<span><a href="#label-GET-E8-8E-B7-E5-8F-96-E6-95-B0-E6-8D-AE">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<pre>var url = require(&#39;url&#39;) //引入url包专门处理url字符串. 返回一个对象
+var urlSrt = requset.url   //获得url地址的字符串
+var urlObj = url.pares(urlStr, true)  //获得url地址的对象</pre>
+<ul><li>
+<p>parse(urlStr, true) 转换字符串</p>
+</li><li>
+<p>urlStr url的地址字符串</p>
+</li><li>
+<p>true 解析出来的对象里面有.query这个对象</p>
+</li><li>
+<p>search 查询字符串</p>
+</li><li>
+<p>query 查询字符串(对象格式)</p>
+</li><li>
+<p>pathname 文件路径</p>
+</li></ul>
+<h2 id="get-post-">get和post区别</h2><table>
+<thead>
+<tr>
+<th>区别</th>
+<th>GET</th>
+<th>POST</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方法</td>
+<td>默认方法</td>
+<td>from表单故意设置</td>
+</tr>
+<tr>
+<td>请求数据</td>
+<td>url里面</td>
+<td>请求体中</td>
+</tr>
+<tr>
+<td>发送数据</td>
+<td>只发送一个包</td>
+<td>至少发送两个包</td>
+</tr>
+<tr>
+<td>安全性</td>
+<td>不安全</td>
+<td>不安全(相对get安全点)</td>
+</tr>
+</tbody>
+</table>
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/%E8%B7%AF%E7%94%B1.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-03.html">上一篇 · HTTP服务器建立</a><a href="07-05.html">下一篇 · Buffer 缓冲区</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

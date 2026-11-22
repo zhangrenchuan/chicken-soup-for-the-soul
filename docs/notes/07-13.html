@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>cookie · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html" aria-current="page">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>cookie</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>Cookie 是浏览器按站点规则保存的一小段数据。符合规则的后续请求可以带回它，服务器便可用它识别会话等信息。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-Cookie">Cookie<span><a href="#label-Cookie">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-cookie+-E4-BD-9C-E7-94-A8">cookie 作用<span><a href="#label-cookie+-E4-BD-9C-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>1.存储用户个性化的数据</p>
+
+<p>2.把数据存储在浏览器里</p>
+
+<h4 id="label-cookie-E6-9C-AC-E8-B4-A8">cookie本质<span><a href="#label-cookie-E6-9C-AC-E8-B4-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>1.本质是一个存储在浏览器的文本</p>
+
+<p>2.随着http请求自动传递给服务器</p>
+
+<h4 id="label-cookie-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F">cookie生命周期<span><a href="#label-cookie-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>session时间: 浏览器关闭就被删除</p>
+
+<p>绝对时间: 超过设定的时间就被删除</p>
+
+<h4 id="label-cookie+-E7-94-9F-E6-88-90">cookie 生成<span><a href="#label-cookie+-E7-94-9F-E6-88-90">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-AB-AF-E6-93-8D-E4-BD-9Ccookie">服务器端操作cookie<span><a href="#label-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-AB-AF-E6-93-8D-E4-BD-9Ccookie">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ol><li>
+<p>生成</p>
+<ul><li>
+<p>响应报文中加一个首部字段. 添加cookie</p>
+</li><li>
+<p>res.cookie(&#39;name&#39;,&#39;value&#39;)</p>
+</li></ul>
+</li><li>
+<p>删除</p>
+<ul><li>
+<p>res.clearCookie(&#39;name&#39;);</p>
+</li></ul>
+</li></ol>
+
+<h4 id="label-E6-B5-8F-E8-A7-88-E5-99-A8-E6-93-8D-E4-BD-9Ccookie">浏览器操作cookie<span><a href="#label-E6-B5-8F-E8-A7-88-E5-99-A8-E6-93-8D-E4-BD-9Ccookie">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>1.引入jQuery框架和 cookie插件 <code> 	&lt;script src=&quot;./jquery-1.10.1.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt; </code> <code> 	&lt;script src=&quot;./jquery.cookie.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt; </code></p>
+
+<p>2.设置cookie</p>
+
+<p><code> 	$.cookie(&#39;name&#39;,&#39;value&#39;) </code></p>
+
+<p>3.修改cookie</p>
+
+<p><code> 	$.cookie(&#39;name&#39;,&#39;new value&#39;) </code></p>
+
+<p>4.查询cookie</p>
+
+<p><code> 	var result = $.cookie(&#39;name&#39;) </code></p>
+
+<p><code> 	console.log(result) </code></p>
+
+<p>5.本地cookie显示在input标签中 <code> $(&#39;#userName&#39;).val(result); val有值代表添加 无值代表读取 </code></p>
+
+<p>6.删除cookie</p>
+
+<p><code> $.removeCookie(&#39;name&#39;) </code></p>
+
+<h4 id="label-cookie-E7-94-A8-E6-88-B7-E5-90-8D-E8-87-AA-E5-8A-A8-E5-A1-AB-E5-85-85">cookie用户名自动填充<span><a href="#label-cookie-E7-94-A8-E6-88-B7-E5-90-8D-E8-87-AA-E5-8A-A8-E5-A1-AB-E5-85-85">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>1.当用户登录成功之后, 服务器向浏览器生成 cookie</p>
+
+<pre>- 名: THE_LAST_LOGIN
+- 值: 用户名</pre>
+
+<p>2.浏览器读取cookie. 把cookie的值填充到input标签中</p>
+
+<h4 id="label-cookie-E4-BC-98-E7-BC-BA-E7-82-B9">cookie优缺点<span><a href="#label-cookie-E4-BC-98-E7-BC-BA-E7-82-B9">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>缺点:</p>
+<ol><li>
+<p>对于用户来说可以直接看到 不安全</p>
+</li><li>
+<p>浏览器用户可以删除或禁用cookie</p>
+</li><li>
+<p>很多网站滥用cookie导致用户反感</p>
+</li><li>
+<p>浪费带宽 每请求一次页面就要发送一次</p>
+</li><li>
+<p>大小受限 4kb</p>
+</li><li>
+<p>使用不便 需要使用插件或者封装方法</p>
+</li></ol>
+
+<p>优点:</p>
+<ol><li>
+<p>减少服务器的cup和内存资源的消耗.</p>
+</li><li>
+<p>在各种应用场景中都可以用. 集成在http协议里了</p>
+</li></ol>
+<hr>
+
+<h3 id="label-E9-A2-98-E7-9B-AE-EF-BC-9AsessionStorage-2C+localStorage-2C+-E5-92-8C+cookie+-E7-9A-84-E5-8C-BA-E5-88-AB-E5-92-8C-E4-BC-98-E7-BC-BA-E7-82-B9">题目：sessionStorage, localStorage, 和 cookie 的区别和优缺点<span><a href="#label-E9-A2-98-E7-9B-AE-EF-BC-9AsessionStorage-2C+localStorage-2C+-E5-92-8C+cookie+-E7-9A-84-E5-8C-BA-E5-88-AB-E5-92-8C-E4-BC-98-E7-BC-BA-E7-82-B9">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><strong>1.描述 sessionStorage 和 localStorage</strong></p>
+
+<p>html5中新提供的Web Storage 包括了两种存储方式：sessionStorage 和 localStorage。</p>
+<ul><li>
+<p>区别</p>
+</li><li>
+<p>sessionStorage 用于本地存储一次会话的数据. 会话结束后数据也随之销毁</p>
+</li><li>
+<p>localStorage 用于持久化的本地存储。除非主动删除数据，否则数据是永不过期的</p>
+</li><li>
+<p>共同点</p>
+</li><li>
+<p>localStorage和sessionStorage都具有相同的操作方法</p>
+</li><li>
+<p>例如setItem、getItem和removeItem等</p>
+</li><li>
+<p>都有兼容性问题</p>
+</li></ul>
+<hr>
+
+<p><strong>2.web storage 和 cookie 的区别</strong></p>
+
+<p>Web Storage的概念和 cookie 相似，区别是它是为了更大容量存储设计的。</p>
+
+<p><strong>cookie的缺点：</strong></p>
+<ul><li>
+<p>Cookie的<strong>大小</strong>是受限的 大概4kb</p>
+</li><li>
+<p>每次请求一个新的页面的时候Cookie都会被发送过去，无形中浪费了<strong>带宽</strong></p>
+</li><li>
+<p>cookie还需要指定作用域，不可以跨域调用</p>
+</li><li>
+<p>cookie使用不方便。</p>
+<ul><li>
+<p>Web Storage拥有setItem,getItem,removeItem,clear等方法。</p>
+</li><li>
+<p>cookie需要前端开发者自己封装setCookie，getCookie或者使用插件</p>
+</li></ul>
+</li></ul>
+
+<p><strong>cookie的优势：</strong></p>
+<ul><li>
+<p>cookie也是不可以或缺的：</p>
+<ul><li>
+<p>cookie的作用是与服务器进行交互，作为<strong>HTTP规范</strong>的一部分而存在</p>
+</li><li>
+<p>Web Storage仅仅是为了在本地“存储”数据而生</p>
+</li></ul>
+</li><li>
+<p><strong>兼容性</strong></p>
+<ul><li>
+<p>cookie年头久，浏览器支持性很好</p>
+</li><li>
+<p>web storage 较新，只有比较新的浏览器才支持</p>
+</li></ul>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/cookie.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-12.html">上一篇 · Express</a><a href="07-14.html">下一篇 · JSON&amp;XML</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

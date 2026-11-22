@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>HTTP入门 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html" aria-current="page">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>HTTP入门</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>HTTP 是客户端和服务器交换请求与响应的规则。看一个请求时，先找方法和地址。看响应时，先找状态码和返回内容。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-HTTP-E7-BD-91-E7-BB-9C-E4-BD-93-E7-B3-BB">HTTP网络体系<span><a href="#label-HTTP-E7-BD-91-E7-BB-9C-E4-BD-93-E7-B3-BB">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-Web-E7-BD-91-E9-A1-B5-E5-91-88-E7-8E-B0-E7-9A-84-E8-BF-87-E7-A8-8B">Web网页呈现的过程<span><a href="#label-Web-E7-BD-91-E9-A1-B5-E5-91-88-E7-8E-B0-E7-9A-84-E8-BF-87-E7-A8-8B">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>客户端（浏览器）发送请求（ULR）通过网络到达服务器。</p>
+</li><li>
+<p>服务器运算后，生成文件，将文件通过网络，返回给客户端</p>
+</li><li>
+<p>客户端解析文件呈现。</p>
+</li></ul>
+
+<h4 id="label-E5-AE-A2-E6-88-B7-E7-AB-AF-EF-BC-88Client-EF-BC-89">客户端（Client）<span><a href="#label-E5-AE-A2-E6-88-B7-E7-AB-AF-EF-BC-88Client-EF-BC-89">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>为客户提供本地服务的程序</p>
+</li></ul>
+
+<h4 id="label-E6-9C-8D-E5-8A-A1-E5-99-A8-EF-BC-88Server-EF-BC-89">服务器（Server）<span><a href="#label-E6-9C-8D-E5-8A-A1-E5-99-A8-EF-BC-88Server-EF-BC-89">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>给客户提供计算服务的硬件设备或者软件程序。</p>
+</li><li>
+<p>硬件意义的服务器: 一台超高性能的计算机</p>
+</li><li>
+<p>软件意义的服务器: 程序员所写关于服务器的代码</p>
+</li></ul>
+
+<h4 id="label-E9-80-9A-E4-BF-A1-E5-B1-82">通信层<span><a href="#label-E9-80-9A-E4-BF-A1-E5-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>应用层 – 传输html文件</p>
+<ul><li>
+<p>HTTP 协议。</p>
+</li></ul>
+</li><li>
+<p>传输层（TCP层） – 建立可靠的信道</p>
+<ul><li>
+<p>TCP（Transmission Control Protocol，传输控制协议）</p>
+</li><li>
+<p>UDP（User Data Protocol，用户数据报协议）</p>
+</li></ul>
+</li><li>
+<p>网络层（IP层）– 每台电脑的标识</p>
+<ul><li>
+<p>IP（Internet Protocol，网络互连协议） <img src="https://i.imgur.com/enIkdSm.pngrdoc-image:http://i.imgur.com/iP5gli7.png"></p>
+</li></ul>
+</li></ul>
+
+<p>HTTP传送就好比封装信，信封，邮局打包包裹，装载集装箱，邮轮运输。 HTTP接收拆封就好比邮轮抵达，集装箱卸载，拆封打包好的包裹，传递信封，最后读信的内容。</p>
+
+<p>俄罗斯套娃也是这个道理。</p>
+<hr>
+
+<h2 id="label-HTTP-E5-8D-8F-E8-AE-AE">HTTP协议<span><a href="#label-HTTP-E5-8D-8F-E8-AE-AE">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>客户端: 请求访问文本或图像等资源的一端</p>
+</li><li>
+<p>服务器端: 提供资源响应的一端。</p>
+</li><li>
+<p>连接通信: 在一条通信线路上必定有一端是客户端，另一端是服务器端。</p>
+</li><li>
+<p>发起请求: 必须客户端先发出请求后,服务器端响应并请求返回</p>
+</li></ul>
+
+<h4 id="label-E6-B5-8F-E8-A7-88-E5-99-A8-E4-B8-8E-E6-9C-8D-E5-8A-A1-E5-99-A8-E4-B9-8B-E9-97-B4-E9-80-9A-E4-BF-A1-E8-BF-87-E7-A8-8B-E8-A6-81-E7-BB-8F-E5-8E-86-E5-9B-9B-E4-B8-AA-E6-AD-A5-E9-AA-A4">浏览器与服务器之间通信过程要经历四个步骤<span><a href="#label-E6-B5-8F-E8-A7-88-E5-99-A8-E4-B8-8E-E6-9C-8D-E5-8A-A1-E5-99-A8-E4-B9-8B-E9-97-B4-E9-80-9A-E4-BF-A1-E8-BF-87-E7-A8-8B-E8-A6-81-E7-BB-8F-E5-8E-86-E5-9B-9B-E4-B8-AA-E6-AD-A5-E9-AA-A4">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>通过ip识别进行TCP连接</p>
+</li><li>
+<p>浏览器打包内容通过请求报文发送请求信息</p>
+</li><li>
+<p>服务器接收请求信息并通过响应报文回送数据</p>
+</li><li>
+<p>浏览器接收回送信息后断开连接</p>
+</li></ol>
+
+<p><img src="https://i.imgur.com/XdX2esg.png"> <img src="https://i.imgur.com/q0KcPI1.png"></p>
+
+<h3 id="label-E8-AF-B7-E6-B1-82-E6-8A-A5-E6-96-87">请求报文<span><a href="#label-E8-AF-B7-E6-B1-82-E6-8A-A5-E6-96-87">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-E8-AF-B7-E6-B1-82-E5-A4-B4">请求头<span><a href="#label-E8-AF-B7-E6-B1-82-E5-A4-B4">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>第一行</p>
+<ul><li>
+<p>请求方法 (常用的 GET POST)</p>
+</li><li>
+<p>请求资源的名字 URI (也就是文件路径)</p>
+</li><li>
+<p>协议版本（目前都是HTTP/1.1）</p>
+</li></ul>
+</li><li>
+<p>请求首部字段（可选的、可配置的. 名值段结构 ） 中间用空行隔开(请求脖)</p>
+</li><li>
+<p>请求体</p>
+<ul><li>
+<p>内容实体构成的</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E5-93-8D-E5-BA-94-E6-8A-A5-E6-96-87">响应报文<span><a href="#label-E5-93-8D-E5-BA-94-E6-8A-A5-E6-96-87">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-E5-93-8D-E5-BA-94-E5-A4-B4">响应头<span><a href="#label-E5-93-8D-E5-BA-94-E5-A4-B4">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>第一行</p>
+<ul><li>
+<p>协议版本</p>
+</li><li>
+<p>状态码</p>
+</li><li>
+<p>状态码短语（解释说明状态码的意义）</p>
+</li></ul>
+</li><li>
+<p>响应首部字段（可选的、可配置的. 名值段结构） 中间用空行隔开</p>
+</li><li>
+<p>响应体</p>
+<ul><li>
+<p>从服务器获得的数据</p>
+</li></ul>
+</li></ul>
+
+<p><img src="https://i.imgur.com/mON9dNm.png"></p>
+
+<h3 id="label-E6-8A-A5-E6-96-87-E8-AF-B7-E6-B1-82-E6-96-B9-E6-B3-95">报文请求方法<span><a href="#label-E6-8A-A5-E6-96-87-E8-AF-B7-E6-B1-82-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><strong>GET方法没有请求体实体内容</strong></p>
+
+<p><strong>POST方法有请求体实体内容</strong></p>
+
+<p><strong>GET方法的使用频率远远高于POST方法</strong></p>
+
+<p><img src="https://i.imgur.com/ub9XHT7.png"> <img src="https://i.imgur.com/lKlpDKS.png"> <img src="https://i.imgur.com/8U20pqT.png"></p>
+<hr>
+
+<h2 id="label-URL">URL<span><a href="#label-URL">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>/ 表示根目录</p>
+
+<p>#sharp 锚链接</p>
+
+<p>:80 端口号(HTTP服务端口)</p>
+
+<p>? 分隔符</p>
+
+<p>&amp; 分割各个名值段</p>
+
+<p>= 连接名值段</p>
+
+<p>查询文件路径指的是查询某个资源</p>
+
+<p><strong>DNS: 完成IP地址和域名之间的映射关系</strong></p>
+
+<p>比如: <a href="https://www.baidu.com">www.baidu.com</a> === 220.181.112.224</p>
+
+<p>IP地址是交给计算机记忆的. 而人类只能记住域名</p>
+
+<p><img src="https://i.imgur.com/xWB5eJW.png"></p>
+
+<h2 id="label-E7-AB-AF-E5-8F-A3-E5-8F-B7">端口号<span><a href="#label-E7-AB-AF-E5-8F-A3-E5-8F-B7">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>物理端口</p>
+<ul><li>
+<p>物理存在的端口，</p>
+</li><li>
+<p>如ADSL 集线器 交换机 路由器上用于连接其他网络设备的接口</p>
+</li></ul>
+</li><li>
+<p>逻辑端口</p>
+<ul><li>
+<p>逻辑意义上用于区分服务的端口，如TCP/IP协议中的服务端口</p>
+</li><li>
+<p>端口号的默认取值范围从0到65535</p>
+</li></ul>
+</li><li>
+<p>重点: 用于浏览网页服务的80端口，用于FTP服务的21端口等。</p>
+</li><li>
+<p>为了对端口进行区分，将每个端口进行了编号，这就是端口号。</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/FnEjDIX.png"></p>
+
+<p>熟知端口号已经被系统所占. (80端口专门提供HTTP服务)</p>
+
+<p>建议申请端口号范围: 1024-65535</p>
+
+<p>一个IP地址允许向外发布不限数量的端口号</p>
+
+<p>IP地址对应一台机器.而一台机器可以有很多端口提供不同的服务</p>
+
+<h4 id="label-Socket+-28-E5-AD-94+-E6-8F-92-E5-BA-A7+-E5-A5-97-E6-8E-A5-E5-AD-97-29">Socket (孔 插座 套接字)<span><a href="#label-Socket+-28-E5-AD-94+-E6-8F-92-E5-BA-A7+-E5-A5-97-E6-8E-A5-E5-AD-97-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-E7-BD-91-E7-BB-9C-E4-B8-8A-E7-9A-84-E4-B8-A4-E4-B8-AA-E7-A8-8B-E5-BA-8F-E9-80-9A-E8-BF-87-E4-B8-80-E4-B8-AA-E5-8F-8C-E5-90-91-E7-9A-84-E9-80-9A-E4-BF-A1-E8-BF-9E-E6-8E-A5-E5-AE-9E-E7-8E-B0-E6-95-B0-E6-8D-AE-E7-9A-84-E4-BA-A4-E6-8D-A2-EF-BC-8C-E8-BF-99-E4-B8-AA-E8-BF-9E-E6-8E-A5-E7-9A-84-E4-B8-80-E7-AB-AF-E7-A7-B0-E4-B8-BAsocket+-E7-94-A8-E4-BA-8E-E6-8F-8F-E8-BF-B0IP-E5-9C-B0-E5-9D-80-E5-92-8C-E7-AB-AF-E5-8F-A3">网络上的两个程序通过一个双向的通信连接实现数据的交换，这个连接的一端称为socket 用于描述IP地址和端口<span><a href="#label-E7-BD-91-E7-BB-9C-E4-B8-8A-E7-9A-84-E4-B8-A4-E4-B8-AA-E7-A8-8B-E5-BA-8F-E9-80-9A-E8-BF-87-E4-B8-80-E4-B8-AA-E5-8F-8C-E5-90-91-E7-9A-84-E9-80-9A-E4-BF-A1-E8-BF-9E-E6-8E-A5-E5-AE-9E-E7-8E-B0-E6-95-B0-E6-8D-AE-E7-9A-84-E4-BA-A4-E6-8D-A2-EF-BC-8C-E8-BF-99-E4-B8-AA-E8-BF-9E-E6-8E-A5-E7-9A-84-E4-B8-80-E7-AB-AF-E7-A7-B0-E4-B8-BAsocket+-E7-94-A8-E4-BA-8E-E6-8F-8F-E8-BF-B0IP-E5-9C-B0-E5-9D-80-E5-92-8C-E7-AB-AF-E5-8F-A3">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<p><strong>Socket = IP + Port</strong> <strong>Socket = IP地址 + 端口号</strong> <strong>其背后就是端口号所提供的一个服务</strong></p>
+
+<p><img src="https://i.imgur.com/aXJCYKh.png"></p>
+
+<h2 id="label-E7-8A-B6-E6-80-81-E7-A0-81">状态码<span><a href="#label-E7-8A-B6-E6-80-81-E7-A0-81">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><img src="https://i.imgur.com/0E2grDj.png"></p>
+<ul><li>
+<p><strong>200 成功</strong></p>
+</li><li>
+<p>204 请求成功但没有信息可以返回</p>
+</li><li>
+<p>206 返回部分内容</p>
+</li><li>
+<p>300 重定向其他服务器.永远改变位置</p>
+</li><li>
+<p>302 重定向其他服务器 暂时改变位置</p>
+</li><li>
+<p>303 重定向其他服务器 临时改变位置</p>
+</li><li>
+<p><strong>304 重定向到浏览器的缓存. 不改变主体内容 Not Modified</strong></p>
+</li><li>
+<p>400 存在语法错误的请求报文</p>
+</li><li>
+<p>401 未授权</p>
+</li><li>
+<p>403 禁止访问</p>
+</li><li>
+<p><strong>404 没找到 Not Found 无法找到请求的资源</strong></p>
+</li><li>
+<p><strong>500 服务器内部错误 Internal Server Error</strong></p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/HTTP%E5%85%A5%E9%97%A8.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-01.html">上一篇 · Node基础</a><a href="07-03.html">下一篇 · HTTP服务器建立</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

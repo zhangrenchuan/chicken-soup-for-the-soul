@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>Vuex · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-15.html">附录：Vue 2 与 Vuex</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>附录：Vue 2 与 Vuex</strong><a href="15-01.html">Vue2.0</a><a href="15-02.html" aria-current="page">Vuex</a></nav>
+<article class="paper"><h1>Vuex</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>Vuex 把多个组件要共用的状态集中管理。<code>state</code> 存数据，<code>mutation</code> 修改数据，<code>action</code> 可以先处理异步操作，再提交修改。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-Vuex">Vuex<span><a href="#label-Vuex">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>Github: <a href="https://github.com/vuejs/vuex">github.com/vuejs/vuex</a></p>
+</li><li>
+<p>文档: vuex.vuejs.org</p>
+</li><li>
+<p>安装: npm install vuex –save</p>
+</li></ul>
+
+<h3 id="label-vuex+-E6-A6-82-E5-BF-B5">vuex 概念<span><a href="#label-vuex+-E6-A6-82-E5-BF-B5">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>Vuex是一个专为Vue.js应用程序开发的状态管理模式</p>
+</li><li>
+<p>它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化</p>
+</li></ul>
+
+<h3 id="label-E7-8A-B6-E6-80-81-E8-87-AA-E7-AE-A1-E7-90-86-E5-BA-94-E7-94-A8">状态自管理应用<span><a href="#label-E7-8A-B6-E6-80-81-E8-87-AA-E7-AE-A1-E7-90-86-E5-BA-94-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>state，驱动应用的数据源, 相当于data；</p>
+</li><li>
+<p>view，以声明方式将state映射到视图；</p>
+</li><li>
+<p>actions，响应在view上的用户输入导致的状态变化。</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/LBYfMzX.png"></p>
+
+<blockquote>
+<p>问题: 当我们的应用遇到多个组件共享状态时，单向数据流的简洁性很容易被破坏</p>
+<ol><li>
+<p>多个视图依赖于同一状态。</p>
+</li><li>
+<p>来自不同视图的行为需要变更同一状态。</p>
+</li><li>
+<p>以前的解决办法:</p>
+<ul><li>
+<p>将数据以及操作数据的行为定义在父组件</p>
+</li><li>
+<p>将数据以及操作数据的行为传递给需要的各个子组件(可能多层传递)</p>
+</li></ul>
+</li></ol>
+</blockquote>
+<hr>
+
+<h4 id="label-Vuex-E6-A0-B8-E5-BF-83+--+State">Vuex核心 – State<span><a href="#label-Vuex-E6-A0-B8-E5-BF-83+--+State">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>单一状态树(唯一数据源). 用一个对象就包含了全部的应用层级状态.</p>
+</li><li>
+<p>每个应用将仅仅包含一个 store 实例</p>
+</li><li>
+<p>单一状态树让我们能够直接地定位任一特定的状态片段，在调试的过程中也能轻易地取得整个当前应用状态的快照</p>
+</li><li>
+<p>Vuex 通过 store 选项，提供了一种机制将状态从根组件『注入』到每一个子组件中（需调用 Vue.use(Vuex)）</p>
+</li><li>
+<p>通过在根实例中注册 store 选项，该 store 实例会注入到根组件下的所有子组件中，且子组件能通过 this.$store 访问到</p>
+
+<pre class="ruby"><span class="ruby-identifier">const</span> <span class="ruby-identifier">state</span> = {
+	<span class="ruby-value">xxx:</span> <span class="ruby-identifier">initValue</span>
+}
+</pre>
+</li></ul>
+
+<h4 id="label-Vuex-E6-A0-B8-E5-BF-83+--+Mutations">Vuex核心 – Mutations<span><a href="#label-Vuex-E6-A0-B8-E5-BF-83+--+Mutations">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>包含多个更新state的方法(回调函数)的对象.</p>
+</li><li>
+<p>由action中的commit方法来触发</p>
+
+<pre>const mutations = {
+	yyy (state) {
+	// 更新state某个属性	
+  }
+}</pre>
+</li></ul>
+
+<h4 id="label-Vuex-E6-A0-B8-E5-BF-83+--+Actions">Vuex核心 – Actions<span><a href="#label-Vuex-E6-A0-B8-E5-BF-83+--+Actions">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Action 提交的是 mutation，而不是直接变更状态.</p>
+</li><li>
+<p>通过执行commit()来触发mutation的调用.间接更新state</p>
+</li><li>
+<p>由组件中的 $store.dispatch(&#39;action名称&#39;)触发</p>
+</li><li>
+<p>可包含多个任意异步操作</p>
+<ul><li>
+<p>定时器</p>
+</li><li>
+<p>ajax</p>
+</li><li>
+<p>定时器</p>
+</li><li>
+<p>ajax</p>
+
+<pre>const actions = {
+	zzz ({commit, state}, data) {
+	 commit(&#39;yyy&#39;) //事件名
+  }
+}</pre>
+</li></ul>
+</li></ul>
+
+<h4 id="label-Vuex-E6-A0-B8-E5-BF-83+--+Getters">Vuex核心 – Getters<span><a href="#label-Vuex-E6-A0-B8-E5-BF-83+--+Getters">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>包含多个计算属性 (get) 对象</p>
+</li><li>
+<p>Getters 会暴露为 store.getters 对象</p>
+</li><li>
+<p>由 $store.getters.xxx 来读取</p>
+</li><li>
+<p>store 中定义『getters』（可以认为是 store 的计算属性）。Getters 接受 state 作为其第一个参数</p>
+
+<pre>const getters = {
+	mmm (state) {
+	 return
+  }
+}</pre>
+</li></ul>
+
+<h4 id="label-Vuex-E6-A0-B8-E5-BF-83+--+Modules">Vuex核心 – Modules<span><a href="#label-Vuex-E6-A0-B8-E5-BF-83+--+Modules">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>Vuex 允许将 store 分割成模块, 每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块——从上至下进行同样方式的分割</p>
+
+<h5 id="label-E5-90-91-E5-A4-96-E6-9A-B4-E9-9C-B2store-E5-AF-B9-E8-B1-A1">向外暴露store对象<span><a href="#label-E5-90-91-E5-A4-96-E6-9A-B4-E9-9C-B2store-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>export default new Vuex.store({
+	state,
+	mutations,
+	actions,
+	getters
+})</pre>
+
+<h5 id="label-E7-BB-84-E4-BB-B6-E4-B8-AD-E6-98-A0-E5-B0-84">组件中映射<span><a href="#label-E7-BB-84-E4-BB-B6-E4-B8-AD-E6-98-A0-E5-B0-84">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>import {mapGetters, mapActions} from &#39;vuex&#39;
+export default ({
+	computer: mapGetters([&#39;mmm&#39;])
+	methods: mapActions([&#39;zzz&#39;])
+})
+
+{{mmm}} @click=&quot;zzz(data)&quot;</pre>
+
+<h5 id="label-E6-98-A0-E5-B0-84store">映射store<span><a href="#label-E6-98-A0-E5-B0-84store">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>import store from &#39;./store&#39;
+new Vue({
+	store
+})</pre>
+
+<h4 id="label-E5-B0-86vuex-E5-BC-95-E5-88-B0-E9-A1-B9-E7-9B-AE-E4-B8-AD">将vuex引到项目中<span><a href="#label-E5-B0-86vuex-E5-BC-95-E5-88-B0-E9-A1-B9-E7-9B-AE-E4-B8-AD">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: npm install vuex –save</p>
+</li><li>
+<p>使用vuex:</p>
+
+<pre>store.js
+	import Vuex from &#39;vuex&#39;
+	export default new Vuex.Store({
+		state,
+		mutations,
+		actions,
+		getters,
+		modules
+	})
+main.js
+	import store from &#39;./store.js&#39;
+	new Vue({
+		store
+	})</pre>
+</li></ul>
+
+<p><img src="https://i.imgur.com/oL4GZt7.png"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/15/Vuex.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="15-01.html">上一篇 · Vue2.0</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

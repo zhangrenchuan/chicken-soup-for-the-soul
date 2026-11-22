@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>缩放行为 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-13.html">移动网页：像素、视口和适配</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>移动网页：像素、视口和适配</strong><a href="13-01.html">像素概念</a><a href="13-02.html">视口概念</a><a href="13-03.html" aria-current="page">缩放行为</a><a href="13-04.html">META标签</a><a href="13-05.html">适配方案</a><a href="13-06.html">画一条物理像素宽的线</a><a href="13-07.html">移动端事件&amp;问题综合</a><a href="13-08.html">移动端价值链&amp;浏览器</a><a href="13-09.html">zepto框架</a></nav>
+<article class="paper"><h1>缩放行为</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>捏合放大时，用户一次能看到的页面范围通常会变小。这个范围叫视觉视口，可以和页面排版使用的宽度分开理解。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-E7-B3-BB-E7-BB-9F-E7-BC-A9-E6-94-BE-E8-A1-8C-E4-B8-BA">系统缩放行为<span><a href="#label-E7-B3-BB-E7-BB-9F-E7-BC-A9-E6-94-BE-E8-A1-8C-E4-B8-BA">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>&lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1.0&quot; /&gt;</code></p>
+</li><li>
+<p>initial-scale是基于理想视口进行计算的</p>
+</li><li>
+<p>initial-scale大于1是放大操作. 小于1是缩小操作</p>
+</li><li>
+<p>放大所包含的CSS像素个数变少. 缩小所包含的CSS像素个数变多</p>
+</li><li>
+<p>改变视觉视口的同时也会改变布局视口的宽度</p>
+</li></ul>
+
+<h3 id="label-E7-94-A8-E6-88-B7-E7-BC-A9-E6-94-BE-E8-A1-8C-E4-B8-BA">用户缩放行为<span><a href="#label-E7-94-A8-E6-88-B7-E7-BC-A9-E6-94-BE-E8-A1-8C-E4-B8-BA">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h5 id="label-PC-E7-AB-AF-E7-BC-A9-E6-94-BE-E6-93-8D-E4-BD-9C">PC端缩放操作<span><a href="#label-PC-E7-AB-AF-E7-BC-A9-E6-94-BE-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ol><li>
+<p>块元素大小不变(只是呈现面积改变)</p>
+</li><li>
+<p>内联元素随字体缩放大小而改变</p>
+</li><li>
+<p>html的视口都会变小</p>
+</li></ol>
+
+<h4 id="label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E7-BC-A9-E6-94-BE-E6-93-8D-E4-BD-9C">移动端缩放操作<span><a href="#label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E7-BC-A9-E6-94-BE-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>元素大小不变</p>
+</li><li>
+<p>不会影响布局视口</p>
+</li></ol>
+
+<h4 id="label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E8-A7-86-E8-A7-89-E8-A7-86-E5-8F-A3-E6-94-BE-E5-A4-A7-3A">移动端视觉视口放大:<span><a href="#label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E8-A7-86-E8-A7-89-E8-A7-86-E5-8F-A3-E6-94-BE-E5-A4-A7-3A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>CSS像素面积变大</p>
+</li><li>
+<p>一个CSS像素所包含的物理像素个数变多</p>
+</li><li>
+<p>视觉视口所包含的CSS像素个数变少</p>
+</li></ul>
+
+<h4 id="label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E8-A7-86-E8-A7-89-E8-A7-86-E5-8F-A3-E7-BC-A9-E5-B0-8F-3A">移动端视觉视口缩小:<span><a href="#label-E7-A7-BB-E5-8A-A8-E7-AB-AF-E8-A7-86-E8-A7-89-E8-A7-86-E5-8F-A3-E7-BC-A9-E5-B0-8F-3A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>CSS像素面积变小</p>
+</li><li>
+<p>一个CSS像素所包含的物理像素的个数减少</p>
+</li><li>
+<p>视觉视口所包含的CSS像素个数变多</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/13_%E7%A7%BB%E5%8A%A8%E7%AB%AF/%E7%BC%A9%E6%94%BE%E8%A1%8C%E4%B8%BA.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="13-02.html">上一篇 · 视口概念</a><a href="13-04.html">下一篇 · META标签</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

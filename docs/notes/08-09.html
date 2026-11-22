@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>ajax高级 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-08.html">AJAX：请求数据与更新页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AJAX：请求数据与更新页面</strong><a href="08-01.html">简介</a><a href="08-02.html">ajax请求</a><a href="08-03.html">前后端交互</a><a href="08-04.html">用 jQuery 发请求</a><a href="08-05.html">小练习</a><a href="08-06.html">跨域请求</a><a href="08-07.html">前端模版引擎</a><a href="08-08.html">上传下载文件</a><a href="08-09.html" aria-current="page">ajax高级</a><a href="08-10.html">版本控制工具</a></nav>
+<article class="paper"><h1>ajax高级</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>请求发送后可以监听进度、结束和出错事件。上传大文件时，进度事件可以用来更新进度条。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-AJXA+-E9-AB-98-E7-BA-A7">AJXA 高级<span><a href="#label-AJXA+-E9-AB-98-E7-BA-A7">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><strong>var xhr = new XMLHttpRequest();</strong></p>
+
+<p><strong>设置 response 的类型</strong></p>
+<ul><li>
+<p>属性 responseType</p>
+</li><li>
+<p>属性值</p>
+<ul><li>
+<p>默认值:＂＂ String类型</p>
+</li><li>
+<p>“text” String类型</p>
+</li><li>
+<p>“document” Doument对象类型.返回xml格式使用</p>
+</li><li>
+<p>“json” javascript对象类型. IE不支持</p>
+</li><li>
+<p>“blob” Blob对象类型</p>
+</li><li>
+<p>“arrayBuffer” ArrayBuffer对象类型</p>
+</li><li>
+<p>默认值:＂＂ String类型</p>
+</li><li>
+<p>“text” String类型</p>
+</li><li>
+<p>“document” Doument对象类型.返回xml格式使用</p>
+</li><li>
+<p>“json” javascript对象类型. IE不支持</p>
+</li><li>
+<p>“blob” Blob对象类型</p>
+</li><li>
+<p>“arrayBuffer” ArrayBuffer对象类型</p>
+</li></ul>
+</li><li>
+<p>例子:</p>
+
+<pre>//设置请求返回数据的类型为二进制类型数据
+xhr.responseType = &#39;blob&#39;;</pre>
+</li></ul>
+
+<p><strong>获取 response 的数据</strong></p>
+<ul><li>
+<p>xhr.response</p>
+<ul><li>
+<p>默认值为空字符串 “”</p>
+</li><li>
+<p>当请求完成时该属性才有正确的值</p>
+</li></ul>
+</li><li>
+<p>xhr.responseText</p>
+<ul><li>
+<p>默认值为空字符串 “”</p>
+</li><li>
+<p>只有当 responseType 为“text”或者“”时，此属性才能被读取.否则报错</p>
+</li></ul>
+</li><li>
+<p>xhr.responseXML</p>
+<ul><li>
+<p>默认值为 null</p>
+</li><li>
+<p>该类型不常用</p>
+</li><li>
+<p>只有当 responseType 为“text”或者“”或者“document”时，此属性才能被读取. 否则报错</p>
+</li></ul>
+</li></ul>
+
+<p><strong>报文首部字段</strong></p>
+<ul><li>
+<p>设置请求报文首部字段</p>
+<ul><li>
+<p>xhr.setRequestHeader(&#39;content-type&#39;, &#39;xxx&#39;);</p>
+</li></ul>
+</li><li>
+<p>获得响应报文首部字段</p>
+<ul><li>
+<p>xhr.getResponseHeader(&#39;Content-Type:&#39;);</p>
+</li><li>
+<p>可能的返回值 : video/x-ms-wmv</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-AJAX+-E9-AB-98-E7-BA-A7-E4-BA-8B-E4-BB-B6-E7-B3-BB-E7-BB-9F">AJAX 高级事件系统<span><a href="#label-AJAX+-E9-AB-98-E7-BA-A7-E4-BA-8B-E4-BB-B6-E7-B3-BB-E7-BB-9F">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><strong>服务器上传数据</strong></p>
+<ul><li>
+<p>附着在 xhr.upload 对象上</p>
+</li><li>
+<p>七大事件</p>
+<ul><li>
+<p>xhr.upload.onloadstart</p>
+</li><li>
+<p><strong>xhr.upload.onprogress</strong></p>
+<ul><li>
+<p>每50ms触发一次</p>
+</li><li>
+<p>上传数据时触发</p>
+</li><li>
+<p>xhr.send()之后 xhr.readystate=2之前</p>
+</li><li>
+<p>此时 xhr.readyState == 1</p>
+</li></ul>
+</li><li>
+<p>xhr.upload.onabort 清除</p>
+</li><li>
+<p>xhr.upload.timeout 超时</p>
+</li><li>
+<p>xhr.upload.error 出错</p>
+</li><li>
+<p><strong>xhr.upload.load</strong> 完成</p>
+<ul><li>
+<p>上传完成.完全上传完数据时触发 此时xhr.readyState == 1</p>
+</li></ul>
+</li><li>
+<p>xhr.upload.onloadend 结束</p>
+</li></ul>
+</li></ul>
+
+<p><strong>从服务器下载</strong></p>
+<ul><li>
+<p>附着在 xhr 对象本身上</p>
+</li><li>
+<p>七大事件</p>
+<ul><li>
+<p>xhr.onloadstart 调用send()后触发. 此时readyState == 1</p>
+</li><li>
+<p><strong>xhr.onprogress</strong></p>
+<ul><li>
+<p>每50ms触发一次</p>
+</li><li>
+<p>下载数据时但未完成时触发</p>
+</li><li>
+<p>xhr.send()之后 readystate=3之后readystate == 4之前</p>
+</li><li>
+<p>此时 xhr.readyState == 3</p>
+</li></ul>
+</li><li>
+<p>xhr.onabort 清除</p>
+</li><li>
+<p>xhr.timeout 超时</p>
+</li><li>
+<p>xhr.error 出错</p>
+</li><li>
+<p><strong>xhr.load</strong> 完成</p>
+<ul><li>
+<p>下载完成.完全获得服务器数据时触发 此时readyState == 4</p>
+</li></ul>
+</li><li>
+<p>xhr.onloadend 结束</p>
+</li></ul>
+</li></ul>
+
+<p><strong>readyState 的切换事件</strong></p>
+<ul><li>
+<p>附着在 xhr 对象上</p>
+</li><li>
+<p>onreadystatechange</p>
+</li><li>
+<p>readystate状态改变时执行. 总共执行四次</p>
+</li></ul>
+
+<p><strong>事件的触发顺序</strong></p>
+
+<p><img src="https://i.imgur.com/BM0WVHw.png"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/08_AJAX/ajax%E9%AB%98%E7%BA%A7.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="08-08.html">上一篇 · 上传下载文件</a><a href="08-10.html">下一篇 · 版本控制工具</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

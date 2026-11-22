@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>$冲突问题 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-05.html">jQuery：操作旧项目中的页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>jQuery：操作旧项目中的页面</strong><a href="05-01.html">jQuery入门</a><a href="05-02.html">jQuery选择器</a><a href="05-03.html">用 jQuery 修改页面</a><a href="05-04.html">jQuery事件</a><a href="05-05.html" aria-current="page">$冲突问题</a><a href="05-06.html">jQuery动画</a><a href="05-07.html">jQuery类数组操作</a><a href="05-08.html">jQuery插件</a></nav>
+<article class="paper"><h1>$冲突问题</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>$</code> 可能被多个库使用。<code>jQuery.noConflict()</code> 可以交还这个名称的使用权，之后仍可通过 <code>jQuery(...)</code> 调用。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E4-B8-8E-E5-85-B6-E4-BB-96JS-E5-BA-93-E5-85-B1-E5-AD-98">与其他JS库共存<span><a href="#label-E4-B8-8E-E5-85-B6-E4-BB-96JS-E5-BA-93-E5-85-B1-E5-AD-98">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h5 id="label-E5-85-88-E5-BC-95-E5-85-A5-E5-85-B6-E4-BB-96JS-E5-BA-93-2C-E5-90-8E-E5-BC-95-E5-85-A5jQuery">先引入其他JS库,后引入jQuery<span><a href="#label-E5-85-88-E5-BC-95-E5-85-A5-E5-85-B6-E4-BB-96JS-E5-BA-93-2C-E5-90-8E-E5-BC-95-E5-85-A5jQuery">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>“$”符号属于其他JS库</p>
+</li><li>
+<p>jQuery中不再使用“$”符号.而使用jQuery</p>
+
+<pre class="ruby"><span class="ruby-identifier">jQuery</span>(<span class="ruby-identifier">document</span>).<span class="ruby-identifier">ready</span>(<span class="ruby-identifier">function</span>(){
+    <span class="ruby-identifier">console</span>.<span class="ruby-identifier">log</span>(<span class="ruby-string">&quot;this is ready.&quot;</span>);
+});
+</pre>
+</li></ul>
+
+<h5 id="label-E5-90-8E-E5-BC-95-E5-85-A5jQuery-E7-9A-84-E5-BA-93-E6-96-87-E4-BB-B6+--+-E9-BB-98-E8-AE-A4-24-E4-BD-BF-E7-94-A8-E6-9D-83-E6-98-AFjQuery">后引入jQuery的库文件 – 默认$使用权是jQuery<span><a href="#label-E5-90-8E-E5-BC-95-E5-85-A5jQuery-E7-9A-84-E5-BA-93-E6-96-87-E4-BB-B6+--+-E9-BB-98-E8-AE-A4-24-E4-BD-BF-E7-94-A8-E6-9D-83-E6-98-AFjQuery">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<h5 id="label-E8-B0-83-E7-94-A8jQuery.noConflict-28-29-3B+--+-E7-9B-B8-E5-BD-93-E4-BA-8E-E4-B8-BB-E5-8A-A8-E6-94-BE-E5-BC-83-22-24-22">调用jQuery.noConflict(); – 相当于主动放弃“$”<span><a href="#label-E8-B0-83-E7-94-A8jQuery.noConflict-28-29-3B+--+-E7-9B-B8-E5-BD-93-E4-BA-8E-E4-B8-BB-E5-8A-A8-E6-94-BE-E5-BC-83-22-24-22">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>第二种方式</p>
+
+<pre>jQuery(document).ready(function($){
+    // 在当前函数中使用&quot;$&quot;符号 - jQuery
+});
+// &quot;$&quot;符号 - 其他JS库</pre>
+</li><li>
+<p>第三种方式</p>
+
+<pre>(function($){
+    // 用自调函数$还是jQuery
+})(jQuery);
+// &quot;$&quot;符号 - 其他JS库</pre>
+</li><li>
+<p>第四种方式</p>
+
+<pre>jQuery.noConflict();
+jQuery(function($){
+    console.log($(&quot;p&quot;).text());
+});</pre>
+</li><li>
+<p>第五种方式</p>
+
+<pre>jQuery.noConflict();
+(function($){
+    console.log($(&quot;p&quot;).text());
+	//回调函数形参传$还是jQuery的
+})(jQuery);</pre>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/05_jQuery/%24%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="05-04.html">上一篇 · jQuery事件</a><a href="05-06.html">下一篇 · jQuery动画</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

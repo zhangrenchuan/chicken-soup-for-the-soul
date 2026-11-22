@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>zepto框架 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-13.html">移动网页：像素、视口和适配</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>移动网页：像素、视口和适配</strong><a href="13-01.html">像素概念</a><a href="13-02.html">视口概念</a><a href="13-03.html">缩放行为</a><a href="13-04.html">META标签</a><a href="13-05.html">适配方案</a><a href="13-06.html">画一条物理像素宽的线</a><a href="13-07.html">移动端事件&amp;问题综合</a><a href="13-08.html">移动端价值链&amp;浏览器</a><a href="13-09.html" aria-current="page">zepto框架</a></nav>
+<article class="paper"><h1>zepto框架</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>Zepto 是语法和 jQuery 相近的旧版移动网页工具库。阅读示例时，留意相同的方法名不保证行为完全一致。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E7-A7-BB-E5-8A-A8-E7-AB-AFzepto-E6-A1-86-E6-9E-B6">移动端zepto框架<span><a href="#label-E7-A7-BB-E5-8A-A8-E7-AB-AFzepto-E6-A1-86-E6-9E-B6">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>zepto.js 移动端开发框架；</p>
+</li><li>
+<p>API及语句同jquery相似，但文件更小(可压缩至8KB)。</p>
+</li><li>
+<p>是目前功能完备的库中，最小的一个。</p>
+</li></ul>
+
+<h4 id="label-zepto.js-E7-89-B9-E7-82-B9">zepto.js特点<span><a href="#label-zepto.js-E7-89-B9-E7-82-B9">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>1、针对的是移动端</p>
+
+<p>2、轻量级，压缩版本只有8KB</p>
+
+<p>3、语法大部分同jquery一样，学习成本低，上手快。</p>
+
+<p>4、响应，执行快。</p>
+
+<p>5、同jquery一样都是以$为核心函数。</p>
+
+<h4 id="label-jQuery-E5-92-8Czepto-E7-9B-B8-E5-90-8C-E7-9A-84-E8-AF-AD-E6-B3-95-E7-89-B9-E6-80-A7">jQuery和zepto相同的语法特性<span><a href="#label-jQuery-E5-92-8Czepto-E7-9B-B8-E5-90-8C-E7-9A-84-E8-AF-AD-E6-B3-95-E7-89-B9-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>核心函数</p>
+<ul><li>
+<p>选择器字符串</p>
+</li><li>
+<p>Dom Code</p>
+</li><li>
+<p>创建html的标签</p>
+</li><li>
+<p>function(){}</p>
+</li></ul>
+</li><li>
+<p>核心对象</p>
+<ul><li>
+<p>$.each()</p>
+</li><li>
+<p>$.ajax()</p>
+</li><li>
+<p>$.isArray()</p>
+</li></ul>
+</li><li>
+<p>jQuery对象</p>
+<ul><li>
+<p>核心函数调用返回的就是jQuery对象(伪数组)</p>
+</li><li>
+<p>方法:addClass() show() find()</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-zepto-E4-B8-8EjQuery-E7-9A-84-E5-8C-BA-E5-88-AB">zepto与jQuery的区别<span><a href="#label-zepto-E4-B8-8EjQuery-E7-9A-84-E5-8C-BA-E5-88-AB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>attr与prop的区别</strong></p>
+
+<p>1、prop多用在标签的固有属性，布尔值属性。比如：a标签的href，class，selected，checked等。</p>
+
+<p>2、attr多用在自定义属性上。</p>
+
+<p>jquery中用attr获取布尔值属性且布尔值属性在标签内没有定义的时候会得到undefined；</p>
+
+<p>zepto中用attr也可以获取布尔值属性;</p>
+
+<p>prop在读取属性的时候优先级高于attr，布尔值属性的读取还是建议用prop;</p>
+
+<p><strong>坑！zepto中removeProp()的方法。在1.2+版本才支持。</strong></p>
+
+<p><strong>Dom配置对象的区别</strong></p>
+
+<p>zepto在插入dom元素时可以配置对象. 但是jQuery不能配置对象</p>
+
+<p>比如：id，class等</p>
+
+<pre>例子: var $insert = $(&#39;&lt;p&gt;我是新添加的p标签&lt;/p&gt;&#39;, {
+	id:&#39;insert&#39;,
+	class:&#39;insert&#39;
+});</pre>
+
+<p><strong>$each()遍历区别</strong></p>
+
+<p>$.each(collection, function(index, item){ … })</p>
+<ul><li>
+<p>可以遍历数组,以index，item的形式</p>
+</li><li>
+<p>可以遍历对象，以key-value的形式</p>
+</li><li>
+<p>可以遍历字符串。以index，item的形式(jQuery不可以遍历字符串)</p>
+</li><li>
+<p>遍历json对象以字符串的形式遍历</p>
+</li></ul>
+
+<p><strong>offset()区别</strong> <strong>相对视口偏移量</strong></p>
+
+<p>jQuery:</p>
+<ul><li>
+<p>获取匹配元素在当前视口的相对偏移。</p>
+</li><li>
+<p>返回的对象包含两个整型属性：top 和 left。此方法只对可见元素有效。</p>
+</li></ul>
+
+<p>zepto:</p>
+<ul><li>
+<p>获得当前元素相对于视口的位置。</p>
+</li><li>
+<p>返回一个对象含有： top, left, width和height(获取的宽高包括内边距和边框)</p>
+</li></ul>
+
+<p><strong>获取宽高的区别</strong></p>
+
+<p>jQuery: (padding – 补白)</p>
+<ul><li>
+<p>width(),height() —内容区的宽高，没有单位px;</p>
+</li><li>
+<p>.css(&#39;width&#39;) — 获取内容区的宽高(包括内边距和边框)有单位px;</p>
+</li><li>
+<p>innerHeight(),innerWidth() – 高度宽度包括内边距</p>
+</li><li>
+<p>outerHeight(),outerWidth() – 高度宽度包括内边距和边框</p>
+</li></ul>
+
+<p>zepto: (padding – 补白)</p>
+<ul><li>
+<p>width(),height() —内容区的宽高(包括内边距和边框)，没有单位px;</p>
+</li><li>
+<p>.css(&#39;width&#39;) — 获取内容区的宽高 有单位px;</p>
+</li><li>
+<p>没有innerHeight/width和outerHeight/width 方法</p>
+</li></ul>
+
+<p><strong>jQuery小技巧</strong></p>
+
+<p>单独获取内边距: css(&#39;padding&#39;)</p>
+
+<p>单独获取边框: css(&#39;border-width&#39;)</p>
+
+<p>单独获取边框颜色: css(&#39;border-color&#39;)</p>
+
+<p><strong>事件委托的区别</strong></p>
+
+<p>原理就是将事件冒泡到父元素身上. event.target指向的子元素触发 jQuery:</p>
+
+<p>事件委托只是找相应的event.target触发元素进行的回调函数执行,其他的并不关心。</p>
+
+<p>zepto:</p>
+
+<p>委托的事件先被依次放入数组队列里，然后由自身开始往后查找， 期间符合条件的回调函数都会触发，符合条件的元素委托的事件都会执行。</p>
+
+<p>触发条件:</p>
+<ul><li>
+<p>委托在同一个父元素身上</p>
+</li><li>
+<p>委托的是同一个事件</p>
+</li><li>
+<p>委托关联是操作与其关联的元素</p>
+</li><li>
+<p>顺序是从当前位置向后</p>
+</li></ul>
+
+<p><strong>当触发条件任意一条不符合时, 等同于jQuery的事件委托</strong></p>
+
+<p><strong>获取隐藏元素区别</strong></p>
+<ul><li>
+<p>当display:none 时, jquery可以获取隐藏元素的宽高</p>
+</li><li>
+<p>当display:none 时, zepto不可以获取隐藏元素的宽高</p>
+</li></ul>
+
+<h4 id="label-zepto+touch-E6-96-B9-E6-B3-95">zepto touch方法<span><a href="#label-zepto+touch-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>tap()单击事件</p>
+</li><li>
+<p>singleTap() 单击事件</p>
+</li><li>
+<p>doubleTap() 双击事件</p>
+</li><li>
+<p>longTap() 当一个元素被按住超过750ms触发。</p>
+</li><li>
+<p>swipe() 滑动事件 在一个方向滑动大于30px即为滑动。否则算点击。</p>
+</li></ul>
+
+<p>swipeLeft, swipeRight, swipeUp, swipeDown</p>
+
+<p>当元素被划过(同一个方向滑动距离大于30px)时触发。(可选择给定的方向)</p>
+
+<p><strong>其他绑定事件统一使用on，off标准事件来绑定事件。</strong></p>
+
+<h4 id="label-zepto+form-E8-A1-A8-E5-8D-95-E6-96-B9-E6-B3-95">zepto form表单方法<span><a href="#label-zepto+form-E8-A1-A8-E5-8D-95-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>1、serialize()</p>
+
+<p>在Ajax post请求中将用作提交的表单元素的值编译成 URL-encoded 字符串。key(name)/value</p>
+
+<p>2、serializeArray()</p>
+
+<p>将用作提交的表单元素的值编译成拥有name和value对象组成的数组。 不能使用的表单元素，buttons，未选中的radio buttons/checkboxs 将会被跳过。</p>
+
+<p>3、submit()</p>
+
+<p>为 “submit” 事件绑定一个处理函数，或者触发元素上的 “submit” 事件。 当参数function没有给出时，触发当前表单“submit”事件，并且执行默认的提交表单行为，除非阻止默认行为。</p>
+
+<pre>&lt;form&gt;
+    &lt;input type=&quot;password&quot; name=&quot;pw&quot; value=&quot;123&quot;/&gt;
+    &lt;input type=&quot;text&quot; name=&quot;val&quot; value=&quot;kobe&quot;/&gt;
+    &lt;input type=&quot;checkbox&quot; checked=&quot;checked&quot; name=&quot;rember&quot;/&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;按钮&quot; name=&quot;anniu&quot;/&gt;
+&lt;/form&gt;
+$(&#39;form&#39;).serialize();
+$(&#39;form&#39;).serializeArray();</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/13_%E7%A7%BB%E5%8A%A8%E7%AB%AF/zepto%E6%A1%86%E6%9E%B6.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="13-08.html">上一篇 · 移动端价值链&amp;浏览器</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

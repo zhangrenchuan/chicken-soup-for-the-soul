@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>像素概念 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-13.html">移动网页：像素、视口和适配</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>移动网页：像素、视口和适配</strong><a href="13-01.html" aria-current="page">像素概念</a><a href="13-02.html">视口概念</a><a href="13-03.html">缩放行为</a><a href="13-04.html">META标签</a><a href="13-05.html">适配方案</a><a href="13-06.html">画一条物理像素宽的线</a><a href="13-07.html">移动端事件&amp;问题综合</a><a href="13-08.html">移动端价值链&amp;浏览器</a><a href="13-09.html">zepto框架</a></nav>
+<article class="paper"><h1>像素概念</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>物理像素是屏幕实际的点，CSS 像素是页面布局使用的单位。设备像素比描述两者之间的比例。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E5-83-8F-E7-B4-A0-E6-A6-82-E5-BF-B5">像素概念<span><a href="#label-E5-83-8F-E7-B4-A0-E6-A6-82-E5-BF-B5">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E5-B1-8F-E5-B9-95-E5-B0-BA-E5-AF-B8">屏幕尺寸<span><a href="#label-E5-B1-8F-E5-B9-95-E5-B0-BA-E5-AF-B8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>屏幕对角线的长度. 单位是英寸</p>
+</li><li>
+<p>常见尺寸: 2.4, 2.8, 3.5, 3.7, 4.2, 5.0, 5.5, 6.0等</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/Cgl8y5K.jpg"></p>
+
+<h4 id="label-E5-B1-8F-E5-B9-95-E5-88-86-E8-BE-A8-E7-8E-87">屏幕分辨率<span><a href="#label-E5-B1-8F-E5-B9-95-E5-88-86-E8-BE-A8-E7-8E-87">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>横纵向的物理像素点的个数. 单位是px.</p>
+</li><li>
+<p>一般以纵向像素个数乘以横向像素个数的总和来表示屏幕分辨率</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/xGM87Os.jpg"></p>
+
+<h4 id="label-E7-89-A9-E7-90-86-E5-83-8F-E7-B4-A0">物理像素<span><a href="#label-E7-89-A9-E7-90-86-E5-83-8F-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>物理像素又叫设备像素 (出厂就确定)</p>
+</li><li>
+<p>横纵向的一个最小像素点(小方格)就是一个物理像素</p>
+</li><li>
+<p>每个像素可以根据操作系统设置自己的颜色和亮度</p>
+</li><li>
+<p>任何设备的物理像素的数量都是固定的</p>
+</li><li>
+<p>任何设备的物理像素的尺寸都是一样的</p>
+</li></ul>
+
+<h4 id="label-CSS-E5-83-8F-E7-B4-A0">CSS像素<span><a href="#label-CSS-E5-83-8F-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>CSS像素被称为与设备无关的像素（device-independent像素），简称为“DIPs”。</p>
+</li><li>
+<p>它是一个抽象的单位. 主要使用在浏览器上. 用来精确度量网页上的内容</p>
+</li><li>
+<p>CSS像素是浏览器中显示页面最小的单位</p>
+</li><li>
+<p>在一个标准的显示密度下，一个CSS像素对应着一个物理像素</p>
+</li></ul>
+
+<h4 id="label-CSS-E5-83-8F-E7-B4-A0-E4-B8-8E-E7-89-A9-E7-90-86-E5-83-8F-E7-B4-A0-E7-9A-84-E5-85-B3-E7-B3-BB">CSS像素与物理像素的关系<span><a href="#label-CSS-E5-83-8F-E7-B4-A0-E4-B8-8E-E7-89-A9-E7-90-86-E5-83-8F-E7-B4-A0-E7-9A-84-E5-85-B3-E7-B3-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>一个width为200px的元素，它占据200个css像素，但200个css像素占据多少个物理像素取决于屏幕的特性和用户的缩放行为</p>
+
+<h4 id="label-E4-BD-8D-E5-9B-BE-E5-83-8F-E7-B4-A0">位图像素<span><a href="#label-E4-BD-8D-E5-9B-BE-E5-83-8F-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>只针对图片使用.</p>
+</li><li>
+<p>一个位图像素是栅格图像(png, jpg, gif等)最小的数据单元.</p>
+</li><li>
+<p>1个位图像素对应于1个物理像素，图片才能得到完美清晰的展示</p>
+</li></ul>
+
+<h4 id="label-E5-B1-8F-E5-B9-95-E5-83-8F-E7-B4-A0-E5-AF-86-E5-BA-A6">屏幕像素密度<span><a href="#label-E5-B1-8F-E5-B9-95-E5-83-8F-E7-B4-A0-E5-AF-86-E5-BA-A6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>也称像素密度或屏幕密度</p>
+</li><li>
+<p>屏幕上每英寸可以显示的像素点的数量，单位是ppi，即“pixels per inch”的缩写。</p>
+</li><li>
+<p>屏幕像素密度与屏幕尺寸和屏幕分辨率有关</p>
+</li></ul>
+
+<blockquote>
+<p>高清屏 Retina</p>
+
+<p>具备足够高的物理像素密度而使人体肉眼无法分辨其中单独像素点的液晶屏。</p>
+
+<p>特点:1. 一种具备超高像素密度的液晶屏；2. 同样大小屏幕上显示的像素点由一个变为多个</p>
+
+<p>高清屏（Retina）和普通屏相比，相同区域的物理像素点数，高清屏是普通屏的4倍</p>
+</blockquote>
+
+<p><img src="https://i.imgur.com/hwXxWl7.jpg"></p>
+<hr>
+
+<h4 id="label-E8-AE-BE-E5-A4-87-E7-8B-AC-E7-AB-8B-E5-83-8F-E7-B4-A0">设备独立像素<span><a href="#label-E8-AE-BE-E5-A4-87-E7-8B-AC-E7-AB-8B-E5-83-8F-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>设备独立像素本质上就是CSS像素</p>
+</li><li>
+<p>设备独立像素是给视觉视口用的</p>
+</li><li>
+<p>用处: 可以把设备独立像素看成是设备提供出来的接口</p>
+
+<blockquote>
+<p>设备独立像素:设备独立像素(也叫密度无关像素)，可以认为是计算机坐标系统中得一个点，这个点代表一个可以由程序使用的虚拟像素(比如: css像素)，然后由相关系统转换为物理像素。</p>
+
+<p>只有当浏览器厂商对接上设备独立像素时，移动端规则才能启作用. 否则采取默认的规则</p>
+</blockquote>
+</li></ul>
+
+<h4 id="label-E5-83-8F-E7-B4-A0-E6-AF-94">像素比<span><a href="#label-E5-83-8F-E7-B4-A0-E6-AF-94">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>设备像素比(简称dpr)定义了物理像素和设备独立像素的对应关系</p>
+</li><li>
+<p>设备像素比 = 物理像素个数 / 设备独立像素个数 (指的是一块屏幕上的个数)</p>
+</li><li>
+<p>同一块屏幕内设备独立像素面积大, 物理像素个数多</p>
+</li><li>
+<p>设备像素比获取: window.devicePixelRatio</p>
+
+<blockquote>
+<p>桌面 1:1</p>
+
+<p>iPhone6 2:1</p>
+
+<p>iPhone6 Plus 3:1</p>
+</blockquote>
+</li></ul>
+
+<h4 id="label-E5-83-8F-E7-B4-A0-E6-80-BB-E7-BB-93">像素总结<span><a href="#label-E5-83-8F-E7-B4-A0-E6-80-BB-E7-BB-93">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>物理像素是设备呈像的最小单元</p>
+</li><li>
+<p>css像素是一个抽象的层，是web开发中的最小单元</p>
+</li><li>
+<p>位图像素是图片的最小单元</p>
+</li><li>
+<p>设备独立像素也是一个抽象的层，是设备提供出来的接口</p>
+</li><li>
+<p>像素比计算: 一个方向上占满一块屏幕需要的物理像素的个数 /一个方向上占满一块屏幕需要的设备独立像素的个数</p>
+</li><li>
+<p><strong>设备独立像素和像素比在没有手动开启meta标签时是没有用的</strong></p>
+</li><li>
+<p>当开启meta标签后, css像素等同于设备独立像素. 1css像素 = 4倍物理像素</p>
+</li></ul>
+
+<h6 id="label-iPhone6-E7-9A-84-E5-83-8F-E7-B4-A0-E6-AF-94-E4-B8-BA2-EF-BC-8C-E8-AF-95-E9-97-AE-E5-9C-A8iPhone6-E4-B8-8A1-E4-B8-AACSS-E5-83-8F-E7-B4-A0-E5-8D-A0-E6-8D-AE-E5-A4-9A-E5-B0-91-E4-B8-AA-E7-89-A9-E7-90-86-E5-83-8F-E7-B4-A0+-28-E9-9D-A2-E7-A7-AF-29-EF-BC-9F">iPhone6的像素比为2，试问在iPhone6上1个CSS像素占据多少个物理像素 (面积)？<span><a href="#label-iPhone6-E7-9A-84-E5-83-8F-E7-B4-A0-E6-AF-94-E4-B8-BA2-EF-BC-8C-E8-AF-95-E9-97-AE-E5-9C-A8iPhone6-E4-B8-8A1-E4-B8-AACSS-E5-83-8F-E7-B4-A0-E5-8D-A0-E6-8D-AE-E5-A4-9A-E5-B0-91-E4-B8-AA-E7-89-A9-E7-90-86-E5-83-8F-E7-B4-A0+-28-E9-9D-A2-E7-A7-AF-29-EF-BC-9F">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<blockquote>
+<p>物理像素 / 设备独立像素 = 2（错误. 这一块比的是个数）</p>
+
+<p>占据一块iPhone6的屏幕需要750*1334（n）个物理像素</p>
+
+<p>占据一块iPhone6的屏幕需要375*667（4n）个设备独立像素</p>
+
+<p>在高清屏下 1设备独立像素 = 4倍物理像素！ (占据面积)</p>
+</blockquote>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/13_%E7%A7%BB%E5%8A%A8%E7%AB%AF/%E5%83%8F%E7%B4%A0%E6%A6%82%E5%BF%B5.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="13-02.html">下一篇 · 视口概念</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

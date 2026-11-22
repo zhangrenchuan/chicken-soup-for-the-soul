@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>自动化工具 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-10.html">ECMAScript、模块化与构建</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>ECMAScript、模块化与构建</strong><a href="10-01.html">简介</a><a href="10-02.html">ES5</a><a href="10-03.html">ES6</a><a href="10-04.html">ES7</a><a href="10-05.html">JS模块化</a><a href="10-06.html" aria-current="page">自动化工具</a></nav>
+<article class="paper"><h1>自动化工具</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>构建工具可以批量跑检查、转换代码、合并或压缩文件。这里的 Grunt 等示例主要用于理解旧项目怎样组织这些步骤。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E9-A1-B9-E7-9B-AE-E6-9E-84-E5-BB-BA-28-E8-87-AA-E5-8A-A8-E5-8C-96-E5-B7-A5-E5-85-B7-29">项目构建(自动化工具)<span><a href="#label-E9-A1-B9-E7-9B-AE-E6-9E-84-E5-BB-BA-28-E8-87-AA-E5-8A-A8-E5-8C-96-E5-B7-A5-E5-85-B7-29">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E9-A1-B9-E7-9B-AE-E6-9E-84-E5-BB-BA-E7-90-86-E8-A7-A3">项目构建理解<span><a href="#label-E9-A1-B9-E7-9B-AE-E6-9E-84-E5-BB-BA-E7-90-86-E8-A7-A3">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>编译项目中的js, sass, less</p>
+</li><li>
+<p>合并js/css等资源文件</p>
+</li><li>
+<p>压缩js/css/html等资源文件</p>
+</li><li>
+<p>JS语法的检查</p>
+</li></ul>
+
+<h4 id="label-E9-A1-B9-E7-9B-AE-E6-9E-84-E5-BB-BA-E4-BD-9C-E7-94-A8">项目构建作用<span><a href="#label-E9-A1-B9-E7-9B-AE-E6-9E-84-E5-BB-BA-E4-BD-9C-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>简化项目构建, 自动化完成构建</p>
+</li><li>
+<p>自动化构建</p>
+</li></ul>
+
+<h4 id="label-E9-A1-B9-E7-9B-AE-E6-9E-84-E5-BB-BA-E5-B7-A5-E5-85-B7">项目构建工具<span><a href="#label-E9-A1-B9-E7-9B-AE-E6-9E-84-E5-BB-BA-E5-B7-A5-E5-85-B7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Gulp (早期)</p>
+</li><li>
+<p>Grunt (Gulp的后起之秀)</p>
+</li><li>
+<p>Webpack (占据国内市场)</p>
+</li></ul>
+
+<p>—</p>
+
+<h2 id="label-Grunt">Grunt<span><a href="#label-Grunt">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>是一套前端<strong>自动化构建</strong>工具，一个基于nodeJs的命令行工具</p>
+</li><li>
+<p>它是一个<strong>任务运行器</strong>,配合丰富强大的<strong>插件</strong>使用</p>
+</li><li>
+<p>常用功能:</p>
+<ul><li>
+<p><strong>合并文件</strong>(js/css)</p>
+</li><li>
+<p><strong>压缩文件</strong>(js/css)</p>
+</li><li>
+<p><strong>语法检查</strong>(js)</p>
+</li><li>
+<p><strong>less/sass预编译处理</strong></p>
+</li><li>
+<p>其它…</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<h3 id="label-Grunt-E6-9E-84-E5-BB-BA">Grunt构建<span><a href="#label-Grunt-E6-9E-84-E5-BB-BA">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ol><li>
+<p>构建项目</p>
+
+<pre>   |- build----------构建生成的文件所在的文件夹
+   |- src------------源码文件夹   
+          |- js---------------js源文件夹
+          |- css--------------css源文件夹
+   |- index.html-----页面文件
+   |- Gruntfile.js---grunt配置文件(注意首字母大写)
+   |- package.json---项目包配置文件
+          {
+            &quot;name&quot;: &quot;grunt_test&quot;,
+            &quot;version&quot;: &quot;1.0.0&quot;   
+          }</pre>
+</li><li>
+<p>全局安装grunt-cli (command line interface命令行接口)</p>
+<ul><li>
+<p><code>npm install -g grunt-cli</code></p>
+</li></ul>
+</li><li>
+<p>当前工作目录安装grunt</p>
+<ul><li>
+<p><code>npm install grunt --save-dev</code></p>
+</li></ul>
+</li><li>
+<p>配置文件: Gruntfile.js</p>
+<ul><li>
+<p>此配置文件本质就是一个node函数类型模块</p>
+</li><li>
+<p>配置编码包含3步:</p>
+<ol><li>
+<p>初始化插件配置</p>
+</li><li>
+<p>加载插件任务</p>
+</li><li>
+<p>注册构建任务</p>
+</li></ol>
+</li></ul>
+</li><li>
+<p>基本配置编码</p>
+
+<pre>module.exports = function(grunt){
+  // 1. 初始化配置插件任务
+  grunt.initConfig({
+    //主要编码处
+
+  });
+  // 2. 加载插件
+  // grunt.loadNpmTasks(&#39;grunt-contrib-concat&#39;);
+  // 3. 注册构建任务
+  grunt.registerTask(&#39;default&#39;, []);
+};</pre>
+</li><li>
+<p>运行命令: <code>grunt</code>. 提示成功 Done</p>
+</li></ol>
+<hr>
+
+<h3 id="label-Grunt-E6-8F-92-E4-BB-B6-E4-BB-8B-E7-BB-8D">Grunt插件介绍<span><a href="#label-Grunt-E6-8F-92-E4-BB-B6-E4-BB-8B-E7-BB-8D">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>grunt官网的插件列表页面</p>
+<ul><li>
+<p><a href="http://www.gruntjs.net/plugins">www.gruntjs.net/plugins</a></p>
+</li></ul>
+</li><li>
+<p>插件名都以contrib-开头</p>
+</li><li>
+<p>第三方提供的插件 : 不以contrib-开头</p>
+</li></ul>
+
+<h6 id="label-grunt-E5-B8-B8-E7-94-A8-E7-9A-84-E6-8F-92-E4-BB-B6-3A">grunt常用的插件:<span><a href="#label-grunt-E5-B8-B8-E7-94-A8-E7-9A-84-E6-8F-92-E4-BB-B6-3A">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>grunt-contrib-clean——清除文件(打包处理生成的)</p>
+</li><li>
+<p>grunt-contrib-concat——合并多个文件的代码到一个文件中</p>
+</li><li>
+<p>grunt-contrib-uglify——压缩js文件</p>
+</li><li>
+<p>grunt-contrib-jshint——javascript语法错误检查；</p>
+</li><li>
+<p>grunt-contrib-cssmin——压缩/合并css文件</p>
+</li><li>
+<p>grunt-contrib-htmlmin——压缩html文件</p>
+</li><li>
+<p>grunt-contrib-imagemin——压缩图片文件(无损)</p>
+</li><li>
+<p>grunt-contrib-copy——复制文件、文件夹</p>
+</li><li>
+<p><strong>grunt-contrib-requirejs</strong>——合并压缩requirejs管理的所有js模块文件</p>
+</li><li>
+<p>grunt-contrib-watch——实时监控文件变化、调用相应的任务重新执行</p>
+</li><li>
+<p>karma——前端自动化测试工具</p>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-E5-90-88-E5-B9-B6JS-3A+grunt-contrib-concat">合并JS: grunt-contrib-concat<span><a href="#label-E5-90-88-E5-B9-B6JS-3A+grunt-contrib-concat">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: <code>npm install grunt-contrib-concat --save-dev</code></p>
+</li><li>
+<p>配置任务</p>
+
+<pre>concat: {  //任务
+  options: { //可选项配置
+    separator: &#39;;&#39;   //分隔符: 使用;连接合并
+  },
+  build: { //此名称任意
+    src: [&quot;src/js/*.js&quot;],  //合并哪些js文件
+    dest: &quot;build/js/built.js&quot; //输出的js文件
+  }
+}</pre>
+</li><li>
+<p>加载插件</p>
+<ul><li>
+<p><code>grunt.loadNpmTasks(&#39;grunt-contrib-concat&#39;);</code></p>
+</li></ul>
+</li><li>
+<p>注册任务</p>
+<ul><li>
+<p><code>grunt.registerTask(&#39;default&#39;, [&#39;concat&#39;]);</code></p>
+</li></ul>
+</li><li>
+<p>运行命令 <code>grunt</code> 进行合并</p>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-E5-8E-8B-E7-BC-A9js-3A+grunt-contrib-uglify">压缩js: grunt-contrib-uglify<span><a href="#label-E5-8E-8B-E7-BC-A9js-3A+grunt-contrib-uglify">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: <code>npm install grunt-contrib-uglify --save-dev</code></p>
+</li><li>
+<p>配置任务</p>
+
+<pre>pkg : grunt.file.readJSON(&#39;package.json&#39;),
+  uglify : {
+    options: {  //可选项配置
+      banner: &#39;/*! &lt;%= pkg.name %&gt; - v&lt;%= pkg.version %&gt; - &#39; +
+      &#39;&lt;%= grunt.template.today(&quot;yyyy-mm-dd&quot;) %&gt; */&#39;
+    },
+    build: { //此名称任意
+      files: {
+       //键值对前面是压缩后的名字.后面是压缩前的文件路径
+       &#39;build/js/built-&lt;%=pkg.name%&gt;-&lt;%=pkg.version%&gt;.min.js&#39;: [&#39;build/js/built.js&#39;]
+      }
+    }
+  }</pre>
+</li><li>
+<p>加载插件</p>
+<ul><li>
+<p><code>grunt.loadNpmTasks(&#39;grunt-contrib-uglify&#39;);</code></p>
+</li></ul>
+</li><li>
+<p>注册任务 (同步运行注意顺序问题)</p>
+<ul><li>
+<p><code>grunt.registerTask(&#39;default&#39;, [&#39;concat&#39;,&#39;uglify&#39;]);</code></p>
+</li></ul>
+</li><li>
+<p>运行命令 <code>grunt</code> 进行压缩</p>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-js-E8-AF-AD-E6-B3-95-E6-A3-80-E6-9F-A5-3A+grunt-contrib-jshint">js语法检查: grunt-contrib-jshint<span><a href="#label-js-E8-AF-AD-E6-B3-95-E6-A3-80-E6-9F-A5-3A+grunt-contrib-jshint">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: <code>npm install grunt-contrib-jshint --save-dev</code></p>
+</li><li>
+<p>创建编码文件 <code>.jshintrc</code></p>
+
+<pre>{
+   &quot;curly&quot;: true,
+   &quot;eqeqeq&quot;: true,
+   &quot;eqnull&quot;: true,
+   &quot;expr&quot; : true,
+   &quot;immed&quot;: true,
+   &quot;newcap&quot;: true,
+   &quot;noempty&quot;: true,
+   &quot;noarg&quot;: true,
+   &quot;regexp&quot;: true,
+   &quot;browser&quot;: true,
+   &quot;devel&quot;: true,
+   &quot;node&quot;: true,
+   &quot;boss&quot;: false,
+
+   //不能使用未定义的变量
+   &quot;undef&quot;: true,
+   //语句后面有没有分号 false没有就报错
+   &quot;asi&quot;: false,
+   //预定义不检查的全局变量
+   &quot;predef&quot;: [ &quot;define&quot;, &quot;BMap&quot;, &quot;angular&quot;, &quot;BMAP_STATUS_SUCCESS&quot;,&quot;$&quot;,&quot;jQuery&quot;]
+  }</pre>
+</li><li>
+<p>配置任务</p>
+
+<pre>  jshint : {
+    options: {
+      jshintrc : &#39;.jshintrc&#39; //指定配置文件
+    },
+    build : [&#39;Gruntfile.js&#39;, &#39;src/js/*.js&#39;] //指定检查的文件
+    //第一个参数当前文件. 第二个参数目标文件
+  }</pre>
+</li><li>
+<p>加载插件</p>
+<ul><li>
+<p><code>grunt.loadNpmTasks(&#39;grunt-contrib-jshint&#39;);</code></p>
+</li></ul>
+</li><li>
+<p>注册任务</p>
+<ul><li>
+<p><code>grunt.registerTask(&#39;default&#39;, [&#39;concat&#39;, &#39;uglify&#39;, &#39;jshint&#39;]);</code></p>
+</li></ul>
+</li><li>
+<p>运行命令 <code>grunt</code> 进行js文件语法检查</p>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-css-E5-8E-8B-E7-BC-A9-E6-8F-92-E4-BB-B6+grunt-contrib-cssmin">css压缩插件 grunt-contrib-cssmin<span><a href="#label-css-E5-8E-8B-E7-BC-A9-E6-8F-92-E4-BB-B6+grunt-contrib-cssmin">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: <code>npm install grunt-contrib-cssmin --save-dev</code></p>
+</li><li>
+<p>配置任务</p>
+
+<pre>cssmin:{
+  options: { //可选项
+    shorthandCompacting: false, //快速压缩为false
+    roundingPrecision: -1 //误差精确度 -1
+  },
+  build: {
+    files: { //指定目标源和输出文件
+      &#39;build/css/output.min.css&#39;: [&#39;src/css/*.css&#39;]
+    }
+  }
+}</pre>
+</li><li>
+<p>加载插件</p>
+<ul><li>
+<p><code>grunt.loadNpmTasks(&#39;grunt-contrib-cssmin&#39;);</code></p>
+</li></ul>
+</li><li>
+<p>注册任务</p>
+<ul><li>
+<p><code>grunt.registerTask(&#39;default&#39;, [&#39;concat&#39;, &#39;uglify&#39;, &#39;jshint&#39;, &#39;cssmin&#39;]);</code></p>
+</li></ul>
+</li><li>
+<p>运行命令 <code>grunt</code> css压缩</p>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-watch+-E8-87-AA-E5-8A-A8-E5-8C-96-E7-9B-91-E8-A7-86-E4-BB-A3-E7-A0-81">watch 自动化监视代码<span><a href="#label-watch+-E8-87-AA-E5-8A-A8-E5-8C-96-E7-9B-91-E8-A7-86-E4-BB-A3-E7-A0-81">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: <code>npm install grunt-contrib-cssmin --save-dev</code></p>
+</li><li>
+<p>配置文件</p>
+
+<pre>//配置watch. 监视源文件内容变化
+watch : {
+  scripts : {
+    //监视源文件
+    files : [&#39;src/js/*.js&#39;, &#39;src/css/*.css&#39;], 
+    //准备执行的任务
+    tasks : [&#39;concat&#39;, &#39;jshint&#39;, &#39;uglify&#39;, &#39;cssmin&#39;], 
+    //增量更新false(只执行更改的) --- 全量更新true
+    options : {spawn : false}   
+  }
+}</pre>
+</li><li>
+<p>加载插件</p>
+<ul><li>
+<p><code>grunt.loadNpmTasks(&#39;grunt-contrib-watch&#39;);</code></p>
+</li></ul>
+</li><li>
+<p>注册任务</p>
+<ul><li>
+<p>可自定义监控任务.等之前的都执行完后再监视</p>
+</li><li>
+<p><code>grunt.registerTask('myWatch',['default','watch']);</code></p>
+</li></ul>
+</li><li>
+<p>运行命令 <code>grunt myWatch</code> 开始监控</p>
+</li></ul>
+<hr>
+
+<h2 id="label-Gulp">Gulp<span><a href="#label-Gulp">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>gulp是与grunt功能类似的<strong>前端项目构建</strong>工具, 也是基于Nodejs的自动<strong>任务运行器</strong></p>
+</li><li>
+<p>能自动化地完成 javascript/coffee/sass/less/html/image/css 等文件的合并、压缩、检查、监听文件变化、浏览器自动刷新、测试等任务</p>
+</li><li>
+<p>gulp更高效(异步多任务), 更易于使用, 插件高质量</p>
+</li></ul>
+
+<h6 id="label-Gulp-E7-89-B9-E7-82-B9-3A">Gulp特点:<span><a href="#label-Gulp-E7-89-B9-E7-82-B9-3A">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>基于任务</p>
+</li><li>
+<p>基于文件流</p>
+</li></ul>
+<hr>
+
+<h3 id="label-Gulp-E6-9E-84-E5-BB-BA">Gulp构建<span><a href="#label-Gulp-E6-9E-84-E5-BB-BA">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ol><li>
+<p>构建项目</p>
+
+<pre>|- dist //输出文件夹
+|- src //源码文件夹 
+    |- js
+    |- css
+    |- less
+|- index.html
+|- gulpfile.js-----gulp配置文件
+|- package.json
+        {
+          &quot;name&quot;: &quot;gulp_test&quot;,
+          &quot;version&quot;: &quot;1.0.0&quot;
+        }</pre>
+</li><li>
+<p>全局安装gulp</p>
+<ul><li>
+<p><code>npm install gulp -g</code></p>
+</li></ul>
+</li><li>
+<p>当前工作目录安装grunt</p>
+<ul><li>
+<p><code>npm install gulp --save-dev</code></p>
+</li></ul>
+</li><li>
+<p>配置编码: gulpfile.js</p>
+
+<pre>//引入gulp模块
+var gulp = require(&#39;gulp&#39;);
+//定义默认任务
+gulp.task(&#39;default&#39;, function() {
+  // 将你的默认的任务代码放在这
+});</pre>
+</li><li>
+<p>运行命令: <code>gulp</code></p>
+</li></ol>
+
+<p>—</p>
+
+<h3 id="label-gulp-E6-8F-92-E4-BB-B6">gulp插件<span><a href="#label-gulp-E6-8F-92-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>gulp-concat : 合并文件(js/css)</p>
+</li><li>
+<p>gulp-uglify : 压缩js文件</p>
+</li><li>
+<p>gulp-rename : 文件重命名</p>
+</li><li>
+<p>gulp-less : 编译less</p>
+</li><li>
+<p>gulp-clean-css : 压缩css</p>
+</li><li>
+<p>gulp-livereload : 实时自动编译刷新</p>
+</li></ul>
+
+<h5 id="label-E9-87-8D-E8-A6-81API">重要API<span><a href="#label-E9-87-8D-E8-A6-81API">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>gulp.src(filePath/pathArr) :</p>
+</li><li>
+<p>指向指定路径的所有文件, 返回文件流对象</p>
+</li><li>
+<p>用于读取文件</p>
+</li><li>
+<p>** 深度遍历</p>
+</li><li>
+<p>gulp.dest(dirPath/pathArr)</p>
+</li><li>
+<p>指向指定的所有文件夹</p>
+</li><li>
+<p>用于向文件夹中输出文件</p>
+</li><li>
+<p>gulp.task(name[, deps], fn)</p>
+</li><li>
+<p>定义一个任务</p>
+</li><li>
+<p>gulp.watch()</p>
+</li><li>
+<p>监视文件的变化</p>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-E5-90-88-E5-B9-B6-2F-E5-8E-8B-E7-BC-A9-2F-E9-87-8D-E5-91-BD-E5-90-8D+js-E6-96-87-E4-BB-B6">合并/压缩/重命名 js文件<span><a href="#label-E5-90-88-E5-B9-B6-2F-E5-8E-8B-E7-BC-A9-2F-E9-87-8D-E5-91-BD-E5-90-8D+js-E6-96-87-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: <code>npm install gulp-concat gulp-uglify gulp-rename --save-dev</code></p>
+</li><li>
+<p>配置编码</p>
+
+<pre>  //引入配置文件
+  var concat = require(&#39;gulp-concat&#39;);
+  var uglify = require(&#39;gulp-uglify&#39;);
+  var rename = require(&#39;gulp-rename&#39;);
+
+  // 定义任务(第一个参数任务名.第二个参数回调函数)
+  gulp.task(&#39;js&#39;, function() {
+      return gulp.src(&#39;src/js/*.js&#39;) //操作的源文件
+          .pipe(concat(&#39;built.js&#39;)) //合并js文件     
+          .pipe(gulp.dest(&#39;dist/js&#39;)) //临时输出
+          .pipe(uglify())    //压缩
+          .pipe(rename({suffix: &#39;.min&#39;})) //重命名  
+          .pipe(gulp.dest(&#39;dist/js&#39;));
+  });
+  //异步执行
+  gulp.task(&#39;default&#39;, [&#39;js&#39;]);</pre>
+</li><li>
+<p>运行命令 <code>glup</code></p>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-E7-BC-96-E8-AF-91less-2F-E5-90-88-E5-B9-B6css-E6-96-87-E4-BB-B6">编译less/合并css文件<span><a href="#label-E7-BC-96-E8-AF-91less-2F-E5-90-88-E5-B9-B6css-E6-96-87-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: <code>npm install gulp-less gulp-clean-css --save-dev</code></p>
+</li><li>
+<p>配置编码</p>
+
+<pre>  var less = require(&#39;gulp-less&#39;);
+  var cleanCSS = require(&#39;gulp-clean-css&#39;);
+
+  //less处理任务
+  gulp.task(&#39;lessTask&#39;, function () {
+    return gulp.src(&#39;src/less/*.less&#39;)
+        .pipe(less())
+        .pipe(gulp.dest(&#39;src/css&#39;));
+  })
+  //css处理任务, 指定依赖的任务(完成后再进行任务)
+  gulp.task(&#39;cssTask&#39;,[&#39;lessTask&#39;], function () {
+    return gulp.src(&#39;src/css/*.css&#39;)
+        .pipe(concat(&#39;built.css&#39;))
+        .pipe(gulp.dest(&#39;dist/css&#39;))//临时输出
+        .pipe(cleanCSS())//压缩CSS文件
+        .pipe(rename({suffix: &#39;.min&#39;}))//添加后缀名
+        .pipe(gulp.dest(&#39;dist/css&#39;));
+  });
+
+  gulp.task(&#39;default&#39;, [&#39;js&#39;,&#39;lessTask&#39;, &#39;cssTask&#39;]);</pre>
+</li><li>
+<p>运行命令 <code>glup</code></p>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-E5-8E-8B-E7-BC-A9html">压缩html<span><a href="#label-E5-8E-8B-E7-BC-A9html">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: <code>npm install gulp-htmlmin --save-dev</code></p>
+</li><li>
+<p>配置编码</p>
+
+<pre>var htmlmin = require(&#39;gulp-htmlmin&#39;);
+
+//压缩html任务
+gulp.task(&#39;html&#39;, function() {
+    return gulp.src(&#39;index.html&#39;)
+        .pipe(htmlmin({collapseWhitespace: true}))//压缩空格
+        .pipe(gulp.dest(&#39;dist&#39;));
+});
+gulp.task(&#39;default&#39;, [&#39;js&#39;,&#39;lessTask&#39;, &#39;cssTask&#39;,&#39;html&#39;]);</pre>
+</li><li>
+<p>HTML页面引入</p>
+<ul><li>
+<p><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;css/built.min.css&quot;&gt;</code></p>
+</li><li>
+<p><code>&lt;script type=&#39;text/javascript&#39; src=&#39;js/built.min.js&#39;&gt;&lt;/script&gt;</code></p>
+</li></ul>
+</li><li>
+<p>源页面引入的外部文件要看压缩后的目录来指定</p>
+</li><li>
+<p>运行命令 <code>glup</code></p>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-E8-87-AA-E5-8A-A8-E5-8C-96-E7-BC-96-E8-AF-91">自动化编译<span><a href="#label-E8-87-AA-E5-8A-A8-E5-8C-96-E7-BC-96-E8-AF-91">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: <code>npm install gulp-livereload --save-dev</code></p>
+</li><li>
+<p>配置编码</p>
+
+<pre>  var livereload = require(&#39;gulp-livereload&#39;);
+
+  //每个配置编码里都要写.当发生改变时刷新
+  .pipe(livereload());
+
+  gulp.task(&#39;watch&#39;, [&#39;default&#39;], function () {    
+    //开启监视
+    livereload.listen();
+    //监视指定的文件, 并指定对应的处理任务
+    gulp.watch(&#39;src/js/*.js&#39;, [&#39;js&#39;])
+    gulp.watch([&#39;src/css/*.css&#39;,&#39;src/less/*.less&#39;], [&#39;cssTask&#39;]);
+  });
+	gulp.task(&#39;default&#39;, [&#39;js&#39;,&#39;lessTask&#39;, &#39;cssTask&#39;,&#39;html&#39;]);</pre>
+</li><li>
+<p>运行命令 <code>gulp watch</code></p>
+</li></ul>
+<hr>
+
+<h2 id="label-Webpack">Webpack<span><a href="#label-Webpack">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>灵活的项目构建工具</p>
+</li><li>
+<p>Webpack是一个模块打包器(bundler)</p>
+</li><li>
+<p>前端的所有资源文件(js/css/img/less/…)都会作为模块处理</p>
+</li><li>
+<p>根据模块的依赖关系进行静态分析，生成对应的静态资源</p>
+</li><li>
+<p>常用</p>
+</li><li>
+<p>How to use webpack</p>
+</li><li>
+<p>How to use loaders</p>
+</li><li>
+<p>How to use the development server</p>
+</li><li>
+<p>How to use image</p>
+</li></ul>
+
+<h5 id="label-E7-90-86-E8-A7-A3Loader">理解Loader<span><a href="#label-E7-90-86-E8-A7-A3Loader">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>Webpack 本身只能加载JS模块，如果要加载其他类型的文件(模块)，就需要使用对应的loader 进行转换</p>
+</li><li>
+<p>完成功能需要有对应的loaders</p>
+</li><li>
+<p>配置文件: <code>webpack.config.js</code></p>
+</li></ul>
+<hr>
+
+<h3 id="label-Webpack-E6-9E-84-E5-BB-BA">Webpack构建<span><a href="#label-Webpack-E6-9E-84-E5-BB-BA">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ol><li>
+<p>初始化项目</p>
+
+<pre>   |- build----------构建生成的文件所在的文件夹
+   |- src------------源码文件夹   
+          |- js---------------js源文件夹
+			|- entry.js ---- 入口js文件
+          |- css--------------css源文件夹
+   |- index.html-----页面文件
+   |- webpack.config.js ---- 配置文件
+   |- package.json---项目包配置文件
+     {
+        &quot;name&quot;: &quot;webpack_test&quot;,
+        &quot;version&quot;: &quot;1.0.0&quot;
+      }</pre>
+</li><li>
+<p>全局安装 <code>npm install webpack@1 -g</code></p>
+</li><li>
+<p>当前目录下安装 <code>npm install webpack@1 --save-dev</code></p>
+</li></ol>
+
+<p>—</p>
+
+<h5 id="label-E7-AE-80-E5-8D-95-E9-A1-B9-E7-9B-AE-E5-85-A5-E9-97-A8">简单项目入门<span><a href="#label-E7-AE-80-E5-8D-95-E9-A1-B9-E7-9B-AE-E5-85-A5-E9-97-A8">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>创建入口js文件 src/js/</p>
+<ul><li>
+<p><code>entry.js</code></p>
+</li><li>
+<p><code>document.write(&quot;start to work&quot;);</code></p>
+</li><li>
+<p><code>entry.js</code></p>
+</li><li>
+<p><code>document.write(&quot;start to work&quot;);</code></p>
+</li></ul>
+</li><li>
+<p>创建第二个文件 src/js/</p>
+<ul><li>
+<p><code>content.js</code></p>
+</li><li>
+<p><code>module.exports = &quot; <br> It works from content.js&quot;;</code></p>
+</li><li>
+<p><code>content.js</code></p>
+</li><li>
+<p><code>module.exports = &quot; <br> It works from content.js&quot;;</code></p>
+</li></ul>
+</li><li>
+<p>更新入口js文件(引入另外的js文件)</p>
+<ul><li>
+<p><code>document.write(require(&quot;./content.js&quot;));</code></p>
+</li><li>
+<p><code>document.write(require(&quot;./content.js&quot;));</code></p>
+</li></ul>
+</li><li>
+<p>输出运行命令 (前面是入口文件路径.后面是输出文件路径)</p>
+<ul><li>
+<p><code>webpack src/js/entry.js build/js/bundle.js</code></p>
+</li><li>
+<p><code>webpack src/js/entry.js build/js/bundle.js</code></p>
+</li></ul>
+</li><li>
+<p>输出文件打包的内容</p>
+
+<pre>(function(module, exports, __webpack_require__) {
+
+	document.write(&quot;It works.&quot;);
+	document.write(__webpack_require__(1));
+}), 
+
+ (function(module, exports) {
+
+	module.exports = &quot; &lt;br&gt; It works from content.js.&quot;;
+  })
+ ])</pre>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-E5-8A-A0-E8-BD-BD-E5-99-A8+loader">加载器 loader<span><a href="#label-E5-8A-A0-E8-BD-BD-E5-99-A8+loader">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载CSS加载器:<code>npm install css-loader style-loader --save-dev</code></p>
+</li><li>
+<p>更新入口js文件</p>
+<ul><li>
+<p>引入css文件所在路径并绑定对应的加载器</p>
+</li><li>
+<p><code>require(&quot;style-loader!css-loader!./test.css&quot;);</code></p>
+</li></ul>
+</li><li>
+<p>输出运行命令</p>
+<ul><li>
+<p><code>webpack src/js/entry.js build/js/bundle.js</code></p>
+</li></ul>
+</li><li>
+<p>HTML页面引入输出的js</p>
+<ul><li>
+<p><code>&lt;script type=&quot;text/javascript&quot; src=&quot;js/bundle.js&quot;&gt;&lt;/script&gt;</code></p>
+</li></ul>
+</li></ul>
+
+<p>———-</p>
+
+<h4 id="label-E9-85-8D-E7-BD-AE-E6-96-87-E4-BB-B6-E7-BC-96-E7-A0-81">配置文件编码<span><a href="#label-E9-85-8D-E7-BD-AE-E6-96-87-E4-BB-B6-E7-BC-96-E7-A0-81">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>module.exports = {
+  entry: &quot;./src/js/entry.js&quot;,//入口路径配置
+  output: {//出口配置
+    path: __dirname + &#39;/build/js&#39;,//输出路径
+	publicPath:&#39;/build/js/&#39;,
+    filename: &quot;bundle.js&quot;//输出文件名
+  },
+  module: {
+    loaders: [//模块加载器配置
+      { test: /\.css$/, loader: &quot;style!css&quot;}  //所有css文件声明使用css-loader和style-loader加载器
+    ]
+  }
+};</pre>
+<ul><li>
+<p>更新入口js文件</p>
+<ul><li>
+<p><code>require(&#39;../css/test.css&#39;);</code></p>
+</li></ul>
+</li><li>
+<p>运行命令编译 <code>webpack</code></p>
+</li><li>
+<p>编译显示进度 <code>webpack --progress</code></p>
+</li><li>
+<p>编译显示进度和颜色 <code>webpack --progress --colors</code></p>
+</li><li>
+<p>编译并启动监视(但需要刷新浏览器) <code>webpack --watch</code></p>
+</li></ul>
+
+<p>———-</p>
+
+<h4 id="label-E6-B5-8F-E8-A7-88-E5-99-A8-E8-87-AA-E5-8A-A8-E5-88-B7-E6-96-B0+-28-E7-83-AD-E5-8A-A0-E8-BD-BD-29">浏览器自动刷新 (热加载)<span><a href="#label-E6-B5-8F-E8-A7-88-E5-99-A8-E8-87-AA-E5-8A-A8-E5-88-B7-E6-96-B0+-28-E7-83-AD-E5-8A-A0-E8-BD-BD-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>全局下载: <code>npm install webpack-dev-server@1 -g</code></p>
+</li><li>
+<p>运行命令: <code>webpack-dev-server</code></p>
+</li><li>
+<p>特点</p>
+<ul><li>
+<p>自动编译并刷新界面</p>
+</li><li>
+<p>不生成编译后的文件, 直接在内存中编译处理, 并启动服务器运行项目</p>
+</li><li>
+<p>自动编译并刷新界面</p>
+</li><li>
+<p>不生成编译后的文件, 直接在内存中编译处理, 并启动服务器运行项目</p>
+</li></ul>
+</li><li>
+<p>配置内容</p>
+<ul><li>
+<p>contentBase : 默认webpack-dev-server为根文件夹提供内置的服务，如果其他目录下的文件提供服务需要在此设置目录</p>
+</li><li>
+<p>historyApiFallback : 开发单页面的时候非常有用，它依赖于H5的 history API，当设置为true的时候所有的跳转都指向index.html；</p>
+</li><li>
+<p>port：可以设置端口号，不设置时候默认为 8080</p>
+</li><li>
+<p>inline ： 设置为true的时候回自动刷新(有的版本需要配合hot : true使用)</p>
+</li><li>
+<p>contentBase : 默认webpack-dev-server为根文件夹提供内置的服务，如果其他目录下的文件提供服务需要在此设置目录</p>
+</li><li>
+<p>historyApiFallback : 开发单页面的时候非常有用，它依赖于H5的 history API，当设置为true的时候所有的跳转都指向index.html；</p>
+</li><li>
+<p>port：可以设置端口号，不设置时候默认为 8080</p>
+</li><li>
+<p>inline ： 设置为true的时候回自动刷新(有的版本需要配合hot : true使用)</p>
+</li></ul>
+</li><li>
+<p>配置文件编码</p>
+
+<pre>devServer:{
+  contentBase: &#39;./&#39;,//内置服务器动态加载页面所在的目录
+      historyApiFallback:true,//不跳转
+      inline:true, //设置为true自动刷新
+	  hot:true
+}</pre>
+</li><li>
+<p>HTML引入</p>
+<ul><li>
+<p>src引入的硬盘中的build文件而不是webpack-dev-server服务器内存中的build.所以需要引入内存的</p>
+</li><li>
+<p><code>&lt;script type=&quot;text/javascript&quot; src=&quot;bundle.js&quot;&gt;&lt;/script&gt;</code></p>
+</li></ul>
+</li></ul>
+
+<p>———-</p>
+
+<h4 id="label-E5-9B-BE-E7-89-87-E5-8A-A0-E8-BD-BD-E5-99-A8">图片加载器<span><a href="#label-E5-9B-BE-E7-89-87-E5-8A-A0-E8-BD-BD-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: <code>npm install url-loader file-loader --save-dev</code></p>
+</li><li>
+<p>url-loader比file-loader功能更加完善是对file-loader的上层封装</p>
+</li><li>
+<p>添加config中loader的配置</p>
+<ul><li>
+<p><code>{ test: /\.(png|jpg)$/, loader: &quot;url-loader?limit=8192&quot; }</code></p>
+</li></ul>
+</li><li>
+<p>定义引用图片的样式: test.css</p>
+</li><li>
+<p>在页面引用样式或图片: index.html</p>
+</li><li>
+<p>如果图片小于limit设定的值就会进行Base64编码(默认都是8192)</p>
+</li></ul>
+
+<h4 id="label-pushstate-server+-E8-A7-A3-E5-86-B3-E8-B7-AF-E5-BE-84-E9-97-AE-E9-A2-98">pushstate-server 解决路径问题<span><a href="#label-pushstate-server+-E8-A7-A3-E5-86-B3-E8-B7-AF-E5-BE-84-E9-97-AE-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>下载: <code>npm install pushstate-server -g</code></p>
+</li><li>
+<p>找到当前项目的上一级运行命令</p>
+<ul><li>
+<p><code>pushstate-server 要解决路径的目录名</code></p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-AE-8C-E5-96-84package.json">完善package.json<span><a href="#label-E5-AE-8C-E5-96-84package.json">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>把需要运行的命令配置在package.json里</p>
+</li><li>
+<p>npm start: 编译运行项目</p>
+</li><li>
+<p>npm build: 编译打包</p>
+
+<pre>  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;webpack-dev-server&quot;,
+    &quot;build&quot;: &quot;webpack&quot;
+  }</pre>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/10_ECMAScript/%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B7%A5%E5%85%B7.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="10-05.html">上一篇 · JS模块化</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

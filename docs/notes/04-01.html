@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>HTML5 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-04.html">HTML5 与 CSS3：图形、表单和动画</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>HTML5 与 CSS3：图形、表单和动画</strong><a href="04-01.html" aria-current="page">HTML5</a><a href="04-02.html">CSS3</a><a href="04-03.html">canvas</a><a href="04-04.html">SVG</a><a href="04-05.html">HTML5地理定位</a></nav>
+<article class="paper"><h1>HTML5</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>语义标签可以直接说明一块内容的用途，例如 <code>&lt;nav&gt;</code> 表示导航，<code>&lt;article&gt;</code> 表示可以独立阅读的内容。想在元素上存自定义数据，可以用 <code>data-*</code>。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h1 id="label-HTML5">HTML5<span><a href="#label-HTML5">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<h3 id="label-HTML5-E7-AE-80-E4-BB-8B">HTML5简介<span><a href="#label-HTML5-E7-AE-80-E4-BB-8B">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>HTML5 是 HTML 标准的下一个重要版本，用来替代 HTML 4.01，XHTML 1.0 以及 XHTML 1.1。HTML5 也是一种在万维网上构建和呈现内容的标准。</p>
+
+<p>HTML5 是万维网联盟（W3C）和网页超文本技术工作小组（WHATWG）合作的产物。</p>
+
+<p>HTML5 是近十年来 Web 开发标准最巨大的飞跃。HTML5 并非仅仅用来表示 Web 内容，它将 Web 带入一个成熟的应用平台，在 HTML5 平台上，视频、音频、图象、动画，以及同电脑的交互都被标准化。</p>
+
+<h4 id="label-HTML5+-E5-BC-95-E5-85-A5-E4-BA-86-E8-AE-B8-E5-A4-9A-E6-96-B0-E5-85-83-E7-B4-A0-E5-92-8C-E5-B1-9E-E6-80-A7-E5-B8-AE-E5-8A-A9-E6-88-91-E4-BB-AC-E6-9E-84-E5-BB-BA-E7-8E-B0-E4-BB-A3-E5-8C-96-E7-9A-84-E7-BD-91-E7-AB-99-E3-80-82-E4-B8-8B-E9-9D-A2-E6-98-AF+HTML5+-E5-BC-95-E5-85-A5-E7-9A-84-E4-B8-BB-E8-A6-81-E7-89-B9-E6-80-A7-EF-BC-9A">HTML5 引入了许多新元素和属性帮助我们构建现代化的网站。下面是 HTML5 引入的主要特性：<span><a href="#label-HTML5+-E5-BC-95-E5-85-A5-E4-BA-86-E8-AE-B8-E5-A4-9A-E6-96-B0-E5-85-83-E7-B4-A0-E5-92-8C-E5-B1-9E-E6-80-A7-E5-B8-AE-E5-8A-A9-E6-88-91-E4-BB-AC-E6-9E-84-E5-BB-BA-E7-8E-B0-E4-BB-A3-E5-8C-96-E7-9A-84-E7-BD-91-E7-AB-99-E3-80-82-E4-B8-8B-E9-9D-A2-E6-98-AF+HTML5+-E5-BC-95-E5-85-A5-E7-9A-84-E4-B8-BB-E8-A6-81-E7-89-B9-E6-80-A7-EF-BC-9A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>新的语义化元素： 比如 <code>&lt;header&gt;</code>，<code>&lt;footer&gt;</code> 和 <code>&lt;section&gt;</code>。</p>
+</li><li>
+<p>表单 2.0： 改进了 HTML Web 表单，为 <code>&lt;input&gt;</code> 标签引入了一些新的属性。</p>
+</li><li>
+<p>持久的本地存储： 为了不通过第三方插件实现。</p>
+</li><li>
+<p>WebSocket： 用于 Web 应用程序的下一代双向通信技术。</p>
+</li><li>
+<p>服务器推送事件： HTML5 引入了从 Web 服务器到 Web 浏览器的事件，也被称作服务器推送事件（SSE）。</p>
+</li><li>
+<p>Canvas： 支持用 JavaScript 以编程的方式进行二维绘图。</p>
+</li><li>
+<p>音频和视频： 在网页中嵌入音频或视频而无需借助第三方插件。</p>
+</li><li>
+<p>地理定位： 用户可以选择与我们的网页共享他们的地理位置。</p>
+</li><li>
+<p>拖放： 把同一网页上的条目从一个位置拖放到另一个位置。</p>
+</li></ul>
+
+<h4 id="label-HTML5+-E6-B5-8F-E8-A7-88-E5-99-A8-E6-94-AF-E6-8C-81-EF-BC-9A">HTML5 浏览器支持：<span><a href="#label-HTML5+-E6-B5-8F-E8-A7-88-E5-99-A8-E6-94-AF-E6-8C-81-EF-BC-9A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>最新版 Apple Safari，Mozilla FireFox 和 Opera 支持大部分 HTML5 特性，IE9 也支持一些 HTML5 的功能。</p>
+
+<p>预装在 iPhones，iPads 和 Android 手机上的手机浏览器都对 HTML5 有良好的支持。</p>
+<hr>
+
+<h3 id="label-E8-87-AA-E5-AE-9A-E4-B9-89-E5-B1-9E-E6-80-A7">自定义属性<span><a href="#label-E8-87-AA-E5-AE-9A-E4-B9-89-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>给程序使用的数据，存储在自定义属性中</p>
+</li><li>
+<p>自定义属性只能存储字符串或数字</p>
+</li><li>
+<p>语法规则</p>
+<ul><li>
+<p>必须以 <code>data-</code>前缀开头</p>
+</li><li>
+<p>多个英文单词使用 <code>-</code> 连接</p>
+</li><li>
+<p><code>&lt;div data-demo-test=&quot;hello world&quot;&gt;&lt;/div&gt;</code></p>
+</li></ul>
+</li><li>
+<p>Dom使用 <code>dataset</code> 操作自定义属性</p>
+<ul><li>
+<p>去掉前缀 <code>data-</code></p>
+</li><li>
+<p>连接符内容采用驼峰命名法</p>
+</li><li>
+<p><code>boxDom.dataset.demoTest</code></p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-HTML5+-E6-96-B0-E8-AF-AD-E4-B9-89-E6-A0-87-E7-AD-BE">HTML5 新语义标签<span><a href="#label-HTML5+-E6-96-B0-E8-AF-AD-E4-B9-89-E6-A0-87-E7-AD-BE">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>新增的语音元素等同于DIV. 可以独占一行.也可以设置宽高</p>
+</li><li>
+<p>没有语义的情况下，就需要是使用DIV了。</p>
+</li><li>
+<p><strong>注意：千万不要为了语义而语义</strong></p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/avukaOA.jpg"></p>
+
+<h6 id="label-header-E5-85-83-E7-B4-A0">header元素<span><a href="#label-header-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>header 元素代表“网页”或“section”的页眉。</p>
+</li><li>
+<p>通常包含h1-h6元素或hgroup，作为整个页面或者一个内容块的标题。</p>
+</li><li>
+<p>也可以包裹一节的目录部分，一个搜索框，一个nav，或者任何相关logo。</p>
+</li><li>
+<p>整个页面没有限制header元素的个数，可以拥有多个，可以为每个内容块增加一个header元素</p>
+</li><li>
+<p>注意事项:</p>
+<ol><li>
+<p>可以是“网页”或任意“section”的头部部分；</p>
+</li><li>
+<p>没有个数限制。</p>
+</li><li>
+<p>如果hgroup或h1-h6自己就能工作的很好，那就不要用header。</p>
+</li></ol>
+</li></ul>
+
+<h6 id="label-footer-E5-85-83-E7-B4-A0">footer元素<span><a href="#label-footer-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>footer元素代表“网页”或“section”的页脚</p>
+</li><li>
+<p>通常含有该节的一些基本信息，譬如：作者，相关文档链接，版权资料。</p>
+</li><li>
+<p>如果footer元素包含了整个节，那么它们就代表附录，索引，提拔，许可协议，标签，类别等一些其他类似信息。</p>
+</li><li>
+<p>注意事项:</p>
+<ol><li>
+<p>可以是“网页”或任意“section”的底部部分；</p>
+</li><li>
+<p>没有个数限制，除了包裹的内容不一样，其他跟header类似。</p>
+</li></ol>
+</li></ul>
+
+<h6 id="label-hgroup-E5-85-83-E7-B4-A0">hgroup元素<span><a href="#label-hgroup-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>hgroup元素代表“网页”或“section”的标题</p>
+</li><li>
+<p>当元素有多个层级时，该元素可以将h1到h6元素放在其内</p>
+</li><li>
+<p>譬如文章的主标题和副标题的组合</p>
+</li><li>
+<p>注意事项:</p>
+<ol><li>
+<p>如果只需要一个h1-h6标签就不用hgroup</p>
+</li><li>
+<p>如果有连续多个h1-h6标签就用hgroup</p>
+</li><li>
+<p>如果有连续多个标题和其他文章数据，h1-h6标签就用hgroup包住，和其他文章元数据一起放入header标签。</p>
+</li></ol>
+</li></ul>
+
+<h6 id="label-nav-E5-85-83-E7-B4-A0">nav元素<span><a href="#label-nav-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>nav元素代表页面的导航链接区域。用于定义页面的主要导航部分。</p>
+</li><li>
+<p>用在整个页面主要导航部分上。可以把导航条标签ul放到nav里面</p>
+</li></ul>
+
+<h6 id="label-article-E5-85-83-E7-B4-A0">article元素<span><a href="#label-article-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>article代表一个在文档，页面或者网站中自成一体的内容，其目的是为了让开发者独立开发或重用。</p>
+</li><li>
+<p>譬如论坛的帖子，博客上的文章，一篇用户的评论，一个互动的widget小工具。</p>
+</li><li>
+<p>注意事项:</p>
+<ol><li>
+<p>一张页面可以用section划分为简介、文章条目和联系信息。不过在文章内页，最好用article。section不是一般意义上的容器元素，如果想作为样式展示和脚本的便利，可以用div。</p>
+</li><li>
+<p>article、nav、aside可以理解为特殊的section，所以如果可以用article、nav、aside就不要用section，没实际意义的就用div</p>
+</li><li>
+<p>article元素可以嵌套article也可以嵌套section. 也可以section 元素嵌套 article 这是一种特殊情况</p>
+</li></ol>
+</li></ul>
+
+<h6 id="label-section-E5-85-83-E7-B4-A0">section元素<span><a href="#label-section-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>section元素代表文档中的“节”或“段”</p>
+</li><li>
+<p>“段”可以是指一篇文章里按照主题的分段；“节”可以是指一个页面里的分组。</p>
+</li><li>
+<p>section通常还带标题，虽然html5中section会自动给标题h1-h6降级，但是最好手动给他们降级</p>
+</li><li>
+<p>注意事项:</p>
+<ol><li>
+<p>一张页面可以用section划分为简介、文章条目和联系信息。不过在文章内页，最好用article。section不是一般意义上的容器元素，如果想作为样式展示和脚本的便利，可以用div。</p>
+</li><li>
+<p>表示文档中的节或者段；</p>
+</li></ol>
+</li></ul>
+
+<h6 id="label-aside-E5-85-83-E7-B4-A0+-28-E6-AC-A1-E8-A6-81-E4-BF-A1-E6-81-AF-29">aside元素 (次要信息)<span><a href="#label-aside-E5-85-83-E7-B4-A0+-28-E6-AC-A1-E8-A6-81-E4-BF-A1-E6-81-AF-29">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>aside元素被包含在article元素中作为主要内容的附属信息部分，其中的内容可以是与当前文章有关的相关资料、标签、名词解释等。（特殊的section）</p>
+</li><li>
+<p>在article元素之外使用作为页面或站点全局的附属信息部分。最典型的是侧边栏，其中的内容可以是日志串连，其他组的导航，甚至广告，这些内容相关的页面。</p>
+</li><li>
+<p>注意事项:</p>
+<ol><li>
+<p>aside在article内表示主要内容的附属信息</p>
+</li><li>
+<p>在article之外则可做侧边栏，没有article与之对应，最好不用。</p>
+</li><li>
+<p>如果是广告，其他日志链接或者其他分类导航也可以用</p>
+</li></ol>
+</li></ul>
+<hr>
+
+<h3 id="label-HTML5+-E8-A1-A8-E5-8D-95">HTML5 表单<span><a href="#label-HTML5+-E8-A1-A8-E5-8D-95">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>&lt;form method=“”&gt; 请求方式</p>
+<ul><li>
+<p>get</p>
+</li><li>
+<p>post</p>
+</li></ul>
+</li><li>
+<p>&lt;label for=“”&gt; input提示信息</p>
+<ul><li>
+<p>需要获取input的id属性值关联</p>
+</li><li>
+<p>点击文字,鼠标光标在输入框内闪烁</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-input+-E8-BE-93-E5-85-A5-E7-B1-BB-E5-8F-AF-E9-80-89-E5-B1-9E-E6-80-A7">input 输入类可选属性<span><a href="#label-input+-E8-BE-93-E5-85-A5-E7-B1-BB-E5-8F-AF-E9-80-89-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>email 电子邮箱输入框</p>
+</li><li>
+<p>tel 电话号码输入框</p>
+</li><li>
+<p>url 网页url地址栏输入框</p>
+</li><li>
+<p>search 搜索引擎输入框</p>
+</li><li>
+<p>number 输入数字</p>
+<ul><li>
+<p>max 最大到</p>
+</li><li>
+<p>min 最小到</p>
+</li><li>
+<p>step 以某梯度增加或减少</p>
+
+<h5 id="label-input+-E9-80-89-E6-8B-A9-E7-B1-BB-E5-8F-AF-E9-80-89-E5-B1-9E-E6-80-A7">input 选择类可选属性<span><a href="#label-input+-E9-80-89-E6-8B-A9-E7-B1-BB-E5-8F-AF-E9-80-89-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li></ul>
+</li><li>
+<p>range 特定范围内的数值选择器</p>
+<ul><li>
+<p>max 最大到</p>
+</li><li>
+<p>min 最小到</p>
+</li><li>
+<p>step 以某梯度增加或减少</p>
+</li></ul>
+</li><li>
+<p>color 颜色选择</p>
+</li><li>
+<p>detetime-local 日期选择</p>
+<ul><li>
+<p>time</p>
+</li><li>
+<p>date</p>
+</li><li>
+<p>week</p>
+</li><li>
+<p>month</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-E8-AF-AD-E4-B9-89-E5-8C-96-E8-A1-A8-E5-8D-95-E6-96-B0-E5-B1-9E-E6-80-A7">语义化表单新属性<span><a href="#label-E8-AF-AD-E4-B9-89-E5-8C-96-E8-A1-A8-E5-8D-95-E6-96-B0-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>placeholder 提示用户输入信息</p>
+</li><li>
+<p>autocomplete 是否保存用户输入值</p>
+<ul><li>
+<p>on 默认值. 自动填充</p>
+</li><li>
+<p>off 关闭自动填充提示</p>
+</li></ul>
+</li><li>
+<p>autofocus 自动获取输入焦点</p>
+</li><li>
+<p>novalidate 不对输入进行验证. 填写在from中</p>
+</li><li>
+<p>maxlength:“ length ”控制表单输入项的文本长度</p>
+</li><li>
+<p>required 当表单提交时,输入项必须有内容</p>
+</li><li>
+<p>pattern 基于正则表达式验证格式. 重要的验证必须放在服务器端</p>
+</li><li>
+<p>formaction 在提交按钮中定义一个提交地址. 常用于保存草稿</p>
+</li><li>
+<p>formnovalidate 不做表单验证</p>
+</li><li>
+<p>DOM操作验证状态方法: setCustomValidity( )</p>
+<ul><li>
+<p>不符合自定义验证时, 返回给用户一个自定义的字符串内容.</p>
+</li><li>
+<p>验证通过时, 可以填写空串. 一定不能写null</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<h3 id="label-HTML5+history+-E6-96-B0-E6-96-B9-E6-B3-95">HTML5 history 新方法<span><a href="#label-HTML5+history+-E6-96-B0-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>history.pushState ( ) 增加历史记录</p>
+<ul><li>
+<p>state object 数字，字符串，JSON对象</p>
+</li><li>
+<p>title（所有浏览器暂不支持）</p>
+</li><li>
+<p>URL [可选]显示在地址栏的网页地址</p>
+</li></ul>
+</li><li>
+<p>history.replaceState( ) 修改历史记录</p>
+<ul><li>
+<p>把当前的历史记录（history entry ）替换成新的历史记录</p>
+</li><li>
+<p>参数同pushState</p>
+</li></ul>
+</li><li>
+<p>window.onpopstate 当窗口历史记录改变时运行的脚本 -onpopstate触发时机：相同文档中，两个历史记录前进或后退切换时。</p>
+</li></ul>
+<hr>
+
+<h3 id="label-HTML5+-E7-A6-BB-E7-BA-BF-E5-AD-98-E5-82-A8+API">HTML5 离线存储 API<span><a href="#label-HTML5+-E7-A6-BB-E7-BA-BF-E5-AD-98-E5-82-A8+API">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h5 id="label-Cookie-E5-AD-98-E5-82-A8-E7-9A-84-E7-89-B9-E7-82-B9">Cookie存储的特点<span><a href="#label-Cookie-E5-AD-98-E5-82-A8-E7-9A-84-E7-89-B9-E7-82-B9">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>1.cookie由服务器创建，第一次响应后，记录在浏览器
+2.每次请求，cookie都会发动到服务器
+3.每次响应，cookie都会推送到浏览器
+4.在浏览器读取cookie比较繁琐
+5.cookie容量小，只有4kb
+- cookie 缺点: 需要在客户端和服务器端来回地传送，繁琐且消耗带宽；</pre>
+
+<h5 id="label-Storage-E5-AD-98-E5-82-A8+-3A+sessionStorage+-2F+localStorage">Storage存储 : sessionStorage / localStorage<span><a href="#label-Storage-E5-AD-98-E5-82-A8+-3A+sessionStorage+-2F+localStorage">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>数据生命周期：</p>
+<ul><li>
+<p>sessionStorage 数据创建到浏览器页签关闭</p>
+</li><li>
+<p>localStorage 数据创建到用户手动清除，或者使用clear(), removeItem(key)删除</p>
+</li></ul>
+</li><li>
+<p>数据共享：</p>
+<ul><li>
+<p>sessionStorage 条件：同一个浏览器页签</p>
+</li><li>
+<p>localStorage 条件：相同域名（协议，域名，端口）的不同网址</p>
+</li></ul>
+</li><li>
+<p>数据使用场景：</p>
+<ul><li>
+<p>频繁操作且安全性不高的数据</p>
+</li></ul>
+</li><li>
+<p>可存储的数据格式：</p>
+<ol><li>
+<p>数字</p>
+</li><li>
+<p>字符串</p>
+</li><li>
+<p>JSON对象，需要使用 JSON.stringify(JSON对象)把其转换成字符串再存储。获取后再调用JSON.parse(JSON的字符串)转成JSON对象再使用。</p>
+</li></ol>
+</li><li>
+<p>优点:</p>
+<ul><li>
+<p>sessionStorage / localStorage 优点: 保存在服务器端. 存储结构化方便提取</p>
+</li></ul>
+</li></ul>
+
+<h6 id="label-sessionStorage+-2F+localStorage+-E5-B1-9E-E6-80-A7">sessionStorage / localStorage 属性<span><a href="#label-sessionStorage+-2F+localStorage+-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>setItem(“key”, “value”);</p>
+<ul><li>
+<p>增加一个数据</p>
+</li></ul>
+</li><li>
+<p>getItem(&#39;key&#39;)</p>
+<ul><li>
+<p>获取对应的value值</p>
+</li></ul>
+</li><li>
+<p>removeItem(“key”);</p>
+<ul><li>
+<p>删除一个数据</p>
+</li></ul>
+</li><li>
+<p>clear();</p>
+<ul><li>
+<p>清除所有</p>
+</li></ul>
+</li><li>
+<p>length</p>
+<ul><li>
+<p>获取数据长度</p>
+</li></ul>
+</li><li>
+<p>key(num)</p>
+<ul><li>
+<p>获取指定索引位的key值</p>
+</li></ul>
+</li></ul>
+
+<p><img src="https://i.imgur.com/jat4BB1.jpg"></p>
+
+<p>———-</p>
+
+<h3 id="label-HTML+-E9-9F-B3-E8-A7-86-E9-A2-91-E5-A4-84-E7-90-86">HTML 音视频处理<span><a href="#label-HTML+-E9-9F-B3-E8-A7-86-E9-A2-91-E5-A4-84-E7-90-86">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-E8-A7-86-E9-A2-91-E5-9F-BA-E7-A1-80-E5-86-85-E5-AE-B9">视频基础内容<span><a href="#label-E8-A7-86-E9-A2-91-E5-9F-BA-E7-A1-80-E5-86-85-E5-AE-B9">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>目前实现网页视频播放的技术 - Flash</strong></p>
+<ul><li>
+<p>Flash并不是浏览器原生支持(第三方组件)</p>
+</li><li>
+<p>Flash的性能并不好</p>
+</li><li>
+<p>移动端不支持Flash技术</p>
+</li></ul>
+
+<p><strong>HTML 5 提供的视频处理技术 - <code>&lt;video&gt;</code></strong></p>
+<ul><li>
+<p>提供了相对应的基本处理方式</p>
+</li><li>
+<p>提供了高级编程自定义方式</p>
+</li></ul>
+
+<p><strong><code>&lt;video&gt;</code>元素所支持的视频格式</strong></p>
+<ul><li>
+<p>MP4格式：视频文件扩展名为“.mp4”</p>
+</li><li>
+<p>OGG格式：视频文件扩展名为“.ogv”</p>
+</li><li>
+<p>WEBM格式：视频文件扩展名为:“.webm”</p>
+<ul><li>
+<p>是由Google公司推出的(最初Chrome并不支持)</p>
+</li><li>
+<p>是目前唯一一个支持超高清的视频格式</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-A6-82-E4-BD-95-E4-BD-BF-E7-94-A8-3Cvideo-3E-E5-85-83-E7-B4-A0">如何使用<code>&lt;video&gt;</code>元素<span><a href="#label-E5-A6-82-E4-BD-95-E4-BD-BF-E7-94-A8-3Cvideo-3E-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>引入单个视频格式</strong></p>
+
+<pre>&lt;video src=&quot;视频文件的路径&quot; autoplay&gt;
+    浏览器不支持的提示内容
+&lt;/video&gt;</pre>
+<ul><li>
+<p>autoplay属性：自动播放视频</p>
+</li><li>
+<p>width属性：设置视频的宽度</p>
+</li><li>
+<p>height属性：设置视频的高度</p>
+</li><li>
+<p>style属性：设置CSS样式</p>
+</li><li>
+<p>class属性：设置CSS样式</p>
+
+<pre>&lt;video src=&quot;../DATA/oceans-clip.mp4&quot; autoplay width=&quot;640px&quot; height=&quot;400px&quot; style=&quot;background:black;&quot;&gt;
+    非常抱歉,你的浏览器不支持该视频!
+&lt;/video&gt;</pre>
+</li></ul>
+
+<p><strong>引入多个视频格式</strong></p>
+
+<pre>&lt;video autoplay&gt;
+    &lt;source src=&quot;视频文件的路径&quot; /&gt;
+    &lt;source src=&quot;视频文件的路径&quot; /&gt;
+    &lt;source src=&quot;视频文件的路径&quot; /&gt;
+    浏览器不支持的提示内容
+&lt;/video&gt;
+
+
+
+
+&lt;!-- 解决了浏览器对视频格式的兼容问题 --&gt;
+&lt;video autoplay&gt;
+    &lt;!--
+        &lt;source&gt;元素
+        * 引入视频文件(一个&lt;video&gt;元素允许包含多个&lt;source&gt;)
+    --&gt;
+    &lt;source src=&quot;../DATA/oceans-clip.mp4&quot; /&gt;
+    &lt;source src=&quot;../DATA/oceans-clip.ogv&quot; /&gt;
+    &lt;source src=&quot;../DATA/oceans-clip.webm&quot; /&gt;
+&lt;/video&gt;</pre>
+
+<h4 id="label-3Cvideo-3E-E5-85-83-E7-B4-A0-E7-9A-84-E5-B1-9E-E6-80-A7"><code>&lt;video&gt;</code>元素的属性<span><a href="#label-3Cvideo-3E-E5-85-83-E7-B4-A0-E7-9A-84-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>autoplay属性：自动播放</p>
+</li><li>
+<p>controls属性：提供控制面板</p>
+
+<pre>&lt;video src=&quot;../DATA/oceans-clip.mp4&quot; controls&gt;&lt;/video&gt;</pre>
+</li><li>
+<p>loop属性：循环播放</p>
+
+<pre>&lt;video src=&quot;../DATA/oceans-clip.mp4&quot; autoplay loop&gt;&lt;/video&gt;</pre>
+</li><li>
+<p>poster属性：播放之前实现一张图片</p>
+
+<pre>&lt;video src=&quot;../DATA/oceans-clip.mp4&quot; controls poster=&quot;../DATA/oceans-clip.png&quot;&gt;&lt;/video&gt;</pre>
+</li><li>
+<p>preload属性：预加载视频</p>
+<ul><li>
+<p>none：不预加载</p>
+</li><li>
+<p>auto：默认值,尽快预加载</p>
+</li><li>
+<p>metadata：预加载除视频之外的内容(宽度、高度等)</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E8-A7-86-E9-A2-91-E9-AB-98-E7-BA-A7-E7-BC-96-E7-A8-8B">视频高级编程<span><a href="#label-E8-A7-86-E9-A2-91-E9-AB-98-E7-BA-A7-E7-BC-96-E7-A8-8B">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>事件</strong></p>
+<ul><li>
+<p>play：视频播放时触发</p>
+</li><li>
+<p>pause：视频暂停时触发</p>
+</li><li>
+<p>ended：视频播放结束时触发</p>
+</li><li>
+<p>error：视频播放错误时触发</p>
+</li></ul>
+
+<p><strong>方法</strong></p>
+<ul><li>
+<p>play( )：用于播放视频</p>
+</li><li>
+<p>pause( )：用于暂停视频</p>
+</li><li>
+<p>load( )：用于加载视频</p>
+</li><li>
+<p>canPlayType( )：判断当前浏览器是否支持当前视频格式</p>
+</li></ul>
+
+<p><strong>属性</strong></p>
+<ul><li>
+<p>paused：如果视频为暂停或未播放时,返回true</p>
+</li><li>
+<p>ended：如果视频播放完毕时,返回true</p>
+</li><li>
+<p>duration：返回当前视频的时长</p>
+</li><li>
+<p>currentTime：获取或设置视频的当前位置</p>
+</li></ul>
+<hr>
+
+<h5 id="label-E9-9F-B3-E9-A2-91-E5-9F-BA-E7-A1-80-E5-86-85-E5-AE-B9">音频基础内容<span><a href="#label-E9-9F-B3-E9-A2-91-E5-9F-BA-E7-A1-80-E5-86-85-E5-AE-B9">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<p><strong>目前音频处理技术</strong></p>
+<ul><li>
+<p>Flash技术也可以音频处理</p>
+</li><li>
+<p>Media Player播放器允许嵌入在网页中</p>
+</li></ul>
+
+<p><strong>HTML 5提供的音频处理 - <code>&lt;audio&gt;</code></strong></p>
+<ul><li>
+<p>浏览器原生支持</p>
+</li><li>
+<p>性能很好</p>
+</li><li>
+<p>移动端支持</p>
+</li></ul>
+
+<p><strong><code>&lt;audio&gt;</code>元素支持的音频格式</strong></p>
+<ul><li>
+<p>mp3 - 音频文件的扩展名为“.mp3”</p>
+</li><li>
+<p>ogg</p>
+</li><li>
+<p>wav</p>
+</li></ul>
+
+<h4 id="label-E5-A6-82-E4-BD-95-E4-BD-BF-E7-94-A8-3Caudio-3E-E5-85-83-E7-B4-A0">如何使用<code>&lt;audio&gt;</code>元素<span><a href="#label-E5-A6-82-E4-BD-95-E4-BD-BF-E7-94-A8-3Caudio-3E-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>引入单个音频格式</strong></p>
+
+<pre>&lt;audio src=&quot;音频文件的路径&quot; autoplay&gt;
+    浏览器不支持的提示内容
+&lt;/audio&gt;</pre>
+
+<p><strong>引入多个音频格式</strong></p>
+
+<pre>&lt;audio autoplay&gt;
+    &lt;source src=&quot;音频文件的路径&quot; /&gt;
+    &lt;source src=&quot;音频文件的路径&quot; /&gt;
+    &lt;source src=&quot;音频文件的路径&quot; /&gt;
+    浏览器不支持的提示内容
+&lt;/audio&gt;</pre>
+
+<h4 id="label-3Caudio-3E-E5-85-83-E7-B4-A0-E7-9A-84-E7-89-B9-E6-9C-89-E5-B1-9E-E6-80-A7"><code>&lt;audio&gt;</code>元素的特有属性<span><a href="#label-3Caudio-3E-E5-85-83-E7-B4-A0-E7-9A-84-E7-89-B9-E6-9C-89-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>autoplay属性：自动播放</p>
+</li><li>
+<p>controls属性：提供控制面板</p>
+</li><li>
+<p>loop属性：循环播放</p>
+</li><li>
+<p>preload属性：预加载视频</p>
+<ul><li>
+<p>none：不预加载</p>
+</li><li>
+<p>auto：默认值,尽快预加载</p>
+</li><li>
+<p>metadata：预加载除视频之外的内容(宽度、高度等)</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-3Caudio-3E-E5-85-83-E7-B4-A0-E7-9A-84-E9-AB-98-E7-BA-A7-E7-BC-96-E7-A8-8B"><code>&lt;audio&gt;</code>元素的高级编程<span><a href="#label-3Caudio-3E-E5-85-83-E7-B4-A0-E7-9A-84-E9-AB-98-E7-BA-A7-E7-BC-96-E7-A8-8B">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>事件</strong></p>
+<ul><li>
+<p>play：视频播放时触发</p>
+</li><li>
+<p>pause：视频暂停时触发</p>
+</li><li>
+<p>ended：视频播放结束时触发</p>
+</li><li>
+<p>error：视频播放错误时触发</p>
+</li></ul>
+
+<p><strong>方法</strong></p>
+<ul><li>
+<p>play( )：用于播放视频</p>
+</li><li>
+<p>pause( )：用于暂停视频</p>
+</li><li>
+<p>load( )：用于加载视频</p>
+</li><li>
+<p>canPlayType( )：判断当前浏览器是否支持当前视频格式</p>
+</li></ul>
+
+<p><strong>属性</strong></p>
+<ul><li>
+<p>paused：如果视频为暂停或未播放时,返回true</p>
+</li><li>
+<p>ended：如果视频播放完毕时,返回true</p>
+</li><li>
+<p>duration：返回当前视频的时长</p>
+</li><li>
+<p>currentTime：获取或设置视频的当前位置</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/04_HTML5/HTML5.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="04-02.html">下一篇 · CSS3</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

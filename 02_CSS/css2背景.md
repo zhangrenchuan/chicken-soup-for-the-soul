@@ -1,3 +1,11 @@
+# css2背景
+
+## 先弄懂这件事
+
+`background-color` 设置底色，`background-image` 加背景图。只想显示一张不平铺的背景图时，可以加 `background-repeat: no-repeat`。
+
+## 笔记与示例
+
 ## CSS2 背景
 ##### background-color 设置背景颜色
 

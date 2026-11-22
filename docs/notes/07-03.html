@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>HTTP服务器建立 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html" aria-current="page">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>HTTP服务器建立</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>用 <code>http.createServer()</code> 注册请求处理函数，再用 <code>listen()</code> 开始监听端口。每次请求处理完，用 <code>res.end()</code> 结束响应。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-HTTP-E6-9C-8D-E5-8A-A1-E5-99-A8-E5-BB-BA-E7-AB-8B">HTTP服务器建立<span><a href="#label-HTTP-E6-9C-8D-E5-8A-A1-E5-99-A8-E5-BB-BA-E7-AB-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-1.-E5-88-9B-E5-BB-BA-EF-BC-9A">1.创建：<span><a href="#label-1.-E5-88-9B-E5-BB-BA-EF-BC-9A">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre>	var http = require(&#39;http&#39;) 引入http包
+	var server = http.createServer(callback);
+	createServer 有一个返回值：server (类型 http.Server)
+	回调函数callback 有两个参数：
+	  	1.request:请求数据 类型 http.IncomingMessage
+	  	2.response:响应返回数据 类型 http.ServerResponse</pre>
+
+<h3 id="label-2.-E7-9B-91-E5-90-AC">2.监听<span><a href="#label-2.-E7-9B-91-E5-90-AC">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre>server.listen(port, [host], [backlog], [callback]);
+server监听来自客户端的请求。
+参数：
+    1.port:监听端口号(必须)
+    2.host:指定监听的地址 可选
+    3.backlog:等待队列中客户端的最大连接数据量，默认511，超过这个数据量之后的请求服务器会拒绝连接
+    4.当‘listening’事件触发后，执行回调函数</pre>
+
+<h3 id="label-3.-E5-85-B3-E9-97-AD">3.关闭<span><a href="#label-3.-E5-85-B3-E9-97-AD">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre class="ruby"><span class="ruby-identifier">server</span>.<span class="ruby-identifier">close</span>();
+<span class="ruby-identifier">关闭服务器，再关闭后，不能再提供服务</span>
+</pre>
+
+<h3 id="label-4.-E5-AE-9E-E4-BE-8B">4.实例<span><a href="#label-4.-E5-AE-9E-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre>var http = require(&#39;http&#39;);
+
+var server = http.createServer(function (request,response) {
+    response.end(&#39;hello world&#39;)
+  }).listen(3000,function () {
+    console.log(&#39;成功申请&#39;);
+  });
+
+  setTimeout(function () {
+      server.close(); //关闭服务器
+  }, 5000);</pre>
+<hr>
+
+<h2 id="label-request+-E8-AF-B7-E6-B1-82-E6-95-B0-E6-8D-AE+HTTP-E8-AF-B7-E6-B1-82">request 请求数据 HTTP请求<span><a href="#label-request+-E8-AF-B7-E6-B1-82-E6-95-B0-E6-8D-AE+HTTP-E8-AF-B7-E6-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>url 域名</p>
+<ul><li>
+<p>/ 表示根目录</p>
+</li></ul>
+</li><li>
+<p>method 请求方法</p>
+<ul><li>
+<p>get 请求数据内容都在url中. 请求体没有</p>
+</li><li>
+<p>post 默认传递较多数据.内容在请求体中</p>
+</li></ul>
+</li></ul>
+
+<h2 id="label-response+-E8-BF-94-E5-9B-9E-E6-95-B0-E6-8D-AE+HTTP-E5-93-8D-E5-BA-94">response 返回数据 HTTP响应<span><a href="#label-response+-E8-BF-94-E5-9B-9E-E6-95-B0-E6-8D-AE+HTTP-E5-93-8D-E5-BA-94">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><strong>一次性统一设置响应头信息,必须写在发送数据之前</strong></p>
+<ul><li>
+<p><strong>writeHead</strong>(statusCode, [reasonPhrase], [headers])</p>
+<ul><li>
+<p>statusCode 状态码</p>
+</li><li>
+<p>reasonPhrase 状态码说明</p>
+</li><li>
+<p>headers 对象{ }</p>
+</li><li>
+<p>&#39;content-type&#39; : //响应类型</p>
+</li><li>
+<p>&#39;text/html&#39; 以html格式解析</p>
+</li><li>
+<p>&#39;text/plain&#39; 以原始文本解析</p>
+</li><li>
+<p>&#39;content-length&#39;: //响应体长度</p>
+</li><li>
+<p>&#39;set-cookie&#39; : [&#39;name&#39; = &#39;zrc&#39;] //设置cookie</p>
+</li></ul>
+</li></ul>
+
+<p><code> 例子: res.writeHead(200,&#39;OK&#39;,{ &#39;content-Type&#39; :&#39;text/html&#39; });  </code></p>
+
+<p><strong>单独设置响应头信息</strong></p>
+<ul><li>
+<p><strong>setHeader</strong>(name,value) 添加或修改响应头信息</p>
+<ul><li>
+<p>name 响应头名</p>
+</li><li>
+<p>value 响应头对应的值 例如 - &#39;content-type&#39; ,</p>
+</li><li>
+<p>&#39;text/html&#39; 以html格式解析</p>
+</li><li>
+<p>&#39;text/plain&#39; 以原始文本解析</p>
+</li></ul>
+</li><li>
+<p>getHeader(name) 获取查找某个响应头信息</p>
+</li><li>
+<p>removeHeader(name) 删除响应头某个信息</p>
+</li><li>
+<p>statusCode 单独设置状态码</p>
+</li></ul>
+
+<p><code> 例子: res.setHeader(&#39;content-Type&#39;,&#39;text/html&#39;); </code></p>
+<ul><li>
+<p><strong>write</strong> 发送数据但不断开连接</p>
+<ul><li>
+<p>必须在end之前调用</p>
+</li><li>
+<p>可调用多次</p>
+</li><li>
+<p>Error: write after end (在end后执行了但是报错了)</p>
+</li></ul>
+</li><li>
+<p><strong>end</strong> 发送数据同时断开连接</p>
+<ul><li>
+<p>必须调用,否则信息会一直等待</p>
+</li><li>
+<p>只传输一次</p>
+</li><li>
+<p>没有参数直接断开连接</p>
+</li><li>
+<p>多个end执行了但并不一定出来想象的效果</p>
+</li></ul>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/HTTP%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BB%BA%E7%AB%8B.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-02.html">上一篇 · HTTP入门</a><a href="07-04.html">下一篇 · 路由</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>在 React 中获取数据 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-11.html">React：组件、状态与路由</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>React：组件、状态与路由</strong><a href="11-01.html">入门</a><a href="11-02.html">props：接收父组件的数据</a><a href="11-03.html">ref：访问页面元素</a><a href="11-04.html">state：保存组件状态</a><a href="11-05.html">生命周期</a><a href="11-06.html">脚手架</a><a href="11-07.html" aria-current="page">在 React 中获取数据</a><a href="11-08.html">服务器渲染</a><a href="11-09.html">React 界面组件库</a><a href="11-10.html">组件通信</a><a href="11-11.html">React Router 路由</a></nav>
+<article class="paper"><h1>在 React 中获取数据</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>React 负责显示界面，网络数据可以用 <code>fetch()</code> 或 Axios 获取。请求期间可以分别显示加载、失败和成功三种状态。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-React+Ajax">React Ajax<span><a href="#label-React+Ajax">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h5 id="label-E9-9B-86-E6-88-90axios">集成axios<span><a href="#label-E9-9B-86-E6-88-90axios">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>npm</p>
+<ul><li>
+<p><code>npm install axios --save</code></p>
+</li><li>
+<p><code>npm install axios --save</code></p>
+</li></ul>
+</li><li>
+<p>BootCDN</p>
+<ul><li>
+<p><code>https://cdn.bootcss.com/axios/0.16.1/axios.js</code></p>
+</li><li>
+<p><code>https://cdn.bootcss.com/axios/0.16.1/axios.js</code></p>
+</li></ul>
+</li><li>
+<p><a href="https://github.com/mzabriskie/axios">axios</a></p>
+
+<pre>//GET
+axios.get(&#39;/user?ID=12345&#39;)
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+//POST
+axios.post(&#39;/user&#39;, {
+    firstName: &#39;Fred&#39;,
+    lastName: &#39;Flintstone&#39;
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });</pre>
+</li></ul>
+
+<h5 id="label-E9-9B-86-E6-88-90fetch">集成fetch<span><a href="#label-E9-9B-86-E6-88-90fetch">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>BootCDN</p>
+<ul><li>
+<p><code>https://cdn.bootcss.com/fetch/2.0.1/fetch.min.js</code></p>
+</li><li>
+<p><code>https://cdn.bootcss.com/fetch/2.0.1/fetch.min.js</code></p>
+</li></ul>
+</li><li>
+<p><a href="https://segmentfault.com/a/1190000003810652">fetch</a></p>
+
+<pre>fetch(url).then(function(response) {
+  return response.json();
+}).then(function(data) {
+  console.log(data);
+}).catch(function(e) {
+  console.log(&quot;Oops, error&quot;);
+});
+
+//ES6 箭头函数
+fetch(url).then(response =&gt; response.json())
+  .then(data =&gt; console.log(data))
+  .catch(e =&gt; console.log(&quot;Oops, error&quot;, e))</pre>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/11_ReactJs/react_ajax.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="11-06.html">上一篇 · 脚手架</a><a href="11-08.html">下一篇 · 服务器渲染</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>this · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-06.html">JavaScript 进阶：作用域、闭包和原型</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 进阶：作用域、闭包和原型</strong><a href="06-01.html">数据类型</a><a href="06-02.html">原型</a><a href="06-03.html" aria-current="page">this</a><a href="06-04.html">提升</a><a href="06-05.html">上下文环境对象</a><a href="06-06.html">作用域与作用域链</a><a href="06-07.html">闭包</a><a href="06-08.html">对象创建模式</a><a href="06-09.html">原型链继承</a><a href="06-10.html">线程机制</a><a href="06-11.html">JS引擎</a><a href="06-12.html">Web Workers API</a></nav>
+<article class="paper"><h1>this</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>普通函数的 <code>this</code> 往往看调用写法。<code>user.say()</code> 里的 <code>this</code> 通常是 <code>user</code>。箭头函数则沿用外层的 <code>this</code>。</p>
+</section>
+<h3 id="label-E7-9C-8B-E8-B0-83-E7-94-A8-E9-82-A3-E4-B8-80-E8-A1-8C">看调用那一行<span><a href="#label-E7-9C-8B-E8-B0-83-E7-94-A8-E9-82-A3-E4-B8-80-E8-A1-8C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>| 调用方式 | 函数里的 <code>this</code> | | — | — | | <code>obj.run()</code> | <code>obj</code> | | <code>new User()</code> | 新建的对象 | | <code>run.call(obj, a, b)</code> | <code>obj</code>，后面的参数逐个传入 | | <code>run.apply(obj, [a, b])</code> | <code>obj</code>，参数通过数组传入 | | <code>run()</code> | 严格模式下是 <code>undefined</code> |</p>
+
+<p>把方法单独赋给变量，再调用这个变量，原来的调用对象就丢了。回调里的 <code>this</code> 取决于谁以什么方式执行它。箭头函数沿用定义位置外层的 <code>this</code>。</p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/06_JavaScript%E9%AB%98%E7%BA%A7/this.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="06-02.html">上一篇 · 原型</a><a href="06-04.html">下一篇 · 提升</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

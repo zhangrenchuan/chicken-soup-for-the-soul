@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>两个重要扩展模块 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-09.html">AngularJS 1.x（旧版）</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AngularJS 1.x（旧版）</strong><a href="09-01.html">简介</a><a href="09-02.html">四个重要概念</a><a href="09-03.html">四个重要对象</a><a href="09-04.html">三个页面语法</a><a href="09-05.html">三个对象详解</a><a href="09-06.html" aria-current="page">两个重要扩展模块</a><a href="09-07.html">ajax封装</a></nav>
+<article class="paper"><h1>两个重要扩展模块</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>angular-animate</code> 提供动画支持，<code>angular-ui-router</code> 用状态组织页面和跳转。示例针对 AngularJS。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E4-B8-A4-E4-B8-AA-E9-87-8D-E8-A6-81Angular-E6-89-A9-E5-B1-95-E6-A8-A1-E5-9D-97">两个重要Angular扩展模块<span><a href="#label-E4-B8-A4-E4-B8-AA-E9-87-8D-E8-A6-81Angular-E6-89-A9-E5-B1-95-E6-A8-A1-E5-9D-97">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-angular-animate">angular-animate<span><a href="#label-angular-animate">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>引入 angular-animate.min.js文件</p>
+</li><li>
+<p>模块对象中进行依赖</p>
+<ul><li>
+<p><code>angular.module(&#39;myApp&#39;, [&#39;ngAnimate&#39;]);</code></p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-angular-ui-router">angular-ui-router<span><a href="#label-angular-ui-router">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>根据URL状态来组织和控制界面UI渲染</p>
+</li></ul>
+
+<p><strong>路由操作</strong></p>
+<ul><li>
+<p>模块对象中进行依赖</p>
+<ul><li>
+<p><code>angular.module('webapp',['ui.router']);</code></p>
+</li></ul>
+</li><li>
+<p>使用config()方法.</p>
+<ul><li>
+<p>回调函数 第一个形参 $stateProvider</p>
+</li><li>
+<p>回调函数 第二个形参 $urlRouterProvider</p>
+</li></ul>
+</li><li>
+<p>$stateProvider 注册路由信息</p>
+<ul><li>
+<p>方法: state()</p>
+</li><li>
+<p>第一个参数: 路由ID (唯一表示. 请求页面时使用)</p>
+</li><li>
+<p>第二个参数: 对象 (配置路由)</p>
+<ul><li>
+<p>对象第一个属性: url 路由地址</p>
+</li><li>
+<p>对象第二个属性: templateUrl 路由请求的模版页面的位置(相对路径)</p>
+</li><li>
+<p>对象第三个属性: controller 路由的控制器对象名称(针对当前路由)</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>$urlRouterProvider 发送请求</p>
+<ul><li>
+<p>方法: otherwise()</p>
+</li><li>
+<p>参数: url的地址</p>
+</li></ul>
+</li><li>
+<p>controller()方法</p>
+<ul><li>
+<p>第一个参数: 配置路由对象中 controller 指定的控制器对象名称</p>
+</li><li>
+<p>第二个参数: 回调函数</p>
+<ul><li>
+<p>$scope 核心对象</p>
+</li><li>
+<p>$http 发送AJAX请求</p>
+</li><li>
+<p>$stateParams [可选] 获取路由请求参数参数</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>$http()方法</p>
+<ul><li>
+<p>第一个参数: method 请求方式</p>
+</li><li>
+<p>第二个参数: url json-server提供的路由地址</p>
+</li><li>
+<p>第三个方法: .success(function(items){}) 请求成功时返回数据</p>
+</li><li>
+<p>第四个方法: .error(function(error){}) 请求失败时提示错误</p>
+</li></ul>
+</li></ul>
+
+<p><strong>HTML页面</strong></p>
+<ul><li>
+<p>引入 angular-ui-router.js文件</p>
+</li><li>
+<p>&lt;ui-view&gt;&lt;/ui-view&gt; 接收请求的模版页面并渲染到浏览器中</p>
+</li><li>
+<p>ui-sref = “” 该标签指令指向模版页面的ID用来页面跳转</p>
+</li><li>
+<p>/:id 占位符(url路径)</p>
+</li><li>
+<p>普通标签属性如果要放Angular中的属性就在前面加上 ng-</p>
+</li></ul>
+
+<p><strong>json-server</strong></p>
+<ul><li>
+<p>快速构建模拟数据库</p>
+</li><li>
+<p>npm install -g json-server 进行安装</p>
+</li><li>
+<p>自定义json文件写入模拟的数据 (json字符串格式)</p>
+</li><li>
+<p>WebStom当前工作目录下 Terminal中启动</p>
+<ul><li>
+<p>json-server –watch db.json</p>
+</li></ul>
+</li><li>
+<p>启动后会读取json文件中创建好的数据进行路由地址的分配</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/09_Angular/%E4%B8%A4%E4%B8%AA%E9%87%8D%E8%A6%81%E6%89%A9%E5%B1%95%E6%A8%A1%E5%9D%97.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="09-05.html">上一篇 · 三个对象详解</a><a href="09-07.html">下一篇 · ajax封装</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

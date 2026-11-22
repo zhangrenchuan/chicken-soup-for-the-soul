@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>三个页面语法 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-09.html">AngularJS 1.x（旧版）</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AngularJS 1.x（旧版）</strong><a href="09-01.html">简介</a><a href="09-02.html">四个重要概念</a><a href="09-03.html">四个重要对象</a><a href="09-04.html" aria-current="page">三个页面语法</a><a href="09-05.html">三个对象详解</a><a href="09-06.html">两个重要扩展模块</a><a href="09-07.html">ajax封装</a></nav>
+<article class="paper"><h1>三个页面语法</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>表达式把值显示在模板里，指令告诉框架怎么处理元素，过滤器把值格式化后再显示。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E4-B8-89-E4-B8-AA-E9-A1-B5-E9-9D-A2-E8-AF-AD-E6-B3-95">三个页面语法<span><a href="#label-E4-B8-89-E4-B8-AA-E9-A1-B5-E9-9D-A2-E8-AF-AD-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E8-A1-A8-E8-BE-BE-E5-BC-8F">表达式<span><a href="#label-E8-A1-A8-E8-BE-BE-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>语法: {{expression}}</p>
+</li><li>
+<p>作用: 显示数据</p>
+</li><li>
+<p>注意: 表达式中引用的变量必须是当前域对象有的属性(包括其原型属性)</p>
+</li><li>
+<p>可操作的数据</p>
+<ul><li>
+<p>基本类型数据: number/string/boolean</p>
+</li><li>
+<p>对象的属性或方法</p>
+</li><li>
+<p>数组</p>
+</li><li>
+<p>三元运算符</p>
+</li><li>
+<p>undefined, Infinity, NaN, null解析为空串, 不显示任何效果</p>
+</li><li>
+<p>不能使用 if / for / while</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E9-A1-B5-E9-9D-A2-E6-8C-87-E4-BB-A4">页面指令<span><a href="#label-E9-A1-B5-E9-9D-A2-E6-8C-87-E4-BB-A4">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>与Angular的作用域对象(scope)交互,扩展页面的动态表现力</p>
+</li><li>
+<p>Angular为HTML页面扩展的: 自定义标签属性或标签</p>
+</li><li>
+<p>常用页面指令</p>
+<ul><li>
+<p>ng-app: 指令模块名. Angular控制的区域</p>
+</li><li>
+<p>ng-model: 双向数据绑定. 页面显示和内存属性或方法关联</p>
+</li><li>
+<p>ng-controller: 指向模块对象的控制器方法创建的名称</p>
+</li><li>
+<p>ng-init: 就当前标签作用域初始化数据</p>
+</li><li>
+<p>ng-click: 点击时调用当前作用域对象的方法</p>
+</li><li>
+<p>ng-bind: 解决使用表达式显示数据时的闪屏</p>
+</li><li>
+<p>ng-repeat: 遍历数组显示数据</p>
+<ul><li>
+<p>语法: 变量 in 数组名</p>
+</li><li>
+<p>重要属性 $index 数组下标</p>
+</li></ul>
+</li><li>
+<p>ng-show: 默认为true. 显示</p>
+</li><li>
+<p>ng-hide: 默认为true. 隐藏</p>
+</li><li>
+<p>ng-class: 动态引用class定义的样式</p>
+</li><li>
+<p>ng-style: 动态引用通过JS指定的样式对象</p>
+</li><li>
+<p>ng-mouseenter: 鼠标移入时监听</p>
+</li><li>
+<p>ng-mouseleave: 鼠标移出时监听</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E8-BF-87-E6-BB-A4-E5-99-A8">过滤器<span><a href="#label-E8-BF-87-E6-BB-A4-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>作用</strong></p>
+<ul><li>
+<p>对单个数据进行格式化</p>
+</li><li>
+<p>对多个数据进行格式化或过滤操作</p>
+</li></ul>
+
+<p><strong>语法</strong></p>
+<ul><li>
+<p>{{expression | 过滤器}}</p>
+</li><li>
+<p>ng-bind=&#39;expression | 过滤器&#39;</p>
+</li><li>
+<p>$fiter()()</p>
+<ul><li>
+<p>第一个传入: 过滤方法</p>
+</li><li>
+<p>第二个传入: 要过滤的作用域对象的属性名</p>
+</li></ul>
+</li></ul>
+
+<p><strong>常用过滤器</strong></p>
+<ul><li>
+<p>currency 货币格式化</p>
+</li><li>
+<p>number 数值格式化</p>
+</li><li>
+<p>date 日期对象格式化</p>
+</li><li>
+<p>lowercase 字符串格式化为全小写</p>
+</li><li>
+<p>uppercase 字符串格式化为全大写</p>
+</li><li>
+<p>orderBy 对数组进行排序. 默认为升序</p>
+</li><li>
+<p>limitTo 截取数组或字符串生成新的数组或字符串</p>
+<ul><li>
+<p>第一个参数: 截取的数量</p>
+</li><li>
+<p>第二个参数: 从下标第几个起开始截取</p>
+</li><li>
+<p>参数可以负数</p>
+</li><li>
+<p>{{arr|limitTo:2:0}}</p>
+</li></ul>
+</li><li>
+<p>filter 从数组中过滤返回一个新数组. 用于筛选</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/09_Angular/%E4%B8%89%E4%B8%AA%E9%A1%B5%E9%9D%A2%E8%AF%AD%E6%B3%95.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="09-03.html">上一篇 · 四个重要对象</a><a href="09-05.html">下一篇 · 三个对象详解</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

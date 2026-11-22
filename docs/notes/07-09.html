@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>路径 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html" aria-current="page">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>路径</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>绝对路径给出完整位置，相对路径得先知道从哪里算。Node.js 文件操作里的相对路径，通常以运行命令时的工作目录为准。</p>
+</section><ul><li>
+<p>绝对路径从文件系统的根位置写起，例如 <code>/project/data.json</code>。</p>
+</li><li>
+<p>相对路径需要参照位置，例如 <code>./data.json</code> 表示参照目录里的文件，<code>../data.json</code> 表示上一级目录里的文件。</p>
+</li><li>
+<p><code>fs.readFile(&#39;./data.json&#39;, ...)</code> 通常从当前工作目录查找文件。CommonJS 的 <code>require(&#39;./data.json&#39;)</code> 则从写下这行代码的模块所在目录查找。</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/%E8%B7%AF%E5%BE%84.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-08.html">上一篇 · NPM</a><a href="07-10.html">下一篇 · 模块分类</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

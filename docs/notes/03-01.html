@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>ECMAScript 与 JavaScript · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-03.html">JavaScript 基础</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 基础</strong><a href="03-01.html" aria-current="page">ECMAScript 与 JavaScript</a><a href="03-02.html">JS基本语法</a><a href="03-03.html">JS数据类型</a><a href="03-04.html">JS运算符</a><a href="03-05.html">JS语句</a><a href="03-06.html">JS对象</a><a href="03-07.html">JS函数</a><a href="03-08.html">JS数组</a><a href="03-09.html">JS内置对象方法</a><a href="03-10.html">正则表达式</a><a href="03-11.html">DOM</a><a href="03-12.html">BOM</a><a href="03-13.html">JSON</a></nav>
+<article class="paper"><h1>ECMAScript 与 JavaScript</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>ECMAScript 规定 JavaScript 语言的语法和行为。操作网页的 DOM 是浏览器提供的接口，学习时可以把语言和运行环境分开理解。</p>
+</section>
+<h3 id="label-E8-AF-AD-E8-A8-80-E8-A7-84-E8-8C-83-E5-92-8C-E8-BF-90-E8-A1-8C-E7-8E-AF-E5-A2-83">语言规范和运行环境<span><a href="#label-E8-AF-AD-E8-A8-80-E8-A7-84-E8-8C-83-E5-92-8C-E8-BF-90-E8-A1-8C-E7-8E-AF-E5-A2-83">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>ECMAScript 是语言规范。我们写的 JavaScript 遵循这套规则。浏览器和 Node.js 还能提供不同的功能，例如浏览器提供 DOM，Node.js 提供文件读写接口。</p>
+
+<p>ES5、ES2015（ES6）和 ES2016（ES7）是不同版本的规范。</p>
+
+<h3 id="label-E6-8A-8A-E4-BB-A3-E7-A0-81-E6-94-BE-E5-9C-A8-E5-93-AA-E9-87-8C">把代码放在哪里<span><a href="#label-E6-8A-8A-E4-BB-A3-E7-A0-81-E6-94-BE-E5-9C-A8-E5-93-AA-E9-87-8C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>网页可以用 <code>&lt;script&gt;</code> 写代码，也可以用 <code>&lt;script src=&quot;main.js&quot;&gt;&lt;/script&gt;</code> 加载外部文件。把代码放在独立文件中，页面结构和交互代码更容易各自维护。</p>
+<ul><li>
+<p><code>//</code> 写单行注释，<code>/* ... */</code> 写多行注释。</p>
+</li><li>
+<p>用 <code>console.log()</code> 在控制台查看值。</p>
+</li><li>
+<p>用同一个标签调用 <code>console.time()</code> 和 <code>console.timeEnd()</code>，可以测量一段代码经过了多久。</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/03_JS/Ecma.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="03-02.html">下一篇 · JS基本语法</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>jQuery插件 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-05.html">jQuery：操作旧项目中的页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>jQuery：操作旧项目中的页面</strong><a href="05-01.html">jQuery入门</a><a href="05-02.html">jQuery选择器</a><a href="05-03.html">用 jQuery 修改页面</a><a href="05-04.html">jQuery事件</a><a href="05-05.html">$冲突问题</a><a href="05-06.html">jQuery动画</a><a href="05-07.html">jQuery类数组操作</a><a href="05-08.html" aria-current="page">jQuery插件</a></nav>
+<article class="paper"><h1>jQuery插件</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>插件是在 jQuery 上加功能的扩展。先加载 jQuery，再加载插件脚本，最后选中目标元素调用插件方法。示例里的插件要按各自版本使用。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-jQuery-E6-8F-92-E4-BB-B6">jQuery插件<span><a href="#label-jQuery-E6-8F-92-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-jQuery+-E6-97-A5-E6-9C-9F-E6-8F-92-E4-BB-B6">jQuery 日期插件<span><a href="#label-jQuery+-E6-97-A5-E6-9C-9F-E6-8F-92-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>layDate日期插件致力于成为全球最用心的web日期支撑，为国内外所有从事web应用开发的同仁提供力所能及的动力。</p>
+
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;01_laydate插件的基本使用&lt;/title&gt;
+    &lt;script src=&quot;laydate/laydate.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;input placeholder=&quot;请输入日期&quot; class=&quot;laydate-icon&quot; onclick=&quot;laydate()&quot;&gt;
+    &lt;br&gt;
+    &lt;input placeholder=&quot;请输入日期&quot; id=&quot;hello1&quot;&gt;
+    &lt;span class=&quot;laydate-icon&quot; onclick=&quot;laydate({elem: &#39;#hello1&#39;});&quot;&gt;&lt;/span&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<p><strong>layDate API选项：</strong></p>
+<ul><li>
+<p>elem: &#39;#id&#39;, //需显示日期的元素选择器</p>
+</li><li>
+<p>event: &#39;click&#39;, //触发事件</p>
+</li><li>
+<p>format: &#39;YYYY-MM-DD hh<img src="https://assets-cdn.github.com/images/icons/emoji/mm.pngss&#x27;,"> //日期格式</p>
+</li><li>
+<p>istime: false, //是否开启时间选择</p>
+</li><li>
+<p>isclear: true, //是否显示清空</p>
+</li><li>
+<p>istoday: true, //是否显示今天</p>
+</li><li>
+<p>issure: true, 是否显示确认</p>
+</li><li>
+<p>festival: true //是否显示节日</p>
+</li><li>
+<p>min: <code>1900-01-01 00:00:00</code>, //最小日期</p>
+</li><li>
+<p>max: <code>2099-12-31 23:59:59</code>, //最大日期</p>
+</li><li>
+<p>start: <code>2014-6-15 23:00:00</code>, //开始日期</p>
+</li><li>
+<p>fixed: false, //是否固定在可视区域</p>
+</li><li>
+<p>zIndex: 99999999, //css z-index</p>
+</li><li>
+<p>choose: function(dates){} //选择好日期的回调</p>
+
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;02_laydate插件的高级使用&lt;/title&gt;
+    &lt;script src=&quot;jquery-1.11.3.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;laydate/laydate.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;input id=&quot;mydate&quot; placeholder=&quot;请输入日期&quot; class=&quot;laydate-icon&quot;&gt;
+    &lt;script&gt;
+        laydate({
+            elem : &quot;#mydate&quot;,
+            event : &quot;focus&quot;,
+            istime : true,
+            isclear : false,
+            istoday : false,
+            issure : false
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</li></ul>
+
+<p>———-</p>
+
+<h3 id="label-E8-A1-A8-E5-8D-95-E9-AA-8C-E8-AF-81-E6-8F-92-E4-BB-B6">表单验证插件<span><a href="#label-E8-A1-A8-E5-8D-95-E9-AA-8C-E8-AF-81-E6-8F-92-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>表单验证插件主要是针对表单元素的值进行验证，并给出响应的图形以及文字提示。</p>
+
+<p><strong>常用验证插件</strong></p>
+<ul><li>
+<p>formValidator</p>
+</li><li>
+<p>jQuery.validator</p>
+</li><li>
+<p>easyForm</p>
+</li><li>
+<p>validate.js</p>
+</li></ul>
+
+<h4 id="label-jQuery.validator-E6-8F-92-E4-BB-B6">jQuery.validator插件<span><a href="#label-jQuery.validator-E6-8F-92-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>该插件提供用户方便地实现表单验证，同时还提供大量的定制选项。 官方地址：<a href="http://jqueryvalidation.org/">jqueryvalidation.org/</a></p>
+<ol><li>
+<p>引入必要文件</p>
+</li><li>
+<p>引入jQuery库文件</p>
+</li><li>
+<p>引入插件文件 dist/jquery.validate.js</p>
+</li><li>
+<p>引入国际化文件 (提示语言文件) dist–localization–message_zh.js 中文提示语言</p>
+</li><li>
+<p>在HTML页面定义表单</p>
+</li><li>
+<p>表单的元素使用HTML5提供的新表单验证功能</p>
+</li><li>
+<p>required 表示必填项</p>
+</li><li>
+<p>在JS逻辑中填写</p>
+</li><li>
+<p>通过表单调用validate()核心方法  $().validate();</p>
+</li></ol>
+
+<p><strong>validation基本使用</strong></p>
+
+<pre>&lt;div id=&quot;main&quot;&gt;
+    &lt;p&gt;Take a look at the source to see how messages can be customized with metadata.&lt;/p&gt;
+    &lt;!-- Custom rules and messages via data- attributes --&gt;
+    &lt;form class=&quot;cmxform&quot; id=&quot;commentForm&quot; method=&quot;post&quot; action=&quot;&quot;&gt;
+        &lt;fieldset&gt;
+            &lt;legend&gt;Please enter your email address&lt;/legend&gt;
+            &lt;p&gt;
+                &lt;label for=&quot;cemail&quot;&gt;E-Mail *&lt;/label&gt;
+                &lt;input id=&quot;cemail&quot; name=&quot;email&quot; data-rule-required=&quot;true&quot; data-rule-email=&quot;true&quot; data-msg-required=&quot;Please enter your email address&quot; data-msg-email=&quot;Please enter a valid email address&quot;&gt;
+            &lt;/p&gt;
+            &lt;p&gt;
+                &lt;input class=&quot;submit&quot; type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+            &lt;/p&gt;
+        &lt;/fieldset&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    $(document).ready(function() {
+        $(&quot;#commentForm&quot;).validate();
+    });
+&lt;/script&gt;</pre>
+
+<p><strong>validate()验证方法的选项</strong></p>
+<table>
+<thead>
+<tr>
+<th>选项名称</th>
+<th>描述说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>debug</td>
+<td>设置是否为调试模式，如果为调试模式表单不会被提交。</td>
+</tr>
+<tr>
+<td>submitHandler</td>
+<td>表单提交时的回调函数，一般用于提交当前表单。</td>
+</tr>
+<tr>
+<td>rules</td>
+<td>设置表单元素的验证规则，格式为key:value。</td>
+</tr>
+<tr>
+<td>messages</td>
+<td>设置表单元素验证不通过时的错误提示信息。</td>
+</tr>
+<tr>
+<td>errorClass</td>
+<td>自定义错误提示信息的样式。</td>
+</tr>
+<tr>
+<td>ignore</td>
+<td>设置哪些表单元素不进行验证。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>validation自定义验证</strong></p>
+<ul><li>
+<p>$().validate(options)</p>
+</li><li>
+<p>rules 自定义的验证规则</p>
+<ul><li>
+<p>key 要验证的表单元素的name属性值</p>
+</li><li>
+<p>value 指定使用的验证规则名称</p>
+</li><li>
+<p>key 要验证的表单元素的name属性值</p>
+</li><li>
+<p>value 指定使用的验证规则名称</p>
+
+<pre>rules : {
+   email:true, //输入正确的email格式
+   number:true, //输入合法的数字
+}</pre>
+</li></ul>
+</li><li>
+<p>equalTo : “相同内容的id”</p>
+</li><li>
+<p>messages 自定义的错误提示</p>
+
+<pre>messages : {
+	key : &#39; value &#39;
+}</pre>
+</li><li>
+<p>自定义错误提示的显示位置(单选和多选框)</p>
+<ul><li>
+<p>自定义的错误提示默认出现在第一个被验证的元素后面</p>
+</li><li>
+<p>自定义的错误提示应该出现在一组验证元素的后面</p>
+</li><li>
+<p>自定义了用于显示错误提示信息的标签</p>
+<ul><li>
+<p><code>&lt;label for=&quot;&quot; class=&quot;error&quot;&gt;&lt;/label&gt;</code></p>
+</li><li>
+<p>class 插件底层的错误提示信息的样式</p>
+</li><li>
+<p>for 告知插件当前错误提示信息与哪个指定的验证元素相关</p>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<p><img src="https://i.imgur.com/c3sHFLa.png"></p>
+
+<p><strong>自定义验证方法</strong></p>
+
+<p>jQuery.validator.addMethod( name, method [, message ] )方法</p>
+<ul><li>
+<p>name：设置验证方法的名称。</p>
+</li><li>
+<p>method：回调函数，function(value,element,param){}</p>
+<ul><li>
+<p>value：元素的值</p>
+</li><li>
+<p>element：元素本身</p>
+</li><li>
+<p>param：参数</p>
+</li></ul>
+</li><li>
+<p>message：设置验证不通过的错误提示信息。</p>
+</li></ul>
+<hr>
+
+<h2 id="label-jQuery+UI">jQuery UI<span><a href="#label-jQuery+UI">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>jQuery UI能做的事可谓是包罗万象。实际上，jQuery UI在某种意义上并不是插件，而是一个完整的插件库。</p>
+
+<p>jQuery UI中主要包含以下几个功能：</p>
+<ul><li>
+<p>Effect（效果）</p>
+</li><li>
+<p>Interactions（交互组件）</p>
+</li><li>
+<p>Widget（部件）</p>
+</li><li>
+<p>此外，还为jQuery和核心动画提供了很多高级效果。</p>
+</li></ul>
+
+<h6 id="label-E4-BD-BF-E7-94-A8">使用<span><a href="#label-E4-BD-BF-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>引入ui – jquery-ui.js</p>
+</li><li>
+<p>引入themes – base – jquery-ui.css / imagse(同级目录)</p>
+</li><li>
+<p>//引入demos – demos.css</p>
+</li></ul>
+<hr>
+
+<h3 id="label-Effect-EF-BC-88-E6-95-88-E6-9E-9C-EF-BC-89">Effect（效果）<span><a href="#label-Effect-EF-BC-88-E6-95-88-E6-9E-9C-EF-BC-89">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-animate-28+-29-E6-96-B9-E6-B3-95">animate( )方法<span><a href="#label-animate-28+-29-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>文档在引入核心效果文件的情况下，扩展的.animate()方法可接受另外一些样式属性。</p>
+
+<p>扩展后animate方法接受以下属性：</p>
+<ul><li>
+<p>backgroundColor</p>
+</li><li>
+<p>borderBottomColor</p>
+</li><li>
+<p>borderLeftColor</p>
+</li><li>
+<p>borderRightColor</p>
+</li><li>
+<p>borderTopColor</p>
+</li><li>
+<p>Color</p>
+</li><li>
+<p>outlineColor</p>
+
+<pre>var state = true;
+$( &quot;#button&quot; ).click(function() {
+    if ( state ) {
+        $( &quot;#effect&quot; ).animate({
+            backgroundColor: &quot;#aa0000&quot;,
+            color: &quot;#fff&quot;,
+            width: 500
+        }, 1000 );
+    } else {
+        $( &quot;#effect&quot; ).animate({
+            backgroundColor: &quot;#fff&quot;,
+            color: &quot;#000&quot;,
+            width: 240
+        }, 1000 );
+    }
+    state = !state;
+});</pre>
+</li></ul>
+<hr>
+
+<h4 id="label-effect-28+-29-E6-96-B9-E6-B3-95">effect( )方法<span><a href="#label-effect-28+-29-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>扩展后animate()方法接受以下属性：</p>
+
+<p>backgroundColor borderBottomColor borderLeftColor borderRightColor borderTopColor Color outlineColor</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/nOxK2i0.png"></p>
+<hr>
+
+<h3 id="label-Interactions-EF-BC-88-E4-BA-A4-E4-BA-92-E7-BB-84-E4-BB-B6-EF-BC-89">Interactions（交互组件）<span><a href="#label-Interactions-EF-BC-88-E4-BA-A4-E4-BA-92-E7-BB-84-E4-BB-B6-EF-BC-89">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-Draggable+Widget">Draggable Widget<span><a href="#label-Draggable+Widget">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h6 id="label-23+-24-28+-22-23draggable-22+-29.draggable-28-29-3B"># $( “#draggable” ).draggable();<span><a href="#label-23+-24-28+-22-23draggable-22+-29.draggable-28-29-3B">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>start：当拖动开始时触发。</p>
+</li><li>
+<p>drag：当鼠标在拖动过程中移动时触发。</p>
+</li><li>
+<p>stop：当拖动停止时触发。</p>
+</li></ul>
+
+<h6 id="label-23+draggable-28-29-E7-9A-84-E9-80-89-E9-A1-B9"># draggable()的选项<span><a href="#label-23+draggable-28-29-E7-9A-84-E9-80-89-E9-A1-B9">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>约束运动</p>
+<ul><li>
+<p>axis：设置只能在x轴或y轴方向拖动。</p>
+</li><li>
+<p>containment：设置在某个区域内拖动。</p>
+</li><li>
+<p>axis：设置只能在x轴或y轴方向拖动。</p>
+</li><li>
+<p>containment：设置在某个区域内拖动。</p>
+</li></ul>
+</li><li>
+<p>光标样式</p>
+<ul><li>
+<p>cursor：设置拖动时鼠标的样式。</p>
+</li><li>
+<p>cursorAt：设置鼠标的相对定位。</p>
+</li><li>
+<p>handle：设置指定元素触发鼠标按下事件才能拖动。</p>
+</li><li>
+<p>cancel：防止在指定元素上拖动。</p>
+</li><li>
+<p>revert：当停止拖动时，元素是否被重置到初始位置。</p>
+</li><li>
+<p>snap：拖动元素是否吸附在其他元素。</p>
+</li><li>
+<p>snapMode：设置拖动元素吸附指定元素的哪个边缘。</p>
+</li><li>
+<p>snap设置为true时该选项有效。</p>
+<ul><li>
+<p>inner|outer|both</p>
+</li><li>
+<p><code>$( &quot;&quot; ).draggable({ snap: &quot;#id&quot;, snapMode: &quot;outer&quot; });</code></p>
+</li><li>
+<p>inner|outer|both</p>
+</li><li>
+<p><code>$( &quot;&quot; ).draggable({ snap: &quot;#id&quot;, snapMode: &quot;outer&quot; });</code></p>
+</li></ul>
+</li><li>
+<p>cursor：设置拖动时鼠标的样式。</p>
+</li><li>
+<p>cursorAt：设置鼠标的相对定位。</p>
+</li><li>
+<p>handle：设置指定元素触发鼠标按下事件才能拖动。</p>
+</li><li>
+<p>cancel：防止在指定元素上拖动。</p>
+</li><li>
+<p>revert：当停止拖动时，元素是否被重置到初始位置。</p>
+</li><li>
+<p>snap：拖动元素是否吸附在其他元素。</p>
+</li><li>
+<p>snapMode：设置拖动元素吸附指定元素的哪个边缘。</p>
+</li><li>
+<p>snap设置为true时该选项有效。</p>
+<ul><li>
+<p>inner|outer|both</p>
+</li><li>
+<p><code>$( &quot;&quot; ).draggable({ snap: &quot;#id&quot;, snapMode: &quot;outer&quot; });</code></p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>Draggable Widget允许使用鼠标移动元素。</p>
+
+<pre>&lt;div id=&quot;draggable&quot; class=&quot;ui-widget-content&quot;&gt;
+    &lt;p&gt;Drag me around&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    $( &quot;#draggable&quot; ).draggable();
+&lt;/script&gt;</pre>
+</li></ul>
+
+<p>———-</p>
+
+<h4 id="label-Droppable+Widget">Droppable Widget<span><a href="#label-Droppable+Widget">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>Droppable Widget为可拖拽小部件创建目标。</p>
+<ul><li>
+<p>droppable()的事件</p>
+<ul><li>
+<p>drop：该事件在被允许拖放的元素覆盖时触发。</p>
+</li></ul>
+</li><li>
+<p>droppable()的选项</p>
+<ul><li>
+<p>accept：指定可拖动的元素可被接受。</p>
+</li><li>
+<p>activeClass：被允许拖放的元素覆盖时，改变样式。</p>
+</li><li>
+<p>hoverClass：被允许拖放的元素悬停时，改变样式。</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<h5 id="label-jQuery+UI+Resizeable+-E7-BC-A9-E6-94-BE-E6-95-88-E6-9E-9C">jQuery UI Resizeable 缩放效果<span><a href="#label-jQuery+UI+Resizeable+-E7-BC-A9-E6-94-BE-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>使用鼠标改变元素的尺寸</p>
+</li></ul>
+
+<p> <code>$( &quot;#resizable&quot; ).resizable();</code></p>
+
+<h5 id="label-jQuery+UI+selectable+-E5-85-83-E7-B4-A0-E9-80-89-E6-8B-A9-E6-95-88-E6-9E-9C">jQuery UI selectable 元素选择效果<span><a href="#label-jQuery+UI+selectable+-E5-85-83-E7-B4-A0-E9-80-89-E6-8B-A9-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>使用鼠标选择单个元素或一组元素</p>
+
+<p><code>$( &quot;#selectable&quot; ).selectable();</code></p>
+</li></ul>
+
+<h5 id="label-jQuery+UI+Sortable+-E6-8E-92-E5-BA-8F-E6-95-88-E6-9E-9C">jQuery UI Sortable 排序效果<span><a href="#label-jQuery+UI+Sortable+-E6-8E-92-E5-BA-8F-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>使用鼠标调整列表中或者网格中元素的排序</p>
+</li></ul>
+
+<p> <code>$( &quot;#sortable&quot; ).sortable();</code></p>
+
+<p>———-</p>
+
+<h4 id="label-Widget+-28-E9-83-A8-E4-BB-B6-29">Widget (部件)<span><a href="#label-Widget+-28-E9-83-A8-E4-BB-B6-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-jQuery+UI+Accordion+-E6-8A-98-E5-8F-A0-E9-9D-A2-E6-9D-BF-E6-95-88-E6-9E-9C">jQuery UI Accordion 折叠面板效果<span><a href="#label-jQuery+UI+Accordion+-E6-8A-98-E5-8F-A0-E9-9D-A2-E6-9D-BF-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>在一个有限的空间内显示用于呈现信息的可折叠的内容面板。</p>
+</li><li>
+<p><code>$( &quot;#accordion&quot; ).accordion();</code></p>
+
+<blockquote>
+<p><strong>需要注意的是：</strong></p>
+<ul><li>
+<p>使用<code>&lt;div&gt;</code>元素作为折叠面板的容器。</p>
+</li><li>
+<p>使用<code>&lt;h3&gt;</code>元素作为折叠面板的标题。</p>
+</li><li>
+<p>使用<code>&lt;div&gt;</code>元素作为折叠面板的内容。</p>
+</li></ul>
+</blockquote>
+</li></ul>
+
+<h5 id="label-jQuery+UI+Autocomlete+-E8-87-AA-E5-8A-A8-E6-A3-80-E7-B4-A2-E5-AE-8C-E6-88-90-E6-95-88-E6-9E-9C">jQuery UI Autocomlete 自动检索完成效果<span><a href="#label-jQuery+UI+Autocomlete+-E8-87-AA-E5-8A-A8-E6-A3-80-E7-B4-A2-E5-AE-8C-E6-88-90-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>根据用户输入值进行搜索和过滤，让用户快速找到并从预设值列表中选择。</p>
+</li><li>
+<p><code>$( &quot;#autocomlete&quot; ).autocomlete();</code></p>
+</li></ul>
+
+<h5 id="label-jQuery+UI+Button+-E6-8C-89-E9-92-AE-E6-95-88-E6-9E-9C">jQuery UI Button 按钮效果<span><a href="#label-jQuery+UI+Button+-E6-8C-89-E9-92-AE-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>在一个有限的空间内显示用于呈现信息的可折叠的内容面板。</p>
+</li><li>
+<p><code>$( &quot;#button&quot; ).button();</code></p>
+</li></ul>
+
+<h5 id="label-jQuery+UI+Datepicker+-E6-97-A5-E5-8E-86-E9-80-89-E6-8B-A9-E5-99-A8">jQuery UI Datepicker 日历选择器<span><a href="#label-jQuery+UI+Datepicker+-E6-97-A5-E5-8E-86-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>Datepicker Widget从弹出框或在线日历选择一个日期。</p>
+
+<pre>&lt;p&gt;Date: &lt;input type=&quot;text&quot; id=&quot;datepicker&quot;&gt;&lt;/p&gt;
+&lt;script&gt;
+    $( &quot;#datepicker&quot; ).datepicker();
+&lt;/script&gt;</pre>
+</li></ul>
+
+<h5 id="label-jQuery+UI+Dialog-E5-AF-B9-E8-AF-9D-E6-A1-86">jQuery UI Dialog对话框<span><a href="#label-jQuery+UI+Dialog-E5-AF-B9-E8-AF-9D-E6-A1-86">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<p>Dialog Widget在一个交互覆盖层中打开内容。</p>
+<ul><li>
+<p>基本对话框示例</p>
+
+<pre>&lt;div id=&quot;dialog&quot; title=&quot;Basic dialog&quot;&gt;
+    &lt;p&gt;This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the &#39;x&#39; icon.&lt;/p&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    $( &quot;#dialog&quot; ).dialog();
+&lt;/script&gt;</pre>
+</li><li>
+<p>模式对话框示例</p>
+
+<pre>&lt;div id=&quot;dialog-modal&quot; title=&quot;Basic modal dialog&quot;&gt;
+    &lt;p&gt;Adding the modal overlay screen makes the dialog look more prominent because it dims out the page content.&lt;/p&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    $( &quot;#dialog-modal&quot; ).dialog({
+        modal: true
+    });
+&lt;/script&gt;</pre>
+</li><li>
+<p>操作对话框示例</p>
+
+<pre>&lt;div id=&quot;dialog&quot; title=&quot;Basic dialog&quot;&gt;
+    &lt;p&gt;This is an animated dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the &#39;x&#39; icon.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;button id=&quot;opener&quot;&gt;Open Dialog&lt;/button&gt;
+
+&lt;script&gt;
+    $( &quot;#dialog&quot; ).dialog({
+        autoOpen: false,
+        show: {
+            effect: &quot;blind&quot;,
+            duration: 1000
+        },
+        hide: {
+            effect: &quot;explode&quot;,
+            duration: 1000
+        },
+        buttons : {
+            &quot;OK&quot;: function() {
+                $( this ).dialog( &quot;close&quot; );
+            },
+            Cancel: function() {
+                $( this ).dialog( &quot;close&quot; );
+            }
+        }
+    });
+
+    $( &quot;#opener&quot; ).button().click(function() {
+        $( &quot;#dialog&quot; ).dialog( &quot;open&quot; );
+    });
+&lt;/script&gt;</pre>
+</li></ul>
+
+<h5 id="label-jQuery+UI+Tabs-E9-A1-B5-E7-AD-BE">jQuery UI Tabs页签<span><a href="#label-jQuery+UI+Tabs-E9-A1-B5-E7-AD-BE">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>Tabs Widget是一种多面板的单内容区，每个面板与列表中的标题相关。</p>
+</li><li>
+<p><code>$( &quot;#tabs&quot; ).tabs();</code></p>
+</li></ul>
+
+<h5 id="label-Tooltip+Widget">Tooltip Widget<span><a href="#label-Tooltip+Widget">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>Tooltip Widget可自定义的、可主题化的工具提示框，替代原生的工具提示框。</p>
+
+<pre>&lt;p&gt;
+    &lt;label for=&quot;age&quot;&gt;Your age:&lt;/label&gt;
+    &lt;input id=&quot;age&quot; title=&quot;We ask for your age only for statistical purposes.&quot;&gt;
+&lt;/p&gt;
+&lt;script&gt;
+    $( document ).tooltip();
+&lt;/script&gt;</pre>
+</li></ul>
+
+<h5 id="label-jQuery+UI+Menu+-E8-8F-9C-E5-8D-95">jQuery UI Menu 菜单<span><a href="#label-jQuery+UI+Menu+-E8-8F-9C-E5-8D-95">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>带有鼠标和键盘交互的用于导航的可主题化菜单</p>
+</li><li>
+<p><code>$( &quot;#menu&quot; ).menu();</code></p>
+</li></ul>
+
+<h5 id="label-jQuery+UI+Progressbar+-E8-BF-9B-E5-BA-A6-E6-9D-A1">jQuery UI Progressbar 进度条<span><a href="#label-jQuery+UI+Progressbar+-E8-BF-9B-E5-BA-A6-E6-9D-A1">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>显示一个确定的或不确定的进程状态</p>
+</li><li>
+<p><code>$( &quot;#progressbar&quot; ).progressbar({});</code></p>
+</li></ul>
+
+<h5 id="label-jQuery+UI+Slider+-E6-BB-91-E5-9D-97">jQuery UI Slider 滑块<span><a href="#label-jQuery+UI+Slider+-E6-BB-91-E5-9D-97">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>滑槽滑块 <code>$( &quot;#slider&quot; ).slider();</code></p>
+</li></ul>
+
+<h5 id="label-jQuery+UI+tab-E9-94-AE-E6-8F-90-E7-A4-BA-E4-BF-A1-E6-81-AF">jQuery UI tab键提示信息<span><a href="#label-jQuery+UI+tab-E9-94-AE-E6-8F-90-E7-A4-BA-E4-BF-A1-E6-81-AF">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>悬停在链接上，或者使用 tab 键循环切换聚焦在每个元素上。</p>
+</li><li>
+<p><code>$( document ).tooltip();</code></p>
+</li></ul>
+
+<h5 id="label-jQuery+UI+Spinner+-E6-97-8B-E8-BD-AC-E5-99-A8">jQuery UI Spinner 旋转器<span><a href="#label-jQuery+UI+Spinner+-E6-97-8B-E8-BD-AC-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>通过向上/向下按钮和箭头键处理，为输入数值增强文本输入功能。</p>
+</li><li>
+<p><code>$( &#39;#spinner&#39;).spinner();</code></p>
+</li></ul>
+
+<h5 id="label-Menu+Widget">Menu Widget<span><a href="#label-Menu+Widget">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<p>Menu Widget带有鼠标和键盘交互的用于导航的可主题化菜单。</p>
+<ul><li>
+<p>禁用页面中默认的鼠标右键功能。</p>
+
+<pre>$(document).contextmenu(function (event) {
+    event.preventDefault();
+});</pre>
+</li><li>
+<p>自定义鼠标右键菜单。</p>
+
+<pre>$(document).mousedown(function (event) {
+    if(event.button == 2){
+        $( &quot;#menu&quot;).removeAttr(&quot;style&quot;).menu().position({
+            my: &quot;left top&quot;,
+            at: &quot;left top&quot;,
+            of : event,
+            collision: &quot;fit&quot;
+        });
+    }
+});</pre>
+</li></ul>
+
+<p><img src="https://i.imgur.com/zhmd2OO.png"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/05_jQuery/jQuery%E6%8F%92%E4%BB%B6.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="05-07.html">上一篇 · jQuery类数组操作</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

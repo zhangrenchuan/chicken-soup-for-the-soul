@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>JS数据类型 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-03.html">JavaScript 基础</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 基础</strong><a href="03-01.html">ECMAScript 与 JavaScript</a><a href="03-02.html">JS基本语法</a><a href="03-03.html" aria-current="page">JS数据类型</a><a href="03-04.html">JS运算符</a><a href="03-05.html">JS语句</a><a href="03-06.html">JS对象</a><a href="03-07.html">JS函数</a><a href="03-08.html">JS数组</a><a href="03-09.html">JS内置对象方法</a><a href="03-10.html">正则表达式</a><a href="03-11.html">DOM</a><a href="03-12.html">BOM</a><a href="03-13.html">JSON</a></nav>
+<article class="paper"><h1>JS数据类型</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>对象把相关数据放在一起。用 <code>user.name</code> 读取固定属性名，用 <code>user[key]</code> 根据变量里的名字取属性。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-JS-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B">JS数据类型<span><a href="#label-JS-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>String 字符串</p>
+</li><li>
+<p>Number 数值</p>
+</li><li>
+<p>Boolean 布尔值</p>
+</li><li>
+<p>Null 空值</p>
+</li><li>
+<p>Undefined 未定义</p>
+</li><li>
+<p>Object 对象</p>
+</li></ul>
+
+<p><strong>String、Number、Boolean、Null、undefined属于基本数据类型</strong></p>
+
+<p><strong>Object属于引用数据类型</strong></p>
+
+<h4 id="label-typeof">typeof<span><a href="#label-typeof">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>通过 typeof 可以检查一个变量类型</p>
+</li><li>
+<p>返回值是一个字符串. 用来描述数据类型</p>
+</li><li>
+<p>使用typeof检查一个字符串时，会返回string</p>
+</li><li>
+<p>使用typeof检查一个数值时，会返回number</p>
+</li><li>
+<p>使用typeof检查一个布尔值时，会返回boolean</p>
+</li><li>
+<p><strong>使用typef检查一个Null（空值）时，会返回Object</strong></p>
+</li><li>
+<p>使用typeof检查一个未定义值时，会返回Undefined</p>
+</li><li>
+<p><strong>加引号是字符串. 不加引号是变量</strong></p>
+</li></ul>
+<hr>
+
+<h3 id="label-String+-E5-AD-97-E7-AC-A6-E4-B8-B2">String 字符串<span><a href="#label-String+-E5-AD-97-E7-AC-A6-E4-B8-B2">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>在JS中字符串需要使用引号引起来. 单引号双引号都可以</p>
+</li><li>
+<p>引号不可以被嵌套</p>
+</li><li>
+<p>当需要打印一些特殊字符时, 可以使用 \ 来作为转义字符</p>
+
+<pre> \&quot; --&gt; 表示“ ”
+ \‘ --&gt; 表示‘ ’
+ \\ --&gt; 表示 \
+ \t --&gt; 表示制表符 （tab键）
+ \n --&gt; 表示换行
+ \uxxxx --&gt; 表示一个unicode编码. xxxx代表编码数值</pre>
+</li></ul>
+
+<h3 id="label-Number+-E6-95-B0-E5-80-BC">Number 数值<span><a href="#label-Number+-E6-95-B0-E5-80-BC">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>在JS中所有的数字都是Number类型</p>
+</li><li>
+<p>包括整数和浮点数</p>
+</li><li>
+<p>在JS中尽量不要做对精确度要求很高的计算. 计算浮点数会出现不可预期的结果</p>
+
+<pre>- Number.MAX_VALUE来获取最大值
+  1.7976931348623157e+308
+
+- Number.MIN_VALUE 0以上的最小值：
+  5e-324</pre>
+</li><li>
+<p>infinity 数据类型也是Number</p>
+</li><li>
+<p>NaN (Not a Number) 表示非法数字. 数据类型也是Number</p>
+</li><li>
+<p>进制数字</p>
+<ul><li>
+<p>十六进制 0x数字</p>
+<ul><li>
+<p>var c=0x10;//十六进制10</p>
+</li></ul>
+</li><li>
+<p>八进制 0数字</p>
+<ul><li>
+<p>c=010;//八进制10</p>
+</li></ul>
+</li><li>
+<p>二进制 0b数字</p>
+<ul><li>
+<p>c=0b10;//二进制10</p>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<h3 id="label-Boolean+-E5-B8-83-E5-B0-94-E5-80-BC">Boolean 布尔值<span><a href="#label-Boolean+-E5-B8-83-E5-B0-94-E5-80-BC">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>使用布尔值进行逻辑判断</p>
+</li><li>
+<p>布尔值只有两个 true和false</p>
+</li><li>
+<p>true 表示逻辑为真</p>
+</li><li>
+<p>false 表示逻辑为假</p>
+</li></ul>
+
+<h3 id="label-Null+-E5-92-8C+Undefined">Null 和 Undefined<span><a href="#label-Null+-E5-92-8C+Undefined">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>Null 空值</p>
+<ul><li>
+<p>Null类型只有一个值 Null</p>
+</li><li>
+<p>专门用来表示为空的对象</p>
+</li><li>
+<p>typeof返回为Object数据类型</p>
+</li></ul>
+</li><li>
+<p>undefined 未定义</p>
+<ul><li>
+<p>表示一个声明但没有赋值的变量</p>
+</li><li>
+<p>数据类型是undefined</p>
+</li></ul>
+</li></ul>
+
+<h2 id="label-JS-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E8-BD-AC-E6-8D-A2">JS数据类型转换<span><a href="#label-JS-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E8-BD-AC-E6-8D-A2">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E5-BC-BA-E5-88-B6-E7-B1-BB-E5-9E-8B-E8-BD-AC-E6-8D-A2-E4-B8-BAString">强制类型转换为String<span><a href="#label-E5-BC-BA-E5-88-B6-E7-B1-BB-E5-9E-8B-E8-BD-AC-E6-8D-A2-E4-B8-BAString">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>调用 toString() 方法</p>
+<ul><li>
+<p>null和undefined不能使用</p>
+</li></ul>
+</li><li>
+<p>调用 String() 函数</p>
+<ul><li>
+<p>null转换成 “null”</p>
+</li><li>
+<p>undefined转换成 “undefined”</p>
+</li></ul>
+</li><li>
+<p><strong>任意值 = 任意值 + “”</strong></p>
+</li></ul>
+
+<h4 id="label-E5-BC-BA-E5-88-B6-E7-B1-BB-E5-9E-8B-E8-BD-AC-E6-8D-A2-E4-B8-BANumber">强制类型转换为Number<span><a href="#label-E5-BC-BA-E5-88-B6-E7-B1-BB-E5-9E-8B-E8-BD-AC-E6-8D-A2-E4-B8-BANumber">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>使用 Number() 函数</p>
+<ul><li>
+<p>如果字符串是合法的数字则转换成对应数字</p>
+</li><li>
+<p>如果字符串不是合法数字则转换成NaN</p>
+</li><li>
+<p>如果字符串是空串或者是空格则转换为0</p>
+</li><li>
+<p>true 转换为 1</p>
+</li><li>
+<p>false 转换为 0</p>
+</li><li>
+<p>null 转换为 0</p>
+</li><li>
+<p>undefined 转换为 NaN</p>
+</li></ul>
+</li><li>
+<p>使用 parseInt（）或 parseFloat（）</p>
+<ul><li>
+<p>parseInt（） 将字符串转换成整数</p>
+</li><li>
+<p>parseFloat（） 将字符串转换为小数</p>
+</li><li>
+<p>如果在这两个函数中传递一个非字符串作为参数会变成NaN</p>
+</li></ul>
+</li><li>
+<p><strong>任意值 = +任意值</strong></p>
+<ul><li>
+<p>进行任何计算也可转换</p>
+</li><li>
+<p>任意类型 * 1</p>
+</li><li>
+<p>任意类型 - 0</p>
+</li><li>
+<p>任意类型 / 1</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-BC-BA-E5-88-B6-E7-B1-BB-E5-9E-8B-E8-BD-AC-E6-8D-A2-E4-B8-BABoolean">强制类型转换为Boolean<span><a href="#label-E5-BC-BA-E5-88-B6-E7-B1-BB-E5-9E-8B-E8-BD-AC-E6-8D-A2-E4-B8-BABoolean">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>使用 Boolean() 函数</p>
+<ul><li>
+<p>对于字符串除了空串是false 其余都是true</p>
+</li><li>
+<p>对于数字除了0和NaN是false 其余都是true</p>
+</li><li>
+<p>对于Null 转换成false</p>
+</li><li>
+<p>对于undefined 转换成false</p>
+</li><li>
+<p>任何对象默认都是true</p>
+</li></ul>
+</li><li>
+<p><strong>任意值 = !!任意值</strong></p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/03_JS/JS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="03-02.html">上一篇 · JS基本语法</a><a href="03-04.html">下一篇 · JS运算符</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

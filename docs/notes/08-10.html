@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>版本控制工具 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-08.html">AJAX：请求数据与更新页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AJAX：请求数据与更新页面</strong><a href="08-01.html">简介</a><a href="08-02.html">ajax请求</a><a href="08-03.html">前后端交互</a><a href="08-04.html">用 jQuery 发请求</a><a href="08-05.html">小练习</a><a href="08-06.html">跨域请求</a><a href="08-07.html">前端模版引擎</a><a href="08-08.html">上传下载文件</a><a href="08-09.html">ajax高级</a><a href="08-10.html" aria-current="page">版本控制工具</a></nav>
+<article class="paper"><h1>版本控制工具</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>版本控制会记录每次改动。Git 的基本流程是用 <code>git status</code> 看改动，用 <code>git add</code> 选择内容，再用 <code>git commit</code> 保存一次记录。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h1 id="label-E7-89-88-E6-9C-AC-E6-8E-A7-E5-88-B6-E5-B7-A5-E5-85-B7">版本控制工具<span><a href="#label-E7-89-88-E6-9C-AC-E6-8E-A7-E5-88-B6-E5-B7-A5-E5-85-B7">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<h3 id="label-E7-89-88-E6-9C-AC-E6-8E-A7-E5-88-B6-E7-B3-BB-E7-BB-9F-EF-BC-88Version+Control+System-2C+VCS-EF-BC-89">版本控制系统（Version Control System, VCS）<span><a href="#label-E7-89-88-E6-9C-AC-E6-8E-A7-E5-88-B6-E7-B3-BB-E7-BB-9F-EF-BC-88Version+Control+System-2C+VCS-EF-BC-89">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>可以帮助我们记录和跟踪项目中各文件内容的修改变化</p>
+
+<h4 id="label-E5-BA-94-E7-94-A8-E5-9C-BA-E6-99-AF-3A+-E4-BD-9C-E5-AE-B6.+-E7-A8-8B-E5-BA-8F-E5-91-98">应用场景: 作家. 程序员<span><a href="#label-E5-BA-94-E7-94-A8-E5-9C-BA-E6-99-AF-3A+-E4-BD-9C-E5-AE-B6.+-E7-A8-8B-E5-BA-8F-E5-91-98">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h4 id="label-E6-9C-80-E5-B8-B8-E7-94-A8-E7-89-88-E6-9C-AC-E6-8E-A7-E5-88-B6-E5-B7-A5-E5-85-B7-3A+SVN-28-E9-9B-86-E4-B8-AD-E5-BC-8F-E4-BB-A3-E8-A1-A8-29.+GIT-28-E5-88-86-E5-B8-83-E5-BC-8F-E5-BC-80-E6-BA-90-E4-BB-A3-E8-A1-A8-29">最常用版本控制工具: SVN(集中式代表). GIT(分布式开源代表)<span><a href="#label-E6-9C-80-E5-B8-B8-E7-94-A8-E7-89-88-E6-9C-AC-E6-8E-A7-E5-88-B6-E5-B7-A5-E5-85-B7-3A+SVN-28-E9-9B-86-E4-B8-AD-E5-BC-8F-E4-BB-A3-E8-A1-A8-29.+GIT-28-E5-88-86-E5-B8-83-E5-BC-8F-E5-BC-80-E6-BA-90-E4-BB-A3-E8-A1-A8-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h3 id="label-E7-89-88-E6-9C-AC-E6-8E-A7-E5-88-B6-E5-B7-A5-E5-85-B7-E5-88-86-E7-B1-BB">版本控制工具分类<span><a href="#label-E7-89-88-E6-9C-AC-E6-8E-A7-E5-88-B6-E5-B7-A5-E5-85-B7-E5-88-86-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><strong>集中式: 所有的代码都集中在中央服务器</strong></p>
+
+<p>代表作品: subversion</p>
+
+<p>特点: 所有代码集中在一台机器上</p>
+
+<p>工作流程:</p>
+<ol><li>
+<p>程序员从中央服务器取得最新的代码版本</p>
+</li><li>
+<p>程序员在本地修改</p>
+</li><li>
+<p>程序员把改好的代码提交到中央服务器</p>
+</li><li>
+<p>打包组方便统一下载完成好的代码进行打包程序工作,然后去卖钱</p>
+</li></ol>
+
+<p>优点:</p>
+<ul><li>
+<p>权限管理方便</p>
+</li><li>
+<p>适合知识产权保护(每个工程师只有一小段代码)</p>
+</li></ul>
+
+<p>缺点:</p>
+<ul><li>
+<p>中央服务器宕机所有工作都停滞</p>
+</li><li>
+<p>中央服务器损坏所有代码丢失</p>
+</li><li>
+<p>如果连接不到中央服务器就无法下载到最新代码</p>
+</li></ul>
+
+<p>合适场景: 版权非常强的公司</p>
+
+<h2 id="label-rdoc-image-3Ahttp-3A-2F-2Fi.imgur.com-2Fws7xr9W.jpg"><img src="https://i.imgur.com/ws7xr9W.jpg"><span><a href="#label-rdoc-image-3Ahttp-3A-2F-2Fi.imgur.com-2Fws7xr9W.jpg">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><strong>分布式: 每台工作机都有完整的代码库</strong></p>
+
+<p>代表作品: Git</p>
+
+<p>特点:每台机器都有完整代码库</p>
+
+<p>工作流程:</p>
+<ol><li>
+<p>每个工程师在自己的电脑上工作</p>
+</li><li>
+<p>必要时相互同步代码库</p>
+</li></ol>
+
+<p>优点:</p>
+<ul><li>
+<p>任何机器损坏都没关系</p>
+</li><li>
+<p>在无网络的情况下也可以继续工作不受影响</p>
+</li></ul>
+
+<p>缺点:</p>
+<ul><li>
+<p>无法精确控制权限</p>
+</li></ul>
+
+<p>合适场景: 开源公司</p>
+
+<h2 id="label-rdoc-image-3Ahttp-3A-2F-2Fi.imgur.com-2FWEZv39q.jpg"><img src="https://i.imgur.com/WEZv39q.jpg"><span><a href="#label-rdoc-image-3Ahttp-3A-2F-2Fi.imgur.com-2FWEZv39q.jpg">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-SVN+Subversion">SVN Subversion<span><a href="#label-SVN+Subversion">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>用于多人共同开发同一个项目(多人协同工作)</p>
+
+<p>客户端服务器模式</p>
+
+<p>基本流程:</p>
+<ol><li>
+<p>从服务器系在项目最新代码</p>
+</li><li>
+<p>开始工作</p>
+</li><li>
+<p>每隔一段时间提交一次代码</p>
+</li><li>
+<p>结束工作之前确保今天最新的代码上传到服务器</p>
+</li></ol>
+
+<p><strong>注意: 开始写代码前一定要更新</strong></p>
+
+<p><strong>服务器上的工作:</strong>(工作的时候不操作服务器)</p>
+<ul><li>
+<p>Repositories</p>
+<ul><li>
+<p>右键 Create 创建新的代码数据库</p>
+</li><li>
+<p>Browse 浏览器查看</p>
+</li></ul>
+</li><li>
+<p>Users: 用户组</p>
+<ul><li>
+<p>新建 user 建立工作人员数据</p>
+</li></ul>
+</li><li>
+<p>代码库</p>
+<ul><li>
+<p>右键 - copy 复制代码库URL地址</p>
+</li><li>
+<p>右键 - Browse 浏览器查看</p>
+</li><li>
+<p>右键 - Properties 添加人员/权限分配</p>
+</li></ul>
+</li></ul>
+
+<p><strong>客户端基本工作模型:</strong></p>
+<ul><li>
+<p>第一次从服务器下载代码: 项目文件夹 - 右键 - SVN Checkout</p>
+</li><li>
+<p>本地代码提交给服务器: 项目文件夹 - 右键 - SVN Commit</p>
+</li><li>
+<p>从服务器更新代码: 项目文件夹 - 右键 - SVN Updata</p>
+</li><li>
+<p>查看历史版本: TrotoiserSVN - show log</p>
+</li><li>
+<p>回退历史版本: TrotoiserSVN - show log - revert</p>
+</li><li>
+<p>清除之前的账户数据 settings - Saved Data - Authentication data Clear all</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/I5tQbUx.png"></p>
+
+<p><strong>冲突的产生: 多人编辑同一个文件的同一行</strong></p>
+
+<p>冲突解决之使用工具:</p>
+<ol><li>
+<p>右键 - TrotoiserSVN - Edit conflict</p>
+<ul><li>
+<p>右键 - user this block 使用当前行</p>
+</li><li>
+<p>右键 - user text block &#39;xx&#39; before &#39;aa&#39; xx行在aa行之前添加</p>
+</li></ul>
+</li><li>
+<p>保存好编辑的结果. 并且标记已经解决冲突(Mark as resolved)</p>
+</li><li>
+<p>把解决好的新文件commit到服务器</p>
+</li></ol>
+
+<p>冲突解决之手动解决:</p>
+<ol><li>
+<p>手动打开冲突文件</p>
+</li><li>
+<p>手动编辑代码达到目标状态并保存</p>
+</li><li>
+<p>手动标记已解决冲突</p>
+<ul><li>
+<p>右键 TrotoiserSVN - resolv</p>
+</li></ul>
+</li><li>
+<p>把解决好的新文件commit到服务器</p>
+</li></ol>
+
+<p><strong>忽略列表</strong></p>
+
+<p>服务器代码库中的文件应该是所有程序员都有用的, 有些文件不需要上传到服务器代码库</p>
+<ul><li>
+<p>当前文件右键 - TrotoiserSVN - ignore list</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/kP3tx0H.png"></p>
+<hr>
+
+<h3 id="label-E5-88-86-E6-94-AF-E6-A6-82-E5-BF-B5">分支概念<span><a href="#label-E5-88-86-E6-94-AF-E6-A6-82-E5-BF-B5">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><strong>主干 trunk</strong> 保持代码处于可以发布产品的状态</p>
+</li><li>
+<p><strong>分支 branch</strong> 修改BUG 开发新功能</p>
+</li><li>
+<p><strong>标签 tag</strong> 保存某个重要具有意义版本的代码</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/tE5P7gD.jpg"></p>
+
+<h4 id="label-E5-88-86-E6-94-AF-E5-9F-BA-E6-9C-AC-E5-B7-A5-E4-BD-9C">分支基本工作<span><a href="#label-E5-88-86-E6-94-AF-E5-9F-BA-E6-9C-AC-E5-B7-A5-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>1.开分支</strong></p>
+<ul><li>
+<p>从主干上开分支</p>
+</li><li>
+<p>作用</p>
+<ul><li>
+<p>修改BUG 修改完成后 merge 回主干</p>
+</li><li>
+<p>开发新功能 开发完成后 merger 回主干</p>
+</li></ul>
+</li><li>
+<p>具体操作</p>
+<ul><li>
+<p>右键TrotoiserSVN - repo-browser(仓库浏览器) - trunk目录上右键 - Copy to</p>
+</li><li>
+<p>Copy to到指定的文件下就完成了tag或开分支</p>
+</li></ul>
+</li></ul>
+
+<p><strong>2.合并分支</strong></p>
+<ul><li>
+<p>把分支合并回主干上</p>
+</li><li>
+<p>作用</p>
+</li><li>
+<p>把修改好的bug或者是开发好的新功能合并回主干</p>
+</li><li>
+<p>具体操作</p>
+</li><li>
+<p>右键TrotoiserSVN - Merge - 选择要被合并的URL目录</p>
+</li></ul>
+<hr>
+
+<h3 id="label-Git">Git<span><a href="#label-Git">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Git和Github联系:程序员电脑的 git 仓库向 GitHub 的仓库提交代码</p>
+
+<h4 id="label-git-E6-9C-AC-E5-9C-B0-E4-BB-93-E5-BA-93+Git">git本地仓库 Git<span><a href="#label-git-E6-9C-AC-E5-9C-B0-E4-BB-93-E5-BA-93+Git">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>第一个: 工作区(working dir) 你的工作目录</p>
+
+<p>第二个: 暂存区（Index/Stage）它像个缓存区域，临时保存你的改动</p>
+
+<p>第三个: 版本区(HEAD), 它指向你最后一次提交的结果</p>
+
+<p><img src="https://i.imgur.com/w6IhcMa.jpg"></p>
+
+<p><img src="https://i.imgur.com/ILFdr4t.png"></p>
+
+<h4 id="label-git+-E5-92-8C+github-E5-85-B3-E8-81-94">git 和 github关联<span><a href="#label-git+-E5-92-8C+github-E5-85-B3-E8-81-94">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>第一步: 创建本地密匙</p>
+</li><li>
+<p>ssh-keygen -t rsa -C “youremail@example.com”</p>
+</li><li>
+<p>第二步: 登陆GitHub 操作</p>
+</li><li>
+<p>settings - SSH and GPG Keys - New SSH key</p>
+</li><li>
+<p>Title随便输. Key粘贴 id_rsa.pub 中的内容</p>
+</li><li>
+<p>第三步: 设置全局用户</p>
+</li><li>
+<p>git config –global user.email “zhangrenchuan@live.cn”</p>
+</li><li>
+<p>git config –global user.name “zhangrenchuan”</p>
+</li><li>
+<p>第四步:</p>
+</li><li>
+<p>git remote remove origin 断开关联</p>
+</li></ul>
+
+<h4 id="label-E5-B8-B8-E7-94-A8-E6-93-8D-E4-BD-9C-3A">常用操作:<span><a href="#label-E5-B8-B8-E7-94-A8-E6-93-8D-E4-BD-9C-3A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>常用代码</p>
+<ul><li>
+<p>ls 查看当前目录</p>
+</li><li>
+<p>cd 跳转文件</p>
+</li><li>
+<p>ll 查看文件</p>
+</li></ul>
+
+<p>1.创建仓库</p>
+<ul><li>
+<p>创建远程仓库</p>
+</li><li>
+<p>点击 + 号 new repository</p>
+</li><li>
+<p>README 编写仓库说明</p>
+</li><li>
+<p>创建本地仓库</p>
+</li><li>
+<p>克隆远程仓库到本地</p>
+<ul><li>
+<p><strong>git clone 远程仓库URL</strong></p>
+</li></ul>
+</li><li>
+<p>新生成本地仓库</p>
+<ul><li>
+<p><strong>git init</strong> 或 当前工作目录 右键 - git Init Here</p>
+</li><li>
+<p>把项目拷贝到该工作目录中</p>
+</li><li>
+<p>git remote add origin (远程仓库的SSH地址)</p>
+</li></ul>
+</li></ul>
+
+<p>2.提交本地仓库</p>
+<ul><li>
+<p>git status (查看文件状态)</p>
+</li><li>
+<p>git add * (当前目录下所有文件都添加到暂存区)</p>
+</li><li>
+<p>git commit -m &#39;commit说明&#39; (从暂存区提交到版本区)</p>
+</li><li>
+<p><strong>git commit -am &#39;commit说明&#39;(直接提交到版本去)</strong></p>
+</li></ul>
+
+<p>3.推送本地到远程仓库</p>
+<ul><li>
+<p><strong>git push origin master</strong></p>
+</li></ul>
+
+<p>4.远程仓库同步到本地</p>
+<ul><li>
+<p><strong>git pull origin master 同步远程到本地的工作区</strong></p>
+</li><li>
+<p>git fetch origin master 取得远程的代码但不合并</p>
+</li><li>
+<p>git fetch 与 git pull 的比较</p>
+<ul><li>
+<p>pull = fetch + merge</p>
+</li></ul>
+</li></ul>
+
+<p>5.分支与合并</p>
+<ul><li>
+<p>git branch 查看当前分支</p>
+</li><li>
+<p><strong>git checkout -b &lt;branch-name&gt; 开分支并切换到新分支</strong></p>
+<ul><li>
+<p>branch-name 分支的名字</p>
+</li></ul>
+</li><li>
+<p>git checkout master 切换回主分支</p>
+</li><li>
+<p>git checkout &lt;branch-name&gt; 切换回分支</p>
+</li><li>
+<p>git branch -D &lt;branch-name&gt; 删除分支</p>
+</li><li>
+<p>git diff &lt;1-branch&gt; &lt;2-branch&gt; 比较分支两个分支</p>
+</li><li>
+<p><strong>git merge (branch文件) 合并分支(需要在主分支进行)</strong></p>
+</li></ul>
+
+<p>6.替换工作区中的内容</p>
+<ul><li>
+<p>git reset –hard (commitID) 回到某个版本</p>
+</li><li>
+<p>git checkout – &lt;当前文件名&gt; 放弃现在修改.用版本库替换当前状态</p>
+</li></ul>
+
+<p>7.打标签</p>
+<ul><li>
+<p>git log 查看提交日志</p>
+</li><li>
+<p>git reflog 查看所有日志详情</p>
+</li><li>
+<p>git tag 版本信息 (某个提交ID) 给重要版本创建标签</p>
+</li><li>
+<p>git tag 查看保存的重要版本信息</p>
+</li></ul>
+
+<p>8.忽略列表</p>
+<ul><li>
+<p>vim .gitignore来创建忽略文件</p>
+</li><li>
+<p>i 编辑文档</p>
+</li><li>
+<p>shift + : 输入命令</p>
+</li><li>
+<p>w 写入磁盘</p>
+</li><li>
+<p>q 退出</p>
+</li><li>
+<p>.gitignore写入需要忽略的文件</p>
+</li></ul>
+
+<p><strong>产生冲突</strong></p>
+
+<p>两个branch代码不同</p>
+<ul><li>
+<p>git diff 查看比较</p>
+</li><li>
+<p>先切换到主分支</p>
+</li><li>
+<p>git merge &lt;branch&gt;</p>
+</li><li>
+<p><strong>解决冲突：手写修改</strong></p>
+</li><li>
+<p>git add git commit</p>
+</li><li>
+<p>推送到远程服务器</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/08_AJAX/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E5%B7%A5%E5%85%B7.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="08-09.html">上一篇 · ajax高级</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

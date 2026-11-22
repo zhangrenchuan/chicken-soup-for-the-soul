@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>上下文环境对象 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-06.html">JavaScript 进阶：作用域、闭包和原型</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 进阶：作用域、闭包和原型</strong><a href="06-01.html">数据类型</a><a href="06-02.html">原型</a><a href="06-03.html">this</a><a href="06-04.html">提升</a><a href="06-05.html" aria-current="page">上下文环境对象</a><a href="06-06.html">作用域与作用域链</a><a href="06-07.html">闭包</a><a href="06-08.html">对象创建模式</a><a href="06-09.html">原型链继承</a><a href="06-10.html">线程机制</a><a href="06-11.html">JS引擎</a><a href="06-12.html">Web Workers API</a></nav>
+<article class="paper"><h1>上下文环境对象</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>每次调用函数，都会有一份本次运行所需的信息，例如参数和局部变量。函数互相调用时，这些调用按进入和返回的顺序进出调用栈。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E4-B8-8A-E4-B8-8B-E6-96-87-E7-8E-AF-E5-A2-83-E5-AF-B9-E8-B1-A1">上下文环境对象<span><a href="#label-E4-B8-8A-E4-B8-8B-E6-96-87-E7-8E-AF-E5-A2-83-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>也称执行上下文环境. 也就是环境对象. 运行的时候产生</p>
+</li><li>
+<p>由JS引擎自动创建的对象, 包含对应作用域中的变量属性</p>
+</li><li>
+<p>用来管理产生的多个环境对象称为环境对象栈</p>
+</li></ul>
+
+<p><strong>上下文环境对象(全局)创建和初始化的过程</strong></p>
+<ul><li>
+<p>在全局代码执行前先创建一个全局上下文环境对象(window)</p>
+</li><li>
+<p>收集一些全局变量 并初始化赋值</p>
+</li><li>
+<p>将收集的全局变量设置为上下文环境对象(window)的属性</p>
+</li></ul>
+
+<p><strong>上下文环境对象(函数)创建和初始化的过程</strong></p>
+<ul><li>
+<p>在调用函数时, 在执行函数体之前创建函数上下文环境对象</p>
+</li><li>
+<p>收集一些局部变量 并初始化</p>
+</li><li>
+<p>将这些变量设置为函数上下文环境对象的属性</p>
+</li></ul>
+
+<p><strong>全局上下文环境 (window)</strong></p>
+<ol><li>
+<p>初始化时间</p>
+<ul><li>
+<p>在全局js代码开始执行之前生成</p>
+</li></ul>
+</li><li>
+<p>初始化工作</p>
+<ul><li>
+<p>var定义的全局变量(任意类型值) ==&gt; undefined</p>
+</li><li>
+<p>使用function声明函数 ==&gt; 赋值function</p>
+</li><li>
+<p>this ==&gt; 赋值window</p>
+</li></ul>
+</li><li>
+<p>当页面刷新/关闭页面时死亡</p>
+</li></ol>
+
+<p><strong>函数上下文环境 (透明的对象)</strong></p>
+<ol><li>
+<p>初始化时间</p>
+<ul><li>
+<p>在调用函数时, 函数体执行之前生成</p>
+</li><li>
+<p>在调用函数时, 函数体执行之前生成</p>
+</li></ul>
+</li><li>
+<p>初始化工作</p>
+<ul><li>
+<p>var定义的局部变量(任意类型) ==&gt; 变量声明默认赋值undefined</p>
+</li><li>
+<p>使用function声明的函数 ==&gt; 赋值function</p>
+</li><li>
+<p>this ==&gt; 赋值调用函数的对象 如果没有指定this就是window</p>
+</li><li>
+<p>形参变量 ==&gt; 赋值对应的实参值</p>
+</li><li>
+<p>arguments ==&gt; 赋值实参列表伪数组(对象. 数字下标属性和length属性)</p>
+</li><li>
+<p>var定义的局部变量(任意类型) ==&gt; 变量声明默认赋值undefined</p>
+</li><li>
+<p>使用function声明的函数 ==&gt; 赋值function</p>
+</li><li>
+<p>this ==&gt; 赋值调用函数的对象 如果没有指定this就是window</p>
+</li><li>
+<p>形参变量 ==&gt; 赋值对应的实参值</p>
+</li><li>
+<p>arguments ==&gt; 赋值实参列表伪数组(对象. 数字下标属性和length属性)</p>
+</li></ul>
+</li><li>
+<p>函数执行完死亡</p>
+
+<pre>console.log(this);  //window
+console.log(a); //undefined 相当于var a;
+window.aa(); //&#39;aa执行了&#39;  函数声明可以直接调用
+console.log(aaa); //undefined  相当于 var aaa;
+//window.aaa(); //window.aaa is not a function
+
+var a = 1;
+function aa(){
+    console.log(&#39;aa执行了&#39;);
+}
+var aaa = function (){
+    console.log(&#39;aaa&#39;);
+};
+//console.log(aaaa); aaaa is not defined
+aaaa = 3;
+
+ console.log(&#39;--------------------------&#39;);
+
+function fn(a){
+    console.log(a); //2
+    console.log(b); //undefined  相当于var b;
+    c(); //c执行了  通过函数定义的可以调用
+    //d();  相当于 var d; 不可以调用函数
+    console.log(d); //undefined 相当于 var d;
+    console.log(this); //window
+    console.log(arguments); //实参列表的伪数组(本质是一个对象)  [2,3]
+
+    var b=3;
+    function c(){
+        console.log(&#39;c执行了&#39;);
+    }
+    var d = function (){
+        console.log(&#39;d执行了&#39;);
+    }
+}
+fn(2,3)</pre>
+</li></ol>
+
+<h4 id="label-E4-B8-8A-E4-B8-8B-E6-96-87-E7-8E-AF-E5-A2-83-E6-A0-88">上下文环境栈<span><a href="#label-E4-B8-8A-E4-B8-8B-E6-96-87-E7-8E-AF-E5-A2-83-E6-A0-88">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>在js代码执行过程中, JS引擎会用一个栈结构容器来管理所有创建的上下文环境对象</p>
+<ul><li>
+<p>上下文环境栈 : 后进先出</p>
+</li><li>
+<p>队列结构 先进先出</p>
+</li><li>
+<p><strong>查找创建上下文环境对象方法 :n+1 （ｎ代表执行函数的次数）</strong></p>
+</li></ul>
+
+<p>执行全局代码时，会产生一个执行上下文环境，每次调用函数都又会产生执行上下文环境。当函数调用完成时，这个上下文环境以及其中的数据都会被消除，再重新回到全局上下文环境。</p>
+<ul><li>
+<p>处于活动状态的执行上下文环境只有一个。</p>
+</li><li>
+<p>其实这是一个压栈出栈的过程——执行上下文栈。</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/UPG3OMP.png"> <img src="https://i.imgur.com/Xq4Qwgf.png"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/06_JavaScript%E9%AB%98%E7%BA%A7/%E4%B8%8A%E4%B8%8B%E6%96%87%E7%8E%AF%E5%A2%83%E5%AF%B9%E8%B1%A1.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="06-04.html">上一篇 · 提升</a><a href="06-06.html">下一篇 · 作用域与作用域链</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

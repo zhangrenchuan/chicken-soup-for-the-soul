@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>ajax封装 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-09.html">AngularJS 1.x（旧版）</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AngularJS 1.x（旧版）</strong><a href="09-01.html">简介</a><a href="09-02.html">四个重要概念</a><a href="09-03.html">四个重要对象</a><a href="09-04.html">三个页面语法</a><a href="09-05.html">三个对象详解</a><a href="09-06.html">两个重要扩展模块</a><a href="09-07.html" aria-current="page">ajax封装</a></nav>
+<article class="paper"><h1>ajax封装</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>这篇介绍如何把 AngularJS 里的请求代码封装起来。把地址和请求细节放进服务，控制器就可以专心处理页面数据。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-AJAX+-E5-B0-81-E8-A3-85">AJAX 封装<span><a href="#label-AJAX+-E5-B0-81-E8-A3-85">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>$http({}) GET请求</p>
+<ul><li>
+<p>第一个参数:请求方式method:&#39;get&#39;</p>
+</li><li>
+<p>第二个参数: 路由路径url</p>
+</li><li>
+<p>第三个参数: 请求内容 params:{}</p>
+<ul><li>
+<p>注:post请求对象用data:{}接收</p>
+</li></ul>
+</li><li>
+<p>调用success(function(data){})</p>
+</li><li>
+<p>调用error(function(error){})</p>
+</li></ul>
+</li><li>
+<p>$http({}) POST请求</p>
+<ul><li>
+<p>第一个参数:请求方式method:&#39;post&#39;</p>
+</li><li>
+<p>第二个参数:路由路径url</p>
+</li><li>
+<p>第三个参数:请求头</p>
+<ul><li>
+<p>headers: {&#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;}</p>
+</li></ul>
+</li><li>
+<p>第四个参数:请求内容使用拼串形式</p>
+<ul><li>
+<p>data:&#39;username=wukong&#39;+&#39;&amp;&#39;+&#39;age=38&#39;</p>
+</li></ul>
+</li><li>
+<p>调用success(function(data){})</p>
+</li><li>
+<p>调用error(function(error){})</p>
+</li></ul>
+</li><li>
+<p>$http.get()</p>
+<ul><li>
+<p>参数: 请求路由路径</p>
+</li><li>
+<p>请求内容写在路由路径的 ? 后面</p>
+</li><li>
+<p><code>$http.get(&#39;http://localhost:4000/angular_node/get?username=wukong$age=4&#39;)</code></p>
+</li><li>
+<p>再调用success(function(data){})</p>
+</li></ul>
+</li><li>
+<p>$http.post()</p>
+<ul><li>
+<p>参数: 请求路由路径</p>
+</li><li>
+<p>请求内容写在对象中</p>
+</li><li>
+<p><code>$http.post(&#39;/angular_node/post&#39;,{username:&#39;wukong&#39;,age:38})</code></p>
+</li><li>
+<p>再调用success(function(data){})</p>
+</li></ul>
+</li><li>
+<p>$http.jonsp()</p>
+<ul><li>
+<p>参数: 请求路由路径</p>
+</li><li>
+<p>需要在后面写 ?callback=JSON_CALLBACK</p>
+</li><li>
+<p>&amp;符号后写请求的内容</p>
+</li><li>
+<p><code>$http.jsonp(&#39;http://localhost:4000/angular_node/jsonp?callback=JSON_CALLBACK&username;=wukong&#39;)</code></p>
+</li><li>
+<p>再调用success(function(data){})</p>
+</li></ul>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/09_Angular/ajax%E5%B0%81%E8%A3%85.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="09-06.html">上一篇 · 两个重要扩展模块</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

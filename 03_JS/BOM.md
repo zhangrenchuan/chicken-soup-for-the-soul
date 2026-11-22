@@ -1,4 +1,12 @@
 # BOM
+
+## 先弄懂这件事
+
+BOM 指浏览器窗口提供的接口。读当前网址用 `location`，操作前进后退用 `history`，这些都属于浏览器环境。
+
+## 笔记与示例
+
+# BOM
 ## Browser Object Model 
 - 浏览器对象模型
 - BOM对象都是作为window对象的属性保存的

@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>HTML5地理定位 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-04.html">HTML5 与 CSS3：图形、表单和动画</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>HTML5 与 CSS3：图形、表单和动画</strong><a href="04-01.html">HTML5</a><a href="04-02.html">CSS3</a><a href="04-03.html">canvas</a><a href="04-04.html">SVG</a><a href="04-05.html" aria-current="page">HTML5地理定位</a></nav>
+<article class="paper"><h1>HTML5地理定位</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>浏览器地理定位返回坐标，地图组件负责把坐标显示成地图上的位置。实际使用时要处理授权被拒绝和定位失败，原文地图示例还依赖第三方服务。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h1 id="label-E5-9C-B0-E7-90-86-E5-AE-9A-E4-BD-8D">地理定位<span><a href="#label-E5-9C-B0-E7-90-86-E5-AE-9A-E4-BD-8D">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<h3 id="label-E4-BD-BF-E7-94-A8-E7-99-BE-E5-BA-A6-E5-9C-B0-E5-9B-BE-E7-9A-84-E6-AD-A5-E9-AA-A4">使用百度地图的步骤<span><a href="#label-E4-BD-BF-E7-94-A8-E7-99-BE-E5-BA-A6-E5-9C-B0-E5-9B-BE-E7-9A-84-E6-AD-A5-E9-AA-A4">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>在HTML页面</p>
+<ul><li>
+<p>引入百度地图提供的JS文件 <code>http://api.map.baidu.com/api?v=2.0&ak;=您的密钥</code></p>
+</li><li>
+<p>定义容器元素</p>
+<ul><li>
+<p><code>&lt;div&gt;&lt;/div&gt;</code>元素</p>
+</li><li>
+<p>用于显示百度地图</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>在JavaScript代码</p>
+<ul><li>
+<p>创建百度地图对象 <code>var map = new BMap.Map(容器元素id);</code></p>
+</li><li>
+<p>初始化百度地图 <code>map.centerAndZoom(中心点坐标,显示级别)</code></p>
+</li></ul>
+</li></ul>
+
+<pre>&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;百度地图如何使用&lt;/title&gt;
+  &lt;style type=&quot;text/css&quot;&gt;
+    body, html,#allmap {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        margin:0;
+        font-family:&quot;微软雅黑&quot;;
+    }
+  &lt;/style&gt;
+  &lt;!--
+      引入百度地图提供的JS文件
+      * 是在线提供的JS文件 - 必须可以联网
+      http://api.map.baidu.com/api?v=2.0&amp;ak=您的密钥
+      * v=2.0 - 使用的百度地图的版本
+      * ak=您的密钥 - 传递当前应用的秘钥
+        * 只有秘钥正确,正常地使用百度地图的功能
+  --&gt;
+  &lt;script src=&quot;http://api.map.baidu.com/api?v=2.0&amp;ak=HbUVYMUg6PwbOnXkztdgSQlQ&quot;&gt;&lt;/script&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;!-- 定义一个容器元素 - 用于显示百度地图 --&gt;
+  &lt;div id=&quot;allmap&quot;&gt;&lt;/div&gt;
+  &lt;script&gt;
+    /*
+       1\. 通过Map()构造函数,创建百度地图对象
+          var map = new BMap.Map(容器元素id属性值);
+     */
+    var map = new BMap.Map(&quot;allmap&quot;);
+    /*
+       2\. (必要)初始化百度地图 - 设置中心点和显示级别
+          map.centerAndZoom(center,zoom)
+          * center - 设置百度地图当前的中心点坐标
+            * Point类型,zoom参数必须设置
+            * String类型,zoom参数可有可无
+              * 如果不设置zoom,自动匹配最佳显示级别
+          * zoom - 设置百度地图当前的显示级别
+            * 一般情况下,值范围为 3-19
+            * 高清地图(移动端),值范围为 3-18
+     */
+    map.centerAndZoom(&quot;北京&quot;,12);
+  &lt;/script&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<h3 id="label-E7-99-BE-E5-BA-A6-E5-9C-B0-E5-9B-BE-E7-9A-84-E6-A0-B8-E5-BF-83-E7-B1-BB">百度地图的核心类<span><a href="#label-E7-99-BE-E5-BA-A6-E5-9C-B0-E5-9B-BE-E7-9A-84-E6-A0-B8-E5-BF-83-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-Map-E7-B1-BB">Map类<span><a href="#label-Map-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>构造器</strong></p>
+
+<p>| 构造函数 | 参数 | 说明 | | — | — | — | | Map(container) | container：页面容器元素id | 创建地图实例对象 |</p>
+
+<p><strong>配置方法</strong></p>
+
+<p>| 方法名称 | 参数 | 说明 | | — | — | — | | enableScrollWheelZoom() | - | 开启鼠标滚轮放大或缩小地图的显示级别 | | disableScrollWheelZoom() | - | 禁用鼠标滚轮功能 | | enableDragging() | - | 启用鼠标拖拽功能 | | disableDragging() | - | 禁用鼠标拖拽功能 |</p>
+
+<p><strong>地图状态方法</strong></p>
+
+<p>| 方法名称 | 参数 | 说明 | | — | — | — | | getCenter() | - | 返回地图当前中心点(Point类型) | | getZoom() | - | 返回地图当前缩放级别(Number类型) |</p>
+
+<p><strong>修改地图状态方法</strong></p>
+
+<p>| 方法名称 | 参数 | 说明 | | — | — | — | | centerAndZoom(center,zoom) | center：设置地图的中心点坐标；zoom：设置地图的显示级别 | 初始化地图中心点和级别 | | setCenter(center) | center：设置地图的中心点坐标 | 设置地图中心点(Point | String) | | setCurrentCity(city) | city：设置地图城市 | 设置地图城市 | | setZoom(zoom) | zoom：设置地图的显示级别 | 设置显示级别 |</p>
+
+<p><strong>控件方法</strong></p>
+
+<p>| 方法名称 | 参数 | 说明 | | — | — | — | | addControl(control) | - | 将控件添加到地图 | | removeControl(control) | - | 从地图中移除控件 |</p>
+
+<p><strong>覆盖物方法</strong></p>
+
+<p>| 方法名称 | 参数 | 说明 | | — | — | — | | addOverlay(overlay) | - | 将覆盖物添加到地图中 | | removeOverlay(overlay) | - | 从地图中移除覆盖物 | | openInfoWindow(InfoWindow, Point) | InfoWindow：设置信息窗口；Point：在指定点打开 | 设置信息窗口 |</p>
+
+<h3 id="label-E7-99-BE-E5-BA-A6-E5-9C-B0-E5-9B-BE-E7-9A-84-E6-8E-A7-E4-BB-B6-E7-B1-BB">百度地图的控件类<span><a href="#label-E7-99-BE-E5-BA-A6-E5-9C-B0-E5-9B-BE-E7-9A-84-E6-8E-A7-E4-BB-B6-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-ScaleControl-E7-B1-BB">ScaleControl类<span><a href="#label-ScaleControl-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>表示比例尺控件。</p>
+
+<p><strong>构造器</strong></p>
+
+<p>| 构造函数 | 参数 | 说明 | | — | — | — | | ScaleControl(ScaleControlOptions) | - | 创建地图比例尺对象 |</p>
+
+<h4 id="label-ScaleControlOptions-E7-B1-BB">ScaleControlOptions类<span><a href="#label-ScaleControlOptions-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>表示ScaleControl构造函数的可选参数。</p>
+
+<p><strong>选项</strong></p>
+<ul><li>
+<p>anchor：设置当前控件显示的位置。</p>
+<ul><li>
+<p>BMAP_ANCHOR_TOP_LEFT：左上角</p>
+</li><li>
+<p>BMAP_ANCHOR_BOTTOM_LEFT：左下角</p>
+</li><li>
+<p>BMAP_ANCHOR_TOP_RIGHT：右上角</p>
+</li><li>
+<p>BMAP_ANCHOR_BOTTOM_RIGHT：右下角</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-NavigationControl-E7-B1-BB">NavigationControl类<span><a href="#label-NavigationControl-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>表示地图的平移缩放控件。</p>
+
+<p><strong>构造器</strong></p>
+
+<p>| 构造函数 | 参数 | 说明 | | — | — | — | | NavigationControl(NavigationControlOptions) | - | 创建地图平移缩放对象 |</p>
+
+<h4 id="label-MapTypeControl-E7-B1-BB">MapTypeControl类<span><a href="#label-MapTypeControl-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>负责切换地图类型的控件。</p>
+
+<p><strong>构造器</strong></p>
+
+<p>| 构造函数 | 参数 | 说明 | | — | — | — | | MapTypeControl(MapTypeControlOptions) | - | 创建地图类型对象 |</p>
+
+<h4 id="label-OverviewMapControl-E7-B1-BB">OverviewMapControl类<span><a href="#label-OverviewMapControl-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>表示缩略地图控件。</p>
+
+<p><strong>构造器</strong></p>
+
+<p>| 构造函数 | 参数 | 说明 | | — | — | — | | OverviewMapControl(OverviewMapControlOptions) | - | 创建缩略地图对象 |</p>
+
+<pre>&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;百度地图的控件类&lt;/title&gt;
+  &lt;style type=&quot;text/css&quot;&gt;
+    body, html,#allmap {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        margin:0;
+        font-family:&quot;微软雅黑&quot;;
+    }
+  &lt;/style&gt;
+  &lt;script src=&quot;http://api.map.baidu.com/api?v=2.0&amp;ak=HbUVYMUg6PwbOnXkztdgSQlQ&quot;&gt;&lt;/script&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;div id=&quot;allmap&quot;&gt;&lt;/div&gt;
+  &lt;script&gt;
+    // 1\. 创建地图对象
+    var map = new BMap.Map(&quot;allmap&quot;);
+    // 2\. 初始化地图
+    map.centerAndZoom(&quot;北京&quot;,13);
+    map.enableScrollWheelZoom();
+    /*
+       3\. 添加比例尺控件
+          * 创建比例尺控件对象
+          * 将比例尺控件添加到地图中
+     */
+    var scale = new BMap.ScaleControl({
+        anchor: BMAP_ANCHOR_TOP_RIGHT
+    });
+    map.addControl(scale);
+    /*
+       4\. 添加平移缩放控件
+          * 创建平移缩放控件对象
+          * 将平移缩放控件添加到地图中
+     */
+    var nav = new BMap.NavigationControl({
+        anchor: BMAP_ANCHOR_TOP_RIGHT
+    });
+    map.addControl(nav);
+    // 5\. 添加地图类型切换控件
+    var type = new BMap.MapTypeControl({
+        anchor: BMAP_ANCHOR_TOP_LEFT
+    });
+    map.addControl(type);
+    // 6\. 添加缩略地图控件
+    var overview = new BMap.OverviewMapControl({
+        isOpen : true//表示是否自动打开
+    });
+    map.addControl(overview);
+  &lt;/script&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<h3 id="label-E7-99-BE-E5-BA-A6-E5-9C-B0-E5-9B-BE-E7-9A-84-E8-A6-86-E7-9B-96-E7-89-A9-E7-B1-BB">百度地图的覆盖物类<span><a href="#label-E7-99-BE-E5-BA-A6-E5-9C-B0-E5-9B-BE-E7-9A-84-E8-A6-86-E7-9B-96-E7-89-A9-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-Marker-E7-B1-BB">Marker类<span><a href="#label-Marker-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>表示地图上一个图像标注。</p>
+
+<p><strong>构造器</strong></p>
+
+<p>| 构造函数 | 参数 | 说明 | | — | — | — | | Marker(point) | - | 创建标注对象 |</p>
+
+<h4 id="label-InfoWindow-E7-B1-BB">InfoWindow类<span><a href="#label-InfoWindow-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>表示地图上包含信息的窗口。</p>
+
+<p><strong>构造器</strong></p>
+
+<p>| 构造函数 | 参数 | 说明 | | — | — | — | | InfoWindow(content) | content：设置当前点的地址信息内容 | 创建信息的窗口对象 |</p>
+
+<p><strong>方法</strong></p>
+
+<p>| 方法名称 | 参数 | 说明 | | — | — | — | | setWidth(width) | - | 设置信息窗口的宽度 | | setHeight(height) | - | 设置信息窗口的高度 | | setTitle(title) | - | 设置信息窗口的标题 |</p>
+
+<pre>&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+
+  &lt;title&gt;为百度地图进行标注&lt;/title&gt;
+  &lt;style type=&quot;text/css&quot;&gt;
+    body, html,#allmap {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        margin:0;
+        font-family:&quot;微软雅黑&quot;;
+    }
+  &lt;/style&gt;
+  &lt;script src=&quot;http://api.map.baidu.com/api?v=2.0&amp;ak=HbUVYMUg6PwbOnXkztdgSQlQ&quot;&gt;&lt;/script&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;div id=&quot;allmap&quot;&gt;&lt;/div&gt;
+  &lt;script&gt;
+    var map = new BMap.Map(&quot;allmap&quot;);
+    var point = new BMap.Point(116.404, 39.915);
+    map.centerAndZoom(point, 15);
+    /*
+       如何进行标注
+       * 创建标注对象
+       * 将标注添加到地图中
+     */
+    var marker = new BMap.Marker(point);
+    map.addOverlay(marker);
+    marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+  &lt;/script&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<h3 id="label-E6-9C-8D-E5-8A-A1-E7-B1-BB">服务类<span><a href="#label-E6-9C-8D-E5-8A-A1-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-Geocoder-E7-B1-BB">Geocoder类<span><a href="#label-Geocoder-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>用于获取用户的地址解析。</p>
+
+<p><strong>构造器</strong></p>
+
+<p>| 构造函数 | 参数 | 说明 | | — | — | — | | Geocoder() | content：设置当前点的地址信息内容 | 创建地址解析对象 |</p>
+
+<p><strong>方法</strong></p>
+
+<p>| 方法名称 | 参数 | 说明 | | — | — | — | | getPoint(address,callback,city) | address：要解析的地址内容；callback：回调函数（解析address地址成功的话,回调函数具有一个形参(Point)）；city：当前地址所在的城市名称 | 对指定的地址进行解析 |</p>
+
+<pre>&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;百度地图案例&lt;/title&gt;
+  &lt;style type=&quot;text/css&quot;&gt;
+    body, html,#allmap {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        margin:0;
+        font-family:&quot;微软雅黑&quot;;
+    }
+  &lt;/style&gt;
+  &lt;script src=&quot;http://api.map.baidu.com/api?v=2.0&amp;ak=HbUVYMUg6PwbOnXkztdgSQlQ&quot;&gt;&lt;/script&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;div id=&quot;allmap&quot;&gt;&lt;/div&gt;
+  &lt;script&gt;
+    // 1\. 创建地图对象
+    var map = new BMap.Map(&quot;allmap&quot;);
+    // 2\. 初始化地图
+    //map.centerAndZoom(&quot;北京&quot;,13);
+    // 3\. 启用鼠标的滚轮功能
+    map.enableScrollWheelZoom();
+    /*
+       4\. 根据给定的地址获取Point的经度和纬度
+          var geocoder = new BMap.Geocoder();
+          geocoder.getPoint(address,function(point){},city);
+     */
+    var geocoder = new BMap.Geocoder();
+    geocoder.getPoint(&quot;北京市海淀区万寿路西街2号&quot;,function(point){
+        // 5\. 根据Point进行标注
+        var marker = new BMap.Marker(point);
+        map.addOverlay(marker);
+        // 6\. 重新设置中心点位置
+        map.centerAndZoom(point,16);
+        // 7\. 设置信息窗口
+        var opts = {
+            width : 200,
+            height: 100,
+            title : &quot;文博大厦&quot;
+        }
+        var info = new BMap.InfoWindow(&quot;地址:北京市海淀区万寿路西街2号&quot;,opts);
+        marker.addEventListener(&quot;click&quot;,function(){
+            map.openInfoWindow(info,point);
+        });
+    },&quot;北京&quot;);
+  &lt;/script&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<h2 id="label-E6-8B-96-E6-94-BEAPI">拖放API<span><a href="#label-E6-8B-96-E6-94-BEAPI">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>允许用户在一个元素上点击并按住鼠标按钮，拖动它到别的位置，然后松开鼠标按钮将元素放到那儿。</p>
+
+<p>在拖动操作过程中，被拖动元素会以半透明形式展现，并跟随鼠标指针移动。放置元素的位置可能会在不同的应用内。</p>
+
+<h3 id="label-E6-BA-90-E5-85-83-E7-B4-A0-E4-BA-8B-E4-BB-B6">源元素事件<span><a href="#label-E6-BA-90-E5-85-83-E7-B4-A0-E4-BA-8B-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><strong>所谓源元素：</strong>就是被拖动的元素。</p>
+<ul><li>
+<p>dragstart事件：开始拖动源元素时被触发。</p>
+<ul><li>
+<p>只被触发一次。</p>
+</li></ul>
+</li><li>
+<p>drag事件：拖动的过程中,实时被触发。</p>
+<ul><li>
+<p>被触发多次。</p>
+</li></ul>
+</li><li>
+<p>dragend事件：结束拖动源元素时被触发。</p>
+<ul><li>
+<p>只被触发一次。</p>
+</li></ul>
+</li></ul>
+
+<pre>&lt;div id=&quot;d1&quot;&gt;
+    &lt;img id=&quot;img&quot; src=&quot;Penguins.jpg&quot; width=&quot;256&quot;&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    // 获取HTML页面中的源元素&lt;img&gt;
+    var img = document.getElementById(&quot;img&quot;);
+    // 为源元素绑定拖动事件
+    img.addEventListener(&quot;dragstart&quot;,myDragstart);
+    img.addEventListener(&quot;drag&quot;,myDrag);
+    img.addEventListener(&quot;dragend&quot;,myDragend);
+    // 定义事件的处理函数
+    function myDragstart(event){
+        console.log(&amp;quoquot;开始拖动啦...&quot;);
+    }
+    function myDrag(event){
+        console.log(&quot;拖动过程中...&quot;);
+    }
+    function myDragend(event){
+        console.log(&quot;结束拖动啦...&quot;);
+    }
+&lt;/script&gt;</pre>
+
+<h3 id="label-E7-9B-AE-E6-A0-87-E5-85-83-E7-B4-A0-E4-BA-8B-E4-BB-B6">目标元素事件<span><a href="#label-E7-9B-AE-E6-A0-87-E5-85-83-E7-B4-A0-E4-BA-8B-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><strong>所谓目标元素：</strong>就是投放到的元素。</p>
+<ul><li>
+<p>dragenter事件：当源元素到达目标元素时被触发。</p>
+<ul><li>
+<p>该事件只被触发一次。</p>
+</li></ul>
+</li><li>
+<p>dragover事件：当源元素到达目标元素时被触发。</p>
+<ul><li>
+<p>该事件会被触发多次。</p>
+</li><li>
+<p>阻止默认行为,触发drop事件。</p>
+</li></ul>
+</li><li>
+<p>drop事件：当源元素投放在目标元素时被触发。</p>
+<ul><li>
+<p>默认该事件不会被触发。</p>
+</li><li>
+<p><strong>该事件如何会被触发?</strong></p>
+<ul><li>
+<p>原因：HTML页面默认不允许拖放</p>
+</li><li>
+<p>解决：阻止HTML页面的默认行为</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>dragleave事件：当源元素离开目标元素时被触发。</p>
+</li></ul>
+
+<pre>&lt;div id=&quot;d1&quot;&gt;
+    &lt;img id=&quot;img&quot; src=&quot;Penguins.jpg&quot; width=&quot;256&quot;&gt;
+&lt;/div&gt;
+&lt;div id=&quot;d2&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+    // 获取目标元素
+    var d2 = document.getElementById(&quot;d2&quot;);
+    // 为目标元素绑定事件
+    d2.addEventListener(&quot;dragenter&quot;,myDragenter);
+    d2.addEventListener(&quot;dragover&quot;,myDragover);
+    d2.addEventListener(&quot;drop&quot;,myDrop);
+    d2.addEventListener(&quot;dragleave&quot;,myDragleave);
+    // 定义事件的处理函数
+    function myDragenter(event){
+        //event.preventDefault();
+        console.log(&quot;大爷,你来啦...&quot;);
+    }
+    function myDragover(event){
+        event.preventDefault();
+        console.log(&quot;大爷,又来啦...&quot;);
+    }
+    function myDrop(event){
+        //event.preventDefault();
+        console.log(&quot;大爷,别走啦...&quot;);
+    }
+    function myDragleave(event){
+        //event.preventDefault();
+        console.log(&quot;大爷,要走啦...&quot;);
+    }
+&lt;/script&gt;</pre>
+
+<h3 id="label-dataTransfer-E5-AF-B9-E8-B1-A1">dataTransfer对象<span><a href="#label-dataTransfer-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>该对象已被集成在event对象中，起到剪切板的功能。</p>
+<ul><li>
+<p>setData(type,data)方法：存储数据。</p>
+<ul><li>
+<p>参数</p>
+<ul><li>
+<p>type：指定当前存储数据的类型(标识)。</p>
+</li><li>
+<p>data：需要中转的数据内容。</p>
+</li></ul>
+</li><li>
+<p>场景：在源元素事件中。</p>
+</li></ul>
+</li><li>
+<p>getData(type)方法：取出数据。</p>
+<ul><li>
+<p>参数</p>
+<ul><li>
+<p>type：指定当前存储数据的类型(标识)。</p>
+</li></ul>
+</li><li>
+<p>场景：在目标元素事件中。</p>
+</li></ul>
+</li><li>
+<p>clearData()方法：清除剪切板中所有数据。</p>
+</li></ul>
+
+<pre>&lt;div id=&quot;d1&quot;&gt;
+    &lt;img id=&quot;img&quot; src=&quot;Penguins.jpg&quot; width=&quot;256&quot;&gt;
+&lt;/div&gt;
+&lt;div id=&quot;d2&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+    // 1\. 获取源元素和目标元素
+    var img = document.getElementById(&quot;img&quot;);
+    var d2 = document.getElementById(&quot;d2&quot;);
+    /*
+       2\. 为源元素和目标元素绑定事件
+       * 绑定源元素事件的目的:
+         * 通过dataTransfer对象获取源元素的关键数据
+         * 只需绑定dragstart事件即可
+       * 绑定目标元素事件的目的:
+         * 通过dataTransfer对象使用源元素的关键数据
+         * 需要绑定dragover和drop事件
+     */
+    img.addEventListener(&quot;dragstart&quot;,function(event){
+        // 通过dataTransfer对象,存储源元素的关键数据
+        event.dataTransfer.setData(&quot;text&quot;,img.src);
+    });
+    d2.addEventListener(&quot;dragover&quot;,function(event){
+        event.preventDefault();
+    });
+    d2.addEventListener(&quot;drop&quot;,function(event){
+        // 通过dataTransfer对象,使用源元素的关键数据
+        var src = event.dataTransfer.getData(&quot;text&quot;);
+
+        //d2.innerHTML = &quot;&lt;img src=&#39;&quot;+src+&quot;&#39; width=&#39;256&#39;&gt;&quot;;
+
+        var newImg = document.createElement(&quot;img&quot;);
+        newImg.src = src;
+        newImg.width = &quot;256&quot;;
+        newImg.id = &quot;newImg&quot;;
+        d2.appendChild(newImg);
+
+        img.parentNode.removeChild(img);
+    });
+&lt;/script&gt;</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/04_HTML5/HTML5%E5%9C%B0%E7%90%86%E5%AE%9A%E4%BD%8D.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="04-04.html">上一篇 · SVG</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

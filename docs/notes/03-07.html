@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>JS函数 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-03.html">JavaScript 基础</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 基础</strong><a href="03-01.html">ECMAScript 与 JavaScript</a><a href="03-02.html">JS基本语法</a><a href="03-03.html">JS数据类型</a><a href="03-04.html">JS运算符</a><a href="03-05.html">JS语句</a><a href="03-06.html">JS对象</a><a href="03-07.html" aria-current="page">JS函数</a><a href="03-08.html">JS数组</a><a href="03-09.html">JS内置对象方法</a><a href="03-10.html">正则表达式</a><a href="03-11.html">DOM</a><a href="03-12.html">BOM</a><a href="03-13.html">JSON</a></nav>
+<article class="paper"><h1>JS函数</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>函数把一段可重复使用的操作包起来。参数是传进去的数据，<code>return</code> 是交回给调用处的结果。把一个函数交给另一个函数调用，就是在传回调。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-JS-E5-87-BD-E6-95-B0">JS函数<span><a href="#label-JS-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>函数也是一个对象. 具有Object的所有功能</p>
+</li><li>
+<p>不同的是, 函数对象中可以保存一些可执行的代码.并且在需要的时候可以调用这些代码</p>
+</li></ul>
+
+<h4 id="label-E5-87-BD-E6-95-B0-E5-A3-B0-E6-98-8E-E5-BC-8F-E5-88-9B-E5-BB-BA">函数声明式创建<span><a href="#label-E5-87-BD-E6-95-B0-E5-A3-B0-E6-98-8E-E5-BC-8F-E5-88-9B-E5-BB-BA">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre> function 函数名 (形参){
+		语句
+	}
+ 函数调用: 函数名(实参)</pre>
+<ul><li>
+<p>如果需要函数中的代码执行. 则要对函数进行调用</p>
+</li><li>
+<p>函数执行几次就调用几次.</p>
+</li></ul>
+
+<h4 id="label-E5-87-BD-E6-95-B0-E8-A1-A8-E8-BE-BE-E5-BC-8F-E5-88-9B-E5-BB-BA">函数表达式创建<span><a href="#label-E5-87-BD-E6-95-B0-E8-A1-A8-E8-BE-BE-E5-BC-8F-E5-88-9B-E5-BB-BA">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>var 变量 = function (形参){
+	语句
+}
+函数调用: var 变量1 = 变量()
+- 变量1当作接口接收函数</pre>
+
+<h4 id="label-Function+-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0">Function 构造函数<span><a href="#label-Function+-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>var fn = new Function</pre>
+
+<h4 id="label-E5-9B-9E-E8-B0-83-E5-87-BD-E6-95-B0-3A+-E4-BD-9C-E4-B8-BA-E4-B8-80-E4-B8-AA-E5-87-BD-E6-95-B0-E7-9A-84-E5-8F-82-E6-95-B0-E5-BD-A2-E5-BC-8F-E5-AD-98-E5-9C-A8-E7-9A-84-E5-87-BD-E6-95-B0">回调函数: 作为一个函数的参数形式存在的函数<span><a href="#label-E5-9B-9E-E8-B0-83-E5-87-BD-E6-95-B0-3A+-E4-BD-9C-E4-B8-BA-E4-B8-80-E4-B8-AA-E5-87-BD-E6-95-B0-E7-9A-84-E5-8F-82-E6-95-B0-E5-BD-A2-E5-BC-8F-E5-AD-98-E5-9C-A8-E7-9A-84-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h4 id="label-E5-8C-BF-E5-90-8D-E5-9B-9E-E8-B0-83-E5-87-BD-E6-95-B0-3A+-E6-B2-A1-E6-9C-89-E5-8F-98-E9-87-8F-E5-AE-9A-E4-B9-89-E7-9A-84-E5-87-BD-E6-95-B0-E4-BD-9C-E4-B8-BA-E5-8F-82-E6-95-B0-E5-BD-A2-E5-BC-8F-E5-AD-98-E5-9C-A8">匿名回调函数: 没有变量定义的函数作为参数形式存在<span><a href="#label-E5-8C-BF-E5-90-8D-E5-9B-9E-E8-B0-83-E5-87-BD-E6-95-B0-3A+-E6-B2-A1-E6-9C-89-E5-8F-98-E9-87-8F-E5-AE-9A-E4-B9-89-E7-9A-84-E5-87-BD-E6-95-B0-E4-BD-9C-E4-B8-BA-E5-8F-82-E6-95-B0-E5-BD-A2-E5-BC-8F-E5-AD-98-E5-9C-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>(function(){}) 
+函数调用: (); 直接使用括号来调用匿名函数</pre>
+
+<h4 id="label-E8-87-AA-E8-B0-83-E5-87-BD-E6-95-B0-3A+-E5-8F-AA-E5-AE-9A-E4-B9-89-E4-BC-9A-E8-87-AA-E5-8A-A8-E8-B0-83-E7-94-A8">自调函数: 只定义会自动调用<span><a href="#label-E8-87-AA-E8-B0-83-E5-87-BD-E6-95-B0-3A+-E5-8F-AA-E5-AE-9A-E4-B9-89-E4-BC-9A-E8-87-AA-E5-8A-A8-E8-B0-83-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>() ();</p>
+<ul><li>
+<p>第一个小括号. 定义函数</p>
+</li><li>
+<p>第二个小括号. 调用函数(可以传递实参)</p>
+</li></ul>
+</li><li>
+<p>作用: 可以将所有全局内容改为局部内容</p>
+</li><li>
+<p><code>(function({})) ();</code></p>
+</li></ul>
+
+<h4 id="label-E5-86-85-E9-83-A8-E5-87-BD-E6-95-B0">内部函数<span><a href="#label-E5-86-85-E9-83-A8-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">function</span> <span class="ruby-identifier">fn</span>(){
+	<span class="ruby-identifier">function</span> <span class="ruby-identifier">n</span>( ){ }
+}
+<span class="ruby-identifier">n</span>();
+</pre>
+
+<h4 id="label-E5-87-BD-E6-95-B0-E7-9A-84-E5-BD-A2-E5-8F-82-E5-92-8C-E5-AE-9E-E5-8F-82">函数的形参和实参<span><a href="#label-E5-87-BD-E6-95-B0-E7-9A-84-E5-BD-A2-E5-8F-82-E5-92-8C-E5-AE-9E-E5-8F-82">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>定义函数时,可以在()中指定数量不等的形参</p>
+</li><li>
+<p>多个形参之间用逗号隔开</p>
+</li><li>
+<p>在函数中定义形参,就相当于在函数中声明了变量但并没有赋值</p>
+</li><li>
+<p>在调用时可以指定实参</p>
+</li><li>
+<p>实参会赋值给对应的形参</p>
+</li></ul>
+
+<h4 id="label-E5-BD-A2-E5-8F-82-E5-92-8C-E5-AE-9E-E5-8F-82-E7-9A-84-E6-B3-A8-E6-84-8F-E4-BA-8B-E9-A1-B9">形参和实参的注意事项<span><a href="#label-E5-BD-A2-E5-8F-82-E5-92-8C-E5-AE-9E-E5-8F-82-E7-9A-84-E6-B3-A8-E6-84-8F-E4-BA-8B-E9-A1-B9">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>JS函数在调用时,浏览器不会检查形参的类型和个数</p>
+</li><li>
+<p>实参可以是任意数据类型(可以是对象也可以是函数)</p>
+</li><li>
+<p>实参也可以是任意数量</p>
+<ul><li>
+<p>如果多于形参,则不会使用</p>
+</li><li>
+<p>如果少于形参,则没有对应实参的形参将会是undefined</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-87-BD-E6-95-B0-E7-9A-84-E8-BF-94-E5-9B-9E-E5-80-BC">函数的返回值<span><a href="#label-E5-87-BD-E6-95-B0-E7-9A-84-E8-BF-94-E5-9B-9E-E5-80-BC">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>返回值简单说就是函数的执行结果</p>
+</li><li>
+<p>通过return来设置函数的返回值</p>
+</li><li>
+<p>调用函数时可以用任意变量来接收函数的返回值</p>
+</li><li>
+<p>如果没有return返回函数的值,则函数没有意义</p>
+</li><li>
+<p>return 返回值可以是任意的数据类型</p>
+</li><li>
+<p>return也可直接跳出函数. 后面的所有代码都不会执行</p>
+</li></ul>
+
+<h4 id="label-E6-96-B9-E6-B3-95-E5-92-8C-E8-B0-83-E7-94-A8">方法和调用<span><a href="#label-E6-96-B9-E6-B3-95-E5-92-8C-E8-B0-83-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>当一个对象的属性是一个函数时. 称这个函数是这个对象的方法</p>
+</li><li>
+<p>函数和方法只是称呼上的不同. 本质没有区别</p>
+</li><li>
+<p>调用对象中的函数时,称之为调用对象的方法</p>
+</li></ul>
+<hr>
+
+<h3 id="label-E4-BD-9C-E7-94-A8-E5-9F-9F">作用域<span><a href="#label-E4-BD-9C-E7-94-A8-E5-9F-9F">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>作用域简单来说就是指一个变量的作用范围</p>
+</li><li>
+<p>作用域分为两类:</p>
+<ul><li>
+<p>全局作用域</p>
+</li><li>
+<p>函数作用域</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-E5-85-A8-E5-B1-80-E4-BD-9C-E7-94-A8-E5-9F-9F">全局作用域<span><a href="#label-E5-85-A8-E5-B1-80-E4-BD-9C-E7-94-A8-E5-9F-9F">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ol><li>
+<p>所有直接在script标签中编写的代码都在全局作用域中</p>
+</li><li>
+<p>全局作用域在打开网页时创建.网页关闭时销毁</p>
+</li><li>
+<p>全局作用域中有一个全局对象: window</p>
+<ul><li>
+<p>在全局作用域中创建的变量都会作为window对象的属性保存</p>
+</li><li>
+<p>在全局作用域中创建的函数都会作为window对象的方法保存</p>
+</li></ul>
+</li><li>
+<p><strong>在全局作用域中创建的变量都是全局变量.可以在任意位置访问</strong></p>
+</li></ol>
+
+<h5 id="label-E5-87-BD-E6-95-B0-E4-BD-9C-E7-94-A8-E5-9F-9F">函数作用域<span><a href="#label-E5-87-BD-E6-95-B0-E4-BD-9C-E7-94-A8-E5-9F-9F">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>函数作用域可以理解为全局中的小的作用域</p>
+</li><li>
+<p>函数作用域在函数调用时创建,在调用结束时销毁</p>
+</li><li>
+<p>每调用一次函数就会创建一个新的函数作用域</p>
+</li><li>
+<p>在函数作用域中可以访问到全局变量</p>
+</li><li>
+<p><strong>但在全局作用域中无法访问到函数作用域中的变量</strong></p>
+</li><li>
+<p>函数中创建的变量如果不写 var 则会变成全局变量</p>
+</li></ul>
+
+<h5 id="label-E6-9F-A5-E6-89-BE-E5-8F-98-E9-87-8F-E7-9A-84-E6-9C-BA-E5-88-B6">查找变量的机制<span><a href="#label-E6-9F-A5-E6-89-BE-E5-8F-98-E9-87-8F-E7-9A-84-E6-9C-BA-E5-88-B6">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>在函数中使用一个变量时,它会先在自身的作用域中寻找</p>
+</li><li>
+<p>如果有就直接使用,如果没有则去上一级作用域中寻找</p>
+</li><li>
+<p>找到则使用,如果没找到,则继续寻找,直到找到全局作用域为止</p>
+</li><li>
+<p>如果全局作用域中依然没有,<strong>则会报错</strong></p>
+</li></ul>
+<hr>
+
+<h3 id="label-E5-A3-B0-E6-98-8E-E6-8F-90-E5-89-8D">声明提前<span><a href="#label-E5-A3-B0-E6-98-8E-E6-8F-90-E5-89-8D">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h5 id="label-E5-8F-98-E9-87-8F-E5-A3-B0-E6-98-8E-E6-8F-90-E5-89-8D">变量声明提前<span><a href="#label-E5-8F-98-E9-87-8F-E5-A3-B0-E6-98-8E-E6-8F-90-E5-89-8D">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>使用var关键字声明的变量,会在所有的代码执行前被声明,但不会被赋值</p>
+</li><li>
+<p>值为undefined</p>
+</li><li>
+<p>如果声明一个变量不使用var关键字,则不会有声明提前的特性.它会等到代码执行时才创建</p>
+</li></ul>
+
+<h5 id="label-E5-87-BD-E6-95-B0-E5-A3-B0-E6-98-8E-E6-8F-90-E5-89-8D">函数声明提前<span><a href="#label-E5-87-BD-E6-95-B0-E5-A3-B0-E6-98-8E-E6-8F-90-E5-89-8D">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>使用函数声明式创建的函数,会在所有的代码执行之前被创建</p>
+</li><li>
+<p>可以在函数声明之前就能对该函数进行调用</p>
+</li></ul>
+<hr>
+
+<h3 id="label-this">this<span><a href="#label-this">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ol><li>
+<p>以构造函数形式调用.this就代表即将new出来的对象</p>
+</li><li>
+<p>以函数的形式调用或在全局环境下 this就是window fn()</p>
+</li><li>
+<p>函数作为对象的属性并被调用时. this是调用方法的对象 obj.fn()</p>
+</li><li>
+<p>使用call和apply调用时,this是第一个参数</p>
+</li><li>
+<p>回调函数中的this:不是我们指定的</p>
+<ul><li>
+<p>dom事件回调函数中的this – dom元素</p>
+</li><li>
+<p>定时器回调函数 – window</p>
+</li><li>
+<p>arr.forEach(function(index,item){}) – window</p>
+</li></ul>
+</li></ol>
+<hr>
+
+<h4 id="label-E5-B7-A5-E5-8E-82-E5-87-BD-E6-95-B0">工厂函数<span><a href="#label-E5-B7-A5-E5-8E-82-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>返回值是一个对象</p>
+</li><li>
+<p>解决了字面量创建多个对象有重复代码的问题</p>
+
+<pre> function createPerson (name,age){
+  var obj = new Object();
+  obj.name=name;     
+  obj.age=age
+
+  obj.sayName=function( ){
+       console.log(&quot;大家好,我是:&quot;+this.name+&quot;年龄:&quot;+this.age+&quot;性别:&quot;+this.gender);
+       };
+
+  return obj;
+   }
+
+  var person=createPerson(&quot;孙悟空&quot;,18,&quot;男&quot;);</pre>
+</li></ul>
+
+<h4 id="label-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0">构造函数<span><a href="#label-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>构造函数专门用来创建对象的函数</p>
+</li><li>
+<p>构造函数需要通过 new 关键字来创建</p>
+</li><li>
+<p>构造函数首字母一般都是大写</p>
+</li></ul>
+
+<h6 id="label-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-E6-89-A7-E8-A1-8C-E6-B5-81-E7-A8-8B">构造函数执行流程<span><a href="#label-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-E6-89-A7-E8-A1-8C-E6-B5-81-E7-A8-8B">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ol><li>
+<p>创建新的对象</p>
+</li><li>
+<p>将新创建的对象设置为函数中的this</p>
+</li><li>
+<p>逐行执行函数</p>
+</li><li>
+<p>将新创建的对象作为返回值返回</p>
+</li></ol>
+
+<p><strong>如果以构造函数的形式调用. this就是构造函数创建出来的对象</strong></p>
+<ul><li>
+<p>使用同一个构造函数创建的对象称之为一类对象</p>
+</li><li>
+<p>通过构造函数创造的对象称之为该函数的实例对象</p>
+</li></ul>
+
+<h6 id="label-instanceof">instanceof<span><a href="#label-instanceof">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>可以检查一个对象是否是一个构造函数的实例对象</p>
+</li><li>
+<p>语法: 对象 instanceof 构造函数</p>
+</li><li>
+<p>所有的对象都是Object实例对象的后代</p>
+</li></ul>
+
+<h4 id="label-E5-8E-9F-E5-9E-8B+prototype">原型 prototype<span><a href="#label-E5-8E-9F-E5-9E-8B+prototype">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>每创建一个函数,浏览器都会为函数添加一个原型属性</p>
+</li><li>
+<p>这个属性对应是一个对象 称之为原型对象</p>
+</li><li>
+<p>当以构造函数的形式调用函数时, 它所创建的对象中都会有一个隐式原型属性__proto__</p>
+</li><li>
+<p>可以通过隐式原型属性来访问对象</p>
+</li><li>
+<p>添加属性可以在prototype上添加使其构成原型链</p>
+</li></ul>
+
+<h4 id="label-E5-8E-9F-E5-9E-8B-E7-9A-84-E6-B3-A8-E6-84-8F-E4-BA-8B-E9-A1-B9">原型的注意事项<span><a href="#label-E5-8E-9F-E5-9E-8B-E7-9A-84-E6-B3-A8-E6-84-8F-E4-BA-8B-E9-A1-B9">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>原型就相当于一个公共区域.我们可以把对象中共有的属性共有的方法统一保存到该区域里</p>
+</li><li>
+<p>这样不用添加多个重复的属性或方法,也不会污染全局作用域</p>
+</li><li>
+<p>当我们去调用一个对象的属性或方法时,它会先去对象自身中寻找</p>
+</li><li>
+<p>如果找到则直接使用,如果没找到,则去原型对象中寻找.</p>
+</li><li>
+<p>如果原型中有则返回原型中的值</p>
+</li><li>
+<p>如果原型中没有,则去原型的原型中寻找.找到了则直接使用,以此类推</p>
+</li><li>
+<p>会一直找到Object的原型中</p>
+</li><li>
+<p>Object.prototype.__proto__ 为null</p>
+</li><li>
+<p>如果它里面依然没有,则<strong>返回undefined</strong></p>
+</li></ul>
+
+<h6 id="label-hasOwnProperty-28-29">hasOwnProperty()<span><a href="#label-hasOwnProperty-28-29">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>检查一个属性是否属于对象自身</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/03_JS/JS%E5%87%BD%E6%95%B0.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="03-06.html">上一篇 · JS对象</a><a href="03-08.html">下一篇 · JS数组</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

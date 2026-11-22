@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>jQuery类数组操作 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-05.html">jQuery：操作旧项目中的页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>jQuery：操作旧项目中的页面</strong><a href="05-01.html">jQuery入门</a><a href="05-02.html">jQuery选择器</a><a href="05-03.html">用 jQuery 修改页面</a><a href="05-04.html">jQuery事件</a><a href="05-05.html">$冲突问题</a><a href="05-06.html">jQuery动画</a><a href="05-07.html" aria-current="page">jQuery类数组操作</a><a href="05-08.html">jQuery插件</a></nav>
+<article class="paper"><h1>jQuery类数组操作</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>类数组有下标和 <code>length</code>，但不一定能直接用数组的全部方法。用 <code>$.each()</code> 遍历时，先确认回调参数的顺序。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-jQuery-E7-B1-BB-E6-95-B0-E7-BB-84-E6-93-8D-E4-BD-9C">jQuery类数组操作<span><a href="#label-jQuery-E7-B1-BB-E6-95-B0-E7-BB-84-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>类数组对象就是结构上类似于数组的对象，该对象具备数组的一些特性属性或方法，同时具有自己独特的一些属性或方法。</p>
+
+<p><strong>数组与类数组对象的区别</strong></p>
+<ul><li>
+<p>数组的类型是Array</p>
+</li><li>
+<p>类数组对象的类型是Object</p>
+</li></ul>
+
+<p><strong>类数组的操作：</strong></p>
+<ul><li>
+<p>length属性：获取指定元素的个数。</p>
+</li><li>
+<p>eq(index)：将下标等于index的DOM对象取出来。</p>
+</li><li>
+<p>get(index)：返回一个DOM对象组成的数组。</p>
+</li><li>
+<p>index（obj）：返回DOM或jQuery对象在类数组中的下标。</p>
+</li><li>
+<p>遍历方法：</p>
+<ul><li>
+<p>$(selector).each(callback)</p>
+<ul><li>
+<p>callback：回调函数，function(index,domEle){}</p>
+<ul><li>
+<p>index：遍历过程中的索引值</p>
+</li><li>
+<p>domEle：遍历后得到的DOM对象</p>
+</li><li>
+<p>index：遍历过程中的索引值</p>
+</li><li>
+<p>domEle：遍历后得到的DOM对象</p>
+</li></ul>
+</li><li>
+<p>callback：回调函数，function(index,domEle){}</p>
+<ul><li>
+<p>index：遍历过程中的索引值</p>
+</li><li>
+<p>domEle：遍历后得到的DOM对象</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>$(selector).each(callback)</p>
+<ul><li>
+<p>callback：回调函数，function(index,domEle){}</p>
+<ul><li>
+<p>index：遍历过程中的索引值</p>
+</li><li>
+<p>domEle：遍历后得到的DOM对象</p>
+</li><li>
+<p>index：遍历过程中的索引值</p>
+</li><li>
+<p>domEle：遍历后得到的DOM对象</p>
+
+<pre>$.each($(&quot;input&quot;),function(index,domEle){
+    console.log(domEle.value);
+    console.log($(domEle).val());
+    console.log(this.value);
+    console.log($(this).val());
+});</pre>
+</li></ul>
+</li></ul>
+</li></ul>
+</li><li>
+<p>$.makeArray(obj) 将类数组对象转换为数组对象</p>
+</li><li>
+<p>$.inArray(value, array) 查找元素在数组中的位置 确定第一个参数在数组中的位置，从0开始(如果没有找到则返回 -1 )</p>
+</li><li>
+<p>$.toArray() 把jQuery集合中所有DOM元素恢复成一个数组。</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/05_jQuery/jQuery%E7%B1%BB%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="05-06.html">上一篇 · jQuery动画</a><a href="05-08.html">下一篇 · jQuery插件</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

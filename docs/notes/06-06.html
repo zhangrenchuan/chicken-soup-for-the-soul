@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>作用域与作用域链 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-06.html">JavaScript 进阶：作用域、闭包和原型</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 进阶：作用域、闭包和原型</strong><a href="06-01.html">数据类型</a><a href="06-02.html">原型</a><a href="06-03.html">this</a><a href="06-04.html">提升</a><a href="06-05.html">上下文环境对象</a><a href="06-06.html" aria-current="page">作用域与作用域链</a><a href="06-07.html">闭包</a><a href="06-08.html">对象创建模式</a><a href="06-09.html">原型链继承</a><a href="06-10.html">线程机制</a><a href="06-11.html">JS引擎</a><a href="06-12.html">Web Workers API</a></nav>
+<article class="paper"><h1>作用域与作用域链</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>作用域决定一段代码能用哪些名字。先在当前作用域查找，找不到再往定义位置的外层找。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E4-BD-9C-E7-94-A8-E5-9F-9F-E5-92-8C-E4-BD-9C-E7-94-A8-E5-9F-9F-E9-93-BE">作用域和作用域链<span><a href="#label-E4-BD-9C-E7-94-A8-E5-9F-9F-E5-92-8C-E4-BD-9C-E7-94-A8-E5-9F-9F-E9-93-BE">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><strong>1.作用域和作用域链的理解</strong></p>
+<ol><li>
+<p>作用域: 一段代码所在的区域,它是静态的,在编写代码时就确定了</p>
+</li><li>
+<p>作用域链: 多个嵌套的作用域形成的由内到外的结构.</p>
+</li><li>
+<p><strong>作用域个数查找方法 n+1作用域 (n指函数作用域)</strong></p>
+</li></ol>
+
+<p><strong>2.作用域分类</strong></p>
+<ul><li>
+<p>全局作用域</p>
+</li><li>
+<p>函数作用域</p>
+</li><li>
+<p>块作用域(ES6ES7)可以访问到块作用域</p>
+</li></ul>
+
+<p><strong>3. 作用域和作用链的作用</strong></p>
+
+<p>作用域: 隔离变量，不同作用域下同名变量不会有冲突</p>
+
+<p>作用域链: 查找变量</p>
+<ul><li>
+<p>在当前作用域的上下文环境对象中查找对应属性, 如果有直接返回, 否则进入2</p>
+</li><li>
+<p>在上一级作用域的上下文环境对象中查找对应属性, 如果有直接返回, 否则进入3</p>
+</li><li>
+<p>再次执行2的相同操作, 直到全局作用域, 如果还找不到就报错</p>
+</li></ul>
+<hr>
+
+<h2 id="label-E6-9F-A5-E6-89-BE-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-B1-9E-E6-80-A7+-E6-B2-BF-E7-9D-80-E5-8E-9F-E5-9E-8B-E9-93-BE-E6-89-BE+-E6-89-BE-E4-B8-8D-E5-88-B0+undefined">查找对象的属性 沿着原型链找 找不到 undefined<span><a href="#label-E6-9F-A5-E6-89-BE-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-B1-9E-E6-80-A7+-E6-B2-BF-E7-9D-80-E5-8E-9F-E5-9E-8B-E9-93-BE-E6-89-BE+-E6-89-BE-E4-B8-8D-E5-88-B0+undefined">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E6-9F-A5-E6-89-BE-E5-8F-98-E9-87-8F+-E6-B2-BF-E7-9D-80-E4-BD-9C-E7-94-A8-E5-9F-9F-E9-93-BE-E6-89-BE+-E6-89-BE-E4-B8-8D-E5-88-B0-E4-BC-9A-E6-8A-A5-E9-94-99">查找变量 沿着作用域链找 找不到会报错<span><a href="#label-E6-9F-A5-E6-89-BE-E5-8F-98-E9-87-8F+-E6-B2-BF-E7-9D-80-E4-BD-9C-E7-94-A8-E5-9F-9F-E9-93-BE-E6-89-BE+-E6-89-BE-E4-B8-8D-E5-88-B0-E4-BC-9A-E6-8A-A5-E9-94-99">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E5-87-BD-E6-95-B0-E9-A6-96-E5-85-88-E5-88-9B-E5-BB-BA-E5-87-BD-E6-95-B0-E6-89-A7-E8-A1-8C-E5-AE-9A-E4-B9-89.+-E8-B0-83-E7-94-A8-E7-9A-84-E6-97-B6-E5-80-99-E5-86-8D-E6-89-A7-E8-A1-8C-E5-87-BD-E6-95-B0-E4-BD-93">函数首先创建函数执行定义. 调用的时候再执行函数体<span><a href="#label-E5-87-BD-E6-95-B0-E9-A6-96-E5-85-88-E5-88-9B-E5-BB-BA-E5-87-BD-E6-95-B0-E6-89-A7-E8-A1-8C-E5-AE-9A-E4-B9-89.+-E8-B0-83-E7-94-A8-E7-9A-84-E6-97-B6-E5-80-99-E5-86-8D-E6-89-A7-E8-A1-8C-E5-87-BD-E6-95-B0-E4-BD-93">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>  var a = 2;
+  function fn1() {
+    var b = 3;
+
+    function fn2() {
+      var c = 4;
+      console.log(c);  //4
+      console.log(b);  //3
+      console.log(a);  //2
+      console.log(d);  //报错
+    }
+
+    fn2();
+  }
+  fn1();</pre>
+<hr>
+
+<p><strong>4.作用域和上下文环境的区别和联系</strong></p>
+
+<p>区别1</p>
+<ul><li>
+<p>全局作用域之外，每个函数都会创建自己的作用域</p>
+</li><li>
+<p>函数作用域在函数定义时就已经确定了。而不是在函数调用时</p>
+</li><li>
+<p>全局执行上下文环境是在 全局作用域确定之后, js代码马上执行之前创建</p>
+</li><li>
+<p>函数执行上下文环境是在 调用函数时, 函数体代码执行之前 创建 函数每被调用一次, 都会产生一个新的执行上下文环境</p>
+</li></ul>
+
+<p>区别2</p>
+<ul><li>
+<p>作用域是静态的, 只要函数定义好了就一直存在, 且不会再变化</p>
+</li><li>
+<p>上下文环境是动态的, 调用函数时创建, 函数调用结束时上下文环境就会被释放</p>
+</li></ul>
+
+<p>联系</p>
+<ul><li>
+<p>上下文环境(对象)是从属于所对应的作用域中</p>
+</li><li>
+<p>全局上下文环境 ==&gt; 全局作用域</p>
+</li><li>
+<p>函数上下文环境 ==&gt; 对应的函数使用域</p>
+
+<pre>  var a = &#39;atguigu&#39;; //作用域一共有三个
+
+  function fn() {
+    console.log(&#39;fn()&#39;);
+
+    function fn2() {
+      console.log(&#39;fn2()&#39;);
+    }
+
+    fn2(); //上下文对象一共有四个
+    fn2();
+  }
+
+  fn();</pre>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/06_JavaScript%E9%AB%98%E7%BA%A7/%E4%BD%9C%E7%94%A8%E5%9F%9F.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="06-05.html">上一篇 · 上下文环境对象</a><a href="06-07.html">下一篇 · 闭包</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

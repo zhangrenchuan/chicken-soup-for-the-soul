@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>BOM2.0 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-12.html">JavaScript 与 CSS 进阶练习</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 与 CSS 进阶练习</strong><a href="12-01.html">JS高级2.0</a><a href="12-02.html">正则表达式2.0</a><a href="12-03.html" aria-current="page">BOM2.0</a><a href="12-04.html">DOM2.0</a><a href="12-05.html">CSS高级</a></nav>
+<article class="paper"><h1>BOM2.0</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>window</code> 提供地址、窗口和定时器等接口。读定时器示例时，先看当前代码何时结束，再看回调何时有机会运行。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-BOM2.0">BOM2.0<span><a href="#label-BOM2.0">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-BOM">BOM<span><a href="#label-BOM">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>ECMAScript 是 JavaScript 的核心，但如果要在 Web 中使用 JavaScript，那么 BOM（浏览器对象模型）则无疑才是真正的核心。</p>
+</li><li>
+<p>BOM 提供了很多对象，用于访问浏览器的功能，这些功能与任何网页内容无关。</p>
+</li></ul>
+
+<h3 id="label-window-E5-AF-B9-E8-B1-A1">window对象<span><a href="#label-window-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><strong>BOM 的核心对象是 window，它表示浏览器的一个实例</strong></p>
+</li><li>
+<p>在浏览器中，window 对象有双重角色</p>
+<ul><li>
+<p>既是通过 JavaScript 访问浏览器窗口的一个接口</p>
+</li><li>
+<p>又是 ECMAScript 规定的 Global 对象。</p>
+</li></ul>
+</li><li>
+<p>这意味着在网页中定义的任何一个对象、变量和函数，都以 window 作为其 Global 对象，因此有权访问 isNaN()、isFinite()、parseInt()、parseFloat() 等方法。</p>
+</li><li>
+<p>window.navigator.userAgent 可以查看浏览器</p>
+</li></ul>
+
+<h3 id="label-E5-85-A8-E5-B1-80-E5-8F-98-E9-87-8F-E5-92-8Cwindow-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E7-9A-84-E5-B7-AE-E5-88-AB">全局变量和window对象属性的差别<span><a href="#label-E5-85-A8-E5-B1-80-E5-8F-98-E9-87-8F-E5-92-8Cwindow-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E7-9A-84-E5-B7-AE-E5-88-AB">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>全局变量不能通过 delete 运算符删除，而 window 对象上定义的属性可以</p>
+</li><li>
+<p>因为window属性上的configurable: true</p>
+</li></ul>
+
+<h3 id="label-E6-95-B0-E6-8D-AE-E6-90-BA-E5-B8-A6">数据携带<span><a href="#label-E6-95-B0-E6-8D-AE-E6-90-BA-E5-B8-A6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>close() 仅用于关闭浏览器窗口</p>
+</li><li>
+<p>open() 可以打开一个新的窗口</p>
+<ul><li>
+<p>该方法可用作跨窗口携带数据</p>
+</li><li>
+<p>opener属性可以把新窗口中的数据传递给旧窗口</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E5-AE-9A-E6-97-B6-E5-99-A8-E9-9D-A2-E8-AF-95-E9-A2-98">定时器面试题<span><a href="#label-E5-AE-9A-E6-97-B6-E5-99-A8-E9-9D-A2-E8-AF-95-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>面试题I</p>
+
+<pre>setTimeout(function () {
+  	  console.log(1);
+  },1000);
+
+  console.log(2);
+
+  for (var i=0;i&lt;1000000;i++){
+    console.log(&#39;a&#39;);
+  }
+
+  //2   ---&gt;  1w*a ---&gt; 1</pre>
+
+<p>面试题II</p>
+
+<pre>//同时输出5个5
+  for (var i=0;i&lt;5;i++){
+    setTimeout(function () {
+    	  console.log(i);
+    },0)
+  }</pre>
+
+<p>面试题III</p>
+
+<pre>//一秒之后同时输出5个5
+  for (var i=0;i&lt;5;i++){
+    setTimeout(function () {
+      console.log(i);
+    },1000)
+  }</pre>
+
+<p>面试题IV</p>
+
+<pre>//一秒之后同时输出0,1,2,3,4
+  for (var i=0;i&lt;5;i++){
+    (function (i) {
+    	  setTimeout(function () {
+    	  	  console.log(i);
+    	  },1000)
+    })(i)
+  }</pre>
+
+<p>面试题V</p>
+
+<p> // 每隔一秒输出一个0; 1; 2; 3; 4  for (var i=0;i&lt;5;i++){  (function (i) {  setTimeout(function () {  console.log(i);  },1000 * i)  })(i)  }</p>
+
+<p>面试题VI</p>
+
+<pre>// 先输出1W个a 同时输出0,1,2,3,4
+ for (var i=0;i&lt;5;i++){
+   (function (i) {
+     setTimeout(function () {
+       console.log(i);
+     },1000 * i)
+   })(i)
+ }
+
+ //循环事件肯定大于 5 秒
+ for (var i=0;i&lt;10000;i++){
+   console.log(&#39;a&#39;);
+ }</pre>
+
+<p>面试题VII</p>
+
+<pre>  //直接输出 0,1,2,3,4
+  //相当于 console.log(i)
+  for (var i=0;i&lt;5;i++){
+     setTimeout((function () {
+     	  console.log(i);
+     })(),1000)
+  }</pre>
+
+<p>面试题VIII</p>
+
+<pre>//1,4,1w*a,同时出来3,2
+function printing() {
+  console.log(1);
+  setTimeout(function() { console.log(2); }, 1000);
+  setTimeout(function() { console.log(3); }, 0);
+  console.log(4);
+
+  for(var i=0;i&lt;10000;i++){
+    console.log(&#39;a&#39;);
+  }
+}
+
+printing();</pre>
+<ul><li>
+<p>调用printing()执行函数. 先执行 console.log(1);</p>
+</li><li>
+<p>setTimeout告诉异步线程.现在计时延迟1秒后执行然后在执行队列排队等待</p>
+</li><li>
+<p>setTimeout告诉异步线程.现在立马执行.然后在执行队列排队等待</p>
+</li><li>
+<p>执行console.log(4);</p>
+</li><li>
+<p>执行for循环</p>
+</li><li>
+<p>for执行完成后JS线程空闲了. 异步线程就把执行队列等待的任务扔给JS</p>
+</li><li>
+<p>JS立马输出执行队列中的任务</p>
+</li></ul>
+
+<p>———-</p>
+
+<h3 id="label-property-E5-B1-9E-E6-80-A7-E5-92-8Cattribute-E5-B1-9E-E6-80-A7">property属性和attribute属性<span><a href="#label-property-E5-B1-9E-E6-80-A7-E5-92-8Cattribute-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>property: 对象上的直接属性</p>
+</li><li>
+<p>attribute: DOM对html自定义和预定义属性的封装</p>
+</li><li>
+<p>浏览器和用户实际操作的都是property属性</p>
+</li></ul>
+
+<h5 id="label-attribute-E5-92-8Cproperty-E7-9A-84-E5-85-B3-E7-B3-BB">attribute和property的关系<span><a href="#label-attribute-E5-92-8Cproperty-E7-9A-84-E5-85-B3-E7-B3-BB">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>非布尔值属性: property和attribute永远都会实时同步</p>
+</li><li>
+<p>布尔值属性:</p>
+<ul><li>
+<p>未干扰property属性: attribute会同步property</p>
+</li><li>
+<p>干扰过property属性: attribute不会同步property</p>
+</li></ul>
+</li><li>
+<p>操作属性的时候, 最好操作property</p>
+</li><li>
+<p>操作布尔值属性时, 尤其是使用jQuery库时, 最好使用prop()方法</p>
+</li><li>
+<p>操作非布尔值属性时, 考虑性能的话可以使用 attr()方法</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/12_JS2.0_CSS2.0/BOM2.0.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="12-02.html">上一篇 · 正则表达式2.0</a><a href="12-04.html">下一篇 · DOM2.0</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

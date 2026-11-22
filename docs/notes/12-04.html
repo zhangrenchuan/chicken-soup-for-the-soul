@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>DOM2.0 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-12.html">JavaScript 与 CSS 进阶练习</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 与 CSS 进阶练习</strong><a href="12-01.html">JS高级2.0</a><a href="12-02.html">正则表达式2.0</a><a href="12-03.html">BOM2.0</a><a href="12-04.html" aria-current="page">DOM2.0</a><a href="12-05.html">CSS高级</a></nav>
+<article class="paper"><h1>DOM2.0</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>DOM 规范描述怎样通过代码读取和修改页面。阅读时可以按“找节点、改节点、处理事件”三个任务来理解。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-DOM2.0">DOM2.0<span><a href="#label-DOM2.0">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-DOM-E8-A7-84-E8-8C-83">DOM规范<span><a href="#label-DOM-E8-A7-84-E8-8C-83">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>DOM是独立于平台和语言的接口，任何语言可以实现DOM规范. 该接口为程序和脚本提供了对文档的内容、结构和样式的动态获取和更新的功能。</p>
+</li><li>
+<p>DOM0：不是W3C规范。</p>
+</li><li>
+<p>DOM1：开始是W3C规范。专注于HTML文档和XML文档。</p>
+</li><li>
+<p>DOM2：对DOM1增加了样式表对象模型(DOM2)</p>
+</li><li>
+<p>DOM3：对DOM2增加了内容模型 (DTD 、Schemas) 和文档验证。</p>
+</li></ul>
+
+<blockquote>
+<h3 id="label-interface+description+language+-E6-8E-A5-E5-8F-A3-E6-8F-8F-E8-BF-B0-E6-96-87-E6-A1-A3">interface description language 接口描述文档<span><a href="#label-interface+description+language+-E6-8E-A5-E5-8F-A3-E6-8F-8F-E8-BF-B0-E6-96-87-E6-A1-A3">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre>c++：
+	class 派生类名 : 继承方式  基类名
+	{
+		派生类的成员
+	};
+	继承方式：public、private和protected，默认处理是public。</pre>
+
+<p><img src="https://i.imgur.com/RNpOSQ4.png"></p>
+
+<p><img src="https://i.imgur.com/70eL71u.png"></p>
+</blockquote>
+
+<h4 id="label-DOM0">DOM0<span><a href="#label-DOM0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>DOM0指的是Necscape3.0和IE3.0提供对于HTML文档功能，实现了包括元素(HTML Element)、表单(Form)、图像(Image)等的接口和方法。</p>
+
+<h4 id="label-DOM1">DOM1<span><a href="#label-DOM1">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>DOM1 1.0版本发布于1998年10月1日，是第一个DOM规范。</p>
+</li><li>
+<p>DOM1包含两部分:</p>
+<ul><li>
+<p>DOM1 Core：定义了DOM最基本的接口.该规范定义了基于DOM1 Core的XML的实现，包括Document，Node，NodeList等等。</p>
+</li><li>
+<p>DOM1 HTML：HTML文档是DOM的一种实现，该规范定义了基于DOM1 Core的HTML文档实现。</p>
+</li></ul>
+</li><li>
+<p>数据传递的载体: xml和json</p>
+<ul><li>
+<p>xml操作笨重.因为需要一套dom规范实现.但是传输安全</p>
+</li><li>
+<p>json操作轻量. 可以像对象一样操作. 但是传输不安全</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-DOM2">DOM2<span><a href="#label-DOM2">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>DOM2规范在2000年11月13日发布，主要包含6个模块，相比于DOM1，DOM2更加丰富，更加完善，目前主流浏览器对DOM2有着良好的支持。</p>
+</li><li>
+<p><strong>DOM2 Core</strong>: 相比于DOM1 Core，DOM2丰富了Document，Node等接口的功能</p>
+</li><li>
+<p>DOM2 View：View提供的是DOM的表现形式</p>
+</li><li>
+<p><strong>DOM2 Event</strong>：DOM 事件处理系统规范</p>
+</li><li>
+<p>DOM2 Style：程序和脚本动态地获取和更新DOM的样式</p>
+</li><li>
+<p>DOM2 Traverse and Range：DOM2 Traverse是关于文档节点遍历的规范</p>
+</li><li>
+<p><strong>DOM2 HTML</strong>：在DOM1 HTML的基础上结合DOM2 Core推出了一些新的接口和属性</p>
+</li></ul>
+
+<h4 id="label-DOM3">DOM3<span><a href="#label-DOM3">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>DOM3首次发布于2004年4月，主要包括Core、Load and Save、Validation、XPath、View and Formatting、Events和Abstract Schemas7个模块。</p>
+</li><li>
+<p>目前主流浏览器对DOM3的支持比较有限</p>
+</li></ul>
+
+<h4 id="label-Node-2Fdocument-2Felement">Node/document/element<span><a href="#label-Node-2Fdocument-2Felement">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Node:节点. document:文档. element:元素. text: 文本</p>
+</li><li>
+<p>Node节点下有十二个节点</p>
+</li><li>
+<p>document 和 element 和 text是最常用的节点. 各自继承于Node节点接口</p>
+</li></ul>
+
+<h4 id="label-Node-E8-8A-82-E7-82-B9-E5-B1-9E-E6-80-A7">Node节点属性<span><a href="#label-Node-E8-8A-82-E7-82-B9-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>nodeType，nodeName，nodeValue 是任何节点都共有的属性</p>
+</li><li>
+<p>id，name，value 是具体节点的属性</p>
+</li><li>
+<p>nodeType 只读. 表示的是该节点的类型</p>
+<ul><li>
+<p>元素节点 type值为1</p>
+</li><li>
+<p>文本节点 type值为3</p>
+</li><li>
+<p>元素节点 type值为1</p>
+</li><li>
+<p>文本节点 type值为3</p>
+</li></ul>
+</li><li>
+<p>nodeName 只读. 返回当前节点的节点名称</p>
+</li><li>
+<p>nodeValue 可读写. 返回或设置当前节点的值。</p>
+</li><li>
+<p>只有在文本节点中使用 nodeValue 读写文本值时使用最多</p>
+
+<pre>   元素节点：
+         nodeType:1
+         nodeName:标签名
+         nodeValue:null
+   属性节点：
+         nodeType:2
+         nodeName:属性名
+         nodeValue:属性值
+   文本节点：
+         nodeType:3
+         nodeName:#text
+         nodeValue:文本值</pre>
+</li></ul>
+
+<h4 id="label-DOM+-E5-A2-9E">DOM 增<span><a href="#label-DOM+-E5-A2-9E">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>document.createElement() 创建新的元素节点</p>
+<ul><li>
+<p>返回值指向新建节点的引用指针,是一个元素节点.</p>
+</li><li>
+<p>nodeType 属性值等于 1</p>
+</li><li>
+<p>新元素节点不会自动添加到文档里. 只在JS上下文中</p>
+</li></ul>
+</li><li>
+<p>document.createTextNode() 创建新的文本节点</p>
+<ul><li>
+<p>返回值指向新建文本节点引用指针,是一个文本节点</p>
+</li><li>
+<p>nodeType 属性等于 3</p>
+</li></ul>
+</li><li>
+<p>document.createAttribute() 创建新的属性节点</p>
+</li><li>
+<p>appendChild() 为元素节点添加子节点到最后一位</p>
+<ul><li>
+<p>返回值是一个指向新增子节点的引用指针</p>
+</li></ul>
+</li><li>
+<p>insertBefore() 插入节点</p>
+<ul><li>
+<p>第一个参数: 要插入的子节点</p>
+</li><li>
+<p>第二个参数: 要添加新的节点前的子节点</p>
+</li></ul>
+</li><li>
+<p>cloneNode() 复制子节点. 第二个参数传true深度克隆</p>
+</li></ul>
+
+<h4 id="label-DOM+-E5-88-A0">DOM 删<span><a href="#label-DOM+-E5-88-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>removeChild() 从给定元素里删除一个子节点</p>
+<ul><li>
+<p>返回值是一个指向已被删除的子节点的引用指针</p>
+</li></ul>
+</li><li>
+<p>removeAttribute() 删除属性节点的值</p>
+</li></ul>
+
+<h4 id="label-DOM+-E6-94-B9">DOM 改<span><a href="#label-DOM+-E6-94-B9">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>innerHTML. 获取设置html文本</p>
+</li><li>
+<p>innerText. 获取设置文本</p>
+</li><li>
+<p>setAttribute() 设置属性节点的值</p>
+<ul><li>
+<p>第一个参数: 属性名</p>
+</li><li>
+<p>第二个参数: 修改的值</p>
+</li></ul>
+</li><li>
+<p>replaceChild() 替换节点</p>
+<ul><li>
+<p>第一个参数: 要插入的子节点</p>
+</li><li>
+<p>第二个参数: 被替换的节点</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-DOM+-E6-9F-A5">DOM 查<span><a href="#label-DOM+-E6-9F-A5">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>getElementById 通过元素ID获取</p>
+</li><li>
+<p>getElementsByTagName 通过标签名获取一组元素</p>
+</li><li>
+<p>querySelector(“选择器”) 获取一个元素</p>
+</li><li>
+<p>querySelectorAll(“选择器”) 获取多个元素</p>
+</li><li>
+<p>getAttribute() 获取属性节点的值</p>
+</li><li>
+<p>parentNode 属性可返回某节点的父节点</p>
+</li><li>
+<p>childNodes 属性返回包含被选节点的子节点的 NodeList</p>
+</li><li>
+<p>children 获取指定节点的所有子节点(无空白文档)</p>
+</li><li>
+<p>firstChild 获取第一个子节点 (nodeValue属性来获取文本值)</p>
+</li><li>
+<p>lastChild 获取最后一个子节点 (nodeValue属性来获取文本值)</p>
+</li><li>
+<p>previousSibling 属性可返回某节点之前紧跟的节点</p>
+</li><li>
+<p>nextSibling 属性可返回某个元素之后紧跟的节点（处于同一树层级中）</p>
+</li></ul>
+
+<h3 id="label-DOM0-E4-BA-8B-E4-BB-B6">DOM0事件<span><a href="#label-DOM0-E4-BA-8B-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>DOM0事件绑定: xxx.onclick = fn;</p>
+<ul><li>
+<p>默认冒泡</p>
+</li><li>
+<p>一个元素上只能绑定一个同类事件,如果继续绑定的话,第二个事件函数会覆盖第一个</p>
+</li></ul>
+</li><li>
+<p>DOM0事件解绑: xxx.onclick = null;</p>
+<ul><li>
+<p>最后一次注册事件设置成null</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-DOM2-E4-BA-8B-E4-BB-B6">DOM2事件<span><a href="#label-DOM2-E4-BA-8B-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>IE绑定事件: xxx.attachEvent(事件名称，事件函数);</p>
+<ol><li>
+<p>没有捕获. 默认冒泡</p>
+</li><li>
+<p>事件名称有on</p>
+</li><li>
+<p>事件执行的顺序:IE8以下为倒序. IE8及以上为正序</p>
+</li><li>
+<p>this指向window</p>
+</li></ol>
+</li><li>
+<p>标准绑定事件: xxx.addEventListener(事件名称，事件函数，是否捕获);</p>
+<ol><li>
+<p>第三个参数设置是否捕获:默认false:冒泡; true：捕获</p>
+</li><li>
+<p>事件名称没有on</p>
+</li><li>
+<p>事件执行的顺序是正序</p>
+</li><li>
+<p>this触发该事件的对象</p>
+</li><li>
+<p>一个元素上可以绑定多个同类事件,它们都会被执行</p>
+</li></ol>
+</li><li>
+<p>DOM2解绑: removeEventListener(“事件名称”, “事件回调”, “捕获/冒泡”)</p>
+</li></ul>
+
+<h3 id="label-E5-85-BC-E5-AE-B9-E6-B5-8F-E8-A7-88-E5-99-A8DOM2-E7-BB-91-E5-AE-9A-E6-96-B9-E6-B3-95+-28-E5-90-8C-E6-AD-A5this-29">兼容浏览器DOM2绑定方法 (同步this)<span><a href="#label-E5-85-BC-E5-AE-B9-E6-B5-8F-E8-A7-88-E5-99-A8DOM2-E7-BB-91-E5-AE-9A-E6-96-B9-E6-B3-95+-28-E5-90-8C-E6-AD-A5this-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<pre>function bind(obj, evname, fn) {
+	if (obj.addEventListener) {//除ie低版本外都可以进入
+		obj.addEventListener(evname, fn, false);
+	} else {
+		obj.attachEvent(&#39;on&#39; + evname, function() {
+			fn.call(obj);
+		});
+	}
+}
+
+bind(document, &#39;click&#39;, fn1);</pre>
+
+<h4 id="label-E5-8F-96-E6-B6-88-E5-86-92-E6-B3-A1">取消冒泡<span><a href="#label-E5-8F-96-E6-B6-88-E5-86-92-E6-B3-A1">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>DOM0: event.cancelBubble = true;</p>
+</li><li>
+<p>DOM2: event.stopPropagation();</p>
+</li></ul>
+<hr>
+<hr>
+
+<h3 id="label-E8-8E-B7-E5-8F-96-E8-A7-86-E5-8F-A3-E5-AE-BD-E5-BA-A6">获取视口宽度<span><a href="#label-E8-8E-B7-E5-8F-96-E8-A7-86-E5-8F-A3-E5-AE-BD-E5-BA-A6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>document.documentElement.clientWidth (文档的根节点)</p>
+
+<h3 id="label-clientWidth+-26+offsetWidth">clientWidth &amp; offsetWidth<span><a href="#label-clientWidth+-26+offsetWidth">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>clientWidth = 内容区Width + paading. 可视区域. 可以渲染背景的区域</p>
+</li><li>
+<p>offsetWidth = 内容区Width + padding + border. 根节点的border-box</p>
+</li></ul>
+
+<h3 id="label-E6-80-AA-E5-BC-82-E7-9B-92-E6-A8-A1-E5-9E-8B">怪异盒模型<span><a href="#label-E6-80-AA-E5-BC-82-E7-9B-92-E6-A8-A1-E5-9E-8B">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>怪异盒模型 = 内容区 + padding + border</p>
+</li><li>
+<p>clientWidth = width - border</p>
+</li><li>
+<p>offsetWidth = width</p>
+</li></ul>
+
+<h6 id="label-E4-BE-8B">例<span><a href="#label-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<pre>width: 100px;
+height: 100px;
+padding: 10px;
+border: 1px solid;
+margin: 10px;
+
+clientWidth //120
+offsetWidth //122
+
+怪异盒模型
+clientWidth //98
+offsetWidth //100</pre>
+<hr>
+
+<h3 id="label-scrollTop+-26+scrollLeft">scrollTop &amp; scrollLeft<span><a href="#label-scrollTop+-26+scrollLeft">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>页面上元素滚动的距离</p>
+</li><li>
+<p>document.documentElement.scrollTop || document.body.scrollTop;</p>
+</li><li>
+<p>document.documentElement.scrollLeft || document.body.scrollLeft;</p>
+</li></ul>
+
+<h3 id="label-scrollHeight+-26+scrollWidth">scrollHeight &amp; scrollWidth<span><a href="#label-scrollHeight+-26+scrollWidth">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>如果没有子元素溢出, scrollHeight或者scrollWidth获得就是自己的尺寸</p>
+</li><li>
+<p>如果子元素溢出, 父元素的scrollHeight或者scrollWidth就是子元素的height和width</p>
+</li><li>
+<p>scrollHeight &amp; scrollWidth 可以获得子元素真实的大小</p>
+</li></ul>
+
+<h6 id="label-E4-BE-8B">例<span><a href="#label-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<pre>#wrap{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  border: 1px solid;
+  overflow: hidden;
+}
+
+#inner{
+    width: 50px;
+    height: 400px;
+    background: blue;
+}
+
+console.log(wrap.scrollHeight); //400
+console.log(wrap.scrollWidth); //200</pre>
+<hr>
+
+<h3 id="label-parentNode">parentNode<span><a href="#label-parentNode">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>返回指定节点的父节点</p>
+</li></ul>
+
+<h6 id="label-parentNode-E9-9D-A2-E8-AF-95-E9-A2-98">parentNode面试题<span><a href="#label-parentNode-E9-9D-A2-E8-AF-95-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<pre>&lt;div&gt;1 &lt;a href=&quot;javascript:;&quot;&gt;删除&lt;/a&gt; &lt;/div&gt;
+&lt;div&gt;2 &lt;a href=&quot;javascript:;&quot;&gt;删除&lt;/a&gt; &lt;/div&gt;
+&lt;div&gt;3 &lt;a href=&quot;javascript:;&quot;&gt;删除&lt;/a&gt; &lt;/div&gt;
+&lt;div&gt;4 &lt;a href=&quot;javascript:;&quot;&gt;删除&lt;/a&gt; &lt;/div&gt;
+&lt;div&gt;5 &lt;a href=&quot;javascript:;&quot;&gt;删除&lt;/a&gt; &lt;/div&gt;
+
+var all = document.getElementsByTagName(&#39;a&#39;);
+
+//循环遍历加监听
+for (var i = 0; i &lt; all.length; i++) {
+
+  (function (i) {
+  	  all[i].onclick = function () {
+  	  	  all[i].parentNode.style.display = &quot;none&quot;;
+  	  }
+  })(i)
+}
+
+//this方法
+for (let i = 0; i &lt; all.length; i++) {
+
+  	  all[i].onclick = function () {
+  	  	  this.parentNode.style.display = &quot;none&quot;;
+  	  }
+}</pre>
+<hr>
+
+<h3 id="label-offsetParent+-E8-A7-84-E5-88-99">offsetParent 规则<span><a href="#label-offsetParent+-E8-A7-84-E5-88-99">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>返回一个指向最近的包含该元素的定位元素</p>
+</li><li>
+<p>前提: html和body之间的margin被重置为0</p>
+<ul><li>
+<p>本身定位不是fixed</p>
+<ul><li>
+<p>如果有定位父级 ==&gt; 定位父级  - 如果没有定位父级 ==&gt; body</p>
+</li></ul>
+</li><li>
+<p>本身定位是fixed  - ==&gt; offsetParent:null (谷歌.苹果.ie7以上)</p>
+<ul><li>
+<p>==&gt; offsetParent:body (火狐)</p>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<h3 id="label-offsetTop+-26+offsetLeft">offsetTop &amp; offsetLeft<span><a href="#label-offsetTop+-26+offsetLeft">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>offsetTop返回当前元素相对于其 offsetParent 元素的padding顶部的距离。</p>
+</li><li>
+<p>offsetLeft返回当前元素相对于其 offsetParent 元素的padding左边界的距离。</p>
+</li><li>
+<p>规则</p>
+<ul><li>
+<p>本身定位不是 fixed ==&gt; offsetParent</p>
+</li><li>
+<p>本身定位是 fixed ==&gt; 视口</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-getBoundingClientRect-28-29">getBoundingClientRect()<span><a href="#label-getBoundingClientRect-28-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>返回元素的大小及其相对于视口的位置</p>
+</li><li>
+<p>相对坐标: (参照视口)</p>
+<ul><li>
+<p>left 和 top 是元素左上角距离视口的坐标</p>
+</li><li>
+<p>right 和 bottom 是元素右上角距离视口的坐标</p>
+</li></ul>
+</li><li>
+<p>绝对坐标: (有滚动条时. 参照初始包含块)</p>
+<ul><li>
+<p>left不会变化. top用来确定元素离视口的坐标</p>
+</li><li>
+<p>right不会变化. bottom用来确定元素离视口的坐标</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<h5 id="label-E6-A3-80-E6-B5-8B-E4-BD-8E-E7-89-88-E6-9C-ACIE-E6-96-B9-E6-B3-95">检测低版本IE方法<span><a href="#label-E6-A3-80-E6-B5-8B-E4-BD-8E-E7-89-88-E6-9C-ACIE-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>function isIe(v) {
+	var b = document.createElement(&quot;b&quot;);
+
+	b.innerHTML = &quot;&lt;!--[if IE &quot;+ v +&quot;]&gt;&lt;i&gt;&lt;/i&gt;&lt;![endif]--&gt;&quot;;
+
+    return b.getElementsByTagName(&quot;i&quot;).length == 1;
+}</pre>
+
+<h5 id="label-E9-9D-A2-E8-AF-95-E9-A2-98-E9-80-92-E5-BD-92-E4-B9-8B-E6-95-B0-E5-AD-97-E9-98-B6-E5-B1-82">面试题递归之数字阶层<span><a href="#label-E9-9D-A2-E8-AF-95-E9-A2-98-E9-80-92-E5-BD-92-E4-B9-8B-E6-95-B0-E5-AD-97-E9-98-B6-E5-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>function getNum(num) {
+   return  (num&lt;1) ? 1 : getNum(num-1) * num
+}
+
+console.log(getNum(3));/* 3的阶层: 3*2*1*/</pre>
+<hr>
+
+<h4 id="label-E8-8B-B9-E6-9E-9C-E5-BC-8F-E8-8F-9C-E5-8D-95-E6-A0-8F-E5-BA-95-E9-83-A8-E5-81-9C-E9-9D-A0">苹果式菜单栏底部停靠<span><a href="#label-E8-8B-B9-E6-9E-9C-E5-BC-8F-E8-8F-9C-E5-8D-95-E6-A0-8F-E5-BA-95-E9-83-A8-E5-81-9C-E9-9D-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>样式布局:</p>
+<ol><li>
+<p>设置图片正常大小 (本案例为64px)</p>
+</li><li>
+<p>包裹图片元素移到底部 (绝对定位.left和bottom为0)</p>
+</li><li>
+<p>图片居中 (width:100%;text-align:center)</p>
+</li></ol>
+</li><li>
+<p>实现原理:</p>
+<ol><li>
+<p>图片隐藏有一个触发效果的半径范围.</p>
+</li><li>
+<p>想触发效果需要拿到鼠标位置距离图片位置圆心的距离</p>
+</li><li>
+<p>然后比较和图片的半径之间的长度差</p>
+</li><li>
+<p>比图片半径小就慢慢缩放. 比图片半径大就什么都不做</p>
+</li></ol>
+</li><li>
+<p>实现思路: 利用勾股定理求出鼠标位置距离元素位置的距离</p>
+</li><li>
+<p>实现结果: 用元素到视口的距离加上元素本身自己二分之一的距离再减去鼠标到视口的距离</p>
+</li><li>
+<p>实现技术:</p>
+<ol><li>
+<p>鼠标移动时的事件</p>
+</li><li>
+<p>循环求得鼠标到每张图片中心点的距离</p>
+</li><li>
+<p>元素到视口的位置: getBoundingClientRect().top/left</p>
+</li><li>
+<p>鼠标到视口的位置: event.clientY/clientX</p>
+</li><li>
+<p>元素自身二分之一的高度: offsetHeight/offsetWidth</p>
+</li><li>
+<p>if判断</p>
+</li><li>
+<p>图片宽高自适应特性 (非图片使用缩放技术)</p>
+</li><li>
+<p>去除图片间隙方法: 1.浮动. 2.font-size:0;</p>
+</li></ol>
+</li><li>
+<p>最终公式: 图片真实长度 - (鼠标距离元素的距离 * (图片正常的大小 / 自定义半径长度))</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/wKBmP0M.png"></p>
+
+<h6 id="label-E4-BB-A3-E7-A0-81-E5-AE-9E-E7-8E-B0">代码实现<span><a href="#label-E4-BB-A3-E7-A0-81-E5-AE-9E-E7-8E-B0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<pre>HTML
+&lt;div id=&quot;wrap&quot;&gt;
+    &lt;img src=&quot;images/1.png&quot; alt=&quot;&quot;&gt;
+    &lt;img src=&quot;images/2.png&quot; alt=&quot;&quot;&gt;
+    &lt;img src=&quot;images/3.png&quot; alt=&quot;&quot;&gt;
+    &lt;img src=&quot;images/4.png&quot; alt=&quot;&quot;&gt;
+    &lt;img src=&quot;images/5.png&quot; alt=&quot;&quot;&gt;</pre>
+
+<p> &lt;/div&gt;</p>
+
+<pre>CSS
+img{
+  width: 64px; /*1.图片的高宽自适应. 缩小*/
+  /*float: left; 浮动去除圖片间隙*/
+}
+
+#wrap{
+  /*2.移到底部*/
+  position: absolute;
+  left: 0;
+  bottom:0;
+
+  /*3.元素居中*/
+  width: 100%;
+  text-align: center;
+}
+
+JS
+//获得所有图
+var imgAll = document.getElementsByTagName(&quot;img&quot;);
+
+//自定义半径
+var r = 320;
+
+document.onmousemove = function (e) {</pre>
+
+<p> var e = e || event;</p>
+
+<pre>for (var i = 0; i &lt; imgAll.length; i++) {
+    //每一次循环求 鼠标到每张图片的中心点
+    var x = imgAll[i].getBoundingClientRect().left + imgAll[i].offsetWidth/2 - e.clientX;
+    var y = imgAll[i].getBoundingClientRect().top + imgAll[i].offsetHeight/2 - e.clientY;
+    //斜边 (元素距离鼠标距离)
+    var a = Math.sqrt(x*x + y*y);
+
+    if(a &lt; r){
+      imgAll[i].style.width = (128 - a*0.2)+&quot;px&quot;;
+    }
+  }
+};</pre>
+
+<p><img src="https://i.imgur.com/60EoWh2.png"></p>
+<hr>
+
+<h3 id="label-PC-E7-AB-AF-E6-8B-96-E6-8B-BD-E6-96-B9-E6-A1-88">PC端拖拽方案<span><a href="#label-PC-E7-AB-AF-E6-8B-96-E6-8B-BD-E6-96-B9-E6-A1-88">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>实现原理:</p>
+<ol><li>
+<p>获得元素开始位置</p>
+</li><li>
+<p>获得鼠标移动距离</p>
+</li><li>
+<p>鼠标移动距离加上元素开始位置</p>
+</li></ol>
+</li><li>
+<p>实现步骤:</p>
+<ol><li>
+<p>元素开启绝对定位并且初始化元素和鼠标的位置 {x:0, y:0}</p>
+</li><li>
+<p>在鼠标按钮按下时(onmousedown)</p>
+</li><li>
+<p>基于offsetParent 获得元素开始位置 (offsetLeft/Top)</p>
+</li><li>
+<p>基于视口 获得鼠标开始位置 (clientX/Y)</p>
+</li><li>
+<p>在元素身上全局捕获 (兼容IE8) setCapture</p>
+</li><li>
+<p>鼠标移动时 (onmousemove). 该方法要在onmousedown里实现</p>
+</li><li>
+<p>初始化鼠标实时位置. 并获取(clientX/Y)</p>
+</li><li>
+<p>获得鼠标移动距离: 鼠标实时位置 - 鼠标开始位置</p>
+</li><li>
+<p>获得元素拖拽的位置: 元素开始位置 + 鼠标移动距离</p>
+</li><li>
+<p>在鼠标按钮抬起时 (onmouseup) 解绑dom0 事件</p>
+</li><li>
+<p>在onmouseup里document身上释放全局捕获 (releaseCapture)</p>
+</li></ol>
+</li></ul>
+
+<h6 id="label-E6-8B-96-E6-8B-BD-E5-AE-9E-E4-BE-8B">拖拽实例<span><a href="#label-E6-8B-96-E6-8B-BD-E5-AE-9E-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<pre>var box = document.getElementById(&#39;box&#39;);
+
+//初始化元素的位置
+var elementStart = {x:0, y:0};
+//初始化鼠标的位置
+var mouseStart = {x:0, y:0};
+
+//在鼠标按钮按下时获得初始位置 (移动端: 手指滑动的距离)
+test.onmousedown = function (e) {
+	  var e = e ||event;
+
+  //1.基于offsetParent  获得元素开始的位置
+  elementStart.x = test.offsetLeft;
+  elementStart.y = test.offsetTop;
+
+	//2.基于视口 获得鼠标一开始的位置
+  mouseStart.x = e.clientX;
+  mouseStart.y = e.clientY;
+
+  //全局捕获(兼容IE8)
+  if(test.setCapture){
+    test.setCapture;
+  }
+
+  //鼠标被移动时
+  document.onmousemove = function (e) {
+    var e = e ||event;
+    //3.鼠标实时的位置
+    var mouseMove = {x:0, y:0};
+    mouseMove.x = e.clientX;
+    mouseMove.y = e.clientY;
+
+    //4.鼠标移动的距离
+    var dis = {x:0, y:0};
+    dis.x = mouseMove.x - mouseStart.x;
+    dis.y = mouseMove.y - mouseStart.y;
+
+    //5. 元素开始的位置加上鼠标移动的距离
+    test.style.left = elementStart.x + dis.x +&quot;px&quot;;
+    test.style.top = elementStart.y + dis.y +&quot;px&quot;;
+  };
+
+  //鼠标按钮抬起时
+  document.onmouseup = function () {
+    //dom0解绑事件
+    document.onmousemove = document.onmouseup = null;
+    //释放全局
+    if(document.releaseCapture){
+      document.releaseCapture
+    }
+  }
+ //处理主流浏览器 取消默认行为
+  return false
+}</pre>
+
+<h6 id="label-PC-E7-AB-AF-E6-8B-96-E6-8B-BD-E6-A8-A1-E7-89-88">PC端拖拽模版<span><a href="#label-PC-E7-AB-AF-E6-8B-96-E6-8B-BD-E6-A8-A1-E7-89-88">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<pre>//在鼠标点击时
+elem.onmousedown = function (e) {
+  var e = e || event;
+
+  //全局捕获(兼容IE8) 最好放在onmousedown里
+  if(elem.setCapture){
+    elem.setCapture;
+  }
+
+  //鼠标移动时
+  document.onmousemove = function (e) {
+    var e = e || event;
+  };
+
+  //鼠标抬起时取消事件
+  document.onmouseup = function () {
+      document.onmousemove = document.onmouseup = null;
+
+      //释放全局
+      if(document.releaseCapture){
+        document.releaseCapture
+      }
+  }
+	 return false
+}</pre>
+<hr>
+
+<h3 id="label-E6-89-87-E5-BD-A2-E5-AF-BC-E8-88-AA">扇形导航<span><a href="#label-E6-89-87-E5-BD-A2-E5-AF-BC-E8-88-AA">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>样式布局</p>
+<ol><li>
+<p>有三个结构: 最外层包裹元素. 菜单元素. 主home键元素</p>
+</li><li>
+<p>给三个结构设置固定宽高值并开启绝对定位 (到底部: bottom&amp;right)</p>
+</li><li>
+<p>为菜单图片设置绝对定位叠加到一起. left&amp;top为0 设置圆角</p>
+</li><li>
+<p>home键元素添加背景图并且设置圆角.z-index提升层级</p>
+</li><li>
+<p>有三个结构: 最外层包裹元素. 菜单元素. 主home键元素</p>
+</li><li>
+<p>给三个结构设置固定宽高值并开启绝对定位 (到底部: bottom&amp;right)</p>
+</li><li>
+<p>为菜单图片设置绝对定位叠加到一起. left&amp;top为0 设置圆角</p>
+</li><li>
+<p>home键元素添加背景图并且设置圆角.z-index提升层级</p>
+</li></ol>
+</li><li>
+<p>实现思路</p>
+<ol><li>
+<p>点击home键按钮旋转. 预定义flag为true. 当点击时判断, flag是true,则transform旋转负的xx角度. 否则就是0度. 每次调用完置空flag</p>
+</li><li>
+<p>给home元素样式里添加过渡时间</p>
+</li><li>
+<p>根据半径和图片到home键之间的角度求出图片所在的坐标</p>
+</li><li>
+<p>需要传入 定义的半径长度和角度</p>
+</li><li>
+<p>通过Math.sin()方法求出对边x的坐标. 参数: 弧度</p>
+<ul><li>
+<p>角度转弧度公式 = 角度 * π / 180</p>
+</li><li>
+<p>得出sin结果乘以半径长度得到对边坐标</p>
+</li><li>
+<p>角度转弧度公式 = 角度 * π / 180</p>
+</li><li>
+<p>得出sin结果乘以半径长度得到对边坐标</p>
+</li></ul>
+</li><li>
+<p>通过Math.cos()方法求出邻边y的坐标. 参数: 弧度</p>
+<ul><li>
+<p>得出cos结果乘以半径长度得到邻边坐标</p>
+</li><li>
+<p>得出cos结果乘以半径长度得到邻边坐标</p>
+</li></ul>
+</li><li>
+<p>该方法return出一个对象 {x:x,y:y}</p>
+</li><li>
+<p>当flag为true时, 循环遍历出所有图片并显示</p>
+</li><li>
+<p>显示方式: 过渡 + 旋转</p>
+</li><li>
+<p>图片坐标通过之前定义的方法获得</p>
+</li><li>
+<p>当flag为false时, 循环遍历出所有图片并隐藏</p>
+</li><li>
+<p>循环遍历所有图片,在点击时给图片添加动画样式</p>
+</li><li>
+<p>过渡 + 缩放旋转 + 透明</p>
+</li><li>
+<p>定义 transitionend 的事件监听. 过渡完成后恢复样式并解绑</p>
+
+<h6 id="label-E4-BB-A3-E7-A0-81-E5-AE-9E-E7-8E-B0">代码实现<span><a href="#label-E4-BB-A3-E7-A0-81-E5-AE-9E-E7-8E-B0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+</li><li>
+<p>点击home键按钮旋转. 预定义flag为true. 当点击时判断, flag是true,则transform旋转负的xx角度. 否则就是0度. 每次调用完置空flag</p>
+</li><li>
+<p>给home元素样式里添加过渡时间</p>
+</li><li>
+<p>根据半径和图片到home键之间的角度求出图片所在的坐标</p>
+</li><li>
+<p>需要传入 定义的半径长度和角度</p>
+</li><li>
+<p>通过Math.sin()方法求出对边x的坐标. 参数: 弧度</p>
+<ul><li>
+<p>角度转弧度公式 = 角度 * π / 180</p>
+</li><li>
+<p>得出sin结果乘以半径长度得到对边坐标</p>
+</li></ul>
+</li><li>
+<p>通过Math.cos()方法求出邻边y的坐标. 参数: 弧度</p>
+<ul><li>
+<p>得出cos结果乘以半径长度得到邻边坐标</p>
+</li></ul>
+</li><li>
+<p>该方法return出一个对象 {x:x,y:y}</p>
+</li><li>
+<p>当flag为true时, 循环遍历出所有图片并显示</p>
+</li><li>
+<p>显示方式: 过渡 + 旋转</p>
+</li><li>
+<p>图片坐标通过之前定义的方法获得</p>
+</li><li>
+<p>当flag为false时, 循环遍历出所有图片并隐藏</p>
+</li><li>
+<p>循环遍历所有图片,在点击时给图片添加动画样式</p>
+</li><li>
+<p>过渡 + 缩放旋转 + 透明</p>
+</li><li>
+<p>定义 transitionend 的事件监听. 过渡完成后恢复样式并解绑</p>
+
+<h6 id="label-E4-BB-A3-E7-A0-81-E5-AE-9E-E7-8E-B0">代码实现<span><a href="#label-E4-BB-A3-E7-A0-81-E5-AE-9E-E7-8E-B0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+</li></ol>
+<div id="wrap">
+   <div id="menu">
+     <span>［原文图片不可用］</span>
+     <span>［原文图片不可用］</span>
+     <span>［原文图片不可用］</span>
+     <span>［原文图片不可用］</span>
+     <span>［原文图片不可用］</span>
+   </div>
+   <div id="home"></div>
+</div><ul><li>
+<p>{  margin: 0;  padding: 0; }</p>
+</li></ul>
+
+<h1 id="label-wrap-7B">wrap{<span><a href="#label-wrap-7B">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>position: absolute;  bottom:20px;  right: 20px;  width: 50px;  height: 50px; }</p>
+
+<h1 id="label-menu-7B">menu{<span><a href="#label-menu-7B">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>position: absolute;  width: 50px;  height: 50px; }</p>
+
+<h1 id="label-wrap+img-7B">wrap img{<span><a href="#label-wrap+img-7B">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>/<em>1. 让图标叠到一起</em>/  position: absolute;  left:0;  top: 0;  /<em>去除边角</em>/  margin: 4px;  border-radius: 99%; }</p>
+
+<h1 id="label-home-7B">home{<span><a href="#label-home-7B">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>height: 50px;  width: 50px;  background: url(“img/home.png”) no-repeat;  /<em>去除边角</em>/  border-radius: 99%;  /<em>2. 看到home键 提高层级</em>/  position: relative;  z-index: 99;</p>
+
+<p>transition: 1s; }</p>
+
+<p>var home = document.getElementById(&#39;home&#39;); var imgs = document.getElementById(&#39;menu&#39;).getElementsByTagName(&#39;img&#39;);</p>
+
+<p>//1. 实现home按钮旋转 (第一下逆时针) var flag = true; var c = -120; home.onclick = function () {  if (flag){  this.style.transform = “rotate(-1440deg)”;</p>
+
+<pre>  //2. 遍历得到每一个图片. 让图片去指定位置
+  for (var i = 0; i &lt; imgs.length; i++) {
+    imgs[i].style.transition = &quot;.5s &quot; + (i*0.1)+&quot;s&quot;;
+    imgs[i].style.transform = &quot;scale(1) rotate(-720deg)&quot;;
+    imgs[i].style.left = getPoint(c,(90/(imgs.length-1)) * i).x +&quot;px&quot;;
+    imgs[i].style.top = getPoint(c,(90/(imgs.length-1)) * i).y +&quot;px&quot;;
+  }
+}else{
+  this.style.transform = &quot;rotate(0)&quot;;
+
+  for (var i = 0; i &lt; imgs.length; i++) {
+    imgs[i].style.transition = &quot;.5s &quot; + ((imgs.length - 1 - i)*0.2)+&quot;s&quot;;
+    imgs[i].style.transform = &quot;scale(1) rotate(0)&quot;;
+    imgs[i].style.left = 0;
+    imgs[i].style.top = 0;
+  }
+}</pre>
+
+<p>flag = !flag };</p>
+
+<p>//完善小图标 for (var i = 0; i &lt; imgs.length; i++) {  <a>imgs</a>.onclick = function () {  this.style.transition = “.5s”;  this.style.transform = “scale(2) rotate(-720deg)”;  this.style.opacity = 0.1;</p>
+
+<pre class="ruby"><span class="ruby-identifier">this</span>.<span class="ruby-identifier">addEventListener</span>(<span class="ruby-string">&quot;transitionend&quot;</span>,<span class="ruby-identifier">fn</span>)
+</pre>
+
+<p>}; }</p>
+
+<p>//完成后解绑 transitionend function fn() {  this.style.transition = “.2s”;  this.style.transform = “scale(1) rotate(-720deg)”;  this.style.opacity = 1;</p>
+
+<p>this.removeEventListener(“transitionend”,fn) }</p>
+
+<p>//根据第三条边和角度 求出元素的坐标 function getPoint(c,deg) {  //x 对边 b 底边 c 直角边  //角度转弧度: 角度 * π / 180  var x = Math.round(Math.sin(deg<em>Math.PI/180) * c);  var y = Math.round(Math.cos(deg</em>Math.PI/180) * c);  return {x:x,y:y}; }</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/ZuOg4Zz.png"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/12_JS2.0_CSS2.0/DOM2.0.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="12-03.html">上一篇 · BOM2.0</a><a href="12-05.html">下一篇 · CSS高级</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>Vue2.0 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-15.html">附录：Vue 2 与 Vuex</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>附录：Vue 2 与 Vuex</strong><a href="15-01.html" aria-current="page">Vue2.0</a><a href="15-02.html">Vuex</a></nav>
+<article class="paper"><h1>Vue2.0</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>这一篇记录升级到 Vue 2 时发生的 API 变化。阅读旧例子遇到方法对不上时，可以先按这里的变更点核对版本。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-Vue2.0">Vue2.0<span><a href="#label-Vue2.0">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>Vue升级工具: <a href="https://github.com/vuejs/vue-migration-helper">github.com/vuejs/vue-migration-helper</a></p>
+</li><li>
+<p>vue从1.x升级到2.x, 几乎 90% 的 API 和核心概念都没有变</p>
+</li></ul>
+
+<h3 id="label-Vue2.0+API-E5-8F-98-E5-8C-96">Vue2.0 API变化<span><a href="#label-Vue2.0+API-E5-8F-98-E5-8C-96">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>vue-router变化</p>
+<ul><li>
+<p>v-link -&gt; &lt;router-link&gt;</p>
+</li><li>
+<p>keep-alive ===&gt; &lt;keep-alive&gt;</p>
+</li><li>
+<p>v-link -&gt; &lt;router-link&gt;</p>
+</li><li>
+<p>keep-alive ===&gt; &lt;keep-alive&gt;</p>
+</li></ul>
+</li><li>
+<p>v-for 指令</p>
+<ul><li>
+<p>移除$index</p>
+</li><li>
+<p>v-for="(item, index) in items"</p>
+</li><li>
+<p>移除$index</p>
+</li><li>
+<p>v-for="(item, index) in items"</p>
+</li></ul>
+</li><li>
+<p>v-el与v-ref指令</p>
+<ul><li>
+<p>ref指令 ref=&#39;xxx&#39;</p>
+</li><li>
+<p>this.refs.xxx</p>
+</li><li>
+<p>ref指令 ref=&#39;xxx&#39;</p>
+</li><li>
+<p>this.refs.xxx</p>
+</li></ul>
+</li><li>
+<p>组件的模板</p>
+<ul><li>
+<p>只允许有一个根标签</p>
+</li><li>
+<p>只允许有一个根标签</p>
+</li></ul>
+</li><li>
+<p>组件间通信</p>
+<ul><li>
+<p>$dispatch()/$broadcast()被移除, 只留下$emit</p>
+</li><li>
+<p>events选项被移除, 通过v-on指令绑定监听</p>
+</li><li>
+<p>不能直接在子组件中修改父组件传入的prop</p>
+</li><li>
+<p>$dispatch()/$broadcast()被移除, 只留下$emit</p>
+</li><li>
+<p>events选项被移除, 通过v-on指令绑定监听</p>
+</li><li>
+<p>不能直接在子组件中修改父组件传入的prop</p>
+</li></ul>
+</li><li>
+<p>过渡</p>
+<ul><li>
+<p>&lt;transition&gt;</p>
+</li><li>
+<p>transitions选项被移除</p>
+</li><li>
+<p>过滤css</p>
+</li><li>
+<p>&lt;transition&gt;</p>
+</li><li>
+<p>transitions选项被移除</p>
+</li><li>
+<p>过滤css</p>
+
+<pre> .fade-enter: 进入的开始状态(不可见), 在此指定进入显示前不可见的样式
+   .fade-leave-active: 离开的结束状态(不可见), 在此指定离开后不可见的样式
+   .fade-enter-active: 进入的结束状态(可见), 在此指定显示的transition
+   .fade-leave-active: 离开的结束状态(不可见),在此指定隐藏的transition</pre>
+</li><li>
+<p>JS动画</p>
+
+<pre> &lt;transition name=&quot;drop&quot;
+        @before-enter=&quot;beforeDrop&quot;
+        @enter=&quot;dropping&quot;
+        @after-enter=&quot;afterDrop&quot;
+        v-bind:css=&quot;false&quot;&gt;</pre>
+</li></ul>
+</li><li>
+<p>虚拟DOM/组件的生命周期</p>
+<ul><li>
+<p>生命周期回调函数有增减</p>
+</li><li>
+<p>移除: ready()</p>
+</li><li>
+<p>增加: mounted() / beforeUpdate() / afterUpdate()</p>
+</li></ul>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/15/Vue2.0.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="15-02.html">下一篇 · Vuex</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

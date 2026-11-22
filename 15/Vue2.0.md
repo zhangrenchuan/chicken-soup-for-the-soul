@@ -1,3 +1,11 @@
+# Vue2.0
+
+## 先弄懂这件事
+
+这一篇记录升级到 Vue 2 时发生的 API 变化。阅读旧例子遇到方法对不上时，可以先按这里的变更点核对版本。
+
+## 笔记与示例
+
 ## Vue2.0
 - Vue升级工具: [https://github.com/vuejs/vue-migration-helper](https://github.com/vuejs/vue-migration-helper)
 - vue从1.x升级到2.x, 几乎 90% 的 API 和核心概念都没有变

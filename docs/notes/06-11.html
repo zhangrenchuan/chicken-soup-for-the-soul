@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>JS引擎 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-06.html">JavaScript 进阶：作用域、闭包和原型</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 进阶：作用域、闭包和原型</strong><a href="06-01.html">数据类型</a><a href="06-02.html">原型</a><a href="06-03.html">this</a><a href="06-04.html">提升</a><a href="06-05.html">上下文环境对象</a><a href="06-06.html">作用域与作用域链</a><a href="06-07.html">闭包</a><a href="06-08.html">对象创建模式</a><a href="06-09.html">原型链继承</a><a href="06-10.html">线程机制</a><a href="06-11.html" aria-current="page">JS引擎</a><a href="06-12.html">Web Workers API</a></nav>
+<article class="paper"><h1>JS引擎</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>JavaScript 先执行完当前任务，再处理后续任务。<code>setTimeout(fn, 0)</code> 会安排稍后执行，当前代码还会先跑完。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E5-AE-9A-E6-97-B6-E5-99-A8+-2F+JS-E7-BA-BF-E7-A8-8B+-2F+-E4-BA-8B-E4-BB-B6-E5-BE-AA-E7-8E-AF-E6-A8-A1-E5-9E-8B-E9-97-AE-E9-A2-98">定时器 / JS线程 / 事件循环模型问题<span><a href="#label-E5-AE-9A-E6-97-B6-E5-99-A8+-2F+JS-E7-BA-BF-E7-A8-8B+-2F+-E4-BA-8B-E4-BB-B6-E5-BE-AA-E7-8E-AF-E6-A8-A1-E5-9E-8B-E9-97-AE-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>定时器并不能真正保证定时执行(原因在于JS模型的运转流程)</p>
+</li><li>
+<p>JS是单线程 所以定时器是在JS的主线程执行的</p>
+<ul><li>
+<p>JS单线程模式: 用途有关. 否则需要处理很复杂的同步问题</p>
+</li></ul>
+</li></ul>
+
+<p><strong>举个例子</strong>:</p>
+
+<pre class="ruby"><span class="ruby-identifier">在执行异步代码的时候，如果定时器被正在执行的代码阻塞了，</span>
+
+<span class="ruby-identifier">它将会进入队列的尾部去等待执行直到下一次可能执行的时间出现（可能超过设定的延时时间）。</span>
+
+<span class="ruby-identifier">setTimeout</span> <span class="ruby-identifier">和setInterval</span> <span class="ruby-identifier">是有着本质区别的：setTimeout</span> <span class="ruby-identifier">这段代码会在每次回调函数执行之后至少需要延时“指定延迟毫秒值”再去执行（可能是更多，但是不会少）。</span>
+
+<span class="ruby-identifier">但是setInterval会每隔“指定延迟毫秒值”就去尝试执行一次回调函数，不管上一个回调函数是不是还在执行。</span>
+</pre>
+<hr>
+
+<h2 id="label-JS-E5-BC-95-E6-93-8E-E4-BB-A3-E7-A0-81">JS引擎代码<span><a href="#label-JS-E5-BC-95-E6-93-8E-E4-BB-A3-E7-A0-81">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-JS-E5-BC-95-E6-93-8E-E4-BB-A3-E7-A0-81-E7-9A-84-E5-88-86-E7-B1-BB">JS引擎代码的分类<span><a href="#label-JS-E5-BC-95-E6-93-8E-E4-BB-A3-E7-A0-81-E7-9A-84-E5-88-86-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>初始化代码</p>
+</li><li>
+<p>回调代码</p>
+
+<h4 id="label-JS-E5-BC-95-E6-93-8E-E6-89-A7-E8-A1-8C-E4-BB-A3-E7-A0-81-E7-9A-84-E5-9F-BA-E6-9C-AC-E6-B5-81-E7-A8-8B">JS引擎执行代码的基本流程<span><a href="#label-JS-E5-BC-95-E6-93-8E-E6-89-A7-E8-A1-8C-E4-BB-A3-E7-A0-81-E7-9A-84-E5-9F-BA-E6-9C-AC-E6-B5-81-E7-A8-8B">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li><li>
+<p>先执行初始化代码: 包含一些特别的代码</p>
+</li><li>
+<p>启动定时器</p>
+</li><li>
+<p>绑定Dom事件监听</p>
+</li><li>
+<p>发送ajax请求</p>
+</li><li>
+<p>后执行回调代码: 处理回调逻辑</p>
+
+<h4 id="label-JS-E6-A8-A1-E5-9E-8B-E7-9A-84-E9-87-8D-E8-A6-81-E7-BB-84-E6-88-90-E9-83-A8-E5-88-86">JS模型的重要组成部分<span><a href="#label-JS-E6-A8-A1-E5-9E-8B-E7-9A-84-E9-87-8D-E8-A6-81-E7-BB-84-E6-88-90-E9-83-A8-E5-88-86">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li><li>
+<p>事件管理模块(在分线程执行,由浏览器管理)</p>
+</li><li>
+<p>回调队列 callback queue</p>
+<ul><li>
+<p>任务队列 task queue</p>
+</li><li>
+<p>消息队列 message queue</p>
+</li><li>
+<p>事件队列 event queue</p>
+</li></ul>
+</li><li>
+<p>事件轮询 event loop (遍历读取回调队列中的回调函数执行)</p>
+
+<h4 id="label-JS-E6-A8-A1-E5-9E-8B-E7-9A-84-E8-BF-90-E8-BD-AC-E6-B5-81-E7-A8-8B">JS模型的运转流程<span><a href="#label-JS-E6-A8-A1-E5-9E-8B-E7-9A-84-E8-BF-90-E8-BD-AC-E6-B5-81-E7-A8-8B">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li><li>
+<p>执行初始化代码, 将事件回调函数交给对应模块管理</p>
+</li><li>
+<p>当事件发生时, 管理模块会将回调函数及其数据添加到回调列队中</p>
+</li><li>
+<p><strong>只有当初始化代码执行完后(时间不定), 才会遍历读取执行回调队列中的回调函数</strong></p>
+</li></ul>
+
+<p><img src="https://wx1.sinaimg.cn/mw690/824389a9ly1fe1t8gdpa0j20hk0faaep.jpg"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/06_JavaScript%E9%AB%98%E7%BA%A7/JS%E5%BC%95%E6%93%8E.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="06-10.html">上一篇 · 线程机制</a><a href="06-12.html">下一篇 · Web Workers API</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>组件通信 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-11.html">React：组件、状态与路由</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>React：组件、状态与路由</strong><a href="11-01.html">入门</a><a href="11-02.html">props：接收父组件的数据</a><a href="11-03.html">ref：访问页面元素</a><a href="11-04.html">state：保存组件状态</a><a href="11-05.html">生命周期</a><a href="11-06.html">脚手架</a><a href="11-07.html">在 React 中获取数据</a><a href="11-08.html">服务器渲染</a><a href="11-09.html">React 界面组件库</a><a href="11-10.html" aria-current="page">组件通信</a><a href="11-11.html">React Router 路由</a></nav>
+<article class="paper"><h1>组件通信</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>父组件用 <code>props</code> 传数据给子组件，子组件可以调用父组件传下来的函数。两个兄弟组件需要共享数据时，可以先把状态放到共同的父组件。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-E7-BB-84-E4-BB-B6-E9-80-9A-E4-BF-A1">组件通信<span><a href="#label-E7-BB-84-E4-BB-B6-E9-80-9A-E4-BF-A1">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h5 id="label-E9-80-9A-E8-BF-87props-E4-BC-A0-E9-80-92">通过props传递<span><a href="#label-E9-80-9A-E8-BF-87props-E4-BC-A0-E9-80-92">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>通过props可以传递一般数据和函数数据, 只能一层一层传递</p>
+</li><li>
+<p>一般数据–&gt;父组件传递数据给子组件–&gt;子组件读取数据</p>
+</li><li>
+<p>函数数据–&gt;子组件传递数据给父组件–&gt;子组件调用函数</p>
+</li></ul>
+
+<h5 id="label-E9-80-9A-E8-BF-87PubSubJS+-E6-B6-88-E6-81-AF-E8-AE-A2-E9-98-85-E5-8F-91-E5-B8-83-E6-9C-BA-E5-88-B6-E4-BC-A0-E9-80-92">通过PubSubJS 消息订阅发布机制传递<span><a href="#label-E9-80-9A-E8-BF-87PubSubJS+-E6-B6-88-E6-81-AF-E8-AE-A2-E9-98-85-E5-8F-91-E5-B8-83-E6-9C-BA-E5-88-B6-E4-BC-A0-E9-80-92">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>下载: <code>npm install pubsub-js --save</code></p>
+</li><li>
+<p>引入: <code>import PubSub from &#39;pubsub-js&#39;</code></p>
+</li><li>
+<p>订阅(接收): <code>PubSub.subscribe(&#39;&#39;, function(){});</code></p>
+<ul><li>
+<p>第一个参数: 订阅的名字</p>
+</li><li>
+<p>第二个参数: 回调函数(msg,data)</p>
+<ul><li>
+<p>msg: 订阅的名字</p>
+</li><li>
+<p>data: 接收到的数据</p>
+</li><li>
+<p>msg: 订阅的名字</p>
+</li><li>
+<p>data: 接收到的数据</p>
+</li></ul>
+</li><li>
+<p>第一个参数: 订阅的名字</p>
+</li><li>
+<p>第二个参数: 回调函数(msg,data)</p>
+<ul><li>
+<p>msg: 订阅的名字</p>
+</li><li>
+<p>data: 接收到的数据</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>发布: <code>PubSub.publish(&#39;&#39;,&#39;&#39;)</code></p>
+<ul><li>
+<p>第一个参数: 订阅的名字</p>
+</li><li>
+<p>第二个参数: 要发送的数据(任意数据类型)</p>
+</li><li>
+<p>第一个参数: 订阅的名字</p>
+</li><li>
+<p>第二个参数: 要发送的数据(任意数据类型)</p>
+</li></ul>
+</li><li>
+<p>例子:</p>
+
+<pre>//订阅
+PubSub.subscribe(&#39;delete&#39;,(message,index)=&gt;{
+   console.log(message,index);
+   this.remove(index)
+})
+
+//发布消息
+PubSub.publish(&#39;delete&#39;, this.props.index)</pre>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/11_ReactJs/%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="11-09.html">上一篇 · React 界面组件库</a><a href="11-11.html">下一篇 · React Router 路由</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

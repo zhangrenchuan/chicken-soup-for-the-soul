@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>css2垂直对齐 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-02.html">CSS：样式与布局</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>CSS：样式与布局</strong><a href="02-01.html">css基础</a><a href="02-02.html">浮动与父元素高度</a><a href="02-03.html">定位</a><a href="02-04.html">css2文本</a><a href="02-05.html">css2字体</a><a href="02-06.html">css2背景</a><a href="02-07.html" aria-current="page">css2垂直对齐</a></nav>
+<article class="paper"><h1>css2垂直对齐</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>vertical-align</code> 常用来调整同一行里的图片和文字，也可以调整表格单元格内的内容。要把普通容器里的内容上下居中，可以用 Flexbox。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-CSS2+vertical-align+-E5-9E-82-E7-9B-B4-E5-AF-B9-E9-BD-90">CSS2 vertical-align 垂直对齐<span><a href="#label-CSS2+vertical-align+-E5-9E-82-E7-9B-B4-E5-AF-B9-E9-BD-90">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<pre>- baseline   默认值.基于基线对齐
+- middle     位于同一行的非衬线字体小写字母的 1/2 处.不要为父元素设置高度和行高      
+- top           位于父元素一行的顶部
+- bottom    位于父元素一行的底部
+- text-top   位于同一行的文本的顶部
+- text-bottom 位于同一行的文本的底部
+- super       位于同一行的sub元素文本的基线对齐 &lt;sup&gt;上角标&lt;/sup&gt;
+- sub          位于同一行的sub元素文本的基线对齐 &lt;sub&gt;下角标&lt;/sub&gt;</pre>
+<ul><li>
+<p>使用 vertical-align 在一行内，行内元素在垂直方向的对齐位置。</p>
+</li><li>
+<p>vertical-align: 只能设置行内元素（inline inline-block)</p>
+</li></ul>
+
+<h4 id="label-E5-9E-82-E7-9B-B4-E5-B1-85-E4-B8-AD-E5-AF-B9-E9-BD-90">垂直居中对齐<span><a href="#label-E5-9E-82-E7-9B-B4-E5-B1-85-E4-B8-AD-E5-AF-B9-E9-BD-90">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>vertical-align: middle;
+text-align: center;</pre>
+
+<h4 id="label-vertical-align+-E4-BD-BF-E7-94-A8-E5-9C-BA-E6-99-AF1-EF-BC-9A+-E4-B8-80-E8-A1-8C-E5-86-85-E7-9A-84-E5-9E-82-E7-9B-B4-E6-96-B9-E5-90-91-E5-AF-B9-E9-BD-90">vertical-align 使用场景1： 一行内的垂直方向对齐<span><a href="#label-vertical-align+-E4-BD-BF-E7-94-A8-E5-9C-BA-E6-99-AF1-EF-BC-9A+-E4-B8-80-E8-A1-8C-E5-86-85-E7-9A-84-E5-9E-82-E7-9B-B4-E6-96-B9-E5-90-91-E5-AF-B9-E9-BD-90">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><img src="https://i.imgur.com/gqvFjtp.jpg"></p>
+
+<h4 id="label-vertical-align+-E4-BD-BF-E7-94-A8-E5-9C-BA-E6-99-AF2-EF-BC-9A+-E5-A4-9A-E8-A1-8C-E5-86-85-E7-9A-84-E5-9E-82-E7-9B-B4-E6-96-B9-E5-90-91-E5-AF-B9-E9-BD-90">vertical-align 使用场景2： 多行内的垂直方向对齐<span><a href="#label-vertical-align+-E4-BD-BF-E7-94-A8-E5-9C-BA-E6-99-AF2-EF-BC-9A+-E5-A4-9A-E8-A1-8C-E5-86-85-E7-9A-84-E5-9E-82-E7-9B-B4-E6-96-B9-E5-90-91-E5-AF-B9-E9-BD-90">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>为要垂直居中的子元素设置 <code>vertical-align:middle</code>样式</p>
+</li><li>
+<p>为该元素的父元素设置<code>display: table-cell</code>,并设置固定的高度</p>
+</li><li>
+<p>然后再设置 <code>vertical-align:middle</code>和水平对齐<code>text-align: center</code></p>
+</li><li>
+<p>当其元素设置为 <code>display: table-cell</code>.并且宽度清零时，需要为父元素添加display: table;，并设置宽度100%</p>
+</li></ol>
+
+<p><strong>可以把元素的所有内容（文本，子元素-inline, inline-block）都在垂直方向居中</strong></p>
+
+<p><strong>在局部布局中使用display:table-cell;以减少对整体布局的影响</strong></p>
+
+<pre>    &lt;style type=&quot;text/css&quot;&gt;
+        /*指定块元素图片垂直居中*/
+        .box-table{
+            display: table;
+            width:100%;
+        }
+        .box {
+            background-color: orange;
+
+            height: 200px;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+        img{
+            width: 100px;
+        }
+    &lt;/style&gt;
+
+    &lt;script type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+
+	&lt;div class=&quot;box-table&quot;&gt;
+	    &lt;div class=&quot;box&quot;&gt;
+	        &lt;img src=&quot;img/bg.jpg&quot; alt=&quot;&quot;&gt;
+	    &lt;/div&gt;
+	&lt;/div&gt;
+	&lt;/body&gt;</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/02_CSS/css2%E5%9E%82%E7%9B%B4%E5%AF%B9%E9%BD%90.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="02-06.html">上一篇 · css2背景</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>JSON · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-03.html">JavaScript 基础</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 基础</strong><a href="03-01.html">ECMAScript 与 JavaScript</a><a href="03-02.html">JS基本语法</a><a href="03-03.html">JS数据类型</a><a href="03-04.html">JS运算符</a><a href="03-05.html">JS语句</a><a href="03-06.html">JS对象</a><a href="03-07.html">JS函数</a><a href="03-08.html">JS数组</a><a href="03-09.html">JS内置对象方法</a><a href="03-10.html">正则表达式</a><a href="03-11.html">DOM</a><a href="03-12.html">BOM</a><a href="03-13.html" aria-current="page">JSON</a></nav>
+<article class="paper"><h1>JSON</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>JSON 是用文本表示数据的格式。对象的键和字符串要用双引号，数字和布尔值不用。用 <code>JSON.parse()</code> 读取，用 <code>JSON.stringify()</code> 生成。</p>
+</section>
+<h3 id="label-E5-86-99-E6-B3-95">写法<span><a href="#label-E5-86-99-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>对象用 <code>{}</code>，数组用 <code>[]</code>。</p>
+</li><li>
+<p>对象的键和字符串用双引号。数字、布尔值和 <code>null</code> 直接写。</p>
+</li><li>
+<p>JSON 可以嵌套对象和数组，不能写注释，也不能在最后一项后加逗号。</p>
+</li></ul>
+
+<pre class="ruby">{<span class="ruby-value">&quot;name&quot;:</span> <span class="ruby-string">&quot;小林&quot;</span>, <span class="ruby-value">&quot;age&quot;:</span> <span class="ruby-value">20</span>, <span class="ruby-value">&quot;active&quot;:</span> <span class="ruby-keyword">true</span>}
+</pre>
+
+<h3 id="label-E5-92-8C+JavaScript+-E4-BA-92-E8-BD-AC">和 JavaScript 互转<span><a href="#label-E5-92-8C+JavaScript+-E4-BA-92-E8-BD-AC">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>JSON.parse(text)</code> 把 JSON 文本转成 JavaScript 值。</p>
+</li><li>
+<p><code>JSON.stringify(value)</code> 把可序列化的 JavaScript 值转成 JSON 文本。</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/03_JS/JSON.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="03-12.html">上一篇 · BOM</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

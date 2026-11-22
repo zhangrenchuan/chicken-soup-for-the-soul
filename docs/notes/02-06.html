@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>css2背景 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-02.html">CSS：样式与布局</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>CSS：样式与布局</strong><a href="02-01.html">css基础</a><a href="02-02.html">浮动与父元素高度</a><a href="02-03.html">定位</a><a href="02-04.html">css2文本</a><a href="02-05.html">css2字体</a><a href="02-06.html" aria-current="page">css2背景</a><a href="02-07.html">css2垂直对齐</a></nav>
+<article class="paper"><h1>css2背景</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>background-color</code> 设置底色，<code>background-image</code> 加背景图。只想显示一张不平铺的背景图时，可以加 <code>background-repeat: no-repeat</code>。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-CSS2+-E8-83-8C-E6-99-AF">CSS2 背景<span><a href="#label-CSS2+-E8-83-8C-E6-99-AF">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h5 id="label-background-color+-E8-AE-BE-E7-BD-AE-E8-83-8C-E6-99-AF-E9-A2-9C-E8-89-B2">background-color 设置背景颜色<span><a href="#label-background-color+-E8-AE-BE-E7-BD-AE-E8-83-8C-E6-99-AF-E9-A2-9C-E8-89-B2">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<h5 id="label-background-image+-E8-AE-BE-E7-BD-AE-E8-83-8C-E6-99-AF-E5-9B-BE-E7-89-87">background-image 设置背景图片<span><a href="#label-background-image+-E8-AE-BE-E7-BD-AE-E8-83-8C-E6-99-AF-E5-9B-BE-E7-89-87">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p><code>background-image：url（&quot;图片的路径&quot;）;</code></p>
+</li></ul>
+
+<h5 id="label-background-repeat+-E8-AE-BE-E7-BD-AE-E8-83-8C-E6-99-AF-E5-9B-BE-E7-89-87-E7-9A-84-E9-87-8D-E5-A4-8D-E6-96-B9-E5-BC-8F">background-repeat 设置背景图片的重复方式<span><a href="#label-background-repeat+-E8-AE-BE-E7-BD-AE-E8-83-8C-E6-99-AF-E5-9B-BE-E7-89-87-E7-9A-84-E9-87-8D-E5-A4-8D-E6-96-B9-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>- repeat 默认值. 使背景图片在水平和垂直两个方向重复.以铺满元素
+- repeat-x 水平方向重复
+- repeat-y 垂直方向重复
+- no-repeat 图片不重复</pre>
+
+<h5 id="label-background-position+-E8-AE-BE-E7-BD-AE-E8-83-8C-E6-99-AF-E5-9B-BE-E7-89-87-E6-98-BE-E7-A4-BA-E4-BD-8D-E7-BD-AE">background-position 设置背景图片显示位置<span><a href="#label-background-position+-E8-AE-BE-E7-BD-AE-E8-83-8C-E6-99-AF-E5-9B-BE-E7-89-87-E6-98-BE-E7-A4-BA-E4-BD-8D-E7-BD-AE">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>默认背景图片是从左上角开始显示.</p>
+</li><li>
+<p>设置方式:</p>
+<ol><li>
+<p>通过位置的关键字来设置背景图片的位置</p>
+<ul><li>
+<p>left top right bottom center</p>
+</li><li>
+<p>使用这些关键字两两组合设置图片位置</p>
+</li><li>
+<p>如果只设置一个关键字则第二个默认为center</p>
+</li></ul>
+</li><li>
+<p>可以指定一个水平方向和垂直方向的偏移量来设置图片位置</p>
+<ul><li>
+<p>background-position：x偏移量 y偏移量</p>
+</li><li>
+<p>x偏移量：正值 向右移动；负值 向左移动</p>
+</li><li>
+<p>y偏移量：正值 向下移动；负值 向上移动</p>
+</li></ul>
+</li></ol>
+</li></ul>
+
+<h5 id="label-background-attachment+-E8-AE-BE-E7-BD-AE-E8-83-8C-E6-99-AF-E5-9B-BE-E7-89-87-E6-98-AF-E5-90-A6-E9-9A-8F-E5-B1-8F-E5-B9-95-E6-BB-9A-E5-8A-A8">background-attachment 设置背景图片是否随屏幕滚动<span><a href="#label-background-attachment+-E8-AE-BE-E7-BD-AE-E8-83-8C-E6-99-AF-E5-9B-BE-E7-89-87-E6-98-AF-E5-90-A6-E9-9A-8F-E5-B1-8F-E5-B9-95-E6-BB-9A-E5-8A-A8">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>- scroll 默认值. 背景会随屏幕滚动
+- fixed 背景相对于窗口固定定位.不会随屏幕滚动
+- 使用场景: 网页的整体背景</pre>
+
+<h5 id="label-background+-E7-AE-80-E5-86-99">background 简写<span><a href="#label-background+-E7-AE-80-E5-86-99">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>可以同时设置所有的背景相关的样式</p>
+</li><li>
+<p>对样式的编写顺序和数量没有任何要求</p>
+</li><li>
+<p>多个背景图片之间可以用逗号隔开</p>
+</li><li>
+<p><code>background：red url() no-repeat top center</code></p>
+</li></ul>
+
+<h5 id="label-img-E6-A0-87-E7-AD-BE-E5-92-8Cbackground-image-E7-9A-84-E5-8C-BA-E5-88-AB">img标签和background-image的区别<span><a href="#label-img-E6-A0-87-E7-AD-BE-E5-92-8Cbackground-image-E7-9A-84-E5-8C-BA-E5-88-AB">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<p>1.使用img元素引入图片,图片与网页同步加载,如果网页过大,影响页面加载速度</p>
+
+<pre>- 使用img的场景: 重要的页面图片元素.例如 网站logo,商品图片</pre>
+
+<p>2.使用背景图引入图片,网页加载后,或者与网页一起加载.不会影响页面的加载速度</p>
+
+<pre>- 使用背景图片的场景:非重要的页面图片元素,例如 小图片</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/02_CSS/css2%E8%83%8C%E6%99%AF.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="02-05.html">上一篇 · css2字体</a><a href="02-07.html">下一篇 · css2垂直对齐</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

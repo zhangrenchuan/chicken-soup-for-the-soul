@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>css2字体 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-02.html">CSS：样式与布局</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>CSS：样式与布局</strong><a href="02-01.html">css基础</a><a href="02-02.html">浮动与父元素高度</a><a href="02-03.html">定位</a><a href="02-04.html">css2文本</a><a href="02-05.html" aria-current="page">css2字体</a><a href="02-06.html">css2背景</a><a href="02-07.html">css2垂直对齐</a></nav>
+<article class="paper"><h1>css2字体</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>font-family</code> 决定用什么字体，<code>font-size</code> 决定字号，<code>font-weight</code> 决定粗细。字体列表按顺序尝试，最后可放 <code>sans-serif</code> 作为备选。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-CSS2+-E5-AD-97-E4-BD-93-E6-A0-B7-E5-BC-8F">CSS2 字体样式<span><a href="#label-CSS2+-E5-AD-97-E4-BD-93-E6-A0-B7-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h5 id="label-font-family+-E5-AD-97-E4-BD-93-E6-97-8F">font-family 字体族<span><a href="#label-font-family+-E5-AD-97-E4-BD-93-E6-97-8F">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>规定元素的字体系列</p>
+</li><li>
+<p>把多个字体作为一个“回退”系统保存.保证浏览器的支持</p>
+</li><li>
+<p><code>Microsoft YaHei, tahoma, arial, Hiragino Sans GB, sans-serif</code></p>
+</li></ul>
+
+<h5 id="label-font+-E5-AD-97-E4-BD-93-E7-B1-BB-E5-9E-8B">font 字体类型<span><a href="#label-font+-E5-AD-97-E4-BD-93-E7-B1-BB-E5-9E-8B">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>衬线字体(serif)：在字的笔划开始及结束的地方有额外的装饰</p>
+</li><li>
+<p>非衬线字体(sans-serif) : 没有额外的装饰，笔划粗细大致差不多。用于严肃场景</p>
+</li><li>
+<p>等宽字体 monospace</p>
+</li><li>
+<p>草书字体 cursive</p>
+</li><li>
+<p>虚幻字体 fantasy</p>
+</li></ul>
+
+<h5 id="label-font-size+-E8-AE-BE-E7-BD-AE-E5-AD-97-E4-BD-93-E5-A4-A7-E5-B0-8F">font-size 设置字体大小<span><a href="#label-font-size+-E8-AE-BE-E7-BD-AE-E5-AD-97-E4-BD-93-E5-A4-A7-E5-B0-8F">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>- medium 默认值。一般浏览器默认是16px. chrome最小支持到12px
+- smaller 把 font-size 设置为比父元素更小的尺寸。
+- larger  把 font-size 设置为比父元素更大的尺寸。
+- length  把 font-size 设置为一个固定的值(常用)。单位px
+- %   把 font-size 设置为基于父元素的一个百分比值。
+- 可继承</pre>
+<ul><li>
+<p>注意：font-size 会影响 line-height 属性 进而影响一行中基线的位置</p>
+</li></ul>
+
+<h5 id="label-font-style+-E5-AD-97-E4-BD-93-E6-A0-B7-E5-BC-8F">font-style 字体样式<span><a href="#label-font-style+-E5-AD-97-E4-BD-93-E6-A0-B7-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>- normal  默认值。浏览器显示一个标准的字体样式。
+- italic  浏览器会显示一个斜体的字体样式。 
+- oblique 浏览器会显示一个倾斜的字体样式。
+- 可继承</pre>
+
+<h5 id="label-font-weight+-E5-AD-97-E4-BD-93-E7-9A-84-E7-B2-97-E7-BB-86">font-weight 字体的粗细<span><a href="#label-font-weight+-E5-AD-97-E4-BD-93-E7-9A-84-E7-B2-97-E7-BB-86">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>- normal 默认值。定义标准的字符。 
+- bold 定义粗体字符。 常用
+- bolder 定义更粗的字符。
+- lighter 定义更细的字符。 
+- 可继承</pre>
+
+<h5 id="label-font-variant+-E5-B0-8F-E5-9E-8B-E5-A4-A7-E5-86-99-E5-AD-97-E6-AF-8D-E5-AD-97-E4-BD-93">font-variant 小型大写字母字体<span><a href="#label-font-variant+-E5-B0-8F-E5-9E-8B-E5-A4-A7-E5-86-99-E5-AD-97-E6-AF-8D-E5-AD-97-E4-BD-93">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>- normal 默认值。浏览器会显示一个标准的字体。 
+- small-caps 浏览器会显示小型大写字母的字体。
+- 可继承</pre>
+
+<h5 id="label-font-E7-AE-80-E5-86-99">font简写<span><a href="#label-font-E7-AE-80-E5-86-99">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>常见写法 font：字体样式 小型大写字母 字体粗细 字体大小/行高 字体族(多个)</p>
+</li></ul>
+
+<p><img src="https://i.imgur.com/aEr4Kpd.jpg"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/02_CSS/css2%E5%AD%97%E4%BD%93.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="02-04.html">上一篇 · css2文本</a><a href="02-06.html">下一篇 · css2背景</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>Node模块系统 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html" aria-current="page">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>Node模块系统</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>CommonJS 用 <code>require()</code> 加载模块，以 <code>module.exports</code> 作为导出结果。给 <code>exports</code> 添加属性有效，直接替换 <code>exports</code> 变量则不会替换导出结果。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-node-E6-A8-A1-E5-9D-97-E7-B3-BB-E7-BB-9F">node模块系统<span><a href="#label-node-E6-A8-A1-E5-9D-97-E7-B3-BB-E7-BB-9F">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>让NodeJs文件可以互相调用</p>
+</li><li>
+<p>每一个JS文件都是一个模块</p>
+</li><li>
+<p>模块的好处:</p>
+<ol><li>
+<p>封装代码</p>
+</li><li>
+<p>复用性好</p>
+</li><li>
+<p>扩展性</p>
+</li><li>
+<p>可维护性好</p>
+</li></ol>
+</li></ul>
+<hr>
+
+<pre>require 用来引入一个js文件	
+var name = require(&#39;js文件路径&#39;)
+
+
+exports 向外暴露(只能返回object)对象
+如果直接暴露一个对象则返回一个空的Object
+需要使用如下办法进行暴露属性或方法:
+- exports.name = value
+- exports.名 = 值  --&gt; 暴露属性
+- exports.fnname = function(){}
+- exports.函数名 = 函数 --&gt;暴露方法
+不向外暴露: 不能被外界访问的称为私有属性和私有方法.
+
+
+module.exports 向外暴露只返回对象本身
+- module.exports = name 
+- module.exports = 值  --&gt; 直接暴露对象属性
+- module.exports.name = value;
+- module.exports.func = function(){}
+- module.exports = [1, 3, 5]
+- 只指向一个对象</pre>
+
+<h5 id="label-exports-E4-BE-8B-E5-AD-90">exports例子<span><a href="#label-exports-E4-BE-8B-E5-AD-90">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>var name = &#39;wukong&#39;;
+exports.name = name;
+exports.age = 2000;
+
+exports.info = {
+    home: &#39;huaguoshan&#39;,
+    weapon: &#39;bang&#39;
+};
+
+exports.flyFun = function () {
+    console.log(&#39;fei&#39;)
+};
+
+//私有属性
+var title = &#39;horse&#39;;
+//私有方法
+function feedHorse() {
+    console.log(&#39;yang ma&#39;);
+}
+----------------------
+// 1.引入的对象 观察
+var wukong = require(&#39;./1.myModule.js&#39;);
+
+// 2. 打印被引用模块的属性
+console.log(wukong.name); //wukong
+
+// 3. 调用被引用模块的方法
+wukong.flyFun(); //fei
+
+// 4. 打印被引用模块的私有属性 
+console.log(wukong.title);//返回undefined
+
+// 5. 调用被引用模块的私有方法 
+console.log(wukong.feedHorse());//会报错</pre>
+
+<h4 id="label-module.exports-E4-BE-8B-E5-AD-90">module.exports例子<span><a href="#label-module.exports-E4-BE-8B-E5-AD-90">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>var bajie = {
+    name : &#39;bajie&#39;,
+    age : 2000,
+    home : &#39;高老庄&#39;,
+    skill : function () {
+        console.log(&#39;巨能吃&#39;);
+    }
+};
+----------------------
+var bajie = require(&#39;./1.myModule.js&#39;);
+console.log(bajie);
+----------------------
+//exports.bajie = bajie;
+/*
+{ bajie:
+ { name: &#39;bajie&#39;,
+ age: 2000,
+ home: &#39;高老庄&#39;,
+ skill: [Function: skill] } }
+*/
+
+module.exports = bajie;
+/*module.exports = 值  --&gt; 直接暴露对象属性
+ { name: &#39;bajie&#39;,
+ age: 2000,
+ home: &#39;高老庄&#39;,
+ skill: [Function: skill] }
+*/
+
+module.exports.bajie = bajie;
+/*module.exports.name = value; 等同exports
+{ bajie: 
+   { name: &#39;bajie&#39;,
+     age: 2000,
+     home: &#39;高老庄&#39;,
+     skill: [Function: skill] } }
+*/</pre>
+
+<h4 id="label-exports+-E4-B8-8E+module.exports+-E7-9A-84-E5-8C-BA-E5-88-AB">exports 与 module.exports 的区别<span><a href="#label-exports+-E4-B8-8E+module.exports+-E7-9A-84-E5-8C-BA-E5-88-AB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>exports 必须使用名值对的方式向外暴露数据,返回是一个对象；但是书写方便</p>
+</li><li>
+<p>module.exports 可以使用名值对的形式，也可以直接暴露一个对象整体；书写繁琐</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/Node%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-06.html">上一篇 · FS模块</a><a href="07-08.html">下一篇 · NPM</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

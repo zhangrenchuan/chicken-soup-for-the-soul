@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>jQuery动画 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-05.html">jQuery：操作旧项目中的页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>jQuery：操作旧项目中的页面</strong><a href="05-01.html">jQuery入门</a><a href="05-02.html">jQuery选择器</a><a href="05-03.html">用 jQuery 修改页面</a><a href="05-04.html">jQuery事件</a><a href="05-05.html">$冲突问题</a><a href="05-06.html" aria-current="page">jQuery动画</a><a href="05-07.html">jQuery类数组操作</a><a href="05-08.html">jQuery插件</a></nav>
+<article class="paper"><h1>jQuery动画</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>名字能看出动画用途。<code>fadeIn()</code> 是淡入，<code>slideUp()</code> 是收起，<code>animate()</code> 可改变支持动画的数值属性。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-jQuery-E5-8A-A8-E7-94-BB-E6-95-88-E6-9E-9C">jQuery动画效果<span><a href="#label-jQuery-E5-8A-A8-E7-94-BB-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-E6-98-BE-E7-A4-BA-E5-92-8C-E9-9A-90-E8-97-8F-E6-95-88-E6-9E-9C">显示和隐藏效果<span><a href="#label-E6-98-BE-E7-A4-BA-E5-92-8C-E9-9A-90-E8-97-8F-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>通过同时改变元素的宽度和高度来实现显示或者隐藏。</p>
+<ul><li>
+<p>无动画效果</p>
+<ul><li>
+<p>显示：show()</p>
+</li><li>
+<p>隐藏：hide()</p>
+</li><li>
+<p>显示：show()</p>
+</li><li>
+<p>隐藏：hide()</p>
+
+<pre>$(&quot;#panel h5.head&quot;).click(function(){
+    var $content = $(this).next(&quot;div.content&quot;);
+    if($content.is(&quot;:visible&quot;)){
+       $content.hide();
+    }else{
+       $content.show();
+    }
+})</pre>
+</li></ul>
+</li><li>
+<p>有动画效果</p>
+<ul><li>
+<p>显示：show(speed,callback)</p>
+<ul><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+</li><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+</li></ul>
+</li><li>
+<p>隐藏：hide(speed,callback)</p>
+<ul><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+</li><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+
+<pre>$(&quot;#panel h5.head&quot;).click(function(){
+    var $content = $(this).next(&quot;div.content&quot;);
+    if($content.is(&quot;:visible&quot;)){
+        $content.hide(600);
+    }else{
+        $content.show(600);
+    }
+})</pre>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E6-BB-91-E5-8A-A8-E5-BC-8F-E5-8A-A8-E7-94-BB-E6-95-88-E6-9E-9C">滑动式动画效果<span><a href="#label-E6-BB-91-E5-8A-A8-E5-BC-8F-E5-8A-A8-E7-94-BB-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>通过改变高度来实现显示或者隐藏的效果。</p>
+<ul><li>
+<p>向上滑动：slideUp(speed,callback)</p>
+<ul><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+</li><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+</li></ul>
+</li><li>
+<p>向下滑动：slideDown(speed,callback)</p>
+<ul><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+</li><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+
+<pre>$(&quot;#panel h5.head&quot;).click(function(){
+    var $content = $(this).next(&quot;div.content&quot;);
+    if($content.is(&quot;:visible&quot;)){
+        $content.slideUp(600);
+    }else{
+        $content.slideDown(600);
+    }
+})</pre>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E6-B7-A1-E5-85-A5-E6-B7-A1-E5-87-BA-E5-8A-A8-E7-94-BB-E6-95-88-E6-9E-9C">淡入淡出动画效果<span><a href="#label-E6-B7-A1-E5-85-A5-E6-B7-A1-E5-87-BA-E5-8A-A8-E7-94-BB-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>通过改变不透明度opacity来实现显示或者隐藏。</p>
+<ul><li>
+<p>淡入效果：fadeIn(speed,callback)</p>
+<ul><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+</li><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+</li></ul>
+</li><li>
+<p>淡出效果：fadeOut(speed,callback)</p>
+<ul><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+</li><li>
+<p>speed：预定义三种速度“slow”、“normal”和“fast”，或自定义时间，单位为毫秒。</p>
+</li><li>
+<p>callback：动画执行完毕后的回调函数。</p>
+
+<pre>$(&quot;#panel h5.head&quot;).click(function(){
+    var $content = $(this).next(&quot;div.content&quot;);
+    if($content.is(&quot;:visible&quot;)){
+        $content.fadeOut(600);
+    }else{
+        $content.fadeIn(600);
+    }
+})</pre>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E5-8A-A8-E7-94-BB-E5-88-87-E6-8D-A2-E6-95-88-E6-9E-9C">动画切换效果<span><a href="#label-E5-8A-A8-E7-94-BB-E5-88-87-E6-8D-A2-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>toggle(duration,complete)：显示或隐藏匹配元素。</p>
+<ul><li>
+<p>duration：一个字符串或者数字决定动画将运行多久。</p>
+</li><li>
+<p>complete：在动画完成时执行的回调函数。</p>
+</li><li>
+<p>duration：一个字符串或者数字决定动画将运行多久。</p>
+</li><li>
+<p>complete：在动画完成时执行的回调函数。</p>
+
+<pre>$(&#39;#clickme&#39;).click(function() {
+    $(&#39;#book&#39;).toggle(&#39;slow&#39;, function() {
+        // Animation complete.
+    });
+});</pre>
+</li></ul>
+</li><li>
+<p>slideToggle(duration,complete)：用滑动动画显示或隐藏一个匹配元素。</p>
+<ul><li>
+<p>duration：一个字符串或者数字决定动画将运行多久。</p>
+</li><li>
+<p>complete：在动画完成时执行的回调函数。</p>
+
+<pre>$(&#39;#clickme&#39;).click(function() {
+    $(&#39;#book&#39;).slideToggle(&#39;slow&#39;, function() {
+        // Animation complete.
+    });
+});</pre>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E8-87-AA-E5-AE-9A-E4-B9-89-E5-8A-A8-E7-94-BB-E6-95-88-E6-9E-9C">自定义动画效果<span><a href="#label-E8-87-AA-E5-AE-9A-E4-B9-89-E5-8A-A8-E7-94-BB-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>animate(properties,duration,easing,complete)</p>
+<ul><li>
+<p>properties：一个CSS属性和值的对象,动画将根据这组对象移动。</p>
+</li><li>
+<p>duration：一个字符串或者数字决定动画将运行多久。</p>
+</li><li>
+<p>easing：一个字符串，表示过渡使用哪种缓动函数。</p>
+</li><li>
+<p>complete：在动画完成时执行的回调函数。</p>
+</li><li>
+<p>properties：一个CSS属性和值的对象,动画将根据这组对象移动。</p>
+</li><li>
+<p>duration：一个字符串或者数字决定动画将运行多久。</p>
+</li><li>
+<p>easing：一个字符串，表示过渡使用哪种缓动函数。</p>
+</li><li>
+<p>complete：在动画完成时执行的回调函数。</p>
+
+<pre>$(&quot;#panel&quot;).click(function(){
+   $(this).animate({left: &quot;500px&quot;}, 3000);
+})</pre>
+</li></ul>
+</li><li>
+<p>aniamte(properties,options)</p>
+<ul><li>
+<p>properties：一个CSS属性和值的对象,动画将根据这组对象移动。</p>
+</li><li>
+<p>options：一组包含动画选项的值的集合。 支持的选项：</p>
+<ul><li>
+<p>duration：一个字符串或者数字决定动画将运行多久。</p>
+</li><li>
+<p>easing：一个字符串，表示过渡使用哪种缓动函数。</p>
+</li><li>
+<p>queue：一个布尔值，指示是否将动画放置在效果队列中。如果为false时，将立即开始动画。</p>
+</li><li>
+<p>complete：在动画完成时执行的回调函数。</p>
+</li><li>
+<p>duration：一个字符串或者数字决定动画将运行多久。</p>
+</li><li>
+<p>easing：一个字符串，表示过渡使用哪种缓动函数。</p>
+</li><li>
+<p>queue：一个布尔值，指示是否将动画放置在效果队列中。如果为false时，将立即开始动画。</p>
+</li><li>
+<p>complete：在动画完成时执行的回调函数。</p>
+
+<pre>$(&quot;#panel&quot;).click(function(){
+    $(this).animate({left: &quot;500px&quot;}, 3000);
+})</pre>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<blockquote>
+<p><strong>注意：</strong>animate方法不接受以下属性：</p>
+<ul><li>
+<p>backgroundColor</p>
+</li><li>
+<p>borderBottomColor</p>
+</li><li>
+<p>borderLeftColor</p>
+</li><li>
+<p>borderRightColor</p>
+</li><li>
+<p>borderTopColor</p>
+</li><li>
+<p>Color</p>
+</li><li>
+<p>outlineColor</p>
+</li></ul>
+</blockquote>
+
+<h3 id="label-E5-B9-B6-E5-8F-91-E4-B8-8E-E6-8E-92-E9-98-9F-E6-95-88-E6-9E-9C">并发与排队效果<span><a href="#label-E5-B9-B6-E5-8F-91-E4-B8-8E-E6-8E-92-E9-98-9F-E6-95-88-E6-9E-9C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>并发效果：指的就是多个动画效果同时执行。</p>
+
+<pre>$(&quot;#panel&quot;).click(function(){
+   $(this).animate({left: &quot;500px&quot;,height:&quot;200px&quot;}, 3000);
+})</pre>
+</li><li>
+<p>排队效果：指的就是多个动画按照先后顺序执行。</p>
+
+<pre>$(&quot;#panel&quot;).click(function(){
+    $(this).animate({left: &quot;500px&quot;}, 3000).animate({height: &quot;200px&quot;}, 3000);
+})</pre>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/05_jQuery/jQuery%E5%8A%A8%E7%94%BB.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="05-05.html">上一篇 · $冲突问题</a><a href="05-07.html">下一篇 · jQuery类数组操作</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

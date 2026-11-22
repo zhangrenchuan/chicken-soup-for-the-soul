@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>DOM · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-03.html">JavaScript 基础</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 基础</strong><a href="03-01.html">ECMAScript 与 JavaScript</a><a href="03-02.html">JS基本语法</a><a href="03-03.html">JS数据类型</a><a href="03-04.html">JS运算符</a><a href="03-05.html">JS语句</a><a href="03-06.html">JS对象</a><a href="03-07.html">JS函数</a><a href="03-08.html">JS数组</a><a href="03-09.html">JS内置对象方法</a><a href="03-10.html">正则表达式</a><a href="03-11.html" aria-current="page">DOM</a><a href="03-12.html">BOM</a><a href="03-13.html">JSON</a></nav>
+<article class="paper"><h1>DOM</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>DOM 把页面表示成一棵节点树。用 <code>document.querySelector()</code> 找到元素，再用 <code>textContent</code> 改文字或用 <code>classList</code> 改样式类。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h1 id="label-DOM+-E5-9F-BA-E7-A1-80">DOM 基础<span><a href="#label-DOM+-E5-9F-BA-E7-A1-80">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<h2 id="label-Document+Object+Model">Document Object Model<span><a href="#label-Document+Object+Model">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>文档对象模型</p>
+</li><li>
+<p>DOM就是让我们可以通过JS来操作网页</p>
+</li><li>
+<p>文档</p>
+<ul><li>
+<p>文档指的是整个网页文档</p>
+</li></ul>
+</li><li>
+<p>对象</p>
+<ul><li>
+<p>将网页中的每一个部分都转换为了一个对象</p>
+</li></ul>
+</li><li>
+<p>模型</p>
+<ul><li>
+<p>通过模型来表示对象之间的关系,方便我们查找对象</p>
+</li></ul>
+</li></ul>
+
+<p><img src="https://i.imgur.com/lRO2maM.png"></p>
+
+<h3 id="label-DOM+-E8-8A-82-E7-82-B9">DOM 节点<span><a href="#label-DOM+-E8-8A-82-E7-82-B9">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>节点是构成网页的最基本的单位.网页就是由节点构成的</p>
+</li><li>
+<p>节点又分为多种不同的类型:</p>
+<ul><li>
+<p>文档节点 (doument)</p>
+<ul><li>
+<p>代表整个网页</p>
+</li></ul>
+</li><li>
+<p>元素节点 (element)</p>
+<ul><li>
+<p>代表网页中的标签</p>
+</li></ul>
+</li><li>
+<p>属性节点 (arreibute)</p>
+<ul><li>
+<p>代表标签中的属性</p>
+</li></ul>
+</li><li>
+<p>文本节点 (text)</p>
+<ul><li>
+<p>代表网页中的文本</p>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<h3 id="label-Document+-E5-AF-B9-E8-B1-A1-E6-96-B9-E6-B3-95">Document 对象方法<span><a href="#label-Document+-E5-AF-B9-E8-B1-A1-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>document.getElementById(“id属性值”)</p>
+<ul><li>
+<p>根据元素的id属性值,查找一个元素节点</p>
+</li></ul>
+</li><li>
+<p>document.getElementsByTagName(“标签名”)</p>
+<ul><li>
+<p>根据标签名,查询一组元素节点对象</p>
+</li></ul>
+</li><li>
+<p>document.getElementsByName(“name属性值”)</p>
+<ul><li>
+<p>根据元素的name属性值,查找一组元素节点对象 (用于表单返回一个数组)</p>
+</li></ul>
+</li><li>
+<p>document.getElementsByClassName(&#39;class属性值&#39;)</p>
+<ul><li>
+<p>根据class属性值获取一组元素节点对象</p>
+</li></ul>
+</li><li>
+<p><strong>document.querySelector(“CSS选择器”)</strong></p>
+<ul><li>
+<p>根据css选择器去页面中查找对象</p>
+</li><li>
+<p>只返回一个符合条件的元素</p>
+</li></ul>
+</li><li>
+<p><strong>document.querySelectorAll(“CSS选择器”)</strong></p>
+<ul><li>
+<p>匹配的CSS选择器的所有元素节点列表</p>
+</li><li>
+<p>将所有符合条件的元素封装到一个数组中返回</p>
+</li></ul>
+</li><li>
+<p><strong>document.addEventListener()</strong></p>
+<ul><li>
+<p>第一个参数: 要绑定的事件(字符串格式.没有on)</p>
+</li><li>
+<p>第二个参数: 回调函数(事件触发时函数执行.形参event)</p>
+</li><li>
+<p>第三个参数: 是否在捕获阶段触发事件(默认false)</p>
+</li></ul>
+</li><li>
+<p>document.createElement(&#39;标签名&#39;)</p>
+<ul><li>
+<p>可以根据标签名来创建一个指定的元素节点对象</p>
+</li></ul>
+</li><li>
+<p>document.createTextNode(&#39;文本内容&#39;)</p>
+<ul><li>
+<p>可以根据文本内容创建一个文本节点对象</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-Document+-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7">Document 对象属性<span><a href="#label-Document+-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>document.body</p>
+<ul><li>
+<p>可以用来获取页面中的body元素</p>
+</li></ul>
+</li><li>
+<p>document.documentElement</p>
+<ul><li>
+<p>可以获取页面的根元素</p>
+</li></ul>
+</li><li>
+<p>document.all</p>
+<ul><li>
+<p>可以获取页面的所有元素</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<h3 id="label-element-E6-96-B9-E6-B3-95">element方法<span><a href="#label-element-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>element.childNodes</p>
+<ul><li>
+<p>获取当前元素所有的子节点</p>
+</li><li>
+<p>包括空白的文本节点</p>
+</li></ul>
+</li><li>
+<p>element.children</p>
+<ul><li>
+<p>获取当前元素所有的子节点</p>
+</li><li>
+<p>不包括文本节点</p>
+</li></ul>
+</li><li>
+<p>element.firstChild</p>
+<ul><li>
+<p>获取当前元素的第一个子节点</p>
+</li></ul>
+</li><li>
+<p>element.lastChild</p>
+<ul><li>
+<p>获取当前元素的最后一个子节点</p>
+</li></ul>
+</li><li>
+<p>element.prentNode</p>
+<ul><li>
+<p>获取当前元素的父节点</p>
+</li></ul>
+</li><li>
+<p>element.previousSibling</p>
+<ul><li>
+<p>获取当前元素的前一个兄弟节点</p>
+</li><li>
+<p>previousElementSibling(不包括空白文本)</p>
+</li></ul>
+</li><li>
+<p>element.nextSibling</p>
+<ul><li>
+<p>获取当前元素的后一个兄弟节点</p>
+</li><li>
+<p>nextElementSibling (不包括空白文本)</p>
+</li></ul>
+</li><li>
+<p>element.appendChild()</p>
+<ul><li>
+<p>为元素添加一个新的子元素</p>
+</li></ul>
+</li><li>
+<p>element.insertBefore()</p>
+<ul><li>
+<p>在指定的子节点前插入新的子节点</p>
+</li><li>
+<p>第一个参数:新的节点</p>
+</li><li>
+<p>第二个参数:要添加新的节点前的子节点</p>
+</li></ul>
+</li><li>
+<p>element.replaceChild()</p>
+<ul><li>
+<p>指定子节点替换现有的</p>
+</li><li>
+<p>第一个参数: 要插入的节点</p>
+</li><li>
+<p>第二个参数: 要移除的节点</p>
+</li></ul>
+</li><li>
+<p>element.removeChild()</p>
+<ul><li>
+<p>删除一个子节点</p>
+</li></ul>
+</li><li>
+<p>element.cloneNode()</p>
+<ul><li>
+<p>克隆某个元素</p>
+</li><li>
+<p>参数: true 表示深度克隆</p>
+
+<h3 id="label-element-E5-B1-9E-E6-80-A7">element属性<span><a href="#label-element-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h3>
+</li></ul>
+</li><li>
+<p>element.className</p>
+<ul><li>
+<p>设置或返回元素的class属性</p>
+</li></ul>
+</li><li>
+<p>element.innerHTML</p>
+<ul><li>
+<p>获取和设置元素内部的html代码</p>
+</li></ul>
+</li><li>
+<p>element.innerText</p>
+<ul><li>
+<p>获取和设置元素内部的文本内容</p>
+</li></ul>
+</li><li>
+<p>element.nodeValue</p>
+<ul><li>
+<p>文本节点可以通过nodeValue属性获取和设置文本节点的内容</p>
+</li></ul>
+</li><li>
+<p><strong>element.classList</strong></p>
+<ul><li>
+<p>操作 class 属性的对象</p>
+</li><li>
+<p>classList.add(); 为一个DOM动态“追加”一个类(class)</p>
+</li><li>
+<p>classList.remove();为一个DOM动态“删除”一个类(class)</p>
+</li><li>
+<p>classList.toggle();切换一个class属性的状态</p>
+</li><li>
+<p>classList.contanins() 是否包含某class属性</p>
+</li><li>
+<p>length 获取类选择器的个数</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-arreibute-E5-B1-9E-E6-80-A7-E7-9B-B8-E5-85-B3">arreibute属性相关<span><a href="#label-arreibute-E5-B1-9E-E6-80-A7-E7-9B-B8-E5-85-B3">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>element.getAttribute()</p>
+<ul><li>
+<p>获取指定元素的属性值</p>
+</li></ul>
+</li><li>
+<p>element.removeAttribute()</p>
+<ul><li>
+<p>从元素中删除指定属性</p>
+</li></ul>
+</li><li>
+<p>element.setAttribute()</p>
+<ul><li>
+<p>设置或改变指定属性并指定值</p>
+</li><li>
+<p>第一个参数: 要添加的属性名</p>
+</li><li>
+<p>第二个参数: 要添加的属性值</p>
+</li></ul>
+</li><li>
+<p>attr.name</p>
+<ul><li>
+<p>返回属性名</p>
+</li></ul>
+</li><li>
+<p>attr.value</p>
+<ul><li>
+<p>设置或返回属性值</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-DOM-E4-BF-AE-E6-94-B9CSS-E6-A0-B7-E5-BC-8F">DOM修改CSS样式<span><a href="#label-DOM-E4-BF-AE-E6-94-B9CSS-E6-A0-B7-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>语法: 元素.style.样式名 = 样式值;</p>
+</li><li>
+<p>样式名需要将其修改为驼峰命名法</p>
+</li><li>
+<p>通过style修改的样式都是元素的内联样式.所以优先级最高</p>
+
+<h5 id="label-getComputedStyle-28-29">getComputedStyle()<span><a href="#label-getComputedStyle-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>第一个参数: 要获取样式的元素</p>
+</li><li>
+<p>第二个参数: 要获取元素的伪类. 不需要的话传null</p>
+
+<h5 id="label-E5-85-BC-E5-AE-B9IE8-E7-9A-84-E8-8E-B7-E5-8F-96-E6-A0-B7-E5-BC-8F-E5-87-BD-E6-95-B0">兼容IE8的获取样式函数<span><a href="#label-E5-85-BC-E5-AE-B9IE8-E7-9A-84-E8-8E-B7-E5-8F-96-E6-A0-B7-E5-BC-8F-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>第一个参数: 要获取样式的元素</p>
+</li><li>
+<p>第二个参数: 要获取的样式的名字</p>
+
+<pre>function getStyle(obj,name){
+  if(window.getComputedStyle){
+      return getComputedStyle(obj,null)[name];
+  }else{
+      return obj.currentStyle[name];
+    };
+  };</pre>
+
+<h4 id="label-E5-85-B6-E4-BB-96CSS-E6-A0-B7-E5-BC-8F-E4-BF-AE-E6-94-B9">其他CSS样式修改<span><a href="#label-E5-85-B6-E4-BB-96CSS-E6-A0-B7-E5-BC-8F-E4-BF-AE-E6-94-B9">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li><li>
+<p>clientWidth</p>
+</li><li>
+<p>clientHeight</p>
+<ul><li>
+<p>获取元素的可见宽度和高度</p>
+</li><li>
+<p>包括元素的内容区和内边距</p>
+</li><li>
+<p>只读</p>
+</li></ul>
+</li><li>
+<p>offsetWidth</p>
+</li><li>
+<p>offsetHeight</p>
+<ul><li>
+<p>获取元素整个可见框大小</p>
+</li><li>
+<p>包括内容区内边距和边框</p>
+</li></ul>
+</li><li>
+<p>offsetParent</p>
+<ul><li>
+<p>返回当前元素的定位父元素</p>
+</li><li>
+<p>最近开启了定位的祖先元素</p>
+</li><li>
+<p>如果没有开启定位则返回body</p>
+</li></ul>
+</li><li>
+<p>offsetLeft 水平偏移量</p>
+</li><li>
+<p>offsetTop 垂直偏移量</p>
+<ul><li>
+<p>获取当前元素相对于其定位父元素的偏移量</p>
+</li></ul>
+</li><li>
+<p>scrollHeight</p>
+</li><li>
+<p>scrollWidth</p>
+<ul><li>
+<p>获取元素滚动区域的高度和宽度</p>
+</li></ul>
+</li><li>
+<p>scrollTop</p>
+<ul><li>
+<p>垂直滚动条滚动的距离</p>
+</li></ul>
+</li><li>
+<p>scrollLeft</p>
+<ul><li>
+<p>水平滚动条滚动的距离</p>
+</li></ul>
+</li><li>
+<p>clientX</p>
+<ul><li>
+<p>可以获取鼠标指针的水平坐标</p>
+</li></ul>
+</li><li>
+<p>clientY</p>
+<ul><li>
+<p>可以获取鼠标指针的垂直坐标</p>
+</li></ul>
+</li><li>
+<p>pageX</p>
+</li><li>
+<p>pageY</p>
+<ul><li>
+<p>可以获取鼠标指针相对于页面的坐标</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-DOM-E4-BA-8B-E4-BB-B6+event">DOM事件 event<span><a href="#label-DOM-E4-BA-8B-E4-BB-B6+event">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>事件指的用户和网页或浏览器之间的交互行为</p>
+</li><li>
+<p>需要为事件绑定响应函数来处理事件</p>
+<ul><li>
+<p>e.pageX/Y 绝对定位</p>
+</li><li>
+<p>e.clientX/Y 基于视口</p>
+</li><li>
+<p>e.offsetX/Y 相对定位</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E6-96-87-E6-A1-A3-E5-8A-A0-E8-BD-BD">文档加载<span><a href="#label-E6-96-87-E6-A1-A3-E5-8A-A0-E8-BD-BD">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>浏览器在加载一个页面时,是按照自上向下的顺序加载</p>
+</li><li>
+<p>如果将js代码写在页面最上边,在JS代码执行时,页面还没有加载完毕就会导致无法正常获取到DOM对象</p>
+</li><li>
+<p>解决方法</p>
+<ul><li>
+<p>将js代码写在body标签的下边</p>
+</li><li>
+<p>将js代码写在<code>window.onload = function( ){ };</code>里面.onload回调函数会在页面加载完毕以后执行</p>
+
+<h4 id="label-E4-BA-8B-E4-BB-B6-E5-A4-84-E7-90-86-E4-B8-AD-E7-9A-84this">事件处理中的this<span><a href="#label-E4-BA-8B-E4-BB-B6-E5-A4-84-E7-90-86-E4-B8-AD-E7-9A-84this">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li></ul>
+</li><li>
+<p>在事件处理程序内的 this 所引用的对象即是设定了该事件处理程序的元素。</p>
+</li><li>
+<p>事件给哪个对象绑定的 this就是哪个对象</p>
+
+<h4 id="label-E5-8F-96-E6-B6-88-E9-BB-98-E8-AE-A4-E8-A1-8C-E4-B8-BA">取消默认行为<span><a href="#label-E5-8F-96-E6-B6-88-E9-BB-98-E8-AE-A4-E8-A1-8C-E4-B8-BA">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li><li>
+<p>return false 适合dom0</p>
+</li><li>
+<p>event.preventDefault(); 适合dom2</p>
+
+<h4 id="label-E4-BA-8B-E4-BB-B6-E5-AF-B9-E8-B1-A1">事件对象<span><a href="#label-E4-BA-8B-E4-BB-B6-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li><li>
+<p>当浏览器调用事件的响应函数时,每次都会传递进一个事件对象,作为参数</p>
+</li><li>
+<p>在事件对象中封装了当前事件相关的信息.</p>
+</li><li>
+<p><strong>event 作为形参注入到函数里作为事件对象</strong></p>
+
+<h4 id="label-E5-86-92-E6-B3-A1">冒泡<span><a href="#label-E5-86-92-E6-B3-A1">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li><li>
+<p>冒泡简单来说就是事件的向上传导. (结构上的关系.不是表现上面的)</p>
+</li><li>
+<p>当后代元素上的事件被触发时,将会导致祖先元素上的相同事件也被触发</p>
+</li><li>
+<p>大部分情况下冒泡都是对开发有利的.它可以简化我们的开发</p>
+</li><li>
+<p>如果不希望发生事件的冒泡.则可以通过事件对象来取消冒泡</p>
+</li><li>
+<p>取消冒泡</p>
+<ul><li>
+<p>event.stopPropagation()</p>
+</li><li>
+<p>event.cancelBubble = true</p>
+
+<h4 id="label-E4-BA-8B-E4-BB-B6-E5-A7-94-E6-B4-BE">事件委派<span><a href="#label-E4-BA-8B-E4-BB-B6-E5-A7-94-E6-B4-BE">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li></ul>
+</li><li>
+<p>统一将多个元素上的事件绑定到他们共同的祖先元素上.</p>
+</li><li>
+<p>这样我们只需要绑定一次即可同时处理多个元素上的相同事件</p>
+</li><li>
+<p>这样简化了代码开发.这样也确保新添加的元素上也可以有事件响应函数.</p>
+</li><li>
+<p>target属性 —&gt; 事件由谁触发谁就是target</p>
+</li></ul>
+
+<h4 id="label-E4-BA-8B-E4-BB-B6-E7-9B-91-E5-90-AC">事件监听<span><a href="#label-E4-BA-8B-E4-BB-B6-E7-9B-91-E5-90-AC">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>addEventListener() 普通浏览器</p>
+<ul><li>
+<p>第一个参数: 要绑定的事件(字符串格式.没有on)</p>
+</li><li>
+<p>第二个参数: 回调函数(事件触发时函数执行.形参event)</p>
+</li><li>
+<p>第三个参数: 是否在捕获阶段触发事件(默认false)</p>
+</li></ul>
+</li><li>
+<p>attachEvent() IE浏览器</p>
+<ul><li>
+<p>第一个参数: 绑定的事件 (字符串格式.需要on)</p>
+</li><li>
+<p>第二个参数: 回调函数</p>
+</li></ul>
+</li></ul>
+
+<h6 id="label-E4-BA-8B-E4-BB-B6-E7-9B-91-E5-90-AC+-28-E5-85-BC-E5-AE-B9IE8-29">事件监听 (兼容IE8)<span><a href="#label-E4-BA-8B-E4-BB-B6-E7-9B-91-E5-90-AC+-28-E5-85-BC-E5-AE-B9IE8-29">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<p>参数:</p>
+<ul><li>
+<p>obj 要绑定事件的对象</p>
+</li><li>
+<p>eventStr 事件的字符串</p>
+</li><li>
+<p>callback 回调函数.事件触发时调用的函数</p>
+
+<pre>function bind(obj,eventStr,callback){
+     if(obj.addEventListener){
+		obj.addEventListener(eventStr,callback,false)
+	}else{
+		attachEvent()
+    	obj.attachEvent(&quot;on&quot;+eventStr,function(){
+    	callback.call(obj);
+  	});
+  }</pre>
+</li></ul>
+
+<h4 id="label-E4-BA-8B-E4-BB-B6-E7-9A-84-E4-BC-A0-E6-92-AD">事件的传播<span><a href="#label-E4-BA-8B-E4-BB-B6-E7-9A-84-E4-BC-A0-E6-92-AD">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>捕获阶段</p>
+<ul><li>
+<p>事件从最外层的元素(document),向目标元素进行事件的捕获</p>
+</li><li>
+<p>该阶段默认不会触发</p>
+</li></ul>
+</li><li>
+<p>目标阶段</p>
+<ul><li>
+<p>触发事件的元素.捕获到目标元素则捕获阶段停止</p>
+</li></ul>
+</li><li>
+<p>冒泡阶段</p>
+<ul><li>
+<p>事件从目标元素向祖先元素中冒泡. 此时开始触发事件</p>
+</li></ul>
+</li></ul>
+
+<p><img src="https://i.imgur.com/4jpYruV.png"></p>
+
+<h5 id="label-E9-BC-A0-E6-A0-87-E7-9B-B8-E5-85-B3-E4-BA-8B-E4-BB-B6">鼠标相关事件<span><a href="#label-E9-BC-A0-E6-A0-87-E7-9B-B8-E5-85-B3-E4-BA-8B-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>onclick 鼠标单击事件</p>
+</li><li>
+<p>ondbclick 鼠标双击事件</p>
+</li><li>
+<p>onmousemove 鼠标移动事件</p>
+</li><li>
+<p>onmouseenter 鼠标移入元素时触发</p>
+</li><li>
+<p>onmouseleave 鼠标移出元素时触发</p>
+</li><li>
+<p>onmouseover 鼠标移到某元素之上时触发</p>
+</li><li>
+<p>onmousedown 鼠标按下时</p>
+<ul><li>
+<p>contextmenu 右键菜单</p>
+</li><li>
+<p>e.button == 0 左键</p>
+</li><li>
+<p>e.button == 1 滚轮键</p>
+</li><li>
+<p>e.button == 2 右键</p>
+</li></ul>
+</li><li>
+<p>onmouseup 鼠标松开时</p>
+</li></ul>
+
+<h5 id="label-E9-94-AE-E7-9B-98-E7-9B-B8-E5-85-B3-E4-BA-8B-E4-BB-B6">键盘相关事件<span><a href="#label-E9-94-AE-E7-9B-98-E7-9B-B8-E5-85-B3-E4-BA-8B-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>onkeydown 某个按键按下时</p>
+<ul><li>
+<p>event.keyCode 确认按下的键</p>
+</li></ul>
+</li><li>
+<p>onkeyperss 按键被按下并松开</p>
+</li><li>
+<p>onkeyup 按键松开时</p>
+</li></ul>
+
+<h5 id="label-E5-85-B6-E4-BB-96-E9-87-8D-E8-A6-81-E4-BA-8B-E4-BB-B6">其他重要事件<span><a href="#label-E5-85-B6-E4-BB-96-E9-87-8D-E8-A6-81-E4-BA-8B-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>onload 当页面加载完成时</p>
+</li><li>
+<p>onresize 当窗口被调整时</p>
+</li><li>
+<p>onscroll 滚动条滚动时触发的事件</p>
+</li><li>
+<p>onblur 元素失去焦点时触发</p>
+</li><li>
+<p>onfocus 元素获取焦点时触发</p>
+</li><li>
+<p>onchange 当input输入值失去焦点发生改变会触发该事件</p>
+</li><li>
+<p>oninput 实时记录input表单输入的内容</p>
+</li></ul>
+
+<h5 id="label-E6-BB-9A-E8-BD-AE-E7-9B-B8-E5-85-B3-E4-BA-8B-E4-BB-B6">滚轮相关事件<span><a href="#label-E6-BB-9A-E8-BD-AE-E7-9B-B8-E5-85-B3-E4-BA-8B-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<p><strong>ie/chrome : onmousewheel(dom0)</strong></p>
+
+<pre class="ruby"><span class="ruby-identifier">event</span>.<span class="ruby-identifier">wheelDelta</span>
+	<span class="ruby-identifier">上：120</span>
+	<span class="ruby-identifier">下：</span><span class="ruby-value">-120</span>
+</pre>
+
+<p><strong>firefox : DOMMouseScroll 必须用(dom2的标准模式)</strong></p>
+
+<pre class="ruby"><span class="ruby-identifier">event</span>.<span class="ruby-identifier">detail</span>
+	<span class="ruby-identifier">上：</span><span class="ruby-value">-3</span>
+	<span class="ruby-identifier">下：3</span>
+</pre>
+<ul><li>
+<p>return false阻止的是 dom0 所触发的默认行为</p>
+</li><li>
+<p>dom2 需要通过event下面的event.preventDefault();</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/03_JS/DOM.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="03-10.html">上一篇 · 正则表达式</a><a href="03-12.html">下一篇 · BOM</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

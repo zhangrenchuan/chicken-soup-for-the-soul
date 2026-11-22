@@ -1,0 +1,928 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>Express · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html" aria-current="page">Express</a><a href="07-13.html">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>Express</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>Express 帮你把请求交给对应的处理函数。可以先写一个 GET 路由返回文字，再练习静态文件和中间件。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-Express">Express<span><a href="#label-Express">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>基于Node.js平台 快速, 开放, 极简的轻量级web开发框架</p>
+
+<p>多数功能只是对HTTP协议中常用操作的封装，更多功能需要插件或整合其他模块来完成</p>
+
+<h4 id="label-E6-A1-86-E6-9E-B6-E7-9A-84-E5-A5-BD-E5-A4-84-3A">框架的好处:<span><a href="#label-E6-A1-86-E6-9E-B6-E7-9A-84-E5-A5-BD-E5-A4-84-3A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>节省创建一个项目所需的时间</p>
+</li><li>
+<p>封装公共逻辑, 减少开发量, 使用方便</p>
+</li><li>
+<p>社区维护. 每个人都可以贡献自己的经验</p>
+</li></ol>
+
+<p>省时省力.高效快捷 Express就是快的意思</p>
+
+<h2 id="label-Express-E6-A0-B8-E5-BF-83-E7-89-B9-E6-80-A7-3A">Express核心特性:<span><a href="#label-Express-E6-A0-B8-E5-BF-83-E7-89-B9-E6-80-A7-3A">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>接收：设置中间件来响应 HTTP 请求 (请求报文)</p>
+</li><li>
+<p>处理：定义了路由用于执行不同的 HTTP 请求动作 (路由计算)</p>
+</li><li>
+<p>返回：通过向模板传递参数来动态渲染 HTML 页面 (生成动态页面)</p>
+</li></ul>
+
+<h3 id="label-E7-BD-91-E7-AB-99-E6-9E-B6-E6-9E-84+MVC+--+Model+View+Controller">网站架构 MVC – Model View Controller<span><a href="#label-E7-BD-91-E7-AB-99-E6-9E-B6-E6-9E-84+MVC+--+Model+View+Controller">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>Model（模型）通常模型对象负责在数据库中存取数据</p>
+</li><li>
+<p>View（视图） 通常视图是依据模型数据创建的网页</p>
+</li><li>
+<p>Controller（控制器）从视图读取数据，控制用户输入，并向模型发送数据</p>
+</li></ul>
+
+<p>思路: 隔离. 三者之间只存在调用关系.内部可以随意修改 接口不变就可以</p>
+<hr>
+
+<p><strong>Express中的MVC</strong></p>
+
+<p>Model – DB</p>
+
+<p>View – 网页</p>
+
+<p>Controller – 重点在如何使用Controller和生成视图</p>
+<hr>
+
+<h4 id="label-E5-AE-89-E8-A3-85express">安装express<span><a href="#label-E5-AE-89-E8-A3-85express">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>npm install -g express-generator 得到Express生成器</p>
+</li><li>
+<p>当前工作环境下运行命令行 express app4</p>
+<ul><li>
+<p>bin 可执行的文件 – www (核心启动服务器文件)</p>
+</li><li>
+<p>public 对外可以访问的</p>
+</li><li>
+<p>routes 路由</p>
+</li><li>
+<p>views 视图层的文件</p>
+</li></ul>
+</li></ol>
+
+<p><strong>app4需要依赖的包</strong></p>
+
+<pre>dependencies: {
+
+&quot;body-parser&quot;: &quot;~1.17.1&quot;,
+
+&quot;cookie-parser&quot;: &quot;~1.4.3&quot;,
+
+&quot;debug&quot;: &quot;~2.6.3&quot;,
+
+&quot;express&quot;: &quot;~4.15.2&quot;,
+
+&quot;jade&quot;: &quot;~1.11.0&quot;,
+
+&quot;morgan&quot;: &quot;~1.8.1&quot;,
+
+&quot;serve-favicon&quot;: &quot;~2.4.2&quot;}</pre>
+
+<p>3.运行npm install (系统会自动读取package.json中依赖的包依次下载. npm install xxxxx –save 表示把该包添加进依赖包中)</p>
+
+<p>4.运行bin – www 文件 启动express工程</p>
+
+<p><strong>app.js</strong></p>
+<ol><li>
+<p>引入一堆包</p>
+</li><li>
+<p>引入路由模块</p>
+</li><li>
+<p>生成express app的实例</p>
+</li><li>
+<p>设置模版引擎(jade后缀)</p>
+</li><li>
+<p>使用引入的包</p>
+</li><li>
+<p>导入路由</p>
+</li><li>
+<p>向外暴露 new出来的实例app(www引入了app)</p>
+</li></ol>
+<hr>
+
+<h4 id="label-E9-9D-99-E6-80-81-E8-B5-84-E6-BA-90-E6-9C-8D-E5-8A-A1">静态资源服务<span><a href="#label-E9-9D-99-E6-80-81-E8-B5-84-E6-BA-90-E6-9C-8D-E5-8A-A1">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>静态文件就是不在程序运行动态变化的文件，将来会直接发送给浏览器。</p>
+
+<p>例如：图片，css 文件等</p>
+
+<p><strong>app.js中 以下代码设置静态资源服务</strong> app.use(express.static(path.join(__dirname, &#39;public&#39;)));</p>
+<ul><li>
+<p>app.use() 调用函数</p>
+</li><li>
+<p>static() 静态资源的</p>
+</li><li>
+<p>path 进行文件路径解析和拼串</p>
+</li><li>
+<p>.join拼接</p>
+</li><li>
+<p>(__dirname, &#39;public&#39;)</p>
+<ul><li>
+<p>第一个参数 当前的工作目录</p>
+</li><li>
+<p>public 实际指的就是对外暴露静态资源public的文件夹</p>
+</li></ul>
+</li></ul>
+
+<p>原理: 通知服务器 所有的静态资源都在&#39;public&#39;文件夹中了</p>
+
+<p>index 就表示首页</p>
+<hr>
+
+<h2 id="label-E8-B7-AF-E7-94-B1">路由<span><a href="#label-E8-B7-AF-E7-94-B1">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>定义应用的端点（URIs）以及如何响应客户端的请求。</p>
+</li><li>
+<p>路由是由一个 URI、HTTP 请求和若干个句柄组成</p>
+</li><li>
+<p>它的结构如下： <code>app.METHOD(path, [callback...], callback)</code></p>
+</li><li>
+<p>app 是 express 对象的一个实例</p>
+</li><li>
+<p>METHOD 是一个 HTTP 请求方法 （GET、POST等）</p>
+</li><li>
+<p>path 是 url 的文件路径</p>
+</li><li>
+<p>callback 是当路由匹配时要执行的函数，这个回调函数提供商业逻辑</p>
+</li></ul>
+
+<h3 id="label-E5-B7-A5-E4-BD-9C-E5-8E-9F-E7-90-86">工作原理<span><a href="#label-E5-B7-A5-E4-BD-9C-E5-8E-9F-E7-90-86">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-E6-94-B6-E5-88-B0-E8-AF-B7-E6-B1-82">收到请求<span><a href="#label-E6-94-B6-E5-88-B0-E8-AF-B7-E6-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>第一行 三部分</p>
+<ul><li>
+<p>请求方法 get</p>
+</li><li>
+<p>请求路径 /helloworld</p>
+</li><li>
+<p>协议版本 HTTP/1.1</p>
+</li></ul>
+
+<h4 id="label-E5-A4-84-E7-90-86-E8-AF-B7-E6-B1-82">处理请求<span><a href="#label-E5-A4-84-E7-90-86-E8-AF-B7-E6-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>app.get( &#39;/helloworld&#39;, function(req, res){} );</p>
+<ul><li>
+<p>第一个参数: 第一个参数: 路径.</p>
+</li><li>
+<p>第二个参数 callback(req,res,next){}</p>
+</li></ul>
+</li><li>
+<p>发送的路径如果是helloworld 则进行逻辑处理.回调函数执行</p>
+</li><li>
+<p>最核心的思想就是<strong>映射</strong></p>
+</li><li>
+<p>把一个路径映射到一个服务（函数）</p>
+</li></ul>
+
+<h4 id="label-E8-BF-94-E5-9B-9E-E8-AF-B7-E6-B1-82">返回请求<span><a href="#label-E8-BF-94-E5-9B-9E-E8-AF-B7-E6-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>res.render(&#39;index&#39;, { title: &#39;hello World&#39; });(end,write)</p>
+</li><li>
+<p>例子: 优先会去public中找 找到index的话直接返回</p>
+
+<pre>app.get(&#39;/&#39;,function (req,res) {
+	  res.end(&#39;hello&#39;)
+})</pre>
+</li></ul>
+<hr>
+
+<h3 id="label-E8-B7-AF-E7-94-B1-E5-88-86-E8-A7-A3-3A+-E4-B8-80-E4-B8-AA-E8-B7-AF-E7-94-B1-E9-80-9A-E5-B8-B8-E7-94-B1-E4-B8-89-E9-83-A8-E5-88-86-E7-BB-84-E6-88-90">路由分解: 一个路由通常由三部分组成<span><a href="#label-E8-B7-AF-E7-94-B1-E5-88-86-E8-A7-A3-3A+-E4-B8-80-E4-B8-AA-E8-B7-AF-E7-94-B1-E9-80-9A-E5-B8-B8-E7-94-B1-E4-B8-89-E9-83-A8-E5-88-86-E7-BB-84-E6-88-90">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>路由方法</p>
+</li><li>
+<p>路由路径</p>
+</li><li>
+<p>路由句柄</p>
+</li></ul>
+
+<p>路由方法和路由路径构成了请求端点</p>
+
+<h4 id="label-E8-B7-AF-E7-94-B1-E6-96-B9-E6-B3-95">路由方法<span><a href="#label-E8-B7-AF-E7-94-B1-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>HTTP 协议给出的请求方法</p>
+<ul><li>
+<p>app.get(path, callback [, callback …]) 只处理get请求</p>
+</li><li>
+<p>app.post(path, callback [, callback …]) 只处理post请求</p>
+</li><li>
+<p>app.all(path, callback [, callback …]) 处理全部请求</p>
+
+<pre>//all 和 * 最后用404兜底用
+app.all(&#39;*&#39;,function (req,res) {</pre>
+
+<p> res.end(&#39;404&#39;)  });</p>
+
+<h4 id="label-E8-B7-AF-E7-94-B1-E8-B7-AF-E5-BE-84">路由路径<span><a href="#label-E8-B7-AF-E7-94-B1-E8-B7-AF-E5-BE-84">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>url中的文件路径</p>
+</li></ul>
+
+<p>1.字符串</p>
+
+<p><code> app.get(&#39;/&#39;,function (req,res) {   res.end(&#39;root&#39;) }); </code> <code> app.get(&#39;/about.text&#39;,function (req,res) {   res.end(&#39;about.text&#39;) }); </code></p>
+
+<p>2.字符串模式</p>
+
+<pre>- ? 表示前面的字符可有可无
+- + 表示前面的字符有一个或多个
+- * 表示任意字符</pre>
+
+<p><code> app.get(&#39;/ab?cd&#39;,function (req,res) {   res.end(&#39;ab?cd&#39;)匹配acd和abcd }); </code> <code> app.get(&#39;/ab+cd&#39;,function (req,res) {   res.end(&#39;ab+cd&#39;)匹配abcd或abbcd或abbbcd }); </code> <code> app.get(&#39;/ab*cd&#39;,function (req,res) {   res.end(&#39;ab*cd&#39;)匹配abcd或abxcd或abxxxxxcd }); </code></p>
+
+<p>3.正则表达式</p>
+
+<p><code> app.get(/a/,function (req,res) {   匹配含有a的  }); </code></p>
+
+<h4 id="label-E8-B7-AF-E7-94-B1-E5-8F-A5-E6-9F-84">路由句柄<span><a href="#label-E8-B7-AF-E7-94-B1-E5-8F-A5-E6-9F-84">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>可以为请求处理提供多个回调函数</p>
+<ol><li>
+<p>一个回调函数处理路由</p>
+</li><li>
+<p>多个回调函数处理路由(需要执行next)</p>
+</li></ol>
+</li></ul>
+
+<p><strong>next(&#39;route&#39;) 当前请求端点内后面的内容直接跳过.找下一个端点</strong></p>
+
+<pre>app.get(&#39;/cai&#39;,function (req,res,next) {
+  res.write(&#39;maicai&#39;);
+  next();
+},function (req,res,next) {
+  res.write(&#39;xicai&#39;);
+  next();
+},function (req,res,next) {
+  res.write(&#39;qiecai&#39;);
+  next();
+},function (req,res,next) {
+  res.write(&#39;zuocai&#39;);
+  next();
+});
+
+app.get(&#39;/cai&#39;,function (req,res,next) {
+  res.end(&#39;chaocai&#39;);
+})</pre>
+
+<p>3.回调函数数组处理路由 or 混合使用函数和数组处理路由(几乎不用)</p>
+
+<p><img src="https://wx1.sinaimg.cn/mw690/824389a9ly1fe7rr1ug1yj208u093q3y.jpg"></p>
+
+<p><img src="https://wx2.sinaimg.cn/mw690/824389a9ly1fe7rr2h4swj20e909ldha.jpg"></p>
+
+<h4 id="label-E8-B7-AF-E7-94-B1-E5-8F-A5-E6-9F-84-E5-93-8D-E5-BA-94-E6-96-B9-E6-B3-95">路由句柄响应方法<span><a href="#label-E8-B7-AF-E7-94-B1-E5-8F-A5-E6-9F-84-E5-93-8D-E5-BA-94-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>常用方法</p>
+
+<p>1.res.render() 渲染视图模板。</p>
+
+<p>2.res.redirect() 重定向页面</p>
+
+<p>3.<strong>res.send() 发送各种类型的响应。</strong></p>
+
+<p><img src="https://i.imgur.com/lvcTMEY.png"> <img src="https://i.imgur.com/mubTnts.jpg"></p>
+<hr>
+
+<h2 id="label-E8-B7-AF-E7-94-B1-E5-9C-BA-E6-99-AF">路由场景<span><a href="#label-E8-B7-AF-E7-94-B1-E5-9C-BA-E6-99-AF">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><strong>use()使用引入的包或一个函数</strong></p>
+<ul><li>
+<p>use表示所有的请求都匹配</p>
+</li><li>
+<p>第一个参数: 匹配路径. 第二个参数 回调函数(路径匹配时执行)</p>
+</li><li>
+<p>文件路径匹配. 如果不写默认就是根目录 &#39;/&#39;</p>
+</li><li>
+<p>use属于前导匹配. 以路径最前的一部分整体作为考察的根据.不按照整个字符串匹配</p>
+
+<pre>例子: /abc 匹配路径是abc的   /ab 匹配路径是ab的
+
+var app = express();
+
+app.use(&#39;/abc&#39;,function (req,res,next) {console.log(&#39;use&#39;);});
+
+app.use(&#39;/ab&#39;,function (req,res,next) {console.log(&#39;use&#39;);});</pre>
+</li></ul>
+
+<p><strong>all()</strong></p>
+<ul><li>
+<p>all表示所有的请求都匹配.</p>
+</li><li>
+<p>文件路径匹配的话必须要写&#39;/&#39;,否则会出错</p>
+</li><li>
+<p>all属于完全匹配 路径的字符串要完全一样</p>
+
+<pre>//all 和 * 最后用404兜底用
+app.all(&#39;*&#39;,function (req,res) {
+  res.end(&#39;404 not found&#39;)
+});</pre>
+</li></ul>
+
+<p><strong>next(&#39;route&#39;)</strong></p>
+<ul><li>
+<p>跳过剩余路由</p>
+
+<pre>//跳过切菜和做菜直接炒菜.
+app.get(&#39;/cai&#39;,function (req,res,next) {
+  res.write(&#39;买菜&#39;);
+  next();
+},function (req,res,next) {
+  res.write(&#39;洗菜&#39;);
+  next(&#39;route&#39;);
+},function (req,res,next) {
+  res.write(&#39;切菜&#39;);
+  next();
+},function (req,res,next) {
+  res.write(&#39;做菜&#39;);
+  next();
+});
+
+app.get(&#39;/cai&#39;,function (req,res,next) {
+  res.end(&#39;炒菜&#39;);
+});</pre>
+</li></ul>
+
+<h3 id="label-E8-B7-AF-E7-94-B1-E6-A8-A1-E5-9D-97-E5-8C-96">路由模块化<span><a href="#label-E8-B7-AF-E7-94-B1-E6-A8-A1-E5-9D-97-E5-8C-96">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>避免多人同时修改一个文件</p>
+</li><li>
+<p>好处:</p>
+<ul><li>
+<p>代码管理维护方便</p>
+</li><li>
+<p>团队合作</p>
+</li><li>
+<p>可移植性与可扩展性强</p>
+</li></ul>
+</li><li>
+<p>使用express.Router()创建模块化</p>
+<ul><li>
+<p>Router 实例是一个完整的中间件和路由系统，功能相当于app.一般称之为 “mini-app”。</p>
+</li></ul>
+</li></ul>
+
+<p>原理: 引入包. 暴露包. 使用包</p>
+<ol><li>
+<p>创建模块文件js (routes文件下)</p>
+</li><li>
+<p>静态资源放置在public文件下</p>
+</li><li>
+<p>app.js中引入模块文件js (require)</p>
+</li><li>
+<p>模块文件进行暴露</p>
+</li><li>
+<p>路由模块化用use使用引入包  - 前导匹配考察的是路径</p>
+<ul><li>
+<p>导入到模块. 匹配到的路径就被“吃掉”</p>
+</li><li>
+<p>剩下的路径再去模块文件里寻找</p>
+</li><li>
+<p>如果不以 / 开头 那么必须以 / 开头</p>
+</li><li>
+<p>导入到模块. 匹配到的路径就被“吃掉”</p>
+</li><li>
+<p>剩下的路径再去模块文件里寻找</p>
+</li><li>
+<p>如果不以 / 开头 那么必须以 / 开头</p>
+
+<pre>1.创建模块  //生成router对象
+var express = require(&#39;express&#39;);
+var router = express.Router(); 
+
+//前导匹配 是wukong则发送语句 
+//router相当于app
+router.get(&#39;/wukong&#39;,function (req,res,next) {
+  res.send(&#39;悟空&#39;)
+});
+
+router.get(&#39;/bajie&#39;,function (req,res,next) {
+  res.send(&#39;八戒&#39;)
+});
+//暴露
+module.exports = router;
+
+2.使用模块
+//引入
+var xiyou = require(&#39;./routes/xiyou.js&#39;);
+
+//使用
+//第一个参数是匹配路径. 第二个参数是引入包的名字
+app.use(&#39;/xiyou&#39;,xiyou);</pre>
+</li></ul>
+</li></ol>
+
+<p><strong>路由思想模型:</strong></p>
+
+<p>一个路由端点理论上可以有无穷多个句柄（处理函数）</p>
+
+<p>句柄调用的次序就是程序静态编写的次序 需要考虑 next() 和 next(&#39;route&#39;) <img src="https://i.imgur.com/euovsIF.jpg"></p>
+<hr>
+
+<p><strong>工程需求</strong></p>
+
+<p>1.显示页面</p>
+
+<p>2.获取用户输入</p>
+<ul><li>
+<p>路由处理</p>
+</li><li>
+<p>获得用户的输入数据</p>
+</li></ul>
+
+<p>3.处理用户数据</p>
+<ul><li>
+<p>查询数据库</p>
+</li><li>
+<p>处理计算逻辑</p>
+</li></ul>
+
+<p>4.返回处理结果</p>
+
+<p>npm install mongoose –save 添加到工程依赖的列表中</p>
+<hr>
+
+<h2 id="label-E6-A8-A1-E7-89-88">模版<span><a href="#label-E6-A8-A1-E7-89-88">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>动态生成HTML. 一个HTML预处理语言</p>
+
+<p><strong>核心: 拼接替换字符串</strong> <img src="https://i.imgur.com/qKhxu8K.jpg"></p>
+
+<h3 id="label-ejs+-E6-A8-A1-E7-89-88-E5-BC-95-E6-93-8E">ejs 模版引擎<span><a href="#label-ejs+-E6-A8-A1-E7-89-88-E5-BC-95-E6-93-8E">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>ejs （Embedded JavaScript） 简单，粗暴，有效 嵌入式的js <img src="https://i.imgur.com/Pl7hcQ7.jpg"></p>
+<ul><li>
+<p>把js代码嵌入到html代码中</p>
+</li><li>
+<p>模版(html框架) + 代码(对象) = 动态生成HTML</p>
+</li><li>
+<p><strong>需要配合res.render()函数. 渲染一个html页面</strong></p>
+</li></ul>
+
+<p><code> 安装: 进入工作目录 运行命令： npm install ejs -save </code></p>
+
+<h4 id="label-E6-A0-87-E7-AD-BE-E7-B3-BB-E7-BB-9F-E8-AF-AD-E6-B3-95">标签系统语法<span><a href="#label-E6-A0-87-E7-AD-BE-E7-B3-BB-E7-BB-9F-E8-AF-AD-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>&lt;% code %&gt; 运行JavaScript 代码。</p>
+</li><li>
+<p>&lt;%= code %&gt; 替换字串. 没有的会报错</p>
+</li><li>
+<p>&lt;%- code %&gt;：显示原始 HTML 内容。</p>
+</li></ul>
+
+<h4 id="label-E6-A8-A1-E7-89-88-E6-AD-A5-E9-AA-A4">模版步骤<span><a href="#label-E6-A8-A1-E7-89-88-E6-AD-A5-E9-AA-A4">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>1.app.set()设置模版所在路径</strong></p>
+
+<pre class="ruby"><span class="ruby-identifier">app</span>.<span class="ruby-identifier">set</span>(<span class="ruby-string">&#39;views&#39;</span>, <span class="ruby-identifier">path</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">__dirname</span>, <span class="ruby-string">&#39;views&#39;</span>));
+</pre>
+
+<p><strong>2.设置模版格式</strong></p>
+
+<pre class="ruby"><span class="ruby-identifier">app</span>.<span class="ruby-identifier">set</span>(<span class="ruby-string">&#39;view engine&#39;</span>, <span class="ruby-string">&#39;ejs&#39;</span>);
+</pre>
+
+<p><strong>3.在views文件夹下创建模版文件.以ejs后缀结尾</strong></p>
+
+<p><strong>4.动态生成html</strong></p>
+
+<pre>app.get(&#39;路径&#39;,callback(req,res,next)) 
+
+res.render(参数: 1.模版文件  2. 数据(对象格式))</pre>
+
+<p>例子1:</p>
+
+<pre>app.get(&#39;/&#39;,function (req,res,next) {
+	res.render(&#39;test.ejs&#39;,{username:&#39;北京&#39;});
+})
+&lt;%= username %&gt; , 欢迎你</pre>
+
+<p>例子2:</p>
+
+<pre>app.get(&#39;/&#39;,function (req,res,next) {
+  var Oj = {
+    username:&quot;周杰伦&quot;,
+    weapon:&#39;唱歌&#39;,
+    kouhao:[&#39;你发如雪凄美了离别&#39;,&#39;我焚香感动了谁&#39;,&#39;邀明月&#39;,&#39;举杯&#39;]
+  };
+  res.render(&#39;test1.ejs&#39;,Oj);});
+
+&lt;ul&gt;
+    &lt;% for(var i=0;i&lt;kouhao.length;i++){
+        var result = kouhao[i]
+    %&gt;
+        &lt;li&gt; &lt;%= result %&gt; &lt;/li&gt;
+    &lt;%
+    }
+    %&gt;
+&lt;/ul&gt;</pre>
+
+<p>———- <strong>includes</strong></p>
+
+<p>原理: 把文件找出来并替换它. 方便管理添加删除数据</p>
+
+<p>&lt;%- include(&#39;footer.ejs&#39;)%&gt;</p>
+
+<p>参数 – 文件路径</p>
+
+<p>例子:</p>
+
+<pre>&lt;%- include(&#39;header.ejs&#39;)%&gt;
+姓名:&lt;%= name%&gt;
+&lt;br&gt;
+年纪:&lt;%= age%&gt;
+&lt;br&gt;
+武器:&lt;%= weapon%&gt;
+&lt;br&gt;
+&lt;%- include(&#39;footer.ejs&#39;)%&gt;</pre>
+
+<p>———-</p>
+
+<h4 id="label-E8-8E-B7-E5-BE-97-E7-94-A8-E6-88-B7-E8-BE-93-E5-85-A5-E7-9A-84-E6-95-B0-E6-8D-AE-E6-96-B9-E6-B3-95">获得用户输入的数据方法<span><a href="#label-E8-8E-B7-E5-BE-97-E7-94-A8-E6-88-B7-E8-BE-93-E5-85-A5-E7-9A-84-E6-95-B0-E6-8D-AE-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>get: 用户的数据在url的queryString里</p>
+<ul><li>
+<p>req.query.NAME</p>
+</li></ul>
+
+<p>post: 用户的数据在请求报文的请求体里</p>
+<ul><li>
+<p>req.body.NAME</p>
+</li></ul>
+
+<p>数据在 url 的文件路径中</p>
+<ul><li>
+<p>req.params.id</p>
+
+<pre>//可以利用id去数据库找到数据, 生成网页
+app.get(&#39;group/topic/:id&#39;,function (req,res,next) {</pre>
+
+<p> var id = req.params.id;  res.send(&#39;id: &#39;+ id)  });</p>
+</li></ul>
+
+<h4 id="label-E6-9C-8D-E5-8A-A1-E5-99-A8-E8-BF-94-E5-9B-9E-E9-A1-B5-E9-9D-A2-E4-B8-8E-E6-95-B0-E6-8D-AE-E9-83-BD-E6-98-AF-E5-8A-A8-E6-80-81-E5-8A-A0-E5-85-A5-E7-9A-84">服务器返回页面与数据都是动态加入的<span><a href="#label-E6-9C-8D-E5-8A-A1-E5-99-A8-E8-BF-94-E5-9B-9E-E9-A1-B5-E9-9D-A2-E4-B8-8E-E6-95-B0-E6-8D-AE-E9-83-BD-E6-98-AF-E5-8A-A8-E6-80-81-E5-8A-A0-E5-85-A5-E7-9A-84">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>后台程序员使用模版的方式注入数据</p>
+</li><li>
+<p>前端程序员使用ajax的方式获得数据</p>
+</li></ol>
+
+<h4 id="label-res+-E8-BF-94-E5-9B-9E-E5-86-85-E5-AE-B9-E7-9A-84-E5-87-BD-E6-95-B0">res 返回内容的函数<span><a href="#label-res+-E8-BF-94-E5-9B-9E-E5-86-85-E5-AE-B9-E7-9A-84-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>res.write()</p>
+<ul><li>
+<p>多次的写入数据</p>
+</li><li>
+<p>nodejs 原生</p>
+</li></ul>
+</li><li>
+<p>res.end()</p>
+<ul><li>
+<p>写完数据,断开连接</p>
+</li><li>
+<p>nodejs原生</p>
+</li></ul>
+</li><li>
+<p>res.send()</p>
+<ul><li>
+<p>转义之后写数据</p>
+</li><li>
+<p>express 提供的</p>
+</li></ul>
+</li><li>
+<p>res.render(&#39;xx.ejs&#39;,{ })</p>
+<ul><li>
+<p>通过ejs文件渲染页面</p>
+</li><li>
+<p>第一个参数:ejs文件名. 第二个参数: 对象</p>
+</li></ul>
+</li><li>
+<p>res.redirect(&#39;url&#39;)</p>
+<ul><li>
+<p>重定向到一个页面(参数:路径)</p>
+</li></ul>
+</li><li>
+<p>res.download(&#39;url&#39;,&#39;文件名&#39;)</p>
+<ul><li>
+<p>下载某文件(第一个参数:路径文件. 第二个参数:重命名该文件)</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<h4 id="label-view+-E5-B1-82-EF-BC-9Aviews+-E6-96-87-E4-BB-B6-E5-A4-B9+-28-E6-B8-B2-E6-9F-93-E9-A1-B5-E9-9D-A2-29">view 层：views 文件夹 (渲染页面)<span><a href="#label-view+-E5-B1-82-EF-BC-9Aviews+-E6-96-87-E4-BB-B6-E5-A4-B9+-28-E6-B8-B2-E6-9F-93-E9-A1-B5-E9-9D-A2-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>ejs 文件</p>
+</li></ul>
+
+<h4 id="label-control+-E5-B1-82-EF-BC-9A">control 层：<span><a href="#label-control+-E5-B1-82-EF-BC-9A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>routes文件夹 routes_user.js 文件 — 负责路由跳转</p>
+</li><li>
+<p>business_logic 文件夹</p>
+<ul><li>
+<p>logic_user.js 文件 — 负责登录注册逻辑处理</p>
+</li><li>
+<p>logic_item.js 文件 — 负责用户输入表单逻辑处理</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-model+-E5-B1-82-EF-BC-9A">model 层：<span><a href="#label-model+-E5-B1-82-EF-BC-9A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>dao 文件夹</p>
+<ul><li>
+<p>db.js 文件 — 负责数据库的交互</p>
+</li></ul>
+</li><li>
+<p>public — 展示静态页面</p>
+</li><li>
+<p>app.js — 管理路由.</p>
+</li></ul>
+
+<p>安装npm install express app4 / mongoose / ejs</p>
+
+<h2 id="label-rdoc-image-3Ahttp-3A-2F-2Fi.imgur.com-2FG3Es6tG.png"><img src="https://i.imgur.com/G3Es6tG.png"><span><a href="#label-rdoc-image-3Ahttp-3A-2F-2Fi.imgur.com-2FG3Es6tG.png">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E7-94-A8-E6-88-B7-E7-99-BB-E5-BD-95-E6-B3-A8-E5-86-8C">用户登录注册<span><a href="#label-E7-94-A8-E6-88-B7-E7-99-BB-E5-BD-95-E6-B3-A8-E5-86-8C">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><strong>第一步:</strong></p>
+
+<p>1.routes文件夹创建 routes_user.js 文件 只用来负责路由跳转</p>
+
+<p>2.app.js引入路由文件&#39;routes_user.js&#39; 并使用</p>
+
+<pre class="ruby"><span class="ruby-identifier">var</span> <span class="ruby-identifier">routesUser</span> = <span class="ruby-identifier">require</span>(<span class="ruby-string">&#39;./routes/routes_user.js&#39;</span>);
+<span class="ruby-identifier">app</span>.<span class="ruby-identifier">use</span>(<span class="ruby-string">&#39;/&#39;</span>,<span class="ruby-identifier">routesUser</span>);
+</pre>
+
+<p>3.&#39;routes_user.js&#39; 启动express和引入db数据库文件</p>
+
+<pre>var router = require(&#39;express&#39;).Router();
+var db = require(&#39;../dao/db.js&#39;);
+//暴露
+module.exports = router;</pre>
+
+<p>4.db.js文件写入正常启动服务器代码(test是数据库名称)</p>
+
+<pre>var mongoose = require(&#39;mongoose&#39;);
+mongoose.connect(&#39;mongodb://127.0.0.1:27017/test&#39;);
+var connection = mongoose.connection;
+
+connection.on(&#39;error&#39;,function (err) {
+  console.error(err);
+});
+
+connection.on(&#39;open&#39;,function () {
+  console.log(&#39;连接成功&#39;);
+});
+
+//userSchema创建用户登录注册的表头需要的信息
+var userSchema = new mongoose.Schema({
+  username:String,
+  password:String,
+  email:String
+});
+
+var UserModel = mongoose.model(&#39;user&#39;,userSchema);</pre>
+
+<p><strong>第二步:</strong></p>
+<ol><li>
+<p>business_ logic 文件夹下创建 logic_user.js 文件 负责登录注册逻辑</p>
+</li><li>
+<p>&#39;routes_user.js&#39; 引入登录注册的逻辑(请求方法区分post和get)</p>
+
+<pre class="ruby"><span class="ruby-identifier">var</span> <span class="ruby-identifier">userLogic</span> = <span class="ruby-identifier">require</span>(<span class="ruby-string">&#39;../business_logic/logic_user.js&#39;</span>);
+<span class="ruby-identifier">router</span>.<span class="ruby-identifier">post</span>(<span class="ruby-string">&#39;/login&#39;</span>,<span class="ruby-identifier">userLogic</span>.<span class="ruby-identifier">postLogin</span>);
+<span class="ruby-identifier">router</span>.<span class="ruby-identifier">post</span>(<span class="ruby-string">&#39;/register&#39;</span>,<span class="ruby-identifier">userLogic</span>.<span class="ruby-identifier">postRegister</span>);
+</pre>
+</li><li>
+<p>logic_user.js 写入登录注册逻辑</p>
+
+<pre>var db = require(&#39;../dao/db.js&#39;);
+
+//登录逻辑
+function postLogin(req,res,next) {
+  	var username = req.body.username;
+  	var password = req.body.password;</pre>
+
+<p> db.findUser(username,function (err,doc) {  if(doc){  if(password === doc.password){ //密码匹配则登录成功  res.send(&#39;欢迎回来&#39;)  }else{  res.send(&#39;用户名或密码错误&#39;)  }  }else{  res.send(&#39;用户名不存在,请注册&#39;)  }  });  }  //暴露登录逻辑  exports.postLogin = postLogin;</p>
+
+<pre>//注册逻辑
+function postRegister(req,res,next) {
+  var username = req.body.username;
+  var password = req.body.password;
+  var email = req.body.email;
+
+  db.findUser(username,function (err,doc) {
+    if(err){
+      console.log(err);
+    }else{
+      if(doc){
+        res.send(&#39;用户名已存在.&#39;)
+      }else{
+        db.addUser(username,password,email,function (err) {
+          if(err){
+            console.log(err);
+          }else{
+            res.send(&#39;注册成功请返回登录&#39;)
+          }
+        });
+      }
+    }
+  })
+}
+//暴露注册逻辑
+exports.postRegister = postRegister;</pre>
+</li><li>
+<p>db.js编写对应函数</p>
+
+<pre>//登录时找用户名是否存在
+function findUser(username,cb) {
+  UserModel.findOne({username:username},function (err,doc) {
+  	  if(err){
+        cb(err);
+      }else{
+        cb(null,doc);
+      }
+  })
+}
+exports.findUser = findUser;
+
+//没有用户名就直接添加到数据库中
+function addUser(username,password,email,cb) {
+  var addEntity = new UserModel({
+    username:username,
+    password:password,
+    email:email
+  });
+  addEntity.save(function (err) {
+  	  if(err){
+  	    cb(err);
+      }else{
+        cb(null);
+      }
+  });
+
+}
+exports.addUser = addUser;</pre>
+</li></ol>
+
+<h2 id="label-E7-99-BB-E5-BD-95-E5-90-8E-E8-BF-9B-E8-A1-8C-E8-A1-A8-E5-8D-95-E6-93-8D-E4-BD-9C">登录后进行表单操作<span><a href="#label-E7-99-BB-E5-BD-95-E5-90-8E-E8-BF-9B-E8-A1-8C-E8-A1-A8-E5-8D-95-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>第三步:</p>
+<ol><li>
+<p>business_ logic 文件夹下创建logic_item.js 文件 负责表单操作</p>
+</li><li>
+<p>routes_user.js 引入 logic_item.js</p>
+
+<pre class="ruby"><span class="ruby-identifier">var</span> <span class="ruby-identifier">itemLogic</span> = <span class="ruby-identifier">require</span>(<span class="ruby-string">&#39;../business_logic/logic_item.js&#39;</span>);
+<span class="ruby-identifier">router</span>.<span class="ruby-identifier">post</span>(<span class="ruby-string">&#39;/addItem&#39;</span>,<span class="ruby-identifier">itemLogic</span>.<span class="ruby-identifier">addItem</span>);
+</pre>
+</li><li>
+<p>db.js文件夹写入表单操作的代码</p>
+
+<pre>var itemSchema = new mongoose.Schema({
+  userID: String,  //关联某个用户
+  title: String,
+  post_date: {type: Date},
+  finish_state: {type: Number, default: 1}
+});
+var itemModel = mongoose.model(&#39;item&#39;,itemSchema);
+
+//把表单数据添加到数据库中
+function addItem(title,userID,cb) {
+  var itemEntity = new itemModel({
+    userID:userID,
+    title:title,
+    post_date:new Date()
+  });
+  itemEntity.save(function (err,doc) {
+  	  if(err){
+  	    cb(err)
+      }else{
+  	    cb(null,doc)
+      }
+  })
+
+}
+exports.addItem = addItem;
+
+//查找表单内容
+function findItems(userID,cb) {
+  itemModel.find({userID:userID},function (err,docs) {
+  	  if(err){
+  	    cb(err);
+      }else{
+        cb(null,docs);
+      }
+  })
+}
+exports.findItems = findItems;</pre>
+</li><li>
+<p>logic_item.js 写入添加表单数据</p>
+
+<pre>var db = require(&#39;../dao/db.js&#39;);
+var userlogic = require(&#39;./logic_user&#39;);
+
+function addItem(req,res,next) {
+  var title = req.body.title;
+
+  var userID = global.userID;
+  db.addItem(title,userID,function (err,doc) {
+    if(err){
+      console.log(err);
+    }else{
+      userlogic.indexPage(userID,res)
+    }
+  });
+}
+exports.addItem = addItem;</pre>
+</li></ol>
+
+<p>第四步:</p>
+<ol><li>
+<p>实时把新添加的表单内容渲染到页面中</p>
+</li><li>
+<p>views文件夹创建 item_list.ejs (同静态文件html)</p>
+</li><li>
+<p>logic_user.js 修改代码改成登录成功后渲染指定页面</p>
+
+<pre>db.findUser(username,function (err,doc) {
+if(doc){
+  if(password === doc.password){
+    var userID = doc._id;
+    global.userID = userID;
+    //渲染用户首页
+    indexPage(userID,res)
+  }else{
+    res.send(&#39;用户名或密码错误&#39;)
+  }
+}else{
+  res.send(&#39;用户名不存在,请注册&#39;)
+}</pre>
+
+<p> });</p>
+
+<pre>function indexPage(userID,res,req) {
+  db.findItems(userID,function (err,docs) {
+    if(err){
+      res.send(&#39;出错了&#39;)
+    }else{
+      var dataObj = {
+        items:docs,
+      };
+      res.render(&#39;item_list.ejs&#39;,dataObj)
+    }
+  });
+}
+exports.indexPage = indexPage;</pre>
+</li><li>
+<p>ejs文件写入如下代码进行页面动态渲染</p>
+
+<pre>&lt;ul&gt;
+    &lt;%
+        for (var i = 0; i &lt; items.length; i++) {
+            var item = items[i];
+
+    %&gt;
+
+    &lt;li&gt;  
+        &lt;%= item.title%&gt;
+        &lt;a href=&quot;/finish/&lt;%= item._id%&gt;/?state=yes&quot;&gt;完成&lt;/a&gt;,
+        &lt;a href=&quot;/edit/&lt;%= item._id%&gt;&quot;&gt;修改&lt;/a&gt;,
+        &lt;a href=&quot;/delete/&lt;%= item._id%&gt;&quot;
+        onclick=&quot;return confirm(&#39;删除以后不能恢复的，确定？&#39;)&quot;&gt;删除&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;%
+    }
+    %&gt;
+&lt;/ul&gt;</pre>
+</li></ol>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/Express.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-11.html">上一篇 · 数据库Mongoose</a><a href="07-13.html">下一篇 · cookie</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

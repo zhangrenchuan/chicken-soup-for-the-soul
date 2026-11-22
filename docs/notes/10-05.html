@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>JS模块化 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-10.html">ECMAScript、模块化与构建</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>ECMAScript、模块化与构建</strong><a href="10-01.html">简介</a><a href="10-02.html">ES5</a><a href="10-03.html">ES6</a><a href="10-04.html">ES7</a><a href="10-05.html" aria-current="page">JS模块化</a><a href="10-06.html">自动化工具</a></nav>
+<article class="paper"><h1>JS模块化</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>模块把功能分到不同文件。需要给其他文件使用的部分才导出，使用的一方再导入。旧项目可能使用 CommonJS、AMD 或其他写法。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-JS-E6-A8-A1-E5-9D-97-E5-8C-96">JS模块化<span><a href="#label-JS-E6-A8-A1-E5-9D-97-E5-8C-96">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E6-A8-A1-E5-9D-97-E5-8C-96-E7-90-86-E8-A7-A3">模块化理解<span><a href="#label-E6-A8-A1-E5-9D-97-E5-8C-96-E7-90-86-E8-A7-A3">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>将一个复杂的程序依据一定的规则(规范)封装成几个块(文件), 并进行组合在一起</p>
+</li><li>
+<p>块的内部数据实际是私有的, 只是向外部暴露一些接口(方法)与外部其它模块通信</p>
+</li></ul>
+
+<h4 id="label-E6-A8-A1-E5-9D-97-E5-8C-96-E5-A5-BD-E5-A4-84">模块化好处<span><a href="#label-E6-A8-A1-E5-9D-97-E5-8C-96-E5-A5-BD-E5-A4-84">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>避免命名冲突(减少命名空间污染)</p>
+</li><li>
+<p>更好的分离. 按需加载</p>
+</li><li>
+<p>部署方便.高复用性.高可维护性</p>
+</li></ul>
+
+<h4 id="label-E6-A8-A1-E5-9D-97-E5-8C-96-E7-9A-84-E9-97-AE-E9-A2-98">模块化的问题<span><a href="#label-E6-A8-A1-E5-9D-97-E5-8C-96-E7-9A-84-E9-97-AE-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>依赖模糊</p>
+</li><li>
+<p>请求过多</p>
+</li><li>
+<p>维护代价大</p>
+</li></ul>
+
+<h4 id="label-E6-A8-A1-E5-9D-97-E5-8C-96-E7-9A-84-E5-8E-86-E5-8F-B2-E6-BC-94-E5-8F-98">模块化的历史演变<span><a href="#label-E6-A8-A1-E5-9D-97-E5-8C-96-E7-9A-84-E5-8E-86-E5-8F-B2-E6-BC-94-E5-8F-98">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h6 id="label-E5-85-A8-E5-B1-80-E5-87-BD-E6-95-B0-E6-A8-A1-E5-BC-8F-3A-E5-B0-86-E4-B8-8D-E5-90-8C-E7-9A-84-E5-8A-9F-E8-83-BD-E5-B0-81-E8-A3-85-E6-88-90-E4-B8-8D-E5-90-8C-E7-9A-84-E5-85-A8-E5-B1-80-E5-87-BD-E6-95-B0">全局函数模式:将不同的功能封装成不同的全局函数<span><a href="#label-E5-85-A8-E5-B1-80-E5-87-BD-E6-95-B0-E6-A8-A1-E5-BC-8F-3A-E5-B0-86-E4-B8-8D-E5-90-8C-E7-9A-84-E5-8A-9F-E8-83-BD-E5-B0-81-E8-A3-85-E6-88-90-E4-B8-8D-E5-90-8C-E7-9A-84-E5-85-A8-E5-B1-80-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>问题: 全局污染.命名冲突.数据可在外部直接修改</p>
+
+<pre class="ruby"><span class="ruby-identifier">let</span> <span class="ruby-identifier">msg</span> = <span class="ruby-string">&#39;atguigu.com&#39;</span>;
+<span class="ruby-identifier">function</span> <span class="ruby-identifier">foo</span>() {
+  <span class="ruby-identifier">console</span>.<span class="ruby-identifier">log</span>(<span class="ruby-string">&#39;fun()&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">msg</span>);
+}
+
+<span class="ruby-identifier">function</span> <span class="ruby-identifier">bar</span>() {
+  <span class="ruby-identifier">console</span>.<span class="ruby-identifier">log</span>(<span class="ruby-string">&#39;bar()&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">msg</span>);
+}
+</pre>
+</li></ul>
+
+<h6 id="label-namespace-E6-A8-A1-E5-BC-8F-3A+-E7-AE-80-E5-8D-95-E5-AF-B9-E8-B1-A1-E5-B0-81-E8-A3-85">namespace模式: 简单对象封装<span><a href="#label-namespace-E6-A8-A1-E5-BC-8F-3A+-E7-AE-80-E5-8D-95-E5-AF-B9-E8-B1-A1-E5-B0-81-E8-A3-85">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>作用: 减少了全局变量</p>
+</li><li>
+<p>问题: 不安全(数据不是私有的.外部可以修改)</p>
+
+<pre>let obj = {
+  msg : &#39;kobe&#39;,
+  foo : function () {
+  	  console.log(&#39;foo()&#39; + msg);
+  }
+};</pre>
+</li></ul>
+
+<h6 id="label-IIFE-E6-A8-A1-E5-BC-8F-3A+-E5-8C-BF-E5-90-8D-E5-87-BD-E6-95-B0-E8-87-AA-E8-B0-83-E7-94-A8-28-E9-97-AD-E5-8C-85-29">IIFE模式: 匿名函数自调用(闭包)<span><a href="#label-IIFE-E6-A8-A1-E5-BC-8F-3A+-E5-8C-BF-E5-90-8D-E5-87-BD-E6-95-B0-E8-87-AA-E8-B0-83-E7-94-A8-28-E9-97-AD-E5-8C-85-29">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>IIFE : immediately-invoked function expression(立即调用函数表达式)</p>
+</li><li>
+<p>作用: 数据是私有的, 外部只能通过暴露的方法操作</p>
+</li><li>
+<p>可在参数里进行引用依赖:传入需要依赖的JS(比如jQuery)</p>
+
+<pre>  (function (window,$) {
+      let msg = &#39;atguigu.com&#39;;
+      let foo = function () {
+        console.log(&#39;foo()&#39; + msg);
+      };
+      $(&#39;body&#39;).css(&#39;background&#39;,&#39;blue&#39;);
+
+      window.obj =  {foo};
+  })(window,jQuery);</pre>
+</li></ul>
+
+<h6 id="label-E5-BC-95-E5-85-A5-E4-BE-9D-E8-B5-96-E9-A1-B5-E9-9D-A2-E5-8A-A0-E8-BD-BD-E5-A4-9A-E4-B8-AAJS-E6-96-87-E4-BB-B6">引入依赖页面加载多个JS文件<span><a href="#label-E5-BC-95-E5-85-A5-E4-BE-9D-E8-B5-96-E9-A1-B5-E9-9D-A2-E5-8A-A0-E8-BD-BD-E5-A4-9A-E4-B8-AAJS-E6-96-87-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>问题: 请求过多. 依赖模糊. 难以维护</p>
+</li></ul>
+<hr>
+
+<h2 id="label-E6-A8-A1-E5-9D-97-E5-8C-96-E8-A7-84-E8-8C-83">模块化规范<span><a href="#label-E6-A8-A1-E5-9D-97-E5-8C-96-E8-A7-84-E8-8C-83">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-CommonJS">CommonJS<span><a href="#label-CommonJS">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>说明</p>
+<ol><li>
+<p>每一个文件都可作为一个模块</p>
+</li><li>
+<p>在服务器端: 模块的加载是运行时同步加载的</p>
+</li><li>
+<p>在浏览器端: 模块需要提前编译打包处理</p>
+</li></ol>
+</li><li>
+<p>基本语法</p>
+<ul><li>
+<p>暴露模块</p>
+<ul><li>
+<p>module.exports = value (暴露的是exprots对象)</p>
+</li><li>
+<p>exprots.xxx = value (暴露的是exprots对象的一个属性)</p>
+</li></ul>
+</li><li>
+<p>引入模块</p>
+<ul><li>
+<p>require(模块名) 第三方或自带模块</p>
+</li><li>
+<p>require(文件相对路径) 自定义模块</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>实现:</p>
+<ul><li>
+<p>服务器端: NodeJs</p>
+</li><li>
+<p>浏览器端: browserif 打包工具</p>
+</li></ul>
+</li><li>
+<p>区别:</p>
+<ul><li>
+<p>Node.js运行时动态加载模块(同步)</p>
+</li><li>
+<p>Browserify是在转译(编译)时就会加载打包(合并)require的模块</p>
+</li></ul>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-commonJs_node+-E6-A8-A1-E5-9D-97-E5-8C-96">commonJs_node 模块化<span><a href="#label-commonJs_node+-E6-A8-A1-E5-9D-97-E5-8C-96">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>项目构建</p>
+<ul><li>
+<p>下载安装第三方模块<code>npm install uniq --save</code></p>
+</li><li>
+<p>uniq模块: 对数组去重并且排序</p>
+</li><li>
+<p>下载安装第三方模块<code>npm install uniq --save</code></p>
+</li><li>
+<p>uniq模块: 对数组去重并且排序</p>
+
+<pre>-modules //模块文件
+    |-module1.js
+    |-module2.js
+    |-module3.js
+- app.js //主文件
+-package.json
+    {
+      &quot;name&quot;: &quot;commonJS-node&quot;,
+      &quot;version&quot;: &quot;1.0.0&quot;
+    }</pre>
+</li></ul>
+</li><li>
+<p>进行模块化编码</p>
+</li><li>
+<p>module1.js</p>
+
+<pre>    //module.exports = value 暴露方法
+    module.exports = {
+      foo() {
+        console.log(&#39;moudle1 foo()&#39;)
+      }
+    }</pre>
+</li><li>
+<p>module2.js</p>
+
+<pre>    //module.exports = {} 暴露对象
+    module.exports = function () {
+      console.log(&#39;module2()&#39;)
+    }</pre>
+</li><li>
+<p>module3.js</p>
+
+<pre>    //exports.xxx = value 暴露exports对象的一个属性
+    exports.foo = function () {
+      console.log(&#39;module3 foo()&#39;)
+    }
+
+    exports.bar = function () {
+      console.log(&#39;module3 bar()&#39;)
+    }</pre>
+</li><li>
+<p>主文件引入模块</p>
+
+<pre>//引入第三方模块直接写模块名
+let  uniq = require(&#39;uniq&#39;); 
+
+//引入自定义模块写相对路径
+let module1 = require(&#39;./modules/module1&#39;);
+let module2 = require(&#39;./modules/module2&#39;);
+let module3 = require(&#39;./modules/module3&#39;);
+
+module1(); //暴露方法直接调用
+module2.foo(); //暴露对象里的方法
+module3.foo(); //暴露exports对象中的方法
+module3.bar();
+
+console.log(module3.arr);
+console.log(uniq(module3.arr));</pre>
+</li><li>
+<p>输出结果</p>
+
+<pre class="ruby"><span class="ruby-identifier">module1</span>
+<span class="ruby-identifier">module2</span>
+<span class="ruby-identifier">module3</span>.<span class="ruby-identifier">foo</span>()
+<span class="ruby-identifier">module3</span>.<span class="ruby-identifier">bar</span>()
+[ <span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">6</span>, <span class="ruby-value">8</span>, <span class="ruby-value">8</span>, <span class="ruby-value">9</span>, <span class="ruby-value">5</span>, <span class="ruby-value">6</span>, <span class="ruby-value">3</span>, <span class="ruby-value">2</span> ]
+[ <span class="ruby-value">1</span>, <span class="ruby-value">2</span>, <span class="ruby-value">3</span>, <span class="ruby-value">4</span>, <span class="ruby-value">5</span>, <span class="ruby-value">6</span>, <span class="ruby-value">8</span>, <span class="ruby-value">9</span> ]
+</pre>
+</li></ol>
+
+<p>—</p>
+
+<h4 id="label-CommonJs_Browserify+-E6-A8-A1-E5-9D-97-E5-8C-96">CommonJs_Browserify 模块化<span><a href="#label-CommonJs_Browserify+-E6-A8-A1-E5-9D-97-E5-8C-96">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>下载browserify第三方模块</p>
+<ul><li>
+<p>通过预编译让前端浏览器可以直接使用 Node NPM 安装的一些库</p>
+</li><li>
+<p>全局安装: npm install browserify -g</p>
+</li><li>
+<p>当前工作目录下: npm install browserify –save-dev</p>
+</li><li>
+<p>通过预编译让前端浏览器可以直接使用 Node NPM 安装的一些库</p>
+</li><li>
+<p>全局安装: npm install browserify -g</p>
+</li><li>
+<p>当前工作目录下: npm install browserify –save-dev</p>
+</li></ul>
+</li><li>
+<p>创建项目结构</p>
+
+<pre>  -js
+    |-dist //打包生成编译输出文件的目录
+    |-src //源码所在的目录
+      |-module1.js
+      |-module2.js
+      |-module3.js
+      |-app.js //应用主源文件 入口文件
+  -index.html
+  -package.json
+    {
+      &quot;name&quot;: &quot;browserify-CommonJs&quot;,
+      &quot;version&quot;: &quot;1.0.0&quot;
+    }</pre>
+</li><li>
+<p>进行模块化编码</p>
+<ul><li>
+<p>module1.js</p>
+
+<pre>//module.exports = value 暴露方法
+module.exports = {
+  foo() {
+    console.log(&#39;moudle1 foo()&#39;)
+  }
+}</pre>
+</li></ul>
+</li><li>
+<p>module2.js</p>
+
+<pre>    //module.exports = {} 暴露对象
+    module.exports = function () {
+      console.log(&#39;module2()&#39;)
+    }</pre>
+</li><li>
+<p>module3.js</p>
+
+<pre>    //exports.xxx = value 暴露exports对象的一个属性
+    exports.foo = function () {
+      console.log(&#39;module3 foo()&#39;)
+    }
+
+    exports.bar = function () {
+      console.log(&#39;module3 bar()&#39;)
+    }</pre>
+</li><li>
+<p>主文件引入模块</p>
+
+<pre class="ruby"><span class="ruby-identifier">let</span> <span class="ruby-identifier">module1</span> = <span class="ruby-identifier">require</span>(<span class="ruby-string">&#39;./module1&#39;</span>);
+<span class="ruby-identifier">let</span> <span class="ruby-identifier">module2</span> = <span class="ruby-identifier">require</span>(<span class="ruby-string">&#39;./module2&#39;</span>);
+<span class="ruby-identifier">let</span> <span class="ruby-identifier">module3</span> = <span class="ruby-identifier">require</span>(<span class="ruby-string">&#39;./module3&#39;</span>);
+
+<span class="ruby-identifier">module1</span>();
+<span class="ruby-identifier">module2</span>.<span class="ruby-identifier">foo</span>();
+<span class="ruby-identifier">module3</span>.<span class="ruby-identifier">foo</span>();
+<span class="ruby-identifier">module3</span>.<span class="ruby-identifier">bar</span>();
+</pre>
+</li><li>
+<p>打包处理模块文件</p>
+<ul><li>
+<p>命令运行: browserify 源代码主文件 -o 输出文件</p>
+</li><li>
+<p><code>browserify js/src/app.js -o js/dist/bundle.js</code></p>
+</li></ul>
+</li><li>
+<p>HTML页面引入编译后的js文件</p>
+<ul><li>
+<p><code>&lt;script type=&quot;text/javascript&quot; src=&quot;js/dist/bundle.js&quot;&gt;&lt;/script&gt;</code></p>
+</li></ul>
+</li><li>
+<p>浏览器控制台输出</p>
+
+<pre class="ruby"><span class="ruby-identifier">module1</span>
+<span class="ruby-identifier">module2</span>
+<span class="ruby-identifier">module3</span>.<span class="ruby-identifier">foo</span>()
+<span class="ruby-identifier">module3</span>.<span class="ruby-identifier">bar</span>()
+</pre>
+</li></ol>
+
+<p>—</p>
+
+<h3 id="label-AMD">AMD<span><a href="#label-AMD">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>说明</p>
+<ul><li>
+<p>Asynchronous Module Definition(异步模块定义)</p>
+</li><li>
+<p>专门用于浏览器端, 模块的加载是异步的</p>
+</li></ul>
+</li><li>
+<p>基本语法</p>
+<ul><li>
+<p>暴露模块</p>
+<ul><li>
+<p>定义没有依赖的模块  <code>define(function(){return 模块})</code></p>
+</li><li>
+<p>定义有依赖的模块  <code>define(['module1','module2'],function(m1,m2){return 模块})</code></p>
+</li></ul>
+</li><li>
+<p>引入模块</p>
+<ul><li>
+<p><code>require([&#39;module1&#39;, &#39;module2&#39;], function(m1, m2){使用m1/m2})</code></p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>实现(浏览器)</p>
+<ul><li>
+<p>html页面引入require.js文件</p>
+</li></ul>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-AMD+-E6-A8-A1-E5-9D-97-E5-8C-96">AMD 模块化<span><a href="#label-AMD+-E6-A8-A1-E5-9D-97-E5-8C-96">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>下载<code>require.js</code> 并在html页面引入</p>
+<ul><li>
+<p>官网: <a href="http://www.requirejs.cn">www.requirejs.cn</a>/</p>
+</li><li>
+<p>官网: <a href="http://www.requirejs.cn">www.requirejs.cn</a>/</p>
+</li></ul>
+</li><li>
+<p>创建项目结构</p>
+
+<pre>   |-js
+    |-libs //用来放第三方库的文件夹
+      |-require.js
+    |-modules //用来放模块文件的文件夹
+      |-alerter.js
+      |-dataService.js
+    |-main.js //模版主文件
+   |-index.html //页面</pre>
+</li><li>
+<p>编写模块</p>
+<ul><li>
+<p>定义没有依赖的模块 –&gt; dataService.js</p>
+
+<pre>define(function () {
+  let name = &#39;kobe&#39;;
+  function getName() {
+    return name
+  }
+  //暴露模块
+  return {getName}
+});</pre>
+</li><li>
+<p>定义有依赖的模块 –&gt; alerter.js</p>
+
+<pre>define([&#39;dataService&#39;,&#39;jquery&#39;],function (dataService,$) {
+  let msg = &#39;atguigu.com&#39;;
+  function showMsg() {
+    console.log(msg + &#39;-&#39; + dataService.getName());
+  }
+  $(&#39;body&#39;).css(&#39;background&#39;,&#39;red&#39;);
+  //暴露模块
+  return {showMsg}
+});</pre>
+</li></ul>
+</li><li>
+<p>应用主入口 –&gt; main.js</p>
+<ul><li>
+<p>配置模块 requirejs.config({})</p>
+</li><li>
+<p>模块公共路径 baseUrl</p>
+</li><li>
+<p>模块名与模块路径映射 paths:{}</p>
+</li><li>
+<p>配置不支持AMD规范的第三方库 shim:{}</p>
+
+<pre>requirejs.config({
+  //公共路径
+  baseUrl: &quot;js/&quot;,
+
+  //模块标识名与模块路径映射
+  paths: {
+    //第三方库
+    &#39;jquery&#39;:&#39;./libs/jquery-1.10.1&#39;,
+    &#39;angular&#39;:&#39;./libs/angular&#39;,
+    &#39;angular-ui-router&#39;:&#39;./libs/angular-ui-router&#39;,
+    //自定义模块   index.html的角度上查找路径
+    &quot;dataService&quot;: &quot;modules/dataService&quot;,
+    &quot;alerter&quot;: &quot;modules/alerter&quot;
+  },
+
+  //配置不支持AMD规范的第三方库
+  shim:{
+    &#39;angular&#39;:{
+      exports:&#39;angular&#39;
+    },
+    &#39;angular-ui-router&#39;:{
+      exports:&#39;angular-ui-router&#39;,
+      deps:[&#39;angular&#39;] //传该文件需要依赖的文件
+    }
+  }
+});</pre>
+</li><li>
+<p>引入模块 require</p>
+</li><li>
+<p>第一个参数:[] 传入模块名</p>
+</li><li>
+<p>第二个参数:函数</p>
+
+<pre>require([&#39;alerter&#39;,&#39;angular&#39;],function (alerter,angular) {
+  console.log(angular);
+  alerter.showMsg()
+});</pre>
+</li></ul>
+</li><li>
+<p>页面使用模块</p>
+<ul><li>
+<p>data-mian指定主入口的js文件</p>
+</li><li>
+<p>src指定AMD依赖的require.js文件</p>
+</li><li>
+<p><code>&lt;script data-main=&quot;js/main.js&quot; src=&quot;js/libs/require.js&quot;&gt;&lt;/script&gt;</code></p>
+</li></ul>
+</li><li>
+<p>浏览器控制台输出</p>
+
+<pre class="ruby"><span class="ruby-identifier">atguigu</span>.<span class="ruby-identifier">com</span><span class="ruby-operator">-</span><span class="ruby-identifier">kobe</span>
+<span class="ruby-identifier">浏览器页面为红色</span>
+</pre>
+</li></ol>
+
+<p>—</p>
+
+<h3 id="label-CMD">CMD<span><a href="#label-CMD">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>说明</p>
+<ul><li>
+<p>Common Module Definition(通用模块定义)</p>
+</li><li>
+<p>专门用于浏览器端, 模块的加载是异步的</p>
+</li><li>
+<p>模块使用时才会加载执行</p>
+</li><li>
+<p>Common Module Definition(通用模块定义)</p>
+</li><li>
+<p>专门用于浏览器端, 模块的加载是异步的</p>
+</li><li>
+<p>模块使用时才会加载执行</p>
+</li></ul>
+</li><li>
+<p>基本语法</p>
+<ul><li>
+<p>暴露模块</p>
+<ul><li>
+<p>定义没有依赖的模块</p>
+</li><li>
+<p>定义没有依赖的模块</p>
+</li></ul>
+</li><li>
+<p>暴露模块</p>
+<ul><li>
+<p>定义没有依赖的模块</p>
+
+<pre>    define(function(require, exports, module){
+        exports.xxx = value,
+        module.exports = value
+
+    })</pre>
+</li><li>
+<p>定义有依赖的模块</p>
+
+<pre>define(function(require, exports, module){
+	//引入依赖模块(同步)
+	var module2 = require(&#39;./module2&#39;)
+	//暴露模块
+	exports.xxx = value
+})</pre>
+</li></ul>
+</li><li>
+<p>引入模块</p>
+
+<pre class="ruby">    <span class="ruby-identifier">define</span>(<span class="ruby-identifier">function</span> (<span class="ruby-identifier">require</span>) { })
+</pre>
+</li></ul>
+</li><li>
+<p>实现(浏览器)</p>
+<ul><li>
+<p>html页面引入 <code>Sea.js</code> 文件</p>
+</li><li>
+<p>seajs.use() 指定模版主文件路径</p>
+</li></ul>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-CMD+-E6-A8-A1-E5-9D-97-E5-8C-96">CMD 模块化<span><a href="#label-CMD+-E6-A8-A1-E5-9D-97-E5-8C-96">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>下载 <code>sea.js</code>并在html页面引入</p>
+</li><li>
+<p>构建项目</p>
+
+<pre>   |-js
+    |-libs //用来放第三方的库
+      |-sea.js
+    |-modules //用来放模块文件
+      |-module1.js
+      |-module2.js
+      |-module3.js
+      |-main.js
+   |-index.html //页面</pre>
+</li><li>
+<p>定义模版代码</p>
+<ul><li>
+<p>module1.js</p>
+
+<pre>define(function (require,exports,module) {
+  let name = &#39;wukong&#39;;
+  function getName() {
+  	  return name
+  }
+
+  module.exports = getName //暴露方法
+});</pre>
+</li><li>
+<p>module2.js</p>
+
+<pre>define(function (require,exports,module) {
+  let module1 = require(&#39;./module1&#39;);
+
+  let msg = &#39;atguigu.com&#39;;
+  function showMsg() {
+    console.log(msg + module1()); //调用module1
+  }
+
+  module.exports = {showMsg} //暴露对象
+});</pre>
+</li><li>
+<p>module3.js</p>
+
+<pre>define(function (require,exports,module) {
+  exports.KEY = &#39;NBA GAMES&#39;;
+})</pre>
+</li></ul>
+</li><li>
+<p>main.js 主文件</p>
+
+<pre>define(function (require) {
+   //同步引入
+  let module2 = require(&#39;./module2&#39;);
+  module2.showMsg() //对象调用
+
+  //异步引入
+  require.async(&#39;./module3&#39;,function (module3) {</pre>
+
+<p> console.log(module3.KEY);  })  });</p>
+</li><li>
+<p>html页面代码</p>
+<ul><li>
+<p>引入sea.js文件</p>
+<ul><li>
+<p><code>&lt;script src=&quot;js/libs/sea.js&quot;&gt;&lt;/script&gt;</code></p>
+</li></ul>
+</li><li>
+<p>使用模块(指定主文件js)</p>
+<ul><li>
+<p><code>seajs.use(&#39;./js/modules/main.js&#39;);</code></p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>浏览器控制台输出</p>
+
+<pre class="ruby"><span class="ruby-identifier">atguigu</span>.<span class="ruby-identifier">comwukong</span>
+<span class="ruby-constant">NBA</span> <span class="ruby-constant">GAMES</span>
+</pre>
+</li></ol>
+<hr>
+<ul><li>
+<p>module.exports暴露方法</p>
+<ul><li>
+<p>function getName() {}</p>
+</li><li>
+<p>module.exports = getName</p>
+</li><li>
+<p>let module1 = require(&#39;./module1&#39;);</p>
+</li><li>
+<p>module1()</p>
+</li></ul>
+</li><li>
+<p>module.exports暴露对象</p>
+<ul><li>
+<p>function getName() {}</p>
+</li><li>
+<p>module.exports ={getName}</p>
+</li><li>
+<p>let module1 = require(&#39;./module1&#39;);</p>
+</li><li>
+<p>module1.getName()</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<h2 id="label-ES6+-E6-A8-A1-E5-9D-97">ES6 模块<span><a href="#label-ES6+-E6-A8-A1-E5-9D-97">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>说明</p>
+<ul><li>
+<p>依赖模块需要编译打包处理</p>
+</li></ul>
+</li><li>
+<p>语法</p>
+<ul><li>
+<p>暴露模块: export</p>
+<ul><li>
+<p>实际暴露的就是一个对象</p>
+</li></ul>
+</li><li>
+<p>默认暴露: export default xxx</p>
+<ul><li>
+<p>暴露任意数据可接收任意数据</p>
+</li></ul>
+</li><li>
+<p>引入模块: import xx from xx</p>
+<ul><li>
+<p>接收的变量是对象</p>
+</li><li>
+<p>也可以对应模块名字进行解构赋值</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>实现</p>
+<ul><li>
+<p>使用Babel将ES6编译为ES5代码</p>
+</li><li>
+<p>使用Browserify编译打包js</p>
+</li></ul>
+</li></ul>
+
+<p>—</p>
+
+<h4 id="label-ES6+-E6-A8-A1-E5-9D-97-E5-8C-96">ES6 模块化<span><a href="#label-ES6+-E6-A8-A1-E5-9D-97-E5-8C-96">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>创建package.json</p>
+
+<pre>  {
+    &quot;name&quot; : &quot;es6-babel-browserify&quot;,
+    &quot;version&quot; : &quot;1.0.0&quot;
+  }</pre>
+</li><li>
+<p>安装babel-cli, babel-preset-es2015和browserify</p>
+<ul><li>
+<p>npm install babel-cli browserify -g</p>
+</li><li>
+<p>npm install babel-preset-es2015 –save-dev</p>
+</li><li>
+<p>npm install browserify –save-dev</p>
+</li></ul>
+</li><li>
+<p>创建 .babelrc 文件</p>
+
+<pre class="ruby">{
+    <span class="ruby-value">&quot;presets&quot;:</span> [<span class="ruby-string">&quot;es2015&quot;</span>]
+ }
+</pre>
+</li><li>
+<p>编码</p>
+<ul><li>
+<p>js/src/module1.js</p>
+
+<pre>//分别暴露多个数据 暴露本质是一个对象
+
+export function foo() {
+	  console.log(&#39;我是foo()方法&#39;);
+}
+
+export function bar() {
+  console.log(&#39;我是bar()方法&#39;);
+}
+
+export  let msg = &#39;atguigu.com&#39;;</pre>
+</li><li>
+<p>js/src/module2.js</p>
+
+<pre>//统一暴露
+
+let data = &#39;NBA&#39;;
+function fun1() {
+	  console.log(&#39;我是fun1方法&#39; + &#39;_&#39; + data);
+}
+
+function fun2() {
+	  console.log(&#39;我是fun2方法&#39;+ &#39;_&#39; +data);
+}
+
+export {fun1,fun2}</pre>
+</li><li>
+<p>js/src/module3.js</p>
+
+<pre>//默认暴露. 
+//默认接收暴露的任意数据类型. 通常是对象
+
+export  default {
+  name: &#39;Tom&#39;,
+  setName: function (name) {
+    this.name = name
+  }
+}</pre>
+</li></ul>
+</li><li>
+<p>主文件引入</p>
+<ul><li>
+<p>引入其他模块语法</p>
+</li><li>
+<p>import 变量 from 模块所在路径的模块文件</p>
+
+<pre>//引入第三方JS库
+import $ from &#39;jquery&#39;
+
+//引入其他模块 
+
+import {foo,bar} from &#39;./module1&#39;  //解构赋值
+import {msg} from &#39;./module1&#39;
+
+import module2 from &#39;./module2&#39;
+
+import  obj from &#39;./module3&#39;
+
+foo();
+bar();
+console.log(msg);
+
+module2.fun1();
+module2.fun2();
+
+obj.setName(&#39;kobe&#39;);
+console.log(obj);
+
+$(&#39;body&#39;).css(&#39;background&#39;,&#39;pink&#39;);</pre>
+</li></ul>
+</li><li>
+<p>编译</p>
+<ul><li>
+<p>使用Babel将ES6编译为ES5代码</p>
+</li><li>
+<p>babel 要转换的js文件路径 -d 转换后的目标路径</p>
+</li><li>
+<p><code>babel js/src -d js/lib</code></p>
+</li><li>
+<p>使用Browserify编译js</p>
+</li><li>
+<p><code>browserify js/lib/main.js -o js/lib/bundle.js</code></p>
+</li></ul>
+</li><li>
+<p>html代码引入</p>
+<ul><li>
+<p><code>&lt;script type=&quot;text/javascript&quot; src=&quot;js/lib/bundle.js&quot;&gt;&lt;/script&gt;</code></p>
+</li></ul>
+</li><li>
+<p>浏览器控制台输出</p>
+
+<pre>我是foo()方法
+我是bar()方法
+atguigu.com
+我是fun1方法_NBA
+我是fun2方法_NBA
+- 页面显示粉色</pre>
+</li></ol>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/10_ECMAScript/JS%E6%A8%A1%E5%9D%97%E5%8C%96.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="10-04.html">上一篇 · ES7</a><a href="10-06.html">下一篇 · 自动化工具</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

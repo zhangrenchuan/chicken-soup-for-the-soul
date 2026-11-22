@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>Web Workers API · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-06.html">JavaScript 进阶：作用域、闭包和原型</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 进阶：作用域、闭包和原型</strong><a href="06-01.html">数据类型</a><a href="06-02.html">原型</a><a href="06-03.html">this</a><a href="06-04.html">提升</a><a href="06-05.html">上下文环境对象</a><a href="06-06.html">作用域与作用域链</a><a href="06-07.html">闭包</a><a href="06-08.html">对象创建模式</a><a href="06-09.html">原型链继承</a><a href="06-10.html">线程机制</a><a href="06-11.html">JS引擎</a><a href="06-12.html" aria-current="page">Web Workers API</a></nav>
+<article class="paper"><h1>Web Workers API</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>Web Worker 可以把耗时计算移到后台，避免界面长时间卡住。页面和 Worker 用 <code>postMessage()</code> 交换数据，Worker 不能直接修改页面节点。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-Web+Workers+API">Web Workers API<span><a href="#label-Web+Workers+API">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>提供了js分线程的实现</p>
+</li><li>
+<p><strong>分线程主要用来处理长时间的工作且不占用主线程的空间和时间</strong></p>
+
+<pre>Worker: 构造函数, 加载分线程执行的js文件
+Worker.prototype.onmessage: 用于接收另一个线程的回调函数(当接收消息时,回调函数执行)
+Worker.prototype.postMessage: 向另一个线程发送消息
+分线程里的this不是window而是[object DedicatedWorkerGlobalScope]</pre>
+</li><li>
+<p>缺点:</p>
+</li><li>
+<p>worker内代码不能操作DOM(更新UI)</p>
+</li><li>
+<p>不能跨域加载JS</p>
+</li><li>
+<p>不是每个浏览器都支持这个新特性</p>
+</li></ul>
+
+<p><strong>分线程设计出来是为了处理长时间的工作. 不是为了更新界面</strong></p>
+
+<pre>  //创建Worker实例
+  var worker = new Worker(&#39;worker1.js&#39;);
+
+  //通过主线程向分线程的js发送消息(数据)
+  var msg = &#39;abc&#39;;
+  worker.postMessage(msg);
+  console.log(&#39;主线程向分线程发送数据 : &#39;,msg);
+
+
+  //绑定接收返回消息的监听回调
+  worker.onmessage = function (e) {
+  	  var result = e.data;
+    console.log(&#39;主线程接收到分线程返回的数据 : &#39;,result);
+  }
+
+
+  //1. 接收数据
+  var onmessage = function (e) {
+  var data = e.data;
+  console.log(&#39;分线程接收到主线程发送的数据 : &#39;,data);
+
+  //2. 处理数据
+  data = data.toUpperCase();
+
+  //3. 返回数据
+  postMessage(data);
+  console.log(&#39;分线程向主线程返回数据 : &#39;,data);
+
+  //alert not defined  分线程里不可以更新界面的
+  };
+
+主线程向分线程发送数据: abc
+分线程接收到主线程发送的数据: abc
+
+分线程向主线程返回数据: ABC
+主线程接收到分线程返回的数据: ABC</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/06_JavaScript%E9%AB%98%E7%BA%A7/Web%20Workers%20API.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="06-11.html">上一篇 · JS引擎</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

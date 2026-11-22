@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>正则表达式2.0 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-12.html">JavaScript 与 CSS 进阶练习</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 与 CSS 进阶练习</strong><a href="12-01.html">JS高级2.0</a><a href="12-02.html" aria-current="page">正则表达式2.0</a><a href="12-03.html">BOM2.0</a><a href="12-04.html">DOM2.0</a><a href="12-05.html">CSS高级</a></nav>
+<article class="paper"><h1>正则表达式2.0</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>正则可以用标志改变匹配方式，例如 <code>i</code> 忽略大小写，<code>g</code> 全局匹配。复用带 <code>g</code> 的正则时，注意 <code>lastIndex</code> 可能随匹配改变。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F">正则表达式<span><a href="#label-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>描述字符模式的对象</p>
+</li><li>
+<p>ECMAScript 的 RegExp 类表示正则表达式，而 String 和 RegExp都定义了使用正则表达式进行强大的模式匹配和文本检索与替换的函数。</p>
+</li><li>
+<p>正则表达式主要用来验证客户端的输入数据。</p>
+</li><li>
+<p>因为客户端验证，可以节约大量的服务器端的系统资源，并且提供更好的用户体验。</p>
+</li></ul>
+
+<h4 id="label-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E5-88-9B-E5-BB-BA">正则表达式创建<span><a href="#label-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E5-88-9B-E5-BB-BA">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>对象的方式</p>
+</li><li>
+<p>当一个正则表达式需要动态的拼接时只能用该方法</p>
+
+<pre>var box = new RegExp(&#39;nmx&#39;); 
+var box = new RegExp(&#39;nmx&#39;, &#39;ig&#39;);
+//第一个参数 模式字符串</pre>
+
+<p> //第二个参数 模式修饰符</p>
+
+<pre>var reg = new RegExp(&quot;\\b&quot; + className + &quot;\\b&quot;);</pre>
+</li><li>
+<p>字面量的方式</p>
+
+<pre>var box = /box/; 
+var box = /box/ig;
+//两个反斜杠中写 模式字符串 (右手逆势就是反斜杠)
+//在第二个斜杠后面加上模式修饰符</pre>
+</li></ul>
+
+<h4 id="label-E6-A8-A1-E5-BC-8F-E4-BF-AE-E9-A5-B0-E7-AC-A6">模式修饰符<span><a href="#label-E6-A8-A1-E5-BC-8F-E4-BF-AE-E9-A5-B0-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>全局匹配 —– g</p>
+</li><li>
+<p>忽略大小写 — i</p>
+</li><li>
+<p>多行匹配 —– m</p>
+<ul><li>
+<p>作用: 决定^(脱字符)的匹配行为</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-AE-9E-E4-BE-8B-E5-B1-9E-E6-80-A7">实例属性<span><a href="#label-E5-AE-9E-E4-BE-8B-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>实例对象的属性叫实例属性</p>
+</li><li>
+<p>global 全局匹配是否已设置 返回Boolean 值</p>
+</li><li>
+<p>ignoreCase 忽略大小写是否已设置 返回Boolean 值</p>
+</li><li>
+<p>multiline 多行匹配是否已设置 返回Boolean 值</p>
+</li><li>
+<p>source 正则表达式的源字符串形式（模式字符串）</p>
+</li><li>
+<p>lastIndex 整数代表下次匹配将从哪里字符位置开始</p>
+
+<pre>var reg = /zrc/g;
+
+console.log(reg.global); //true
+console.log(reg.ignoreCase); //false
+console.log(reg.multiline); //false
+console.log(reg.source);  //zrc
+console.log(reg.lastIndex); //0 初始位置为0</pre>
+</li></ul>
+
+<h4 id="label-E9-9D-99-E6-80-81-E5-B1-9E-E6-80-A7">静态属性<span><a href="#label-E9-9D-99-E6-80-81-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>构造函数的属性叫静态属性</p>
+</li><li>
+<p>input 当前被匹配的字符串</p>
+<ul><li>
+<p>简写: $_</p>
+</li><li>
+<p>简写: $_</p>
+</li></ul>
+</li><li>
+<p>lastMatch 最后一个匹配字符串</p>
+<ul><li>
+<p>简写: $&amp;</p>
+</li><li>
+<p>简写: $&amp;</p>
+</li></ul>
+</li><li>
+<p>lastParen 最后一对圆括号内的匹配子串</p>
+<ul><li>
+<p>简写: $+</p>
+</li><li>
+<p>简写: $+</p>
+</li></ul>
+</li><li>
+<p>leftContext 最后一次匹配前的子串</p>
+<ul><li>
+<p>简写: $`</p>
+</li><li>
+<p>简写: $`</p>
+</li></ul>
+</li><li>
+<p>rightContext 在上次匹配之后的子串</p>
+<ul><li>
+<p>简写: $&#39;</p>
+</li><li>
+<p>简写: $&#39;</p>
+</li></ul>
+</li><li>
+<p>默认情况下值都是“”（空白字符，注意与空格字符的区别）</p>
+</li><li>
+<p>正则在被使用后才有值！！而且只有在匹配成功后才会更新值</p>
+
+<pre>var text = &#39;azrcbzrc&#39;; //源字符串
+var reg = /(z)(rc)/g; //模式字符串, 模式修饰符
+reg.test(text);
+
+console.log(RegExp.input); //&#39;azrcbzrc&#39;
+console.log(RegExp.lastMatch); //zrc
+console.log(RegExp.lastParen); // rc
+console.log(RegExp.leftContext); //a
+console.log(RegExp.rightContext); //bzrc
+console.log(RegExp.$1); //代表第一个分组  z</pre>
+</li></ul>
+
+<h4 id="label-lastIndex">lastIndex<span><a href="#label-lastIndex">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>可读写属性. 用来指定下一次匹配的起始索引</p>
+</li><li>
+<p>每调用一次 lastIndex 会移动到匹配成功的子字符串结尾的位置</p>
+</li><li>
+<p>只有正则表达式使用了表示全局检索的 “g” 标志时，lastIndex属性才会起作用。</p>
+</li><li>
+<p>使用new RegExp()里的test方法和exec方法需要每次都要new才可以确保lastIndex的位置是正确的</p>
+</li><li>
+<p>场景I: 当lastIndex大于源字符串的长度(不匹配空白字符串)</p>
+<ul><li>
+<p>reg.test false</p>
+</li><li>
+<p>reg.exec null</p>
+</li><li>
+<p>lastindex 0</p>
+</li></ul>
+</li><li>
+<p>场景II: 当lastIndex小于源字符串的长度 (不匹配空白字符串)</p>
+<ul><li>
+<p>如果匹配成功</p>
+</li><li>
+<p>reg.test true</p>
+</li><li>
+<p>reg.exec 封装了当前匹配成功的子字符串的数组</p>
+</li><li>
+<p>lastindex 紧接着当前匹配成功的子字符串的下一个位置</p>
+</li><li>
+<p>如果匹配失败</p>
+</li><li>
+<p>reg.test false</p>
+</li><li>
+<p>reg.exec null</p>
+</li><li>
+<p>lastindex 0</p>
+</li></ul>
+</li><li>
+<p>场景III: 当lastIndex等于源字符串的长度 (不匹配空白字符串)</p>
+<ul><li>
+<p>reg.test false</p>
+</li><li>
+<p>reg.exec null</p>
+</li><li>
+<p>lastindex 0</p>
+</li></ul>
+</li><li>
+<p>场景IV: 当匹配空白字符串s{0}时.且lastIndex 小于等于源字符串长度</p>
+<ul><li>
+<p>reg.test永远都是 true</p>
+</li><li>
+<p>reg.exec永远都是 “” (返回包含空白字符的数组)</p>
+</li><li>
+<p>lastindex永远都是 0（lastindex不会发生改变）</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<h4 id="label-RegExp+-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-96-B9-E6-B3-95-E7-9B-B8-E5-85-B3API">RegExp 对象的方法相关API<span><a href="#label-RegExp+-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-96-B9-E6-B3-95-E7-9B-B8-E5-85-B3API">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><strong>test() 检索字符串中的指定值.返回值是布尔值</strong></p>
+</li><li>
+<p>exec() 检索字符串中的指定值.返回值是数组(包含匹配成功的子字符串以及它的一些属性).没有发现匹配，则返回 null</p>
+</li></ul>
+
+<h4 id="label-String+-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E6-96-B9-E6-B3-95">String 对象的正则表达式方法<span><a href="#label-String+-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-split-28reg-29+-E4-BB-A5-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E8-BF-9B-E8-A1-8C-E5-88-86-E5-89-B2.+-E8-BF-94-E5-9B-9E-E5-80-BC-E6-98-AF-E6-95-B0-E7-BB-84">split(reg) 以正则表达式进行分割. 返回值是数组<span><a href="#label-split-28reg-29+-E4-BB-A5-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E8-BF-9B-E8-A1-8C-E5-88-86-E5-89-B2.+-E8-BF-94-E5-9B-9E-E5-80-BC-E6-98-AF-E6-95-B0-E7-BB-84">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>var text = &#39;ggggg&#39;; //源字符串
+var arr = text.split(&#39;&#39;); //以空白字符分割
+console.log(arr); //[&quot;g&quot;, &quot;g&quot;, &quot;g&quot;, &quot;g&quot;, &quot;g&quot;]
+
+var reg1 = /\s{0}/g; //以空白字符分割. 返回 g
+var arr1 = text.split(reg1);
+console.log(arr1); //[&quot;g&quot;, &quot;g&quot;, &quot;g&quot;, &quot;g&quot;, &quot;g&quot;]
+
+var reg2 = /g/g;
+var arr2 = text.split(reg2); //按 g 分割. 返回空白字符
+console.log(arr2); //[&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;]</pre>
+
+<h5 id="label-match-28reg-29+-E6-BB-A1-E8-B6-B3-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E7-9A-84-E5-85-A8-E9-83-A8-E5-8C-B9-E9-85-8D-E5-B9-B6-E8-BF-94-E5-9B-9E-E6-95-B0-E7-BB-84">match(reg) 满足正则表达式的全部匹配并返回数组<span><a href="#label-match-28reg-29+-E6-BB-A1-E8-B6-B3-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E7-9A-84-E5-85-A8-E9-83-A8-E5-8C-B9-E9-85-8D-E5-B9-B6-E8-BF-94-E5-9B-9E-E6-95-B0-E7-BB-84">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>var text = &#39;ggggg&#39;;
+var reg = /\s{0}/g;
+
+var arr = text.match(reg);
+console.log(arr); //返回七个空白字符的数组</pre>
+
+<h5 id="label-replace-28reg-2C+replacement-29+-E6-9B-BF-E6-8D-A2-E5-8C-B9-E9-85-8D-E7-9A-84-E5-AD-97-E7-AC-A6-E4-B8-B2">replace(reg, replacement) 替换匹配的字符串<span><a href="#label-replace-28reg-2C+replacement-29+-E6-9B-BF-E6-8D-A2-E5-8C-B9-E9-85-8D-E7-9A-84-E5-AD-97-E7-AC-A6-E4-B8-B2">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>第一个参数: 正则表达式. 第二个参数: 替换后要求的字符串</p>
+</li><li>
+<p>replace方法的第二个参数可以是一个回调函数</p>
+</li><li>
+<p>该函数的第一个参数是匹配成功的子字符串.隐式迭代</p>
+</li><li>
+<p>第二个参数是模式字符串分组对应的源字符串的子字符串</p>
+</li><li>
+<p>该函数的返回值可以替换匹配成功的子字符串</p>
+
+<pre>var text = &#39;ggggg&#39;;
+var reg = /\s{0}/g;
+
+var arr = text.match(reg,&quot;$&quot;);
+console.log(arr); //返回七个$的数组</pre>
+</li></ul>
+<hr>
+
+<h4 id="label-E6-AD-A3-E5-88-99-E5-B0-8F-E9-9D-A2-E8-AF-95-E9-A2-98">正则小面试题<span><a href="#label-E6-AD-A3-E5-88-99-E5-B0-8F-E9-9D-A2-E8-AF-95-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>首尾去空格<br> 正则最佳实践: 在日常开发中尽量避免使用可以匹配空白字符的正则</p>
+
+<pre>var text = &quot;   hello    &quot;;
+function trim(str) {
+	  var reg = /^\s+|\s+$/g;
+	  return str.replace(reg,&quot;&quot;)
+}
+
+console.log(trim(text));
+
+console.log(&quot;  hhh &quot;.match(/h*/g)); //空白字符匹配</pre>
+
+<p>敏感词过滤</p>
+
+<pre> var reg = /操你妈/g;
+ value.replace(reg,&quot;*河蟹*&quot;)</pre>
+<hr>
+
+<h4 id="label-E6-AD-A3-E5-88-99-E7-9A-84-E8-B4-AA-E5-A9-AA-26-E6-83-B0-E6-80-A7">正则的贪婪&amp;惰性<span><a href="#label-E6-AD-A3-E5-88-99-E7-9A-84-E8-B4-AA-E5-A9-AA-26-E6-83-B0-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>正则中的量词是贪婪的</p>
+</li><li>
+<p>给量词添加 ? 号 就变成惰性</p>
+</li><li>
+<p>小应用: 日期格式转换</p>
+
+<pre> |贪 婪|			|惰 性|
+	+ 				+?
+	? 				??
+	* 				*?
+	{n} 			{n}?
+	{n,} 			{n,}?
+	{n,m} 			{n,m}?</pre>
+</li></ul>
+<hr>
+
+<h4 id="label-E6-AD-A3-E5-88-99-E7-9A-84-E5-88-86-E7-BB-84">正则的分组<span><a href="#label-E6-AD-A3-E5-88-99-E7-9A-84-E5-88-86-E7-BB-84">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>分组的意义: 可以把模式字符串分门别类</p>
+</li><li>
+<p>可以扩大量词的修饰范围</p>
+</li><li>
+<p>replace() 用来创建新子字符串的函数，返回值将替换掉第一个参数匹配到的结果</p>
+<ul><li>
+<p>第一个参数: 匹配成功返回的子字符串</p>
+</li><li>
+<p>第n个参数: 代表第n个括号匹配的分组内容</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-8F-AF-E9-87-8D-E5-A4-8D-E7-9A-84-E5-AD-90-E9-A1-B9">可重复的子项<span><a href="#label-E5-8F-AF-E9-87-8D-E5-A4-8D-E7-9A-84-E5-AD-90-E9-A1-B9">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>子项的内容必须和分组中的一样</p>
+</li><li>
+<p>类型和内容都要一样</p>
+</li><li>
+<p>1 或$1 匹配第一个分组中的内容</p>
+</li><li>
+<p>2 或$2 匹配第二个分组中的内容</p>
+</li><li>
+<p>3 或$3 匹配第三个分组中的内容</p>
+</li></ul>
+<hr>
+
+<h4 id="label-E7-BB-8F-E5-85-B8-E9-9D-A2-E8-AF-95-E9-A2-98-E3-81-AE+-E8-BE-93-E5-87-BA-E5-AD-97-E7-AC-A6-E4-B8-B2-E4-B8-AD-E4-B8-AA-E6-95-B0-E6-9C-80-E5-A4-9A-E7-9A-84-E5-AD-97-E7-AC-A6-E4-B8-B2-E5-B9-B6-E8-BF-94-E5-9B-9E-E4-B8-AA-E6-95-B0">经典面试题の 输出字符串中个数最多的字符串并返回个数<span><a href="#label-E7-BB-8F-E5-85-B8-E9-9D-A2-E8-AF-95-E9-A2-98-E3-81-AE+-E8-BE-93-E5-87-BA-E5-AD-97-E7-AC-A6-E4-B8-B2-E4-B8-AD-E4-B8-AA-E6-95-B0-E6-9C-80-E5-A4-9A-E7-9A-84-E5-AD-97-E7-AC-A6-E4-B8-B2-E5-B9-B6-E8-BF-94-E5-9B-9E-E4-B8-AA-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>//输出字符串中个数最多的字符并返回个数
+var str = &quot;adfhghfgfdvfdvdvddgqweoioi&quot;
+
+//1. 先拆分字符串 给乱序字符串放到数组并排序
+var arr = str.split(&quot;&quot;);
+str = arr.sort().join(&quot;&quot;); //按照空白字符串拼接
+
+//2. 定义返回的字符串和长度
+var char = &quot;&quot;;
+var length = 0;
+var reg = /(\w)\1+/g;
+
+//3. 借用replace函数
+str.replace(reg,function ($1,$2,$3) {
+      //隐式迭代
+	  if($1.length &gt; length){
+	    length  = $1.length;
+	    char = $2
+    }
+});
+
+console.log(&quot;字符串中个数最多的:&quot;+ char + &quot;.&quot; + &quot;个数为:&quot; + length);</pre>
+<hr>
+
+<h3 id="label-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E4-B8-AD-E7-9A-84-E5-85-83-E5-AD-97-E7-AC-A6">正则表达式中的元字符<span><a href="#label-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E4-B8-AD-E7-9A-84-E5-85-83-E5-AD-97-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>它们有一些特殊功能， 可以控制匹配模式</p>
+
+<h4 id="label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E5-8D-95-E4-B8-AA-E5-AD-97-E7-AC-A6-E5-92-8C-E6-95-B0-E5-AD-97">字符类：单个字符和数字<span><a href="#label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E5-8D-95-E4-B8-AA-E5-AD-97-E7-AC-A6-E5-92-8C-E6-95-B0-E5-AD-97">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>. 			匹配除换行符外的任意字符</pre>
+
+<p>[a-z0-9] 匹配括号中的字符集中的任意字符 <a id="footmark-1" href="#foottext-1">1</a> 匹配任意不在括号中的字符集中的字符  d 匹配数字  D 匹配非数字，同<a id="footmark-2" href="#foottext-2">2</a>相同  w 匹配字母和数字及_  W 匹配非字母和数字及_</p>
+</li></ul>
+
+<h4 id="label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E7-A9-BA-E7-99-BD-E5-AD-97-E7-AC-A6">字符类：空白字符<span><a href="#label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E7-A9-BA-E7-99-BD-E5-AD-97-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>   \s 			匹配空白字符、空格、制表符和换行符
+   \S 			匹配非空白字符
+   \0			匹配 null 字符
+   \f 			匹配进纸字符
+   \n 			匹配换行符
+   \r 			匹配回车字符
+   \t 			匹配制表符</pre>
+
+<h4 id="label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E9-94-9A-E5-AD-97-E7-AC-A6">字符类：锚字符<span><a href="#label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E9-94-9A-E5-AD-97-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>   ^ 			行首匹配
+   $ 			行尾匹配
+   \b 			匹配独立单词两边的空白字符，词在[]内时无效
+   \B 			匹配非单词边界
+   \A 			只有匹配字符串开始处
+   \G 			匹配当前搜索的开始位置
+   \Z 			匹配字符串结束处或行尾
+   \z 			只匹配字符串结束处</pre>
+
+<h4 id="label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E9-87-8D-E5-A4-8D-E5-AD-97-E7-AC-A6+-28-E9-87-8F-E8-AF-8D-29">字符类：重复字符 (量词)<span><a href="#label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E9-87-8D-E5-A4-8D-E5-AD-97-E7-AC-A6+-28-E9-87-8F-E8-AF-8D-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>   x? 			匹配 0 个或 1 个 x
+   x* 			匹配 0 个或任意多个 x
+   x+ 			匹配至少一个 x
+  (xyz)+ 		匹配至少一个(xyz)
+  x{m,n} 		匹配最少 m 个、最多 n 个 x</pre>
+
+<h4 id="label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E6-9B-BF-E4-BB-A3-E5-AD-97-E7-AC-A6">字符类：替代字符<span><a href="#label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E6-9B-BF-E4-BB-A3-E5-AD-97-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>this|where|logo 	匹配 this 或 where 或 logo 中任意一个</pre>
+
+<h4 id="label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E8-AE-B0-E5-BD-95-E5-AD-97-E7-AC-A6">字符类：记录字符<span><a href="#label-E5-AD-97-E7-AC-A6-E7-B1-BB-EF-BC-9A-E8-AE-B0-E5-BD-95-E5-AD-97-E7-AC-A6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>(string) 		用于分组
+\1 或$1			匹配第一个分组中的内容
+\2 或$2 			匹配第二个分组中的内容
+\3 或$3 			匹配第三个分组中的内容</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/12_JS2.0_CSS2.0/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F2.0.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="12-01.html">上一篇 · JS高级2.0</a><a href="12-03.html">下一篇 · BOM2.0</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

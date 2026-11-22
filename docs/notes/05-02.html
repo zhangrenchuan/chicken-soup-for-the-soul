@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>jQuery选择器 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-05.html">jQuery：操作旧项目中的页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>jQuery：操作旧项目中的页面</strong><a href="05-01.html">jQuery入门</a><a href="05-02.html" aria-current="page">jQuery选择器</a><a href="05-03.html">用 jQuery 修改页面</a><a href="05-04.html">jQuery事件</a><a href="05-05.html">$冲突问题</a><a href="05-06.html">jQuery动画</a><a href="05-07.html">jQuery类数组操作</a><a href="05-08.html">jQuery插件</a></nav>
+<article class="paper"><h1>jQuery选择器</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>jQuery 的选择器和 CSS 写法相似。<code>#menu</code> 找指定 ID，<code>.item</code> 找同类元素，<code>#menu .item</code> 只找菜单里的这一类元素。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-jQuery-E9-80-89-E6-8B-A9-E5-99-A8">jQuery选择器<span><a href="#label-jQuery-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-E4-BB-80-E4-B9-88-E6-98-AFjQuery-E7-9A-84-E9-80-89-E6-8B-A9-E5-99-A8">什么是jQuery的选择器<span><a href="#label-E4-BB-80-E4-B9-88-E6-98-AFjQuery-E7-9A-84-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>jQuery的选择器的想法是源于CSS中的选择器的用法，其实在JavaScript中也有类似的用法，比如querySelector( )或querySelectorAll( )方法的使用，也是借助CSS中的选择器来定位HTML页面元素的。只不过相比jQuery中的选择器，JavaScript中的querySelector( )或querySelectorAll( )方法的性能相对差一些而已。</p>
+
+<p>jQuery的选择器最主要的作用就是用于定位HTML页面的元素。它不仅可以定位HTML页面中具体某个元素，还可以通过各种方式定位复合条件的一组元素等等。</p>
+
+<p>jQuery的选择器最大的特点就是将定位元素和元素行为进行了有效的分离。这是在实际开发中非常必要的一项特点！</p>
+
+<h3 id="label-jQuery-E9-80-89-E6-8B-A9-E5-99-A8-E7-9A-84-E7-A7-8D-E7-B1-BB">jQuery选择器的种类<span><a href="#label-jQuery-E9-80-89-E6-8B-A9-E5-99-A8-E7-9A-84-E7-A7-8D-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>jQuery中使用其工厂函数 $( ) 作为容器，来接收jQuery的选择器内容。而jQuery的选择器则以字符串形式传递给jQuery的工厂函数。jQuery的选择器种类大概可以分为以下几种：</p>
+
+<h4 id="label-E5-9F-BA-E6-9C-AC-E9-80-89-E6-8B-A9-E5-99-A8">基本选择器<span><a href="#label-E5-9F-BA-E6-9C-AC-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>// 通过元素的 id 属性值获取
+$(&#39;#btn1&#39;).click(function(){
+    $(&#39;#one&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+});
+// 选取带有指定class属性值
+$(&#39;#btn2&#39;).click(function(){
+    $(&#39;.mini&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+});
+// 选择元素名 element 的元素
+$(&#39;#btn3&#39;).click(function(){
+    $(&#39;div&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+});
+//选择所有元素 (多用于上下文搜索)
+$(&#39;#btn4&#39;).click(function(){
+    $(&#39;*&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+});
+//并集选择器
+$(&#39;#btn5&#39;).click(function(){
+    $(&#39;span,#two&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+});</pre>
+
+<blockquote>
+<p><strong>需要注意</strong></p>
+<ol><li>
+<p>通配符选择器（*）默认匹配HTML页面中所有的元素。</p>
+</li><li>
+<p>复合选择器（多个选择器并列使用）的使用，每个选择器之间使用”,”进行分割。并且复合选择器匹配的结果是多个选择器的并集效果。</p>
+</li></ol>
+</blockquote>
+
+<h4 id="label-E5-B1-82-E7-BA-A7-E9-80-89-E6-8B-A9-E5-99-A8">层级选择器<span><a href="#label-E5-B1-82-E7-BA-A7-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>//选择祖先元素下所有的后代元素
+$(&#39;#btn1&#39;).click(function(){
+    $(&#39;body div&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+//选择父元素下匹配的所有子元素
+$(&#39;#btn2&#39;).click(function(){
+    $(&#39;body &gt; div&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+//选取紧接某元素后的下一个元素
+$(&#39;#btn3&#39;).click(function(){
+    $(&#39;.one + div&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+//选取某元素后的所有兄弟元素
+$(&#39;#btn4&#39;).click(function(){
+    $(&#39;#two ~ div&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})</pre>
+
+<blockquote>
+<p><strong>需要注意</strong></p>
+
+<p>selectors~selector2选择器，是获取符合selector1选择器的元素后面所有符合selector2选择器的兄弟元素。jQuery中还有一个方法siblings( )，是获取指定元素的所有兄弟元素。</p>
+</blockquote>
+
+<h4 id="label-E5-9F-BA-E6-9C-AC-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">基本过滤选择器<span><a href="#label-E5-9F-BA-E6-9C-AC-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>//获取第一个元素
+$(&#39;#btn1&#39;).click(function(){
+    $(&#39;div:first&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+})
+//获取最后一个元素
+$(&#39;#btn2&#39;).click(function(){
+    $(&#39;div:last&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+})
+
+//去除所有与选定选择器匹配的元素
+//选择class不为one的 所有div元素.
+$(&#39;#btn3&#39;).click(function(){
+    $(&#39;div:not(.one)&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+})
+
+//获取索引值为偶数的. 从0开始计数
+$(&#39;#btn4&#39;).click(function(){
+    $(&#39;div:even&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+})
+//获取索引值为奇数的. 从0开始计数
+$(&#39;#btn5&#39;).click(function(){
+    $(&#39;div:odd&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+})
+//选取指定索引值的元素 从0开始计数
+$(&#39;#btn6&#39;).click(function(){
+    $(&#39;div:eq(3)&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+})
+//选取所有大于指定索引值的元素 great than
+$(&#39;#btn7&#39;).click(function(){
+    $(&#39;div:gt(3)&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+})
+//选取所有小于指定索引值的元素 less than
+$(&#39;#btn8&#39;).click(function(){
+    $(&#39;div:lt(3)&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+})
+//选择 所有的标题元素.比如h1, h2, h3等等...
+$(&#39;#btn9&#39;).click(function(){
+    $(&#39;:header&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+})
+//选择 当前正在执行动画的所有元素.
+$(&#39;#btn10&#39;).click(function(){
+    $(&#39;:animated&#39;).css(&quot;background&quot;,&quot;#bfa&quot;);
+});</pre>
+
+<blockquote>
+<p><strong>需要注意</strong></p>
+<ol><li>
+<p>“:not(selector)”选择器，不仅可以匹配到class属性值不是one的元素，还匹配到没有class属性的元素。这不仅仅只是一个反操作的过程。</p>
+</li><li>
+<p>“:even”和”:odd”选择器，表示索引值为偶数或者索引值为奇数的元素，但是需要注意的是索引值是从 0 开始的。</p>
+</li><li>
+<p>:header”选择器，是匹配 h1 - h6 标题元素，并不能匹配指定的某个标题元素。如果需要匹配具体某个标题元素可以使用元素选择器，所以这种用法在实际开发中很少见到。</p>
+</li><li>
+<p>“:animated”选择器，是匹配正在执行动画效果的元素，但需要注意的是它只能匹配jQuery执行的动画效果，而不能匹配其他技术实现的动画效果。</p>
+</li></ol>
+</blockquote>
+
+<h4 id="label-E5-86-85-E5-AE-B9-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">内容过滤选择器<span><a href="#label-E5-86-85-E5-AE-B9-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>//查找包含某个文本的元素
+$(&#39;#btn1&#39;).click(function(){
+    $(&#39;div:contains(di)&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+//选取所有不包含子元素或者文本的空元素
+$(&#39;#btn2&#39;).click(function(){
+    $(&#39;div:empty&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+//选取含有子元素或者文本的元素
+$(&#39;#btn3&#39;).click(function(){
+    $(&#39;div:has(.mini)&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+//指定目标前的指定父元素
+$(&#39;#btn4&#39;).click(function(){
+    $(&#39;div:parent&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})</pre>
+
+<blockquote>
+<p><strong>需要注意</strong></p>
+<ol><li>
+<p>“:has(selector)”选择器，匹配含有符合selector选择器元素的元素，并不是匹配符合selector的元素。</p>
+</li></ol>
+</blockquote>
+
+<h4 id="label-E5-8F-AF-E8-A7-81-E6-80-A7-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">可见性过滤选择器<span><a href="#label-E5-8F-AF-E8-A7-81-E6-80-A7-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>//获取所有不可见元素，或者type为hidden的元素
+$(&#39;#btn_hidden&#39;).click(function(){
+    $(&#39;div:hidden&#39;).show(3000).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+//选取所有可见的元素.
+$(&#39;#btn_visible&#39;).click(function(){
+    $(&#39;div:visible&#39;).css(&quot;background&quot;,&quot;#FF6500&quot;);
+})</pre>
+
+<blockquote>
+<p><strong>需要注意</strong></p>
+<ol><li>
+<p>show( )方法表示将隐藏的元素显示，其参数表示动画执行的时长。（后面的内容会详细讲到）。</p>
+</li></ol>
+</blockquote>
+
+<h4 id="label-E5-B1-9E-E6-80-A7-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">属性过滤选择器<span><a href="#label-E5-B1-9E-E6-80-A7-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>//获取含有属性名的元素
+$(&#39;#btn1&#39;).click(function(){
+    $(&#39;div[title]&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+
+//[attribute=value]  获取属性等于某个属性值的元素
+$(&#39;#btn2&#39;).click(function(){
+    $(&#39;div[title=test]&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+
+// [attribute!=value]  获取属性不等于某个属性值的元素
+$(&#39;#btn3&#39;).click(function(){
+    $(&#39;div[title!=test]&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+
+//[attribute^=value]  获取属性以某些值开头的元素
+$(&#39;#btn4&#39;).click(function(){
+    $(&#39;div[title^=te]&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+
+//[attribute$=value]  获取属性以某些值结尾的元素
+$(&#39;#btn5&#39;).click(function(){
+    $(&quot;div[title$=est]&quot;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+
+//[attribute*=value]  获取属性包含某些值的元素
+$(&#39;#btn6&#39;).click(function(){
+    $(&quot;div[title*=es]&quot;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+
+//[selector1][selector2][selectorN] 交集选择器
+//需要同时满足多个条件时使用
+$(&#39;#btn7&#39;).click(function(){
+    $(&quot;div[id][title*=es]&quot;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})</pre>
+
+<blockquote>
+<p><strong>需要注意</strong></p>
+<ol><li>
+<p>“[attrName!=value]”选择器，匹配attrName属性的值不等于value的元素，但也包含没有attrName属性的所有元素。</p>
+</li><li>
+<p>“[<a>attribute]</a>”属性复合选择器，是多个属性过滤选择器并列使用，匹配的结果是多个属性过滤选择器的交集。</p>
+</li></ol>
+</blockquote>
+
+<h4 id="label-E5-AD-90-E5-85-83-E7-B4-A0-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">子元素过滤选择器<span><a href="#label-E5-AD-90-E5-85-83-E7-B4-A0-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>//:nth-child( index )选取父元素下的第N个子或奇偶元素  index 从 1 开始
+$(&#39;#btn1&#39;).click(function(){
+    $(&#39;div.one :nth-child(2)&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+//:first-child 父元素下的第一个子元素
+$(&#39;#btn2&#39;).click(function(){
+    $(&#39;div.one :first-child&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+//:last-child  父元素下的最后一个子元素
+$(&#39;#btn3&#39;).click(function(){
+    $(&#39;div.one :last-child&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})
+//:only-child 选取某个元素是父元素中唯一的子元素
+$(&#39;#btn4&#39;).click(function(){
+    $(&#39;div.one :only-child&#39;).css(&quot;background&quot;,&quot;#bbffaa&quot;);
+})</pre>
+
+<blockquote>
+<p><strong>需要注意</strong></p>
+<ol><li>
+<p>子元素过滤选择器的特殊用法，就是在其前面需要增加空格。不然子元素过滤选择器将不会有效果！</p>
+</li><li>
+<p>“nth-child(index)”选择器中的index是从 0 开始的。</p>
+</li></ol>
+</blockquote>
+
+<h4 id="label-E8-A1-A8-E5-8D-95-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">表单对象属性过滤选择器<span><a href="#label-E8-A1-A8-E5-8D-95-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E8-BF-87-E6-BB-A4-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>//:enabled	获取所有input元素
+$(&#39;#btn1&#39;).click(function(){
+    $(&quot;#form1 input:enabled&quot;).val(&quot;这里变化了！&quot;);
+    return false;
+})
+//:disabled 	获取所有不可用input元素
+$(&#39;#btn2&#39;).click(function(){
+    $(&quot;#form1 input:disabled&quot;).val(&quot;这里变化了！&quot;);
+    return false;
+})
+//:checked 	获取所有选中框元素(单选框, 复选框)
+$(&quot;:checkbox&quot;).click(countChecked);
+function countChecked() {
+    var n = $(&quot;input:checked&quot;).length;
+    $(&quot;div&quot;).eq(0).html(&quot;&lt;strong&gt;有&quot;+n+&quot; 个被选中!&lt;/strong&gt;&quot;);
+}
+//:selected 	获取所有选中的option元素
+$(&quot;select&quot;).change(function () {
+    var str = &quot;&quot;;
+    $(&quot;select :selected&quot;).each(function () {
+         str += $(this).text() + &quot;,&quot;;
+    });
+    $(&quot;div&quot;).eq(1).html(&quot;&lt;strong&gt;你选中的是：&quot;+str+&quot;&lt;/strong&gt;&quot;);
+})</pre>
+
+<blockquote>
+<p><strong>需要注意</strong></p>
+<ol><li>
+<p>“:checked”选择器，匹配checkbox和radio元素中被选中的。</p>
+</li><li>
+<p>“:selected”选择器，匹配select元素中option元素被选中的。</p>
+</li></ol>
+</blockquote>
+
+<h4 id="label-E8-A1-A8-E5-8D-95-E9-80-89-E6-8B-A9-E5-99-A8">表单选择器<span><a href="#label-E8-A1-A8-E5-8D-95-E9-80-89-E6-8B-A9-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>var $alltext = $(&quot;#form1 :text&quot;);
+var $allpassword= $(&quot;#form1 :password&quot;);
+var $allradio= $(&quot;#form1 :radio&quot;);
+var $allcheckbox= $(&quot;#form1 :checkbox&quot;);
+
+var $allsubmit= $(&quot;#form1 :submit&quot;);
+var $allimage= $(&quot;#form1 :image&quot;);
+var $allreset= $(&quot;#form1 :reset&quot;);
+var $allbutton= $(&quot;#form1 :button&quot;); // &lt;input type=button /&gt;  和 &lt;button &gt;&lt;/button&gt;都可以匹配
+var $allfile= $(&quot;#form1 :file&quot;);
+var $allhidden= $(&quot;#form1 :hidden&quot;); // &lt;input type=&quot;hidden&quot; /&gt;和&lt;div style=&quot;display:none&quot;&gt;test&lt;/div&gt;都可以匹配.
+var $allselect = $(&quot;#form1 select&quot;);
+var $alltextarea = $(&quot;#form1 textarea&quot;);
+
+var $AllInputs = $(&quot;#form1 :input&quot;);
+var $inputs = $(&quot;#form1 input&quot;);
+
+$(&quot;div&quot;).append(&quot; 有&quot; + $alltext.length + &quot; 个（ :text 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 有&quot; + $allpassword.length + &quot; 个（ :password 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 有&quot; + $allradio.length + &quot; 个（ :radio 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 有&quot; + $allcheckbox.length + &quot; 个（ :checkbox 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 有&quot; + $allsubmit.length + &quot; 个（ :submit 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 有&quot; + $allimage.length + &quot; 个（ :image 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 有&quot; + $allreset.length + &quot; 个（ :reset 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 有&quot; + $allbutton.length + &quot; 个（ :button 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 有&quot; + $allfile.length + &quot; 个（ :file 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 有&quot; + $allhidden.length + &quot; 个（ :hidden 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 有&quot; + $allselect.length + &quot; 个（ select 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 有&quot; + $alltextarea.length + &quot; 个（ textarea 元素）&lt;br/&gt;&quot;)
+        .append(&quot; 表单有 &quot; + $inputs.length + &quot; 个（input）元素。&lt;br/&gt;&quot;)
+        .append(&quot; 总共有 &quot; + $AllInputs.length + &quot; 个(:input)元素。&lt;br/&gt;&quot;)
+        .css(&quot;color&quot;, &quot;red&quot;)
+
+$(&quot;form&quot;).submit(function () { return false; }); // return false;不能提交.</pre>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/05_jQuery/jQuery%E9%80%89%E6%8B%A9%E5%99%A8.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="05-01.html">上一篇 · jQuery入门</a><a href="05-03.html">下一篇 · 用 jQuery 修改页面</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

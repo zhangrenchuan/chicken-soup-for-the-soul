@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>SVG · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-04.html">HTML5 与 CSS3：图形、表单和动画</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>HTML5 与 CSS3：图形、表单和动画</strong><a href="04-01.html">HTML5</a><a href="04-02.html">CSS3</a><a href="04-03.html">canvas</a><a href="04-04.html" aria-current="page">SVG</a><a href="04-05.html">HTML5地理定位</a></nav>
+<article class="paper"><h1>SVG</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>SVG 用坐标和形状描述图形。可以从 <code>&lt;circle&gt;</code> 画一个圆开始，放大时仍然清晰，适合图标和简单示意图。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-SVG">SVG<span><a href="#label-SVG">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-E4-BB-80-E4-B9-88-E6-98-AFSVG-3F">什么是SVG?<span><a href="#label-E4-BB-80-E4-B9-88-E6-98-AFSVG-3F">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>SVG全称为Scalable Vector Graphics，译为可缩放矢量图形,简称矢量图。是一种用来描述二维矢量图形的XML标记语言。</p>
+
+<h3 id="label-SVG-E4-B8-8EFlash-E7-9A-84-E5-8C-BA-E5-88-AB">SVG与Flash的区别<span><a href="#label-SVG-E4-B8-8EFlash-E7-9A-84-E5-8C-BA-E5-88-AB">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>相同点：用于二维矢量图形</p>
+</li><li>
+<p>不同点：</p>
+<ul><li>
+<p>SVG</p>
+<ul><li>
+<p>是一个W3C标准</p>
+</li><li>
+<p>基于XML，开放的</p>
+</li></ul>
+</li><li>
+<p>Flash</p>
+<ul><li>
+<p>封闭的基于二进制格式的</p>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<h3 id="label-SVG-E4-B8-8ECanvas-E7-9A-84-E5-8C-BA-E5-88-AB">SVG与Canvas的区别<span><a href="#label-SVG-E4-B8-8ECanvas-E7-9A-84-E5-8C-BA-E5-88-AB">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>SVG</p>
+<ul><li>
+<p>不依赖于分辨率</p>
+</li><li>
+<p>使用DOM及事件处理器</p>
+<ul><li>
+<p>DOM专门为SVG开放接口(并不是之前所学习的DOM)</p>
+</li></ul>
+</li><li>
+<p>不能实现游戏开发</p>
+</li><li>
+<p>实现大型渲染区域的应用(例如百度地图)</p>
+</li></ul>
+</li><li>
+<p>Canvas</p>
+<ul><li>
+<p>依赖于分辨率</p>
+</li><li>
+<p>是以图片(png|jpg)存在</p>
+</li><li>
+<p>不能使用DOM及事件处理器</p>
+</li><li>
+<p>可以实现游戏开发</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-SVG-E7-9A-84-E4-BC-98-E5-8A-BF">SVG的优势<span><a href="#label-SVG-E7-9A-84-E4-BC-98-E5-8A-BF">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>不需要专门的编辑器,文本编辑器都可以</p>
+</li><li>
+<p>可被搜索、索引、脚本化及压缩</p>
+</li><li>
+<p>图像不失真(和分辨率无关)</p>
+</li></ul>
+
+<h3 id="label-E6-B3-A8-E6-84-8F">注意<span><a href="#label-E6-B3-A8-E6-84-8F">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>SVG技术并不是专属于HTML5的</p>
+</li><li>
+<p>SVG技术本身是一套独立的用于描述二维图形</p>
+</li><li>
+<p>HTML5版本之前,以图片形式进行引入</p>
+</li><li>
+<p>HTML5版本之后,允许在HTML页面直接使用SVG技术</p>
+</li></ul>
+
+<h3 id="label-SVG-E6-96-87-E4-BB-B6-28-E4-BA-86-E8-A7-A3-29">SVG文件(了解)<span><a href="#label-SVG-E6-96-87-E4-BB-B6-28-E4-BA-86-E8-A7-A3-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>SVG文件的扩展名为“.svg”</p>
+</li><li>
+<p>SVG使用的是XML语法</p>
+</li><li>
+<p>浏览器支持运行SVG文件</p>
+
+<pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;!-- SVG的语法标准(必要的) --&gt;
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+&lt;!-- xmlns=&quot;http://www.w3.org/2000/svg&quot; SVG的命名空间 --&gt;
+&lt;svg version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+    &lt;rect x=&quot;100&quot; y=&quot;100&quot; width=&quot;300&quot; height=&quot;100&quot; fill=&quot;blue&quot; stroke=&quot;black&quot; stroke-width=&quot;4&quot;/&gt;
+&lt;/svg&gt;</pre>
+</li></ul>
+
+<p>———-</p>
+
+<h3 id="label-HTML-E4-BD-BF-E7-94-A8SVG">HTML使用SVG<span><a href="#label-HTML-E4-BD-BF-E7-94-A8SVG">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-HTML5-E4-B9-8B-E5-89-8D-E5-A6-82-E4-BD-95-E4-BD-BF-E7-94-A8SVG-28-E4-BA-86-E8-A7-A3-29">HTML5之前如何使用SVG(了解)<span><a href="#label-HTML5-E4-B9-8B-E5-89-8D-E5-A6-82-E4-BD-95-E4-BD-BF-E7-94-A8SVG-28-E4-BA-86-E8-A7-A3-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><code>&lt;img src=&quot;01_SvgFile.svg&quot; width=&quot;800&quot; height=&quot;500&quot;&gt;</code></p>
+
+<h4 id="label-HTML5-E4-B9-8B-E5-90-8E-E5-A6-82-E4-BD-95-E4-BD-BF-E7-94-A8SVG">HTML5之后如何使用SVG<span><a href="#label-HTML5-E4-B9-8B-E5-90-8E-E5-A6-82-E4-BD-95-E4-BD-BF-E7-94-A8SVG">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>在HTML页面中,允许直接定义SVG的元素(标签)</p>
+<ul><li>
+<p>学习有关SVG的一些HTML新元素</p>
+</li><li>
+<p>学习有关SVG的一些HTML新元素</p>
+</li></ul>
+</li><li>
+<p><code>&lt;svg&gt;</code>元素</p>
+<ul><li>
+<p>作用：类似于canvas元素</p>
+</li><li>
+<p>特点</p>
+<ul><li>
+<p>默认的宽度和高度分别为300px和150px</p>
+</li><li>
+<p>不具有任何的样式(默认情况下不显示)</p>
+</li><li>
+<p>默认的宽度和高度分别为300px和150px</p>
+</li><li>
+<p>不具有任何的样式(默认情况下不显示)</p>
+</li></ul>
+</li><li>
+<p>目的：表示当前使用SVG语法内容</p>
+</li><li>
+<p>属性</p>
+<ul><li>
+<p>width和height：设置SVG的区域(高度和宽度)</p>
+</li><li>
+<p>style：也可以设置CSS的属性</p>
+</li><li>
+<p>width和height：设置SVG的区域(高度和宽度)</p>
+</li><li>
+<p>style：也可以设置CSS的属性</p>
+</li></ul>
+</li><li>
+<p>作用：类似于canvas元素</p>
+</li><li>
+<p>特点</p>
+<ul><li>
+<p>默认的宽度和高度分别为300px和150px</p>
+</li><li>
+<p>不具有任何的样式(默认情况下不显示)</p>
+</li></ul>
+</li><li>
+<p>目的：表示当前使用SVG语法内容</p>
+</li><li>
+<p>属性</p>
+<ul><li>
+<p>width和height：设置SVG的区域(高度和宽度)</p>
+</li><li>
+<p>style：也可以设置CSS的属性</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p>SVG的语法内容：绘制的图形</p>
+
+<pre>&lt;svg width=&quot;500&quot; height=&quot;300&quot; style=&quot;background:pink;&quot;&gt;
+    &lt;rect x=&quot;100&quot; y=&quot;100&quot; width=&quot;300&quot; height=&quot;100&quot; fill=&quot;blue&quot; stroke=&quot;black&quot; stroke-width=&quot;4&quot;/&gt;
+&lt;/svg&gt;</pre>
+</li></ul>
+
+<h2 id="label-SVG-E5-9F-BA-E6-9C-AC-E5-BD-A2-E7-8A-B6-E5-85-83-E7-B4-A0">SVG基本形状元素<span><a href="#label-SVG-E5-9F-BA-E6-9C-AC-E5-BD-A2-E7-8A-B6-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-E6-A0-B7-E5-BC-8F-E5-B1-9E-E6-80-A7">样式属性<span><a href="#label-E6-A0-B7-E5-BC-8F-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>fill：设置填充样式</p>
+</li><li>
+<p>stroke：设置描边样式</p>
+</li><li>
+<p>stroke-width：设置描边宽度</p>
+</li></ul>
+
+<h3 id="label-E7-9F-A9-E5-BD-A2">矩形<span><a href="#label-E7-9F-A9-E5-BD-A2">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>““&lt;rect x=“” y=“” width=“” height=“” /&gt;““`</p>
+<ul><li>
+<p>x和y：表示绘制矩形的左上角坐标值</p>
+</li><li>
+<p>width和height：表示绘制矩形的宽度和高度</p>
+</li><li>
+<p>rx和ry：表示绘制矩形的四个角的水平圆角和垂直圆角</p>
+<ul><li>
+<p>如果rx和ry的值分别为width/2和height/2,绘制圆形</p>
+</li></ul>
+</li></ul>
+
+<blockquote>
+<p><strong>注意：</strong></p>
+<ul><li>
+<p>默认绘制出来的效果：实心矩形效果。</p>
+</li><li>
+<p>可以实现“空心”的效果：不能实现空心效果。</p>
+</li></ul>
+</blockquote>
+
+<pre>&lt;svg width=&quot;1000&quot; height=&quot;600&quot; style=&quot;background:pink;&quot;&gt;
+    &lt;!-- 绘制矩形 --&gt;
+    &lt;rect x=&quot;10&quot; y=&quot;10&quot; width=&quot;100&quot; height=&quot;100&quot; /&gt;
+    &lt;rect x=&quot;10&quot; y=&quot;120&quot; width=&quot;100&quot; height=&quot;100&quot; fill=&quot;white&quot; stroke=&quot;black&quot; /&gt;
+    &lt;rect x=&quot;10&quot; y=&quot;230&quot; width=&quot;100&quot; height=&quot;100&quot; rx=&quot;10&quot; ry=&quot;10&quot; /&gt;
+    &lt;rect x=&quot;10&quot; y=&quot;340&quot; width=&quot;100&quot; height=&quot;100&quot; rx=&quot;50&quot; ry=&quot;50&quot; style=&quot;fill:white;stroke:black;&quot; /&gt;
+&lt;/svg&gt;</pre>
+
+<h3 id="label-E5-9C-86-E5-BD-A2">圆形<span><a href="#label-E5-9C-86-E5-BD-A2">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><code>&lt;cirlcle cx=&quot;&quot; cy=&quot;&quot; r=&quot;&quot; /&gt;</code></p>
+<ul><li>
+<p>cx和cy：表示绘制圆形的圆心坐标值</p>
+</li><li>
+<p>r：表示绘制圆形的半径</p>
+
+<pre>&lt;svg width=&quot;1000&quot; height=&quot;600&quot; style=&quot;background:pink;&quot;&gt;
+    &lt;!-- 绘制圆形 --&gt;
+    &lt;circle cx=&quot;170&quot; cy=&quot;60&quot; r=&quot;50&quot; /&gt;
+    &lt;circle cx=&quot;170&quot; cy=&quot;170&quot; r=&quot;50&quot; fill=&quot;white&quot; stroke=&quot;black&quot; /&gt;
+&lt;/svg&gt;</pre>
+</li></ul>
+
+<h3 id="label-E6-A4-AD-E5-9C-86">椭圆<span><a href="#label-E6-A4-AD-E5-9C-86">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><code>&lt;ellipse cx=&quot;&quot; cy=&quot;&quot; rx=&quot;&quot; ry=&quot;&quot; /&gt;</code></p>
+<ul><li>
+<p>cx和cy：表示绘制椭圆的圆心坐标值</p>
+</li><li>
+<p>rx：表示绘制椭圆的水平方向半径</p>
+</li><li>
+<p>ry：表示绘制椭圆的垂直方向半径</p>
+
+<pre>&lt;svg width=&quot;1000&quot; height=&quot;600&quot; style=&quot;background:pink;&quot;&gt;
+    &lt;!-- 绘制椭圆 --&gt;
+    &lt;ellipse cx=&quot;280&quot; cy=&quot;70&quot; rx=&quot;50&quot; ry=&quot;60&quot; /&gt;
+    &lt;ellipse cx=&quot;280&quot; cy=&quot;190&quot; rx=&quot;50&quot; ry=&quot;50&quot; /&gt;
+    &lt;ellipse cx=&quot;280&quot; cy=&quot;300&quot; rx=&quot;50&quot; ry=&quot;30&quot; /&gt;
+&lt;/svg&gt;</pre>
+</li></ul>
+
+<h3 id="label-E7-BA-BF-E6-9D-A1">线条<span><a href="#label-E7-BA-BF-E6-9D-A1">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><code>&lt;line x1=&quot;&quot; y1=&quot;&quot; x2=&quot;&quot; y2=&quot;&quot; stroke=&quot;&quot; /&gt;</code></p>
+<ul><li>
+<p>x1和y1：表示绘制直线的起点坐标值</p>
+</li><li>
+<p>x2和y2：表示绘制直线的终点坐标值</p>
+</li><li>
+<p>stroke：设置绘制直线的样式(颜色)</p>
+</li><li>
+<p>stroke-width：设置绘制直线的宽度</p>
+
+<pre>&lt;svg width=&quot;1000&quot; height=&quot;600&quot; style=&quot;background:pink;&quot;&gt;
+    &lt;!-- 绘制直线 --&gt;
+    &lt;line x1=&quot;350&quot; y1=&quot;10&quot; x2=&quot;500&quot; y2=&quot;200&quot; stroke=&quot;black&quot; stroke-width=&quot;10&quot; /&gt;
+&lt;/svg&gt;</pre>
+</li></ul>
+
+<h3 id="label-E6-8A-98-E7-BA-BF">折线<span><a href="#label-E6-8A-98-E7-BA-BF">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><code>&lt;polyline points=&quot;&quot; /&gt;</code></p>
+<ul><li>
+<p>points：表示绘制折线的起点、折点及终点坐标值</p>
+<ul><li>
+<p>格式：x1,y1 x2,y2 x3,y3 xn,yn</p>
+</li><li>
+<p>格式：x1,y1 x2,y2 x3,y3 xn,yn</p>
+</li></ul>
+</li><li>
+<p>stroke：设置折线的颜色</p>
+</li><li>
+<p>stroke-width：设置折线的线宽</p>
+</li><li>
+<p>fill：设置与<code>&lt;svg&gt;</code>元素的背景色相同</p>
+
+<pre>&lt;svg width=&quot;1000&quot; height=&quot;600&quot; style=&quot;background:pink;&quot;&gt;
+    &lt;!-- 绘制折线 --&gt;
+    &lt;polyline points=&quot;520,20 520,200&quot; stroke=&quot;black&quot; stroke-width=&quot;10&quot; /&gt;
+    &lt;polyline points=&quot;550,20 550,200 700,200 700,20 540,20&quot; stroke=&quot;black&quot; stroke-width=&quot;20&quot; fill=&quot;pink&quot; /&gt;
+&lt;/svg&gt;</pre>
+</li></ul>
+
+<h3 id="label-E5-A4-9A-E8-BE-B9-E5-BD-A2">多边形<span><a href="#label-E5-A4-9A-E8-BE-B9-E5-BD-A2">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><code>&lt;polygon points=&quot;&quot; /&gt;</code></p>
+<ul><li>
+<p>points：表示绘制多边形的所有点坐标值</p>
+
+<pre>&lt;svg width=&quot;1000&quot; height=&quot;600&quot; style=&quot;background:pink;&quot;&gt;
+    &lt;!-- 绘制多边形 --&gt;
+    &lt;polygon points=&quot;550,300 550,500 800,500&quot; stroke=&quot;black&quot; fill=&quot;pink&quot; stroke-width=&quot;10&quot; /&gt;
+&lt;/svg&gt;</pre>
+</li></ul>
+
+<blockquote>
+<p><strong>注意：</strong></p>
+<ul><li>
+<p>一个HTML页面允许包含多个<code>&lt;svg&gt;</code>元素</p>
+</li><li>
+<p>一个<code>&lt;svg&gt;</code>元素允许包含多个图形元素</p>
+</li><li>
+<p>SVG的图形元素基本都是起始元素</p>
+</li><li>
+<p>定义图形元素时,只定义开始元素,没有结束元素</p>
+<ul><li>
+<p>浏览器在运行页面时,并不报错</p>
+</li><li>
+<p>浏览器解析这段元素代码时,自动补全结束元素</p>
+</li><li>
+<p>自动补全的结束元素是不正确的</p>
+</li></ul>
+</li></ul>
+</blockquote>
+<hr>
+
+<h3 id="label-E7-89-B9-E6-95-88-E5-85-83-E7-B4-A0">特效元素<span><a href="#label-E7-89-B9-E6-95-88-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-E7-BA-BF-E6-80-A7-E6-B8-90-E5-8F-98">线性渐变<span><a href="#label-E7-BA-BF-E6-80-A7-E6-B8-90-E5-8F-98">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>基准线 - 起点和终点坐标值</p>
+</li></ul>
+
+<p><code>&lt;linearGradient id=&quot;&quot; x1=&quot;&quot; y1=&quot;&quot; x2=&quot;&quot; y2=&quot;&quot;&gt;&lt;/linearGradient&gt;</code></p>
+<ul><li>
+<p>id：便于其他元素进行引用</p>
+</li><li>
+<p>x1和y1：表示基准线的起点坐标值</p>
+<ul><li>
+<p>值范围为 0-1, 是百分值 0%-100%</p>
+</li></ul>
+</li><li>
+<p>x2和y2：表示基准线的终点坐标值</p>
+<ul><li>
+<p>值范围为 0-1, 是百分值 0%-100%</p>
+</li></ul>
+</li></ul>
+
+<p><code>&lt;stop offset=&quot;&quot; stop-color=&quot;&quot;/&gt;</code></p>
+<ul><li>
+<p>offset：表示设置渐变颜色的位置</p>
+</li><li>
+<p>stop-color：表示设置的渐变颜色</p>
+</li><li>
+<p>stop-opacity：表示设置渐变颜色的透明度</p>
+
+<pre>&lt;svg width=&quot;800&quot; height=&quot;500&quot;&gt;
+    &lt;defs&gt;
+        &lt;linearGradient id=&quot;grd&quot; x1=&quot;0&quot; y1=&quot;0&quot; x2=&quot;1&quot; y2=&quot;1&quot;&gt;
+            &lt;stop offset=&quot;0&quot; stop-color=&quot;red&quot; stop-opacity=&quot;0.5&quot; /&gt;
+            &lt;stop offset=&quot;0.5&quot; stop-color=&quot;green&quot; stop-opacity=&quot;0.5&quot; /&gt;
+            &lt;stop offset=&quot;1&quot; stop-color=&quot;blue&quot; stop-opacity=&quot;0.5&quot; /&gt;
+        &lt;/linearGradient&gt;
+    &lt;/defs&gt;
+    &lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;200&quot; height=&quot;200&quot; fill=&quot;url(#grd)&quot; /&gt;
+    &lt;circle cx=&quot;400&quot; cy=&quot;400&quot; r=&quot;100&quot; fill=&quot;url(#grd)&quot; /&gt;
+&lt;/svg&gt;</pre>
+</li></ul>
+
+<h4 id="label-E5-B0-84-E7-BA-BF-28-E5-BE-84-E5-90-91-29-E6-B8-90-E5-8F-98">射线(径向)渐变<span><a href="#label-E5-B0-84-E7-BA-BF-28-E5-BE-84-E5-90-91-29-E6-B8-90-E5-8F-98">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>基准线：中心点和焦点组成</p>
+<ul><li>
+<p>中心点：描述了渐变边缘位置</p>
+</li><li>
+<p>焦点：描述了渐变的中心</p>
+</li></ul>
+</li></ul>
+
+<p><code>&lt;radialGradient id=&quot;&quot; cx=&quot;&quot; cy=&quot;&quot; r=&quot;&quot; fx=&quot;&quot; fy=&quot;&quot;&gt;&lt;/radialGradient&gt;</code></p>
+<ul><li>
+<p>id：便于其他元素进行引用</p>
+</li><li>
+<p>cx和cy：表示基准线中的中心点坐标值</p>
+<ul><li>
+<p>值范围为 0-1, 是百分值 0%-100%</p>
+</li><li>
+<p>值范围为 0-1, 是百分值 0%-100%</p>
+</li></ul>
+</li><li>
+<p>r：设置其边缘位置</p>
+<ul><li>
+<p>值范围为 0-1, 是百分值 0%-100%</p>
+</li><li>
+<p>值范围为 0-1, 是百分值 0%-100%</p>
+</li></ul>
+</li><li>
+<p>fx和fy：表示基准线中的焦点坐标值</p>
+<ul><li>
+<p>值范围为 0-1, 是百分值 0%-100%</p>
+</li><li>
+<p>值范围为 0-1, 是百分值 0%-100%</p>
+
+<pre>&lt;svg width=&quot;800&quot; height=&quot;500&quot;&gt;
+    &lt;defs&gt;
+        &lt;radialGradient id=&quot;grd1&quot;&gt;
+            &lt;stop offset=&quot;0&quot; stop-color=&quot;red&quot; /&gt;
+            &lt;stop offset=&quot;1&quot; stop-color=&quot;blue&quot; /&gt;
+        &lt;/radialGradient&gt;
+        &lt;radialGradient id=&quot;grd2&quot; cx=&quot;0&quot; cy=&quot;0&quot;&gt;
+            &lt;stop offset=&quot;0&quot; stop-color=&quot;red&quot; /&gt;
+            &lt;stop offset=&quot;1&quot; stop-color=&quot;blue&quot; /&gt;
+        &lt;/radialGradient&gt;
+        &lt;radialGradient id=&quot;grd3&quot; r=&quot;1&quot;&gt;
+            &lt;stop offset=&quot;0&quot; stop-color=&quot;red&quot; /&gt;
+            &lt;stop offset=&quot;1&quot; stop-color=&quot;blue&quot; /&gt;
+        &lt;/radialGradient&gt;
+        &lt;radialGradient id=&quot;grd4&quot; fx=&quot;1&quot; fy=&quot;1&quot;&gt;
+            &lt;stop offset=&quot;0&quot; stop-color=&quot;red&quot; /&gt;
+            &lt;stop offset=&quot;1&quot; stop-color=&quot;blue&quot; /&gt;
+        &lt;/radialGradient&gt;
+        &lt;radialGradient id=&quot;grd5&quot;&gt;
+            &lt;stop offset=&quot;0&quot; stop-color=&quot;red&quot; /&gt;
+            &lt;stop offset=&quot;0.5&quot; stop-color=&quot;yellow&quot; /&gt;
+            &lt;stop offset=&quot;1&quot; stop-color=&quot;blue&quot; /&gt;
+        &lt;/radialGradient&gt;
+        &lt;radialGradient id=&quot;grd6&quot; cx=&quot;0&quot; cy=&quot;0&quot;&gt;
+            &lt;stop offset=&quot;0&quot; stop-color=&quot;red&quot; /&gt;
+            &lt;stop offset=&quot;0.5&quot; stop-color=&quot;yellow&quot; /&gt;
+            &lt;stop offset=&quot;1&quot; stop-color=&quot;blue&quot; /&gt;
+        &lt;/radialGradient&gt;
+        &lt;radialGradient id=&quot;grd7&quot; r=&quot;1&quot;&gt;
+            &lt;stop offset=&quot;0&quot; stop-color=&quot;red&quot; /&gt;
+            &lt;stop offset=&quot;0.5&quot; stop-color=&quot;yellow&quot; /&gt;
+            &lt;stop offset=&quot;1&quot; stop-color=&quot;blue&quot; /&gt;
+        &lt;/radialGradient&gt;
+        &lt;radialGradient id=&quot;grd8&quot; fx=&quot;1&quot; fy=&quot;1&quot;&gt;
+            &lt;stop offset=&quot;0&quot; stop-color=&quot;red&quot; /&gt;
+            &lt;stop offset=&quot;0.5&quot; stop-color=&quot;yellow&quot; /&gt;
+            &lt;stop offset=&quot;1&quot; stop-color=&quot;blue&quot; /&gt;
+        &lt;/radialGradient&gt;
+    &lt;/defs&gt;
+    &lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;200&quot; height=&quot;200&quot; fill=&quot;url(#grd1)&quot; /&gt;
+    &lt;rect x=&quot;210&quot; y=&quot;0&quot; width=&quot;200&quot; height=&quot;200&quot; fill=&quot;url(#grd2)&quot; /&gt;
+    &lt;rect x=&quot;420&quot; y=&quot;0&quot; width=&quot;200&quot; height=&quot;200&quot; fill=&quot;url(#grd3)&quot; /&gt;
+    &lt;rect x=&quot;630&quot; y=&quot;0&quot; width=&quot;200&quot; height=&quot;200&quot; fill=&quot;url(#grd4)&quot; /&gt;
+    &lt;rect x=&quot;0&quot; y=&quot;210&quot; width=&quot;200&quot; height=&quot;200&quot; fill=&quot;url(#grd5)&quot; /&gt;
+    &lt;rect x=&quot;210&quot; y=&quot;210&quot; width=&quot;200&quot; height=&quot;200&quot; fill=&quot;url(#grd6)&quot; /&gt;
+    &lt;rect x=&quot;420&quot; y=&quot;210&quot; width=&quot;200&quot; height=&quot;200&quot; fill=&quot;url(#grd7)&quot; /&gt;
+    &lt;rect x=&quot;630&quot; y=&quot;210&quot; width=&quot;200&quot; height=&quot;200&quot; fill=&quot;url(#grd8)&quot; /&gt;
+&lt;/svg&gt;</pre>
+</li></ul>
+</li></ul>
+
+<blockquote>
+<p><strong>注意：</strong></p>
+<ul><li>
+<p>渐变元素需要定义id属性,便于其他元素进行引用</p>
+</li><li>
+<p>渐变元素定义在&lt;defs&gt;元素内</p>
+<ul><li>
+<p>&lt;defs&gt;元素内定义：表示该元素允许重复使用&lt;/defs&gt;</p>
+</li></ul>
+
+<p>&lt;/defs&gt;</p>
+</li></ul>
+</blockquote>
+
+<h3 id="label-E8-AE-BE-E7-BD-AE-E6-BB-A4-E9-95-9C">设置滤镜<span><a href="#label-E8-AE-BE-E7-BD-AE-E6-BB-A4-E9-95-9C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>定义元素内：可以重复使用</p>
+</li><li>
+<p>定义元素</p>
+<ul><li>
+<p>表示使用一个滤镜</p>
+</li><li>
+<p>一般定义id属性：便于其他元素进行引入</p>
+</li></ul>
+</li></ul>
+
+<blockquote>
+<p><strong>注意：</strong></p>
+<ul><li>
+<p>该元素只是滤镜的容器</p>
+</li><li>
+<p>该元素并不直接显示在HTML页面中</p>
+</li></ul>
+</blockquote>
+
+<h4 id="label-E9-AB-98-E6-96-AF-E6-A8-A1-E7-B3-8A">高斯模糊<span><a href="#label-E9-AB-98-E6-96-AF-E6-A8-A1-E7-B3-8A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><code>&lt;feGaussianBlur in=&quot;&quot; stdDeviation=&quot;&quot; /&gt;</code></p>
+<ul><li>
+<p>in：设置高斯模糊的样式</p>
+<ul><li>
+<p>SourceGraphic</p>
+</li><li>
+<p>SourceAlpha</p>
+</li><li>
+<p>SourceGraphic</p>
+</li><li>
+<p>SourceAlpha</p>
+</li></ul>
+</li><li>
+<p>stdDeviation：Number值,设置模糊的程度</p>
+
+<pre>&lt;svg width=&quot;800&quot; height=&quot;500&quot;&gt;
+    &lt;defs&gt;
+        &lt;filter id=&quot;myfilter&quot;&gt;
+            &lt;feGaussianBlur in=&quot;SourceGraphic&quot; stdDeviation=&quot;5&quot; /&gt;
+        &lt;/filter&gt;
+    &lt;/defs&gt;
+    &lt;rect x=&quot;100&quot; y=&quot;100&quot; width=&quot;100&quot; height=&quot;100&quot; filter=&quot;url(#myfilter)&quot; /&gt;
+&lt;/svg&gt;</pre>
+</li></ul>
+<hr>
+
+<h3 id="label-Two.js-E5-BA-93-E5-9F-BA-E7-A1-80-E5-86-85-E5-AE-B9">Two.js库基础内容<span><a href="#label-Two.js-E5-BA-93-E5-9F-BA-E7-A1-80-E5-86-85-E5-AE-B9">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>SVG的高级内容(动画等效果),不需要掌握原生用法</p>
+</li><li>
+<p>Two.js库用于封装SVG,是以我们更熟悉的方式</p>
+</li></ul>
+
+<h4 id="label-E7-89-B9-E7-82-B9">特点<span><a href="#label-E7-89-B9-E7-82-B9">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Two.js支持不同的上下文环境：</p>
+<ul><li>
+<p>SVG</p>
+</li><li>
+<p>Canvas</p>
+</li><li>
+<p>WebGL</p>
+</li></ul>
+</li><li>
+<p>Two.js提供相同(统一)地API方法</p>
+</li><li>
+<p>官网：<a href="http://jonobr1.github.io/two.js/">jonobr1.github.io/two.js/</a></p>
+</li></ul>
+
+<h3 id="label-E5-A6-82-E4-BD-95-E4-BD-BF-E7-94-A8Two.js-E5-BA-93">如何使用Two.js库<span><a href="#label-E5-A6-82-E4-BD-95-E4-BD-BF-E7-94-A8Two.js-E5-BA-93">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>在HTML页面</p>
+<ul><li>
+<p>引入Two.js库文件</p>
+</li><li>
+<p>定义容器元素</p>
+</li><li>
+<p>引入Two.js库文件</p>
+</li><li>
+<p>定义容器元素</p>
+</li></ul>
+</li><li>
+<p>在JavaScript代码</p>
+<ul><li>
+<p>获取HTML页面的容器元素</p>
+</li><li>
+<p>通过Two.js库提供的Two()构造函数创建Two对象</p>
+</li><li>
+<p>获取HTML页面的容器元素</p>
+</li><li>
+<p>通过Two.js库提供的Two()构造函数创建Two对象</p>
+
+<pre>var params = {// 创建svg时初始化的数据
+  width : 宽度,
+  height : 高度
+}
+var two = new Two(params);</pre>
+</li><li>
+<p>将创建的Two对象添加到HTML页面容器元素内 <code>two.appendTo(elem);</code></p>
+</li><li>
+<p>使用Two.js库提供的API方法绘制图形</p>
+</li><li>
+<p>调用update()方法进行绘制</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-Two-E7-BB-98-E5-88-B6-E5-9B-BE-E5-BD-A2">Two绘制图形<span><a href="#label-Two-E7-BB-98-E5-88-B6-E5-9B-BE-E5-BD-A2">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>圆形：makeCircle(x, y, radius)</p>
+</li><li>
+<p>直线：makeLine(x1, y1, x2, y2)</p>
+</li><li>
+<p>矩形：makeRectangle(x, y, width, height)</p>
+</li><li>
+<p>圆角矩形：makeRoundedRectangle(x, y, width, height, radius)</p>
+</li><li>
+<p>椭圆：makeEllipse(x, y, width, height)</p>
+</li><li>
+<p>多边形：makePolygon(ox, oy, r, sides)</p>
+</li><li>
+<p>路径：makePath(x1, y1, x2, y2, xN, yN, open)</p>
+</li><li>
+<p>星形：makeStar(ox, oy, or, ir, sides)</p>
+</li></ul>
+
+<h3 id="label-E7-BB-98-E5-88-B6-E5-9B-BE-E5-BD-A2-E6-96-B9-E6-B3-95">绘制图形方法<span><a href="#label-E7-BB-98-E5-88-B6-E5-9B-BE-E5-BD-A2-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>基本都返回对应图形对象</p>
+<ul><li>
+<p>调用makeCircle()绘制圆形,并返回圆形对象</p>
+</li></ul>
+</li><li>
+<p>图形对象的属性</p>
+<ul><li>
+<p>fill：设置填充样式</p>
+</li><li>
+<p>stroke：设置描边样式</p>
+</li><li>
+<p>linewidth：设置线条宽度</p>
+</li><li>
+<p>opacity：设置透明度</p>
+</li><li>
+<p>cap：设置线条端点形状,默认为“round”</p>
+</li><li>
+<p>join：设置线条交点形状,默认为“round”</p>
+</li></ul>
+</li><li>
+<p>图形对象的方法</p>
+</li></ul>
+
+<h3 id="label-E5-9B-BE-E5-BD-A2-E5-88-86-E7-BB-84">图形分组<span><a href="#label-E5-9B-BE-E5-BD-A2-E5-88-86-E7-BB-84">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>调用Two对象的makeGroup()方法,进行图形分组</p>
+<ul><li>
+<p>makeGroup()方法任意图形对象作为参数</p>
+</li><li>
+<p>makeGroup()方法返回分组对象</p>
+</li></ul>
+</li><li>
+<p>统一对分组对象进行样式的设置</p>
+</li></ul>
+
+<blockquote>
+<p><strong>注意：</strong> 在统一样式设置后,针对不同图形进行个性化样式设置</p>
+</blockquote>
+
+<h3 id="label-E6-8F-90-E4-BE-9B-E5-8A-A8-E7-94-BB-E6-95-88-E6-9E-9C-28-E4-BA-86-E8-A7-A3-29">提供动画效果(了解)<span><a href="#label-E6-8F-90-E4-BE-9B-E5-8A-A8-E7-94-BB-E6-95-88-E6-9E-9C-28-E4-BA-86-E8-A7-A3-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>play()方法：提供一组循环动画</p>
+</li><li>
+<p>pause()方法：提供中止动画效果</p>
+</li><li>
+<p>update()方法：提供更新当前绘制或设置</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/04_HTML5/SVG.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="04-03.html">上一篇 · canvas</a><a href="04-05.html">下一篇 · HTML5地理定位</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

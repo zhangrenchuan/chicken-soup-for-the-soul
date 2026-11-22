@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>插件 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-14.html">Vue：基础用法与原理（含旧版示例）</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Vue：基础用法与原理（含旧版示例）</strong><a href="14-01.html">概述</a><a href="14-02.html">使用Vue</a><a href="14-03.html">生命周期</a><a href="14-04.html">重要属性</a><a href="14-05.html" aria-current="page">插件</a><a href="14-06.html">Vue重要知识支持</a><a href="14-07.html">Vue 响应式原理示例</a></nav>
+<article class="paper"><h1>插件</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>这一篇介绍旧版 Vue CLI 的项目模板和组件化开发。先认入口、组件目录和构建命令，再看配套插件。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E6-8F-92-E4-BB-B6">插件<span><a href="#label-E6-8F-92-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>创建插件的js文件</p>
+
+<pre>(function (w) {
+   var MyPlugin = {};
+   MyPlugin.install = function (Vue, options) {
+     // 1. 添加全局方法或属性
+     Vue.myGlobalMethod = function () {
+       console.log(&#39;vue的全局方法执行了&#39;);
+     };
+     // 2. 添加全局资源
+     Vue.directive(&#39;my-directive&#39;, function (value) {
+
+     });
+     // 3. 添加实例方法
+     Vue.prototype.$myMethod = function () {
+       console.log(&#39;vue实例的方法执行了&#39;);
+     };
+   };
+
+   //暴露
+   window.MyPlugin = MyPlugin;
+})(window);</pre>
+</li><li>
+<p>使用插件</p>
+<ul><li>
+<p>通过 <code>Vue.use()</code> 全局方法使用插件</p>
+</li><li>
+<p>使用自定义指令 <code>&lt;p v-my-directive=&quot;msg&quot;&gt;&lt;/p&gt;</code></p>
+</li><li>
+<p>调用自定义的静态方法 <code>Vue.myGlobalMethod()</code></p>
+</li><li>
+<p>调用自定义的对象方法 <code>vue.$myMethod()</code></p>
+</li></ul>
+</li><li>
+<p>常用Vue插件</p>
+<ul><li>
+<p>vue-router：Vue.js 官方路由</p>
+</li><li>
+<p>vue-resource：通过 XMLHttpRequest 或 JSONP 发起请求并处理响应。</p>
+</li><li>
+<p>vue-async-data：异步加载数据插件。</p>
+</li><li>
+<p>vue-validator：表单验证插件。</p>
+</li><li>
+<p>vue-devtools：Chrome 开发者工具扩展，用于调试 Vue.js 应用。</p>
+</li><li>
+<p>vue-touch：使用 Hammer.js 添加触摸手势指令。</p>
+</li><li>
+<p>vue-element：使用 Vue.js 注册自定义元素。</p>
+</li><li>
+<p>vue-animated-list： 方便的为 v-for 渲染的列表添加动画。</p>
+</li></ul>
+</li></ol>
+<hr>
+
+<h2 id="label-vue-cli-E6-8F-92-E4-BB-B6-E4-BD-BF-E7-94-A8">vue-cli插件使用<span><a href="#label-vue-cli-E6-8F-92-E4-BB-B6-E4-BD-BF-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>说明:</p>
+</li><li>
+<p>vue-cli是vue官方提供的脚手架工具包</p>
+</li><li>
+<p>github: <a href="https://github.com/vuejs/vue-cli">github.com/vuejs/vue-cli</a></p>
+</li><li>
+<p>全局安装vue-cli</p>
+<ul><li>
+<p><code>npm install --global vue-cli</code></p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E4-BD-BF-E7-94-A8-E5-9F-BA-E4-BA-8Ewebpack-E7-9A-84-E5-AE-8C-E6-95-B4-E6-A8-A1-E6-9D-BF-E5-88-9B-E5-BB-BA-E9-A1-B9-E7-9B-AE-3A+webpack_demo">使用基于webpack的完整模板创建项目: webpack_demo<span><a href="#label-E4-BD-BF-E7-94-A8-E5-9F-BA-E4-BA-8Ewebpack-E7-9A-84-E5-AE-8C-E6-95-B4-E6-A8-A1-E6-9D-BF-E5-88-9B-E5-BB-BA-E9-A1-B9-E7-9B-AE-3A+webpack_demo">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p><code>vue init webpack#1.0 项目名</code></p>
+</li><li>
+<p><code>cd 项目名</code></p>
+</li><li>
+<p><code>npm install</code></p>
+</li><li>
+<p><code>npm run dev</code></p>
+</li><li>
+<p>访问: <a href="http://localhost:8080">localhost:8080</a>/</p>
+</li></ol>
+
+<h4 id="label-E6-A8-A1-E6-9D-BF-E9-A1-B9-E7-9B-AE-E7-9A-84-E7-BB-93-E6-9E-84">模板项目的结构<span><a href="#label-E6-A8-A1-E6-9D-BF-E9-A1-B9-E7-9B-AE-E7-9A-84-E7-BB-93-E6-9E-84">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>  |-- build : webpack相关的配置文件夹(基本不需要修改)
+    |-- dev-server.js : 通过express启动后台服务器
+  |-- config: webpack相关的配置文件夹(基本不需要修改)
+    |-- index.js: 指定的后台服务的端口号和静态资源文件夹
+  |-- node_modules	依赖的包
+  |-- src : 源码文件夹
+	|-- assets: 静态资源文件夹
+    |-- components: vue组件文件
+    |-- app.vue: 应用根主组件
+    |-- main.js: 应用入口js文件
+  |-- static: 静态资源文件夹
+  |-- .babelrc: babel的配置文件
+  |-- .editorconfig: 通过编辑器的编码/格式进行一定的配置
+  |-- .eslintignore: eslint检查忽略的配置
+  |-- .eslintrc.js: eslint检查的配置
+  |-- .gitignore: git版本管制忽略的配置
+  |-- index.html: 主页面文件
+  |-- package.json: 应用包配置文件 
+  |-- README.md: 应用描述说明的readme文件</pre>
+
+<h4 id="label-E7-BC-96-E7-A0-81-E6-B5-8B-E8-AF-95-E4-B8-8E-E6-89-93-E5-8C-85-E5-8F-91-E5-B8-83-E9-A1-B9-E7-9B-AE">编码测试与打包发布项目<span><a href="#label-E7-BC-96-E7-A0-81-E6-B5-8B-E8-AF-95-E4-B8-8E-E6-89-93-E5-8C-85-E5-8F-91-E5-B8-83-E9-A1-B9-E7-9B-AE">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>编码测试:</p>
+<ol><li>
+<p>npm run dev</p>
+</li><li>
+<p>访问: <a href="http://localhost:8080">localhost:8080</a></p>
+</li><li>
+<p>编码, 自动编译打包(HMR: hot module replace 热模替换), 查看效果</p>
+</li></ol>
+</li><li>
+<p>打包发布</p>
+<ol><li>
+<p>npm run build</p>
+</li><li>
+<p>npm install -g pushstate-server</p>
+</li><li>
+<p>pushstate-server dist</p>
+</li><li>
+<p>访问: <a href="http://localhost:9000">localhost:9000</a></p>
+</li></ol>
+</li></ul>
+<hr>
+
+<h4 id="label-vue-E7-BB-84-E4-BB-B6-E5-8C-96-E5-BC-80-E5-8F-91">vue组件化开发<span><a href="#label-vue-E7-BB-84-E4-BB-B6-E5-8C-96-E5-BC-80-E5-8F-91">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>vue组件的定义与使用</p>
+<ul><li>
+<p>一个.vue文件就是一个vue组件</p>
+</li><li>
+<p>vue组件传入选项配置对象components里</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-E7-BB-84-E4-BB-B6-E7-BB-84-E6-88-90+-283-E4-B8-AA-E9-83-A8-E5-88-86-29">组件组成 (3个部分)<span><a href="#label-E7-BB-84-E4-BB-B6-E7-BB-84-E6-88-90+-283-E4-B8-AA-E9-83-A8-E5-88-86-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>模板页面:</p>
+
+<pre>  &lt;template&gt;
+    页面模板
+  &lt;/template&gt;</pre>
+</li><li>
+<p>JS默认模块对象:</p>
+
+<pre>  &lt;script&gt;
+    export default {
+      data() {return {}},
+      methods: {},
+      computed: {},
+      components: {} //包含组件的对象
+    }
+  &lt;/script&gt;</pre>
+</li><li>
+<p>页面样式:</p>
+
+<pre>  &lt;style scoped&gt;  //scoped代表样式只针对当前组件的模板页面
+    样式定义
+  &lt;/style&gt;</pre>
+</li><li>
+<p>关于标签名与标签属性名书写问题:</p>
+<ul><li>
+<p>标签名与标签属性名不区分大小写</p>
+</li><li>
+<p>标签名: 如果组件名是XxxYyy, 标签名必须为&lt;xxx-yyy&gt;</p>
+</li><li>
+<p>属性名: 如果标签属性名为xxx-yyy, 组件得到的属性名为: xxxYyy</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E7-BB-84-E4-BB-B6-E5-8C-96-E7-BC-96-E7-A0-81-E7-9A-84-E5-9F-BA-E6-9C-AC-E6-B5-81-E7-A8-8B">组件化编码的基本流程<span><a href="#label-E7-BB-84-E4-BB-B6-E5-8C-96-E7-BC-96-E7-A0-81-E7-9A-84-E5-9F-BA-E6-9C-AC-E6-B5-81-E7-A8-8B">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>拆分界面, 抽取组件</p>
+</li><li>
+<p>编写静态组件, 并使用</p>
+</li><li>
+<p>编写动态组件, 并使用</p>
+<ul><li>
+<p>初始化数据, 动态显示初始化界面</p>
+</li><li>
+<p>响应用户操作</p>
+</li></ul>
+</li></ol>
+
+<h4 id="label-E7-BB-84-E4-BB-B6-E9-97-B4-E9-80-9A-E4-BF-A1">组件间通信<span><a href="#label-E7-BB-84-E4-BB-B6-E9-97-B4-E9-80-9A-E4-BF-A1">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>组件通信的2种方式</p>
+<ul><li>
+<p>props</p>
+</li><li>
+<p>vue的自定义事件机制</p>
+</li></ul>
+</li><li>
+<p>基本原则: 不要在子组件中直接修改父组件的状态数据. 可以定义方法通过props传递</p>
+</li></ul>
+
+<h5 id="label-E4-BD-BF-E7-94-A8props-E9-80-9A-E4-BF-A1">使用props通信<span><a href="#label-E4-BD-BF-E7-94-A8props-E9-80-9A-E4-BF-A1">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>组件标签: <code>&lt;my-component name=&#39;tom&#39; :age=&#39;myAge&#39; :set-name=&#39;setName&#39;&gt;&lt;/my-component&gt;</code></p>
+</li><li>
+<p>组件: MyComponent</p>
+</li><li>
+<p>声明props方式一: 数组 (只指定名称)</p>
+
+<pre>props: [&#39;name&#39;, &#39;age&#39;, &#39;setName&#39;]</pre>
+</li><li>
+<p>方式二: 对象 (指定名称和类型)</p>
+
+<pre>props: {
+  name: String,
+  age: Number,
+  setNmae: Function
+}</pre>
+</li><li>
+<p>方式三: 指定名称/类型/必要性/默认值</p>
+
+<pre>props: {
+  name: {
+	type: String, 
+	required: true, 
+	default:xxx},
+}</pre>
+</li><li>
+<p>所有props的属性都会成为components对象的属性, 模板页面可以直接引用</p>
+</li></ul>
+
+<h5 id="label-E4-BD-BF-E7-94-A8vue-E7-9A-84-E8-87-AA-E5-AE-9A-E4-B9-89-E4-BA-8B-E4-BB-B6-E6-9C-BA-E5-88-B6">使用vue的自定义事件机制<span><a href="#label-E4-BD-BF-E7-94-A8vue-E7-9A-84-E8-87-AA-E5-AE-9A-E4-B9-89-E4-BA-8B-E4-BB-B6-E6-9C-BA-E5-88-B6">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>绑定事件监听方式一: 通过$on()</p>
+
+<pre>this.$on(&#39;delete_todo&#39;, function (todo) {
+  this.deleteTodo(todo)
+})</pre>
+</li><li>
+<p>方式二: 通过events配置选项 [配合$dispatch]</p>
+
+<pre>events: {
+  &#39;delete_todo&#39;: function (todo) {
+    this.deleteTodo(todo)
+  }
+},</pre>
+</li><li>
+<p>方式三: 通过v-on在标签直接绑定 [最简单. 适合$emit]</p>
+
+<pre class="ruby"><span class="ruby-ivar">@事件名</span> = <span class="ruby-string">&#39;回调函数&#39;</span>
+<span class="ruby-ivar">@delete_todo</span>=<span class="ruby-string">&quot;deleteTodo&quot;</span>
+</pre>
+</li><li>
+<p>触发事件(3种情况)</p>
+</li><li>
+<p>this.$emit(eventName, data): 在当前组件触发事件</p>
+</li><li>
+<p>this.$dispatch(eventName, data): 分给父辈组件(冒泡)</p>
+</li><li>
+<p>this.$broadcast(eventName, data): 广播给后代组件</p>
+</li></ul>
+
+<h6 id="label-E5-B0-8F-E4-BE-8B">小例<span><a href="#label-E5-B0-8F-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<pre>当前组件传递 [子组件]
+ add () {
+    var inputTodo = this.inputTodo.trim()
+    if (!inputTodo) {
+      return
+    }
+    // 通知主组件发布消息
+    this.$emit(&#39;add&#39;, {
+      title: inputTodo,
+      complete: false
+    })
+
+    this.inputTodo = &#39;&#39;
+  }
+
+[主组件 标签]
+&lt;todo_header @add=&quot;addTodo&quot;&gt;&lt;/todo_header&gt;
+
+-----------------------------------------------------
+
+隔代传递 [后代组件]
+removeItem () {
+    if (window.confirm(`确定删除${this.todo.title}的吗?`)) {
+      // 分发事件
+      this.$dispatch(&#39;remove&#39;, this.index)
+    }
+  }
+
+[主组件app配置选项]
+events: {
+  &#39;remove&#39;: function (index) {
+    this.removeTodo(index)
+  }
+}</pre>
+<hr>
+
+<h3 id="label-Vue-AJAX-E3-81-AEvue-resource-E6-8F-92-E4-BB-B6">Vue-AJAXのvue-resource插件<span><a href="#label-Vue-AJAX-E3-81-AEvue-resource-E6-8F-92-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>说明:</p>
+</li><li>
+<p>vue-resource是非官方提供的ajax插件, 受众广</p>
+</li><li>
+<p>github: <a href="https://github.com/pagekit/vue-resource">github.com/pagekit/vue-resource</a></p>
+</li><li>
+<p>在线文档: <a href="https://github.com/pagekit/vue-resource/blob/develop/docs/http.md">github.com/pagekit/vue-resource/blob/develop/docs/http.md</a></p>
+</li><li>
+<p>安装: <code>npm install vue-resource --save</code></p>
+</li><li>
+<p>CDN使用: <code>&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vue-resource@1.3.3"></p>
+
+<h5 id="label-vue-resource-E6-8F-92-E4-BB-B6-E5-9F-BA-E6-9C-AC-E4-BD-BF-E7-94-A8">vue-resource插件基本使用<span><a href="#label-vue-resource-E6-8F-92-E4-BB-B6-E5-9F-BA-E6-9C-AC-E4-BD-BF-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>主入口main.js引入模块</p>
+</li></ul>
+
+<p> import VueResource from &#39;vue-resource&#39;</p>
+<ul><li>
+<p>声明插件 –&gt; 导致所有的组件对象都多了一个属性: $http</p>
+</li></ul>
+
+<p> Vue.use(VueResource)</p>
+<ul><li>
+<p>通过vue组件对象发送ajax请求 (数据在response.body里)</p>
+
+<pre>  this.$http.get(&#39;/someUrl&#39;).then((response) =&gt; {
+    // success callback
+    console.log(response.body) //返回结果数据
+  }, (response) =&gt; {
+    // error callback
+    console.log(response.statusText) //错误信息
+  });</pre>
+</li></ul>
+<hr>
+
+<h3 id="label-Vue-AJAX-E3-81-AEaxios-E6-8F-92-E4-BB-B6">Vue-AJAXのaxios插件<span><a href="#label-Vue-AJAX-E3-81-AEaxios-E6-8F-92-E4-BB-B6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>说明:</p>
+</li><li>
+<p>vue官方开始推荐使用axios作为ajax库</p>
+</li><li>
+<p>github: <a href="https://github.com/mzabriskie/axios">github.com/mzabriskie/axios</a></p>
+</li><li>
+<p>安装: <code>npm install axios --save</code></p>
+</li><li>
+<p>git测试接口: <a href="https://api.github.com/users/octocat/gists">api.github.com/users/octocat/gists</a></p>
+
+<h5 id="label-axios-E6-8F-92-E4-BB-B6-E5-9F-BA-E6-9C-AC-E4-BD-BF-E7-94-A8">axios插件基本使用<span><a href="#label-axios-E6-8F-92-E4-BB-B6-E5-9F-BA-E6-9C-AC-E4-BD-BF-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>当前需要发送ajax的组件引入</p>
+
+<pre class="ruby"><span class="ruby-identifier">import</span> <span class="ruby-identifier">axios</span> <span class="ruby-identifier">from</span> <span class="ruby-string">&#39;axios&#39;</span>
+</pre>
+</li><li>
+<p>created() 状态是进行ajax发送 (数据在response.data里)</p>
+
+<pre>axios.get(url)
+  .then(response =&gt; {
+    console.log(response.data)
+  })
+  .catch(error =&gt; {
+    console.log(error)
+  })</pre>
+
+<p>———-</p>
+</li></ul>
+
+<h3 id="label-vue-router-E6-8F-92-E4-BB-B6-E4-BD-BF-E7-94-A8">vue-router插件使用<span><a href="#label-vue-router-E6-8F-92-E4-BB-B6-E4-BD-BF-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>说明</p>
+</li><li>
+<p><a>官方提供的用来实现SPA</a>的插件</p>
+</li><li>
+<p>github: <a href="https://github.com/vuejs/vue-router">github.com/vuejs/vue-router</a></p>
+</li><li>
+<p>对应vue1.x的版本为: 0.7.13</p>
+</li><li>
+<p>安装: <code>npm install vue-router@0.7.13 --save (适用于vue 1.0)</code></p>
+</li><li>
+<p>引入: <code>import VueRouter from &#39;vue-router&#39;</code></p>
+</li></ul>
+
+<h4 id="label-vue-router-E7-9B-B8-E5-85-B3API-E8-AF-B4-E6-98-8E">vue-router相关API说明<span><a href="#label-vue-router-E7-9B-B8-E5-85-B3API-E8-AF-B4-E6-98-8E">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<blockquote>
+<p><a href="https://github.com/vuejs/vue-router/blob/1.0/docs/zh-cn/api/README.md">所有API索引说明</a></p>
+
+<h6 id="label-VueRouter-28-29-3A+-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-2C+-E7-94-A8-E6-9D-A5-E5-88-9B-E5-BB-BA-E8-B7-AF-E7-94-B1-E5-99-A8-E5-AF-B9-E8-B1-A1">VueRouter(): 构造函数, 用来创建路由器对象<span><a href="#label-VueRouter-28-29-3A+-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-2C+-E7-94-A8-E6-9D-A5-E5-88-9B-E5-BB-BA-E8-B7-AF-E7-94-B1-E5-99-A8-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>默认配置: 在创建对象时可以指定一个配置对象</p>
+<ul><li>
+<p><code>var router = new VueRouter({})</code></p>
+</li></ul>
+</li><li>
+<p>可选配置:</p>
+<ul><li>
+<p>linkActiveClass: 指定当前路由链接的样式名</p>
+</li><li>
+<p>history: 默认值false. 如果为true则去掉地址栏的 <code>#!</code></p>
+</li><li>
+<p>hashbang: 默认值true. 只在hash模式下可用</p>
+
+<blockquote>
+<p><a href="https://github.com/vuejs/vue-router/blob/1.0/docs/zh-cn/options.md">其他可选配置参数详情</a></p>
+</blockquote>
+</li></ul>
+</li></ul>
+</blockquote>
+
+<pre>	var router = new VueRouter({
+	  linkActiveClass: &#39;active&#39;, // 指定当前路由链接的样式名
+	  history: true // 地址栏去掉 `#!`
+	})</pre>
+
+<h6 id="label-map-28-29-3A+-E6-98-A0-E5-B0-84-E8-B7-AF-E7-94-B1">map(): 映射路由<span><a href="#label-map-28-29-3A+-E6-98-A0-E5-B0-84-E8-B7-AF-E7-94-B1">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>路由的配置对象 routeConfig</p>
+</li><li>
+<p>多个key:value键值对集合</p>
+</li><li>
+<p>参数: 路由路径: {component: 路由组件名}</p>
+</li></ul>
+
+<blockquote>
+<p>可定义一个js文件专门负责映射路由的管理</p>
+
+<p>组件的引用定义在该js文件里.</p>
+
+<p>只暴露一个行为使用函数就可以. 函数的参数是主配置中的路由器对象</p>
+
+<p>在主配置文件中引入该js文件并调用然后传参 <code>路由器对象变量</code> 即可</p>
+</blockquote>
+
+<pre class="ruby">  <span class="ruby-identifier">router</span>.<span class="ruby-identifier">map</span>({
+      <span class="ruby-value">&#39;/about&#39;:</span> {
+        <span class="ruby-value">component:</span> <span class="ruby-constant">About</span>
+      },
+      <span class="ruby-value">&#39;/home&#39;:</span> {
+        <span class="ruby-value">component:</span> <span class="ruby-constant">Home</span>
+      }
+    })
+</pre>
+
+<h6 id="label-start-28-29-3A+-E5-90-AF-E5-8A-A8-E5-BA-94-E7-94-A8">start(): 启动应用<span><a href="#label-start-28-29-3A+-E5-90-AF-E5-8A-A8-E5-BA-94-E7-94-A8">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>启动一个启用了路由的应用。创建一个 App 的实例并且挂载到元素 el</p>
+</li><li>
+<p>参数: 应用主组件 / el指令</p>
+
+<pre class="ruby"><span class="ruby-identifier">router</span>.<span class="ruby-identifier">start</span>(<span class="ruby-constant">App</span>, <span class="ruby-string">&#39;#app&#39;</span>)
+</pre>
+</li></ul>
+
+<h6 id="label-go-28-29-3A+-E8-AF-B7-E6-B1-82-E6-8C-87-E5-AE-9A-E8-B7-AF-E7-94-B1">go(): 请求指定路由<span><a href="#label-go-28-29-3A+-E8-AF-B7-E6-B1-82-E6-8C-87-E5-AE-9A-E8-B7-AF-E7-94-B1">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>导航到一个新的路由</p>
+</li><li>
+<p>可在主配置文件中初始请求指令路由</p>
+
+<p> router.go(&#39;/about&#39;)</p>
+</li></ul>
+<hr>
+
+<h4 id="label-E6-8C-87-E4-BB-A4-E4-B8-8E-E7-BB-84-E4-BB-B6-3A">指令与组件:<span><a href="#label-E6-8C-87-E4-BB-A4-E4-B8-8E-E7-BB-84-E4-BB-B6-3A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><strong>v-link: 用来指定路由路径</strong></p>
+</li><li>
+<p><a href="https://github.com/vuejs/vue-router/blob/1.0/docs/zh-cn/link.md">v-link说明详情</a></p>
+
+<pre>&lt;!-- 字面量路径 --&gt;
+&lt;a v-link=&quot;&#39;home&#39;&quot;&gt;Home&lt;/a&gt;
+
+&lt;!-- 指定路径 --&gt;
+&lt;a v-link=&quot;{path:&#39;/about&#39;}&gt;about&lt;/a&gt;
+
+&lt;!-- 具名路径 --&gt;
+&lt;a v-link=&quot;{ name: &#39;user&#39;, params: { userId: 123 }}&quot;&gt;User&lt;/a&gt;</pre>
+</li><li>
+<p><strong>&lt;router-view&gt;: 用来显示当前匹配路由组件界面</strong></p>
+</li><li>
+<p><a href="https://github.com/vuejs/vue-router/blob/1.0/docs/zh-cn/view.md">router-view说明详情</a></p>
+</li><li>
+<p>1.参数 keep-alive 属性实现路由界面的缓存</p>
+</li><li>
+<p>2.通过标签属性可动态向路由组件内部传递数据</p>
+
+<p> &lt;router-view keep-alive :msg=“msg”&gt;&lt;/router-view&gt;</p>
+</li></ul>
+<hr>
+
+<h4 id="label-E5-B5-8C-E5-A5-97-E8-B7-AF-E7-94-B1">嵌套路由<span><a href="#label-E5-B5-8C-E5-A5-97-E8-B7-AF-E7-94-B1">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>subRoutes 实现嵌套的子路由</p>
+</li><li>
+<p><a href="https://github.com/vuejs/vue-router/blob/1.0/docs/zh-cn/nested.md">嵌套路由说明详情</a></p>
+
+<pre>&#39;/home&#39;: {
+  component: home,
+  subRoutes: { // 嵌套子路由
+    &#39;/news&#39;: {
+      component: news
+    },
+    &#39;/message&#39;: {
+      component: message,
+    }
+  }
+}
+[home页面]
+&lt;a v-link=&quot;{path: &#39;/home/news&#39;}&quot;&gt;News&lt;/a&gt;
+&lt;a v-link=&quot;{path: &#39;/home/message&#39;}&quot;&gt;message&lt;/a&gt;</pre>
+</li></ul>
+<hr>
+
+<h4 id="label-E8-B7-AF-E7-94-B1-E8-AF-B7-E6-B1-82-E6-90-BA-E5-B8-A6-E5-8F-82-E6-95-B0">路由请求携带参数<span><a href="#label-E8-B7-AF-E7-94-B1-E8-AF-B7-E6-B1-82-E6-90-BA-E5-B8-A6-E5-8F-82-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><a href="https://github.com/vuejs/vue-router/blob/1.0/docs/zh-cn/route.md">其他路由规则和路由匹配说明详情</a></p>
+</li><li>
+<p>使用 <code>$route.params</code>: 对象，包含路由中的动态片段和全匹配片段的键值对</p>
+</li></ul>
+
+<p>模式 | 匹配的路径 | $route.params —|—|— /user/:username | /user/evan | <code>{ username: &#39;evan&#39; }</code> /user/:username/post/:post_id | /user/evan/post/123 | <code>{ username: &#39;evan&#39;, post_id: 123 }</code></p>
+
+<h6 id="label-24route.params+-E5-AE-9E-E4-BE-8B">$route.params 实例<span><a href="#label-24route.params+-E5-AE-9E-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>配置路由</p>
+
+<pre>subRoutes: {
+   &#39;/detail/:id&#39;: {
+     component: detail
+   }
+ }</pre>
+</li><li>
+<p>路由路径</p>
+
+<pre>&lt;a v-link=&quot;{path: `/home/message/detail/${message.id}`}&quot;&gt;{{message.title}}&lt;/a&gt;</pre>
+</li><li>
+<p>路由组件嵌套子组件读取数据</p>
+
+<pre>{{$route.params.id}}</pre>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/14_Vue/%E6%8F%92%E4%BB%B6.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="14-04.html">上一篇 · 重要属性</a><a href="14-06.html">下一篇 · Vue重要知识支持</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

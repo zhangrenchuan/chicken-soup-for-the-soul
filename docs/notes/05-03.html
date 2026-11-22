@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>用 jQuery 修改页面 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-05.html">jQuery：操作旧项目中的页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>jQuery：操作旧项目中的页面</strong><a href="05-01.html">jQuery入门</a><a href="05-02.html">jQuery选择器</a><a href="05-03.html" aria-current="page">用 jQuery 修改页面</a><a href="05-04.html">jQuery事件</a><a href="05-05.html">$冲突问题</a><a href="05-06.html">jQuery动画</a><a href="05-07.html">jQuery类数组操作</a><a href="05-08.html">jQuery插件</a></nav>
+<article class="paper"><h1>用 jQuery 修改页面</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>要改内容，先区分 <code>.text()</code>、<code>.html()</code> 和 <code>.val()</code>。它们分别操作纯文本、HTML 内容和表单值。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-jQuery-E7-9A-84DOM-E6-93-8D-E4-BD-9C">jQuery的DOM操作<span><a href="#label-jQuery-E7-9A-84DOM-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>DOM是Document Object Model的缩写，译为文档对象模型。根据W3C DOM规范，DOM是一种与浏览器、平台、语言无关的接口，使用该接口可以轻松地访问页面中所有的标准组件。</p>
+
+<p>jQuery中另一个重要的组成部分就是封装了原生DOM的操作。</p>
+
+<h3 id="label-E5-9F-BA-E6-9C-AC-E6-93-8D-E4-BD-9C">基本操作<span><a href="#label-E5-9F-BA-E6-9C-AC-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-html-E6-93-8D-E4-BD-9C">html操作<span><a href="#label-html-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>html( )方法用于读取或设置指定元素的HTML代码，类似于原生DOM中的innerHTML属性。</p>
+
+<pre>//获取&lt;p&gt;元素的HTML代码
+$(&quot;input:eq(0)&quot;).click(function(){
+    alert(  $(&quot;p&quot;).html() );
+});
+//设置&lt;p&gt;元素的HTML代码
+$(&quot;input:eq(1)&quot;).click(function(){
+    $(&quot;p&quot;).html(&quot;&lt;strong&gt;你最讨厌的水果是?&lt;/strong&gt;&quot;);
+});</pre>
+
+<h4 id="label-E6-96-87-E6-9C-AC-E6-93-8D-E4-BD-9C">文本操作<span><a href="#label-E6-96-87-E6-9C-AC-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>text( )方法用于读取或设置指定元素的文本内容，类似于原生DOM中的textContent属性。</p>
+
+<pre>//获取&lt;p&gt;元素的文本
+$(&quot;input:eq(0)&quot;).click(function(){
+    alert(  $(&quot;p&quot;).text() );
+});
+//设置&lt;p&gt;元素的文本
+$(&quot;input:eq(1)&quot;).click(function(){
+    $(&quot;p&quot;).text(&quot;你最讨厌的水果是?&quot;);
+});</pre>
+
+<h4 id="label-E5-80-BC-E6-93-8D-E4-BD-9C">值操作<span><a href="#label-E5-80-BC-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>val( )方法用于读取或设置指定元素的value属性值，类似于原生DOM中的value属性。</p>
+
+<pre>//获取按钮的value值
+$(&quot;input:eq(0)&quot;).click(function(){
+   alert( $(this).val() );
+});
+//设置按钮的value值
+$(&quot;input:eq(1)&quot;).click(function(){
+   $(this).val(&quot;我被点击了!&quot;);
+});</pre>
+
+<h4 id="label-E5-B1-9E-E6-80-A7-E6-93-8D-E4-BD-9C">属性操作<span><a href="#label-E5-B1-9E-E6-80-A7-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>attr( )方法用于获取或设置指定元素的属性，类似于原生DOM中的getAttribute()方法和setAttribute()方法。</p>
+</li><li>
+<p>removeAttr( )方法用于删除指定元素的属性，类似于原生DOM中的removeAttribute()方法。</p>
+
+<p>//设置&lt;p&gt;元素的属性&#39;title&#39; $(“input:eq(0)”).click(function(){  $(“p”).attr(“title”,“选择你最喜欢的水果.”); }); //获取&lt;p&gt;元素的属性&#39;title&#39; $(“input:eq(1)”).click(function(){  alert( $(“p”).attr(“title”) ); }); //删除&lt;p&gt;元素的属性&#39;title&#39; $(“input:eq(2)”).click(function(){  $(“p”).removeAttr(“title”); });</p>
+</li></ul>
+<hr>
+
+<h3 id="label-E6-A0-B7-E5-BC-8F-E6-93-8D-E4-BD-9C">样式操作<span><a href="#label-E6-A0-B7-E5-BC-8F-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>操作样式主要分成两种：</p>
+<ul><li>
+<p>一种是使用style属性直接设置CSS中的属性</p>
+</li><li>
+<p>一种是使用class样式名称设置CSS。</p>
+</li></ul>
+
+<h4 id="label-attr-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">attr( )方法操作<span><a href="#label-attr-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>class本身就是元素中的一个属性，所以也可以使用设置属性方式来设置或删除class样式。</p>
+
+<p><strong>语法结构：</strong><code>element.attr(&quot;class&quot;,className)</code></p>
+
+<blockquote>
+<p><strong>值得注意的是：</strong>使用attr( )方法设置class样式时，无论之前是否包含class属性，之前设置的样式都会被覆盖。</p>
+</blockquote>
+
+<pre>//&lt;input type=&quot;button&quot; value=&quot;采用属性增加样式&quot;  id=&quot;b1&quot;/&gt;
+$(&quot;#b1&quot;).click(function(){
+   $(&quot;#mover&quot;).attr(&quot;class&quot;,&quot;one&quot;);
+})</pre>
+
+<h4 id="label-addClass-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">addClass( )方法操作<span><a href="#label-addClass-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>addClass( )方法表示追加样式，也就是说，无论之前是否包含class样式，调用addClass( )方法只是在其基础上增加一个新的样式。而之前设置的样式依旧存在。</p>
+
+<pre>//&lt;input type=&quot;button&quot; value=&quot; addClass&quot;  id=&quot;b2&quot;/&gt;
+$(&quot;#b2&quot;).click(function(){
+   $(&quot;#mover&quot;).addClass(&quot;mini&quot;);
+})</pre>
+
+<h4 id="label-removeClass-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">removeClass( )方法操作<span><a href="#label-removeClass-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>removeClass( )方法表示删除样式，但该方法的使用有以下三种方式：</p>
+<ul><li>
+<p>removeClass()，默认不传递任何参数，表示删除所有样式。</p>
+</li><li>
+<p>removeClass(className)，传递一个样式名称，表示删除指定一个样式。</p>
+</li><li>
+<p>removeClass(className1 className2),传递多个样式名称，中间使用空格隔开，表示删除指定多个样式。</p>
+
+<p>//&lt;input type=“button” value=“removeClass”  id=“b3”/&gt; $(“#b3”).click(function(){  $(“#mover”).removeClass(); })</p>
+</li></ul>
+
+<h4 id="label-toggleClass-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">toggleClass( )方法操作<span><a href="#label-toggleClass-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>toggleClass( )方法表示在没有样式与指定样式之间进行切换，效果相当于使用addClass()方法和removeClass()方法。</p>
+
+<pre>//&lt;input type=&quot;button&quot; value=&quot; 切换样式&quot;  id=&quot;b4&quot;/&gt;
+$(&quot;#b4&quot;).click(function(){
+   // 在没有样式与指定样式之间切换
+   $(&quot;#mover&quot;).toggleClass(&quot;one&quot;);
+})</pre>
+
+<h4 id="label-hasClass-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">hasClass( )方法操作<span><a href="#label-hasClass-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>hasClass( )方法表示指定元素是否包含指定样式。</p>
+
+<blockquote>
+<p><strong>值得注意的是：</strong>hasClass( )方法并不能判断是否包含样式，而是判断是否包含指定样式。</p>
+</blockquote>
+
+<pre>//&lt;input type=&quot;button&quot; value=&quot; hasClass&quot;  id=&quot;b5&quot;/&gt;
+$(&quot;#b5&quot;).click(function(){
+   // 判断是否含有某个指定样式
+   alert($(&quot;#mover&quot;).hasClass(&quot;one&quot;));
+})</pre>
+
+<h4 id="label-css-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">css( )方法操作<span><a href="#label-css-28+-29-E6-96-B9-E6-B3-95-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>css( )方法也可以获取或设置CSS样式，但并不是通过class属性，而是通过style属性直接设置CSS中的属性。</p>
+<ul><li>
+<p>获取样式：</p>
+<ul><li>
+<p>css(attrName)方法，用于获取当前style属性的值。</p>
+</li></ul>
+</li><li>
+<p>设置样式：</p>
+<ul><li>
+<p>css(attrName,attrValue)方法，用于设置当前style属性的值。<strong>但每次只能设置一个CSS中的属性。</strong></p>
+</li><li>
+<p>css({attrName:attrValue,attrName:attrValue,…})方法，用于设置当前style属性的值。<strong>每次可以设置多个CSS中的属性。</strong></p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E9-81-8D-E5-8E-86-E8-8A-82-E7-82-B9">遍历节点<span><a href="#label-E9-81-8D-E5-8E-86-E8-8A-82-E7-82-B9">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-E8-8E-B7-E5-8F-96-E7-88-B6-E5-85-83-E7-B4-A0">获取父元素<span><a href="#label-E8-8E-B7-E5-8F-96-E7-88-B6-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>parent( )方法可以获取指定元素的父元素。</p>
+<ul><li>
+<p>parent()方法，不传递任何参数，是获取指定元素的父元素。</p>
+</li><li>
+<p>parent(selector)方法，是获取指定元素的符合selector选择器的父元素。</p>
+
+<pre>//第一个&lt;li&gt;元素的父元素
+var $parent = $(&quot;li:first&quot;).parent();</pre>
+</li></ul>
+
+<h4 id="label-E8-8E-B7-E5-8F-96-E5-AD-90-E5-85-83-E7-B4-A0">获取子元素<span><a href="#label-E8-8E-B7-E5-8F-96-E5-AD-90-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>children( )方法可以获取指定元素的子元素。</p>
+<ul><li>
+<p>children()方法，不传递任何参数，可以获取指定元素的所有子元素。</p>
+</li><li>
+<p>children(selector)方法，是获取指定元素的符合selector选择器的子元素。</p>
+
+<pre>var $ul = $(&quot;ul&quot;).children();
+alert( $ul.length );//&lt;p&gt;元素下有3个子元素</pre>
+</li></ul>
+
+<h4 id="label-E8-8E-B7-E5-8F-96-E5-85-84-E5-BC-9F-E5-85-83-E7-B4-A0">获取兄弟元素<span><a href="#label-E8-8E-B7-E5-8F-96-E5-85-84-E5-BC-9F-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>next( )方法是获取指定元素的下一个兄弟元素。</p>
+<ul><li>
+<p>next()方法，不传递任何参数，是获取指定元素的下一个兄弟元素。</p>
+</li><li>
+<p>next(selector)方法，是获取指定元素符合selector选择器的下一个兄弟元素。</p>
+</li><li>
+<p>next()方法，不传递任何参数，是获取指定元素的下一个兄弟元素。</p>
+</li><li>
+<p>next(selector)方法，是获取指定元素符合selector选择器的下一个兄弟元素。</p>
+
+<pre>var $p1 = $(&quot;p&quot;).next();
+alert( $p1.html() );  //  紧邻&lt;p&gt;元素后的同辈元素</pre>
+</li></ul>
+</li><li>
+<p>prev( )方法是获取指定元素的上一个兄弟元素。</p>
+<ul><li>
+<p>prev( )方法，不传递任何参数，是获取指定元素的上一个兄弟元素。</p>
+</li><li>
+<p>prev(selector)方法，是获取指定元素符合selector选择器的上一个兄弟元素。</p>
+
+<pre>	var $ul = $(&quot;ul&quot;).prev();
+	alert( $ul.html() );  //  紧邻&lt;ul&gt;元素前的同辈元素</pre>
+</li></ul>
+</li><li>
+<p>siblings( )方法是获取指定元素的所有兄弟元素。</p>
+<ul><li>
+<p>siblings( )方法，不传递任何参数，是获取指定元素的所有兄弟元素。</p>
+</li><li>
+<p>siblings(selector)方法，是获取指定元素符合selector选择器的所有兄弟元素。</p>
+
+<pre>var $p2 = $(&quot;p&quot;).siblings();
+alert( $p2.html() );  //  紧邻&lt;p&gt;元素的唯一同辈元素</pre>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E6-9F-A5-E6-89-BE-E6-8C-87-E5-AE-9A-E5-90-8E-E4-BB-A3-E5-85-83-E7-B4-A0">查找指定后代元素<span><a href="#label-E6-9F-A5-E6-89-BE-E6-8C-87-E5-AE-9A-E5-90-8E-E4-BB-A3-E5-85-83-E7-B4-A0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>find(selector)方法，可以查找指定元素的符合selector选择器的后代元素。</p>
+
+<pre>var eles = $(&quot;ul&quot;).find(&quot;li&quot;);    //查找ul元素下的所有li元素</pre>
+<hr>
+
+<h3 id="label-E5-85-B6-E4-BB-96-E6-93-8D-E4-BD-9C">其他操作<span><a href="#label-E5-85-B6-E4-BB-96-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h4 id="label-E5-88-9B-E5-BB-BA-E6-93-8D-E4-BD-9C">创建操作<span><a href="#label-E5-88-9B-E5-BB-BA-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>按照原生DOM的思路，创建节点需要分别创建元素节点、文本节点和属性节点。</p>
+<ul><li>
+<p>元素节点，使用jQuery的工厂函数 $(HTML代码)来创建。</p>
+</li><li>
+<p>文本节点，使用jQuery的text( )方法进行设置文本，而不需要创建文本节点。</p>
+</li><li>
+<p>属性节点，使用jQuery的attr( )方法进行设置属性，而不需要创建属性节点。</p>
+</li></ul>
+
+<p>其实，使用jQuery创建元素，并不需要按照原生DOM的思路进行创建。可以一步代码创建完整的元素。</p>
+
+<pre>//创建一个&lt;li&gt;元素 包括元素节点,文本节点和属性节点
+var $li = $(&quot;&lt;li title=&#39;香蕉&#39;&gt;香蕉&lt;/li&gt;&quot;);
+
+// 获取&lt;ul&gt;节点 &lt;li&gt;的父节点
+var $parent = $(&quot;ul&quot;);
+
+// 添加到&lt;ul&gt;节点中，使之能在网页中显示
+$parent.append($li);</pre>
+
+<h4 id="label-E6-8F-92-E5-85-A5-E6-93-8D-E4-BD-9C">插入操作<span><a href="#label-E6-8F-92-E5-85-A5-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>jQuery中的插入操作分为内部插入和外部插入。</p>
+<ul><li>
+<p>内部插入</p>
+<ul><li>
+<p>append( )方法，将append( )后面的元素插入在append( )前面指定元素的后面。</p>
+</li><li>
+<p>prepend( )方法，将prepend( )后面的元素插入在prepend( )前面指定元素的前面。</p>
+</li><li>
+<p>appendTo( )方法，将appendTo( )前面的元素插入在appendTo( )后面的元素的后面。</p>
+</li><li>
+<p>prependTo( )方法，将prependTo( )前面的元素插入在prependTo( )后面的元素的前面。</p>
+</li><li>
+<p>append( )方法，将append( )后面的元素插入在append( )前面指定元素的后面。</p>
+</li><li>
+<p>prepend( )方法，将prepend( )后面的元素插入在prepend( )前面指定元素的前面。</p>
+</li><li>
+<p>appendTo( )方法，将appendTo( )前面的元素插入在appendTo( )后面的元素的后面。</p>
+</li><li>
+<p>prependTo( )方法，将prependTo( )前面的元素插入在prependTo( )后面的元素的前面。</p>
+
+<pre>// append - append后面的节点被添加到append前面的节点的后面
+$(&quot;#tj&quot;).append($(&quot;#ms&quot;));
+
+// prepend - prepend后面的节点被添加到prepend前面的节点的前面
+$(&quot;#tj&quot;).prepend($(&quot;#ms&quot;));
+
+// appendTo - appendTo前面的节点被添加到appendTo后面的节点的后面
+$(&quot;#tj&quot;).appendTo($(&quot;#ms&quot;));
+
+// prependTo - prependTo前面的节点被添加到prependTo后面的节点的前面
+$(&quot;#tj&quot;).prependTo($(&quot;#ms&quot;));</pre>
+</li></ul>
+</li><li>
+<p>外部插入</p>
+<ul><li>
+<p>before( )方法，将before( )后面的元素插入在before( )前面的指定元素的前面。</p>
+</li><li>
+<p>after( )方法，将after( )后面的元素插入在after( )前面的指定元素的后面。</p>
+</li><li>
+<p>insertBefore( )方法，将insertBefore( )前面的元素插入在insertBefore( )后面的指定元素的前面。</p>
+</li><li>
+<p>insertAfter( )方法，将insertAfter( )前面的元素插入在insertAfter( )后面的指定元素的后面。</p>
+
+<pre>// before - before后面的节点被添加到before前面的节点的前面
+$(&quot;#tj&quot;).before($(&quot;#ms&quot;));
+
+// after - after后面的节点被添加到after前面的节点的后面
+$(&quot;#tj&quot;).after($(&quot;#ms&quot;));
+
+// insertBefore
+$(&quot;#tj&quot;).insertBefore($(&quot;#ms&quot;));
+
+// insertAfter
+$(&quot;#tj&quot;).insertAfter($(&quot;#ms&quot;));</pre>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-88-A0-E9-99-A4-E6-93-8D-E4-BD-9C">删除操作<span><a href="#label-E5-88-A0-E9-99-A4-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>jQuery中的删除操作分别为remove( )方法和empty( )方法。</p>
+<ul><li>
+<p>remove( )方法，删除自身元素及所有后代元素。</p>
+</li><li>
+<p>empty( )方法，删除所有后代元素，但保留自身元素。该方法适合完成清空操作。</p>
+
+<pre>$(&quot;ul li:eq(1)&quot;).remove(); // 获取第二个&lt;li&gt;元素节点后，将它从网页中删除
+
+$(&quot;ul li&quot;).remove(&quot;li[title!=菠萝]&quot;);  //把&lt;li&gt;元素中属性title不等于&quot;菠萝&quot;的&lt;li&gt;元素删除
+
+$(&quot;ul li:eq(1)&quot;).empty(); // 获取第二个&lt;li&gt;元素节点后，清空此元素里的内容</pre>
+</li></ul>
+
+<h4 id="label-E6-9B-BF-E6-8D-A2-E6-93-8D-E4-BD-9C">替换操作<span><a href="#label-E6-9B-BF-E6-8D-A2-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>jQuery中的替换操作分别为replaceWith( )方法和replaceAll( )方法。</p>
+<ul><li>
+<p>replaceWith( )方法，该方法前面的元素是被替换元素。</p>
+</li><li>
+<p>replaceAll( )方法，就是颠倒了的repalceWith( )方法。</p>
+
+<pre>$(&quot;p&quot;).replaceWith(&quot;&lt;strong&gt;你最不喜欢的水果是?&lt;/strong&gt;&quot;);
+// 同样的实现： $(&quot;&lt;strong&gt;你最不喜欢的水果是?&lt;/strong&gt;&quot;).replaceAll(&quot;p&quot;);</pre>
+</li></ul>
+
+<h4 id="label-E5-A4-8D-E5-88-B6-E6-93-8D-E4-BD-9C">复制操作<span><a href="#label-E5-A4-8D-E5-88-B6-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>jQuery中的复制操作使用的方法为clone( )方法，该方法与原生DOM中的复制节点的方法cloneNode( )在使用时极为相似。</p>
+<ul><li>
+<p>原生DOM中的cloneNode(Boolean)方法，参数Boolean表示是否复制后代节点。</p>
+</li><li>
+<p>jQuery中的clone(Boolean)方法，参数Boolean表示是否复制事件。</p>
+
+<pre>$(&quot;ul li&quot;).click(function(){
+   $(this).clone().appendTo(&quot;ul&quot;); // 复制当前点击的节点，并将它追加到&lt;ul&gt;元素
+   $(this).clone(true).appendTo(&quot;ul&quot;); // 注意参数true
+   //可以复制自己，并且他的副本也有同样功能
+})</pre>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/05_jQuery/jQuery_DOM%E6%93%8D%E4%BD%9C.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="05-02.html">上一篇 · jQuery选择器</a><a href="05-04.html">下一篇 · jQuery事件</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

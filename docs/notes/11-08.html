@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>服务器渲染 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-11.html">React：组件、状态与路由</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>React：组件、状态与路由</strong><a href="11-01.html">入门</a><a href="11-02.html">props：接收父组件的数据</a><a href="11-03.html">ref：访问页面元素</a><a href="11-04.html">state：保存组件状态</a><a href="11-05.html">生命周期</a><a href="11-06.html">脚手架</a><a href="11-07.html">在 React 中获取数据</a><a href="11-08.html" aria-current="page">服务器渲染</a><a href="11-09.html">React 界面组件库</a><a href="11-10.html">组件通信</a><a href="11-11.html">React Router 路由</a></nav>
+<article class="paper"><h1>服务器渲染</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>服务器渲染先在服务器生成 HTML。浏览器把这份 HTML 显示出来，再由客户端 JavaScript 接手交互。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-React+-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-AB-AF-E6-B8-B2-E6-9F-93">React 服务器端渲染<span><a href="#label-React+-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-AB-AF-E6-B8-B2-E6-9F-93">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>当服务器端接收到请求时,在服务器端基于React动态渲染页面, 并返回给浏览器显示</p>
+</li><li>
+<p>优点:</p>
+<ol><li>
+<p>服务器端和客户端可以共享某些代码，避免重复定义</p>
+</li><li>
+<p>首次加载页面的速度加快</p>
+</li><li>
+<p>便于SEO搜索引擎优化。</p>
+</li></ol>
+</li><li>
+<p>缺点:</p>
+<ol><li>
+<p>对服务器压力增大</p>
+</li><li>
+<p>要求服务器使用基于node搭建</p>
+</li></ol>
+</li></ul>
+
+<h5 id="label-React+-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-AB-AF-E6-B8-B2-E6-9F-93-E8-BF-87-E7-A8-8B">React 服务器端渲染过程<span><a href="#label-React+-E6-9C-8D-E5-8A-A1-E5-99-A8-E7-AB-AF-E6-B8-B2-E6-9F-93-E8-BF-87-E7-A8-8B">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ol><li>
+<p>文件结构</p>
+
+<pre>|-- src
+    |-- App.js--------------主组件js
+    |-- server.js-----------启动服务器监听, 处理请求
+|-- index.js---------入口js
+|-- .babelrc---------babel配置文件
+|-- package.json-----应用包信息文件</pre>
+</li><li>
+<p>编码</p>
+<ul><li>
+<p>package.json</p>
+
+<pre class="ruby">{
+    <span class="ruby-value">&quot;name&quot;:</span> <span class="ruby-string">&quot;react-node&quot;</span>,
+    <span class="ruby-value">&quot;version&quot;:</span> <span class="ruby-string">&quot;1.0.0&quot;</span>,
+    <span class="ruby-value">&quot;scripts&quot;:</span> {
+        <span class="ruby-value">&quot;start&quot;:</span> <span class="ruby-string">&quot;node index&quot;</span>
+    },
+    <span class="ruby-value">&quot;devDependencies&quot;:</span> {
+        <span class="ruby-value">&quot;babel-preset-es2015&quot;:</span> <span class="ruby-string">&quot;^6.6.0&quot;</span>,
+        <span class="ruby-value">&quot;babel-preset-react&quot;:</span> <span class="ruby-string">&quot;^6.5.0&quot;</span>,
+        <span class="ruby-value">&quot;babel-register&quot;:</span> <span class="ruby-string">&quot;^6.8.0&quot;</span>
+    },
+    <span class="ruby-value">&quot;dependencies&quot;:</span> {
+        <span class="ruby-value">&quot;react&quot;:</span> <span class="ruby-string">&quot;^15.3.1&quot;</span>,
+        <span class="ruby-value">&quot;react-dom&quot;:</span> <span class="ruby-string">&quot;^15.3.1&quot;</span>
+    }
+}
+</pre>
+</li><li>
+<p>.babelrc</p>
+
+<pre class="ruby">  {
+    <span class="ruby-value">&quot;presets&quot;:</span> [<span class="ruby-string">&quot;react&quot;</span>, <span class="ruby-string">&quot;es2015&quot;</span>]
+  }
+</pre>
+</li><li>
+<p>App.js</p>
+
+<pre>  import React, {Component} from &#39;react&#39;
+  class App extends Component {
+
+    render() {
+      return (
+        &lt;div&gt;测试React服务器&lt;/div&gt;
+      )
+    }
+  }
+  export default App</pre>
+</li><li>
+<p>server.js</p>
+
+<pre>  import React from &#39;react&#39;;
+  import { renderToString } from &#39;react-dom/server&#39;;
+  var http = require(&#39;http&#39;);
+  import App from &#39;./App&#39;;
+
+  //创建服务器对象, 并启动监听
+  http.createServer(function (request, response) {
+    //向浏览器端写头信息
+    response.writeHead(200, {&#39;Content-Type&#39;: &#39;text/html&#39;});
+    //渲染组件成标签结构字符串
+    const appHTML = renderToString(&lt;App /&gt;);
+    //向浏览器返回结果
+    response.end(appHTML);
+  }).listen(8888);
+  // 终端打印提示信息
+  console.log(&#39;Server running at http://127.0.0.1:8888/&#39;);</pre>
+</li><li>
+<p>index.js</p>
+
+<pre class="ruby">  <span class="ruby-identifier">require</span>(<span class="ruby-string">&#39;babel-register&#39;</span>);
+  <span class="ruby-identifier">require</span>(<span class="ruby-string">&#39;./src/server.js&#39;</span>);
+</pre>
+</li></ul>
+</li><li>
+<p>启动</p>
+<ul><li>
+<p><code>npm start</code></p>
+</li><li>
+<p>访问: <code>http://127.0.0.1:8888</code></p>
+</li></ul>
+</li></ol>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/11_ReactJs/%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B8%B2%E6%9F%93.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="11-07.html">上一篇 · 在 React 中获取数据</a><a href="11-09.html">下一篇 · React 界面组件库</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

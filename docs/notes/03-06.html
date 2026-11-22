@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>JS对象 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-03.html">JavaScript 基础</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 基础</strong><a href="03-01.html">ECMAScript 与 JavaScript</a><a href="03-02.html">JS基本语法</a><a href="03-03.html">JS数据类型</a><a href="03-04.html">JS运算符</a><a href="03-05.html">JS语句</a><a href="03-06.html" aria-current="page">JS对象</a><a href="03-07.html">JS函数</a><a href="03-08.html">JS数组</a><a href="03-09.html">JS内置对象方法</a><a href="03-10.html">正则表达式</a><a href="03-11.html">DOM</a><a href="03-12.html">BOM</a><a href="03-13.html">JSON</a></nav>
+<article class="paper"><h1>JS对象</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>数据类型决定值能怎么用。数字 <code>3</code> 和字符串 <code>&quot;3&quot;</code> 看着相似，做加法时结果可能不同。判断数组可用 <code>Array.isArray()</code>。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-JS-E5-AF-B9-E8-B1-A1">JS对象<span><a href="#label-JS-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>对象是一种复合数据类型</p>
+</li><li>
+<p>它里面可以装任意数据类型的属性</p>
+
+<h4 id="label-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-88-86-E7-B1-BB">对象的分类<span><a href="#label-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-88-86-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+</li><li>
+<p>内建对象</p>
+<ul><li>
+<p>内建对象指由ES标准定义的对象,任何对ES标准的实现都可以使用这些对象</p>
+</li><li>
+<p>比如: Math String Numer Boolean RegExp</p>
+</li></ul>
+</li><li>
+<p>宿主对象</p>
+<ul><li>
+<p>宿主对象指由JS运行环境为我们提供的对象.目前来说就是指浏览器为我们提供的对象</p>
+</li><li>
+<p>比如: BOM对象 DOM对象</p>
+</li><li>
+<p>window document console</p>
+</li></ul>
+</li><li>
+<p>自定义对象</p>
+</li></ul>
+
+<h4 id="label-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-93-8D-E4-BD-9C">对象的操作<span><a href="#label-E5-AF-B9-E8-B1-A1-E7-9A-84-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>创建一个对象</p>
+<ul><li>
+<p>使用 new 关键字调用的函数称之为构造函数</p>
+</li><li>
+<p>var 对象 = new Object( );</p>
+</li><li>
+<p>var 对象 = {}</p>
+</li></ul>
+</li><li>
+<p>添加属性</p>
+<ul><li>
+<p>对象.属性名=属性值</p>
+</li></ul>
+</li><li>
+<p>读取属性</p>
+<ul><li>
+<p>对象.属性名</p>
+</li></ul>
+</li><li>
+<p>修改属性</p>
+<ul><li>
+<p>对象.属性名=新属性值</p>
+</li></ul>
+</li><li>
+<p>删除属性</p>
+<ul><li>
+<p>delete 对象.属性</p>
+</li></ul>
+</li><li>
+<p>检查对象是否含有某个属性</p>
+<ul><li>
+<p>使用 in 运算符. 如果有则返回true</p>
+</li><li>
+<p>“属性名” in 对象</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-B8-B8-E7-94-A8-E6-B7-BB-E5-8A-A0-E5-AF-B9-E8-B1-A1-E6-96-B9-E5-BC-8F">常用添加对象方式<span><a href="#label-E5-B8-B8-E7-94-A8-E6-B7-BB-E5-8A-A0-E5-AF-B9-E8-B1-A1-E6-96-B9-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>每一组名值对用逗号隔开.</p>
+</li><li>
+<p>最后一个属性值后面不要加逗号</p>
+</li><li>
+<p>语法: var obj = {属性名:属性值,属性名:属性值,属性名:属性值}</p>
+</li></ul>
+
+<h4 id="label-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-B1-9E-E6-80-A7-E5-90-8D-E5-92-8C-E5-B1-9E-E6-80-A7-E5-80-BC">对象的属性名和属性值<span><a href="#label-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-B1-9E-E6-80-A7-E5-90-8D-E5-92-8C-E5-B1-9E-E6-80-A7-E5-80-BC">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-E5-B1-9E-E6-80-A7-E5-90-8D">属性名<span><a href="#label-E5-B1-9E-E6-80-A7-E5-90-8D">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>对象的属性名没有任何要求.也不需要遵循标识符的规范</p>
+</li><li>
+<p>可以起任何稀奇古怪的名字</p>
+</li><li>
+<p>但在开发中请遵循标识符规范</p>
+</li></ul>
+
+<h5 id="label-E5-B1-9E-E6-80-A7-E5-80-BC">属性值<span><a href="#label-E5-B1-9E-E6-80-A7-E5-80-BC">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>属性值可以是任意数据类型</p>
+</li><li>
+<p>也可以是一个 Object</p>
+</li><li>
+<p>添加属性的第一种方式</p>
+<ul><li>
+<p>对象.属性名=属性值</p>
+</li></ul>
+</li><li>
+<p>添加属性的第二种方式</p>
+<ul><li>
+<p><a>对象</a>=属性值</p>
+</li><li>
+<p>这种方式的[]里可以传任何稀奇古怪的属性名</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E7-9A-84-E6-9E-9A-E4-B8-BE-28-E9-81-8D-E5-8E-86-29">对象属性的枚举(遍历)<span><a href="#label-E5-AF-B9-E8-B1-A1-E5-B1-9E-E6-80-A7-E7-9A-84-E6-9E-9A-E4-B8-BE-28-E9-81-8D-E5-8E-86-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>使用for..in语句对一个对象中的属性进行枚举</p>
+</li><li>
+<p>语法: <code>for ( 任一变量 in 对象 ){ };</code></p>
+</li><li>
+<p>对象中有几个属性,循环体就会执行几次</p>
+</li><li>
+<p>每次执行时,都会将一个对象中的属性名赋值给变量</p>
+</li></ul>
+
+<h4 id="label-E5-9F-BA-E6-9C-AC-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E5-92-8C-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-8C-BA-E5-88-AB">基本数据类型和对象的区别<span><a href="#label-E5-9F-BA-E6-9C-AC-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E5-92-8C-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-8C-BA-E5-88-AB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>程序在运行时,内存分为两种结构</p>
+<ul><li>
+<p>栈内存</p>
+</li><li>
+<p>堆内存</p>
+</li><li>
+<p>栈内存</p>
+</li><li>
+<p>堆内存</p>
+</li></ul>
+</li><li>
+<p>基本数据类型的值,是直接保存到栈内存中的</p>
+</li><li>
+<p>基本数据类型的值,都是互相独立的,修改一个不会影响到其他的变量</p>
+</li><li>
+<p>对象是保存在堆内存中的</p>
+</li><li>
+<p>而在变量中保存的是对象的引用(堆内存的地址)</p>
+</li><li>
+<p>我们是通过引用来操作对象的,当修改一个对象时有可能会影响其他的对象</p>
+</li></ul>
+
+<p><strong>对两个基本数据类型做相等比较时,比较的是数据的值</strong></p>
+
+<p><strong>而两个引用数据类型做相等比较时,比较的是对象的地址</strong></p>
+
+<p><strong>如果两个对象一模一样但地址值不同也会返回false</strong></p>
+
+<h4 id="label-E5-9E-83-E5-9C-BE-E5-9B-9E-E6-94-B6+-28GC-29">垃圾回收 (GC)<span><a href="#label-E5-9E-83-E5-9C-BE-E5-9B-9E-E6-94-B6+-28GC-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>在JS中有自动的垃圾回收机制.浏览器会自动将没有被引用的对象清除出内存</p>
+</li><li>
+<p>回收的工作由浏览器自动完成.而我们只需要将一些不再使用的对象设置为null即可</p>
+</li></ul>
+
+<h4 id="label-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-8E-9F-E5-9E-8B">对象的原型<span><a href="#label-E5-AF-B9-E8-B1-A1-E7-9A-84-E5-8E-9F-E5-9E-8B">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>对象的原型可以再创建一个对象</p>
+</li><li>
+<p>通过对象创建会在原本的对象原型里创建出新的对象</p>
+</li><li>
+<p>而原型通过属性直接创建是在原来函数里</p>
+</li></ol>
+
+<p><img src="https://i.imgur.com/wZYvDEP.png"></p>
+
+<h4 id="label-E5-AF-B9-E8-B1-A1-E7-9A-84-E7-BB-A7-E6-89-BF">对象的继承<span><a href="#label-E5-AF-B9-E8-B1-A1-E7-9A-84-E7-BB-A7-E6-89-BF">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>父构造函数定义一个对象</p>
+</li><li>
+<p>子构造函数也定义一个对象</p>
+</li><li>
+<p>子的构造函数的原型等于父构造函数的对象</p>
+</li><li>
+<p>则子和父有了继承的关系</p>
+</li><li>
+<p>即便子构造函数中没有父的内容,通过调用父函数的内容一样可以得到结果</p>
+</li></ol>
+
+<p><img src="https://i.imgur.com/x6bR9qc.png"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/03_JS/JS%E5%AF%B9%E8%B1%A1.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="03-05.html">上一篇 · JS语句</a><a href="03-07.html">下一篇 · JS函数</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

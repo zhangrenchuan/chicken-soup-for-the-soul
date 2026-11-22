@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>正则表达式 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-03.html">JavaScript 基础</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 基础</strong><a href="03-01.html">ECMAScript 与 JavaScript</a><a href="03-02.html">JS基本语法</a><a href="03-03.html">JS数据类型</a><a href="03-04.html">JS运算符</a><a href="03-05.html">JS语句</a><a href="03-06.html">JS对象</a><a href="03-07.html">JS函数</a><a href="03-08.html">JS数组</a><a href="03-09.html">JS内置对象方法</a><a href="03-10.html" aria-current="page">正则表达式</a><a href="03-11.html">DOM</a><a href="03-12.html">BOM</a><a href="03-13.html">JSON</a></nav>
+<article class="paper"><h1>正则表达式</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>正则表达式描述要找的文字格式。例如 <code>/^[0-9]+$/</code> 匹配由一个或多个半角数字组成的整段文本，可用 <code>test()</code> 检查。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-JS+-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F">JS 正则表达式<span><a href="#label-JS+-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>正则表达式用来定义一些字符串的规则</p>
+</li><li>
+<p>计算机可以根据这些规则来判断字符串是否符合规则</p>
+</li><li>
+<p>或者从一个字符串中将符合规则的内容提取出来</p>
+</li></ul>
+
+<h4 id="label-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-E5-88-9B-E5-BB-BA-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F">构造函数创建正则表达式<span><a href="#label-E6-9E-84-E9-80-A0-E5-87-BD-E6-95-B0-E5-88-9B-E5-BB-BA-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>var 变量 = new RegExp(“正则表达式”,“匹配模式”)</p>
+</li><li>
+<p>第一个参数: 表示检查一个字符串中是否有该参数的正则表达式</p>
+</li><li>
+<p>第二个参数: 可以传递一个匹配模式的字符串</p>
+<ul><li>
+<p>g 全局匹配模式</p>
+</li><li>
+<p>i 忽略大小写匹配</p>
+</li></ul>
+</li><li>
+<p>test()</p>
+<ul><li>
+<p>检查字符串是否符合正则表达式要求</p>
+</li><li>
+<p>符合返回true</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-AD-97-E9-9D-A2-E9-87-8F-E5-88-9B-E5-BB-BA-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F">字面量创建正则表达式<span><a href="#label-E5-AD-97-E9-9D-A2-E9-87-8F-E5-88-9B-E5-BB-BA-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>var 变量 = /正则表达式/匹配模式</p>
+
+<h5 id="label-E8-A7-84-E5-88-99">规则<span><a href="#label-E8-A7-84-E5-88-99">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>| 表示 或</p>
+</li><li>
+<p>[ ] 中括号中的内容也表示 或</p>
+</li><li>
+<p>[a-z] 任意的小写字母</p>
+</li><li>
+<p>[A-z] 任意的字母</p>
+</li><li>
+<p>[0-9] 任意的数字</p>
+</li><li>
+<p><a id="footmark-1" href="#foottext-1">1</a>; 除了小写字母</p>
+</li><li>
+<p><a id="footmark-2" href="#foottext-2">2</a> 除了小写字母和数字</p>
+</li></ul>
+
+<h4 id="label-E5-AD-97-E7-AC-A6-E4-B8-B2-E5-92-8C-E6-AD-A3-E5-88-99-E7-9B-B8-E5-85-B3-E6-96-B9-E6-B3-95">字符串和正则相关方法<span><a href="#label-E5-AD-97-E7-AC-A6-E4-B8-B2-E5-92-8C-E6-AD-A3-E5-88-99-E7-9B-B8-E5-85-B3-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-split-28-29">split()<span><a href="#label-split-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>这个方法中可以传递一个正则表达式传递作为参数.这样将会根据正则表达式拆分字符串</p>
+</li><li>
+<p>split()拆分字符串时,无论是否指定全局匹配,都会全都拆</p>
+
+<h5 id="label-search-28-29">search()<span><a href="#label-search-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>可以用来搜索一个字符串中是否含有指定内容</p>
+</li><li>
+<p>查询到就返回它第一次出现的索引位置</p>
+</li><li>
+<p>如果没有结果返回 -1</p>
+</li><li>
+<p>也可以接收一个正则表达式作为参数.将会根据正则表达式去字符串中查询内容</p>
+</li><li>
+<p>只会匹配第一个.即使加了全局匹配</p>
+
+<h5 id="label-match-28-29">match()<span><a href="#label-match-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>根据正则表达式将字符串中符合要求的内容提取出来</p>
+</li><li>
+<p>默认情况下只匹配第一个符合条件的内容</p>
+
+<h5 id="label-replace-28-29">replace()<span><a href="#label-replace-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>可以将字符串的指定内容替换为新内容</p>
+</li><li>
+<p>第一个参数: 被替换的旧内容</p>
+</li><li>
+<p>第二个参数: 新的内容</p>
+</li></ul>
+
+<h4 id="label-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E9-87-8F-E8-AF-8D">正则表达式量词<span><a href="#label-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E9-87-8F-E8-AF-8D">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>{n} 正好出现的次数</p>
+</li><li>
+<p>{m,n} 出现m-n次之间</p>
+</li><li>
+<p>{n,} 至少出现n次</p>
+</li><li><ul><li>
+<p>至少出现一次.相当于{1,}</p>
+</li></ul>
+</li><li><ul><li>
+<p>0个或多个. 相当于{0,}</p>
+</li></ul>
+</li><li>
+<p>? 0个或一个 相等于{0,1}</p>
+</li><li>
+<p>^ 以x表示开头</p>
+</li><li>
+<p>$ 以x表示结尾</p>
+</li></ul>
+
+<h4 id="label-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E8-BD-AC-E4-B9-89-E7-AC-A6-E5-8F-B7">正则表达式转义符号<span><a href="#label-E6-AD-A3-E5-88-99-E8-A1-A8-E8-BE-BE-E5-BC-8F-E8-BD-AC-E4-B9-89-E7-AC-A6-E5-8F-B7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p><code>\.</code> 表示 .</p>
+</li><li>
+<p><code>\</code> 表示 \</p>
+</li><li>
+<p><code>\w</code></p>
+</li><li>
+<p>相当于[A-z 0-9 _]</p>
+</li><li>
+<p>任意字母数字下划线</p>
+</li><li>
+<p><code>\W</code></p>
+</li><li>
+<p>相当于<a id="footmark-3" href="#foottext-3">3</a></p>
+</li><li>
+<p>除了字母数字下划线</p>
+</li><li>
+<p><code>\d</code></p>
+</li><li>
+<p>任意数字 (有)</p>
+</li><li>
+<p><code>\D</code></p>
+</li><li>
+<p>除了数字</p>
+</li><li>
+<p><code>\s</code></p>
+</li><li>
+<p>空格 (有)</p>
+</li><li>
+<p><code>\S</code></p>
+</li><li>
+<p>除了空格</p>
+</li><li>
+<p><code>\b</code></p>
+</li><li>
+<p>单词边界</p>
+</li><li>
+<p><code>\B</code></p>
+</li><li>
+<p>除了单词边</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/03_JS/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="03-09.html">上一篇 · JS内置对象方法</a><a href="03-11.html">下一篇 · DOM</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

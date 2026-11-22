@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>Node基础 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html" aria-current="page">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>Node基础</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>Node.js 让 JavaScript 可以在浏览器外运行。先写一个打印文字的脚本，用 <code>node 文件名.js</code> 执行。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E7-8E-AF-E5-A2-83-E9-85-8D-E7-BD-AE">环境配置<span><a href="#label-E7-8E-AF-E5-A2-83-E9-85-8D-E7-BD-AE">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><strong>命令行</strong></p>
+<ul><li>
+<p>呼出命令行</p>
+<ul><li>
+<p>win + R –&gt; cmd</p>
+</li></ul>
+</li><li>
+<p>盘符跳转</p>
+<ul><li>
+<p>盘符名 + 冒号</p>
+</li></ul>
+</li><li>
+<p>在文件夹中跳转</p>
+<ul><li>
+<p>cd + 空格 + 文件夹名称</p>
+</li></ul>
+</li><li>
+<p>tab键</p>
+<ul><li>
+<p>自动补全</p>
+</li></ul>
+</li><li>
+<p>运行文件</p>
+<ul><li>
+<p>输入文件名回车即可</p>
+</li></ul>
+</li><li>
+<p>查看当前目录下的文件列表</p>
+<ul><li>
+<p>dir</p>
+</li></ul>
+</li><li>
+<p>清屏</p>
+<ul><li>
+<p>cls</p>
+</li></ul>
+</li><li>
+<p>打印环境变量</p>
+<ul><li>
+<p>path</p>
+</li></ul>
+</li></ul>
+
+<p><strong>环境变量核心思想</strong></p>
+<ul><li>
+<p>帮助用户查找文件</p>
+</li><li>
+<p>整个文件的绝对路径(从盘符起) 需要放进字符串里</p>
+</li></ul>
+
+<p><strong>NodeJs命令行</strong></p>
+<ul><li>
+<p>node -v</p>
+<ul><li>
+<p>查看版本号</p>
+</li></ul>
+</li><li>
+<p>node -h</p>
+<ul><li>
+<p>帮助文件</p>
+</li></ul>
+</li><li>
+<p>node 文件路径</p>
+<ul><li>
+<p>读取文件内容</p>
+</li></ul>
+</li><li>
+<p>node script.js</p>
+<ul><li>
+<p>用node软件去执行某一个js文件</p>
+</li></ul>
+</li><li>
+<p>IP地址</p>
+</li><li>
+<p><a href="http://127.0.0.1">127.0.0.1</a>:端口号 回环地址</p>
+</li><li>
+<p>localhost 本机</p>
+</li><li>
+<p>本机IPv4地址</p>
+</li></ul>
+
+<p><strong>五步创建服务器</strong></p>
+
+<p>1.http 模块对象</p>
+
+<p>2.createServer</p>
+
+<p>3.server 监听(.listen申请端口号1024-65535)</p>
+
+<p>4.回调函数: 1. 访问事件 createServer</p>
+
+<p>5.回调函数: 2. 端口监听事件 listen</p>
+
+<pre>  //1.引入http包
+  //require是一个函数. 返回值是一个对象
+  var http = require(&#39;http&#39;);
+
+  //2.访问的处理逻辑
+  function serverHandler(request,response) {
+      //request  请求数据
+      //response 返回数据
+    response.end(&#39;hello world&#39;)
+  }
+
+  //3.创建服务器  createServer里注册访问处理的逻辑
+  //每当有请求,回调函数就执行一次
+  var server = http.createServer(serverHandler);
+
+  //4.用浏览器访问监听的端口号
+  //listen 向操作系统申请端口号  1024-65535之间的
+  //申请成功的时候 创建回调函数 弹出提示
+  function linstenHandler() {
+      console.log(&#39;申请成功&#39;);
+  }
+  server.listen(3000,linstenHandler);
+  //http://127.0.0.1:3000  回环地址
+  //192.168.1.6:3000 本机IPv4地址</pre>
+
+<p><strong>常见错误</strong></p>
+<ul><li>
+<p>EADDRINUSE 端口号被占用</p>
+</li><li>
+<p>E</p>
+</li><li>
+<p>ADDR</p>
+</li><li>
+<p>IN</p>
+</li><li>
+<p>USE</p>
+</li></ul>
+
+<p>解决办法: 1. 杀死进程. 2.修改端口号</p>
+
+<p>绝对路径: 从盘符根目录开始 C:/</p>
+
+<p>相对路径: 相当于当前文件夹(./ 当前目录)(../ 上一级目录) 程序 - 死人.. 进程 - 活人</p>
+<hr>
+
+<h2 id="label-E5-85-A8-E5-B1-80-E5-AF-B9-E8-B1-A1-E4-B8-8E-E5-B7-A5-E5-85-B7">全局对象与工具<span><a href="#label-E5-85-A8-E5-B1-80-E5-AF-B9-E8-B1-A1-E4-B8-8E-E5-B7-A5-E5-85-B7">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-2-1.node+global">2-1.node global<span><a href="#label-2-1.node+global">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>全局空间. 避免污染全局空间</p>
+
+<h4 id="label-2-2.console">2-2.console<span><a href="#label-2-2.console">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>console.log(&#39;log&#39;);</p>
+</li><li>
+<p>console.info(&#39;info&#39;);</p>
+</li><li>
+<p>console.error(&#39;error&#39;);</p>
+</li><li>
+<p>console.warn(&#39;warn&#39;);</p>
+<ul><li>
+<p>log info 正常显示信息</p>
+</li><li>
+<p>error 出错信息 红色显示</p>
+</li><li>
+<p>warn 警告信息 红色显示</p>
+</li><li>
+<p>log info互为别名. error warn互为别名</p>
+</li></ul>
+</li><li>
+<p>console.trace(); 打印调用堆栈追踪函数的调用轨迹</p>
+</li><li>
+<p>console.time(); / console.timeEnd();</p>
+<ul><li>
+<p>计时器. 可以计时中间执行代码的时间. 传入一个字符串接收时间</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-2-3.+-E5-AE-9A-E6-97-B6-E5-99-A8">2-3. 定时器<span><a href="#label-2-3.+-E5-AE-9A-E6-97-B6-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>setTimeout 延迟执行定时器</p>
+<ul><li>
+<p>clearTimeout();</p>
+</li></ul>
+</li><li>
+<p>setInterval 反复循环定时器</p>
+<ul><li>
+<p>clearInterval();</p>
+</li></ul>
+</li><li>
+<p>setImmediate(callback[, arg][, …]) 立即执行定时器</p>
+<ul><li>
+<p>clearImmediate()</p>
+</li></ul>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/Node%E5%9F%BA%E7%A1%80.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-02.html">下一篇 · HTTP入门</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>React 界面组件库 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-11.html">React：组件、状态与路由</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>React：组件、状态与路由</strong><a href="11-01.html">入门</a><a href="11-02.html">props：接收父组件的数据</a><a href="11-03.html">ref：访问页面元素</a><a href="11-04.html">state：保存组件状态</a><a href="11-05.html">生命周期</a><a href="11-06.html">脚手架</a><a href="11-07.html">在 React 中获取数据</a><a href="11-08.html">服务器渲染</a><a href="11-09.html" aria-current="page">React 界面组件库</a><a href="11-10.html">组件通信</a><a href="11-11.html">React Router 路由</a></nav>
+<article class="paper"><h1>React 界面组件库</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>组件库提供按钮、表单这类现成界面。渲染会重排的列表时，用数据自带的稳定 ID 作为 <code>key</code>。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-React-UI">React-UI<span><a href="#label-React-UI">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><a href="http://www.material-ui.com/#/">material-ui</a> <strong>国外常用</strong></p>
+
+<p><a href="https://ant.design/docs/react/getting-started-cn">ANT DESIGN</a> <strong>国内常用</strong></p>
+
+<h5 id="label-E4-BD-BF-E7-94-A8create-react-app-E6-90-AD-E5-BB-BAreact-E5-BC-80-E5-8F-91-E7-8E-AF-E5-A2-83">使用create-react-app搭建react开发环境<span><a href="#label-E4-BD-BF-E7-94-A8create-react-app-E6-90-AD-E5-BB-BAreact-E5-BC-80-E5-8F-91-E7-8E-AF-E5-A2-83">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ol><li>
+<p>全局安装脚手架并创建项目</p>
+<ul><li>
+<p><code>npm install create-react-app -g</code></p>
+</li><li>
+<p><code>create-react-app antd-demo</code></p>
+</li><li>
+<p><code>npm install create-react-app -g</code></p>
+</li><li>
+<p><code>create-react-app antd-demo</code></p>
+</li></ul>
+</li><li>
+<p>搭建ant-design</p>
+<ol><li>
+<p><code>npm install antd --save</code></p>
+</li><li>
+<p>把对应插件引入就可使用(详见官网)</p>
+<ul><li>
+<p><code>import { Button ,DatePicker} from &#39;antd&#39;;</code></p>
+</li><li>
+<p><code>import { Button ,DatePicker} from &#39;antd&#39;;</code></p>
+</li></ul>
+</li><li>
+<p><code>npm install antd --save</code></p>
+</li><li>
+<p>把对应插件引入就可使用(详见官网)</p>
+<ul><li>
+<p><code>import { Button ,DatePicker} from &#39;antd&#39;;</code></p>
+</li></ul>
+</li></ol>
+</li><li>
+<p>按需加载插件</p>
+<ol><li>
+<p><code>npm run eject</code></p>
+</li><li>
+<p><code>npm install babel-plugin-import --save-dev</code></p>
+</li><li>
+<p>新增config/webpack.config.dev.js的配置</p>
+</li><li>
+<p><code>npm run eject</code></p>
+</li><li>
+<p><code>npm install babel-plugin-import --save-dev</code></p>
+</li><li>
+<p>新增config/webpack.config.dev.js的配置</p>
+
+<pre>query: {
+   plugins: [
+     [&#39;import&#39;, 
+	 [{ libraryName: &quot;antd&quot;, style: &#39;css&#39; }]],
+  ],</pre>
+</li><li>
+<p>src/App.css</p>
+<ul><li>
+<p><code>@import &#39;~antd/dist/antd.css&#39;</code></p>
+</li></ul>
+</li></ol>
+</li></ol>
+<hr>
+
+<h3 id="label-key-3D-7Bindex-7D-E7-9A-84-E9-97-AE-E9-A2-98">key={index}的问题<span><a href="#label-key-3D-7Bindex-7D-E7-9A-84-E9-97-AE-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>当虚拟DOM发生变化时,通过key的值找到发生变化的元素进行对比</p>
+</li><li>
+<p>哪里变化了就更新哪里. 没有变化的地方不会更新.</p>
+</li><li>
+<p>如果key值找不到对应的旧元素,则直接“绘制”新的元素</p>
+</li><li>
+<p>所以在表单input里的内容没发生变化时,虚拟DOM是不会去改变的.</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/11_ReactJs/react_ui.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="11-08.html">上一篇 · 服务器渲染</a><a href="11-10.html">下一篇 · 组件通信</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

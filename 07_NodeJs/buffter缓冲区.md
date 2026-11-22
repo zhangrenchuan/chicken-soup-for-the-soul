@@ -1,17 +1,17 @@
-## Buffer 缓冲区
+# Buffer 缓冲区
 
-- JS语言本身只有字符串类型. 没有二进制数据类型
-- 操作磁盘数据等操作必须使用二进制数据
-- Buffer操作内存二进制数据
+## 先弄懂这件事
 
-		new Buffer(size)
-		new Buffer(str)
-		size: 申请对应长度的空间
-		str: 用字符串填充对应长度的空间
-		
-		字节: 计算机里存储数据最小的单位.
-		一个字节代表有8个0/1的二进制数. 显示出来是一个十六位进制的数字
-		
-		fill(0) 初始化buffer 指填充
-		Buffer.toString()获取字符串
-		Buffer[0] + 2 第一个字节+2
+`Buffer` 保存字节，适合处理文件和网络数据。把它转成文字时，需要使用正确的字符编码。
+
+### 从字符串得到字节
+
+```js
+const bytes = Buffer.from('你好', 'utf8');
+console.log(bytes.length);           // 6 个字节
+console.log(bytes.toString('utf8')); // 你好
+```
+
+- 一个字节有 8 位。`bytes[0]` 读取第一个字节的数值。
+- `Buffer.alloc(4)` 创建一个长度为 4、初始值全为 0 的缓冲区。
+- 把字节解码成字符串时，用与生成字节时一致的编码。

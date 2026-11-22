@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>浮动与父元素高度 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-02.html">CSS：样式与布局</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>CSS：样式与布局</strong><a href="02-01.html">css基础</a><a href="02-02.html" aria-current="page">浮动与父元素高度</a><a href="02-03.html">定位</a><a href="02-04.html">css2文本</a><a href="02-05.html">css2字体</a><a href="02-06.html">css2背景</a><a href="02-07.html">css2垂直对齐</a></nav>
+<article class="paper"><h1>浮动与父元素高度</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>float</code> 可以让文字绕着图片排。容器只包着浮动元素时，高度可能撑不开，可以给容器加 <code>display: flow-root</code>。</p>
+</section>
+<h3 id="label-E6-B5-AE-E5-8A-A8-E6-80-8E-E4-B9-88-E6-8E-92">浮动怎么排<span><a href="#label-E6-B5-AE-E5-8A-A8-E6-80-8E-E4-B9-88-E6-8E-92">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p><code>float: left</code> 将元素放到左侧，<code>float: right</code> 将它放到右侧，文字会绕着它排。相邻浮动元素会彼此让开。</p>
+</li><li>
+<p><code>clear: left</code> 让元素移到左浮动元素下方，<code>clear: right</code> 处理右边，<code>clear: both</code> 处理两边。</p>
+</li></ul>
+
+<h3 id="label-E4-B8-BA-E4-BB-80-E4-B9-88-E7-88-B6-E5-85-83-E7-B4-A0-E9-AB-98-E5-BA-A6-E4-BC-9A-E5-8F-98-E5-B0-8F">为什么父元素高度会变小<span><a href="#label-E4-B8-BA-E4-BB-80-E4-B9-88-E7-88-B6-E5-85-83-E7-B4-A0-E9-AB-98-E5-BA-A6-E4-BC-9A-E5-8F-98-E5-B0-8F">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>普通子元素通常会把父元素撑开。浮动子元素不参与普通流里的高度计算。如果容器里只有浮动元素，就可能出现背景包不住内容的情况。</p>
+
+<p>可以给父元素设置 <code>display: flow-root</code>，让它建立独立的块格式化上下文（BFC）。老项目里也常见用 <code>::after</code> 插入空块，再设置 <code>clear: both</code>。</p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/02_CSS/%E6%B5%AE%E5%8A%A8_%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="02-01.html">上一篇 · css基础</a><a href="02-03.html">下一篇 · 定位</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

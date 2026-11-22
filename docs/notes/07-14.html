@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>JSON&amp;XML · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html">NPM</a><a href="07-09.html">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html">cookie</a><a href="07-14.html" aria-current="page">JSON&amp;XML</a></nav>
+<article class="paper"><h1>JSON&amp;XML</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>JSON 常用键和值表示数据，XML 用开始标签和结束标签描述结构。交换数据时，先确认双方约定使用哪一种格式。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-JSON+-26+XML">JSON &amp; XML<span><a href="#label-JSON+-26+XML">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-JavaScript+Object+Notation">JavaScript Object Notation<span><a href="#label-JavaScript+Object+Notation">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>1.javascript对象标记</p>
+
+<p>2.具有特定格式的字符串</p>
+
+<p>3.对应的一种文件 xxx.json</p>
+
+<h4 id="label-Extensive+Markup+Language">Extensive Markup Language<span><a href="#label-Extensive+Markup+Language">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>1.可扩展标记语言</p>
+
+<p>2.对应的一种文件: xxx.xml</p>
+
+<p><strong>json和xml相同点:</strong></p>
+<ol><li>
+<p>具有层级结构. 保存结构化数据</p>
+</li><li>
+<p>可通过JavaScript解析</p>
+</li><li>
+<p>数据可通过AJAX 进行传输</p>
+</li><li>
+<p>纯文本. 独立于特定的语言</p>
+</li><li>
+<p>可在网络上传输 (客户端发送服务器, 服务器返回客户端)</p>
+</li><li>
+<p>可做配置文件</p>
+</li><li>
+<p>具有“自我描述性” (人类可读)</p>
+</li></ol>
+
+<p><strong>json优势:</strong></p>
+<ol><li>
+<p>体积更小</p>
+</li><li>
+<p>节省带宽</p>
+</li><li>
+<p>JS操作更方便</p>
+</li></ol>
+<hr>
+
+<h3 id="label-JSON">JSON<span><a href="#label-JSON">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>名值对必须是双引号的字符串.</p>
+</li><li>
+<p>不允许有注释</p>
+</li></ul>
+
+<p><strong>JSON类型</strong></p>
+
+<p>(key类型是字符串. value可以是num,str,bool,null,{},[])</p>
+<ol><li>
+<p>对象{key1 : value1, key2 : value2}</p>
+</li><li>
+<p>数组[value1, value2]</p>
+</li></ol>
+
+<p><strong>JSON工具对象</strong></p>
+
+<p>object parse(json) json字符串转obj对象</p>
+
+<pre class="ruby"><span class="ruby-identifier">var</span> <span class="ruby-identifier">obj</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">str</span>);
+</pre>
+
+<p>string stringify(object) obj对象转成jason字符串</p>
+
+<pre class="ruby"><span class="ruby-identifier">var</span> <span class="ruby-identifier">srt</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">stringify</span>(<span class="ruby-identifier">obj</span>)
+</pre>
+
+<p><strong>json 字符串与 js对象</strong></p>
+
+<p>区别:</p>
+<ol><li>
+<p>json是符合某种规范格式的字符串</p>
+</li><li>
+<p>js对象是堆空间中的一段内存</p>
+</li></ol>
+
+<p>联系:</p>
+<ol><li>
+<p>存储的信息相同</p>
+</li><li>
+<p>规范很像</p>
+</li><li>
+<p>非常容易互相转化</p>
+</li></ol>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/JSON%26XML.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-13.html">上一篇 · cookie</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

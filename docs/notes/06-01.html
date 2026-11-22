@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>数据类型 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-06.html">JavaScript 进阶：作用域、闭包和原型</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 进阶：作用域、闭包和原型</strong><a href="06-01.html" aria-current="page">数据类型</a><a href="06-02.html">原型</a><a href="06-03.html">this</a><a href="06-04.html">提升</a><a href="06-05.html">上下文环境对象</a><a href="06-06.html">作用域与作用域链</a><a href="06-07.html">闭包</a><a href="06-08.html">对象创建模式</a><a href="06-09.html">原型链继承</a><a href="06-10.html">线程机制</a><a href="06-11.html">JS引擎</a><a href="06-12.html">Web Workers API</a></nav>
+<article class="paper"><h1>数据类型</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>判断类型要看需求。<code>typeof</code> 适合判断字符串和数字，<code>Array.isArray()</code> 判断数组。两个变量也可能指向同一个对象。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E7-9A-84-E5-88-86-E7-B1-BB">数据类型的分类<span><a href="#label-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E7-9A-84-E5-88-86-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>基本(值)类型 :</p>
+<ul><li>
+<p>Number: 任意数值</p>
+</li><li>
+<p>String: 任意字符串</p>
+</li><li>
+<p>Boolean: true false</p>
+</li><li>
+<p>undefined: undefined 区别于&#39;undefined&#39;</p>
+</li><li>
+<p>null: null 区别于&#39;null&#39;</p>
+</li><li>
+<p>Number: 任意数值</p>
+</li><li>
+<p>String: 任意字符串</p>
+</li><li>
+<p>Boolean: true false</p>
+</li><li>
+<p>undefined: undefined 区别于&#39;undefined&#39;</p>
+</li><li>
+<p>null: null 区别于&#39;null&#39;</p>
+</li></ul>
+</li><li>
+<p>对象(引用)类型 :</p>
+<ul><li>
+<p>Object: 任意对象(无序数据的容器) 属性名是key值</p>
+</li><li>
+<p>Function: 一类特别的object(可以执行)</p>
+</li><li>
+<p>Array: 一类特别的object(有序数据的容器 下标属性) 属性名是下标</p>
+</li><li>
+<p>Object: 任意对象(无序数据的容器) 属性名是key值</p>
+</li><li>
+<p>Function: 一类特别的object(可以执行)</p>
+</li><li>
+<p>Array: 一类特别的object(有序数据的容器 下标属性) 属性名是下标</p>
+</li></ul>
+</li><li>
+<p>数据</p>
+<ul><li>
+<p>基本类型数据</p>
+</li><li>
+<p>对象类型数据</p>
+</li></ul>
+</li><li>
+<p>变量</p>
+<ul><li>
+<p>基本数据类型值(基本变量)</p>
+</li><li>
+<p>堆空间的地址值(引用变量)</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<h2 id="label-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E7-9A-84-E5-88-A4-E6-96-AD">数据类型的判断<span><a href="#label-E6-95-B0-E6-8D-AE-E7-B1-BB-E5-9E-8B-E7-9A-84-E5-88-A4-E6-96-AD">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>typeof : number/string/boolean/undefined/Object/function</p>
+</li><li>
+<p>instanceof : object/array</p>
+</li><li>
+<p>=== : null/undefined</p>
+</li><li>
+<p>typeof判断变量里存的值的类型. 用字符串输出</p>
+</li></ul>
+
+<h4 id="label-undefined-E4-B8-8Enull-E7-9A-84-E5-8C-BA-E5-88-AB">undefined与null的区别<span><a href="#label-undefined-E4-B8-8Enull-E7-9A-84-E5-8C-BA-E5-88-AB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>undefined: 未赋值或未定义的</p>
+</li><li>
+<p>null: 赋值了,但值是null</p>
+</li></ul>
+
+<h4 id="label-E4-BB-80-E4-B9-88-E6-97-B6-E5-80-99-E7-BB-99-E5-8F-98-E9-87-8F-E8-B5-8B-E5-80-BC-E4-B8-BAnull-E5-91-A2-3F">什么时候给变量赋值为null呢?<span><a href="#label-E4-BB-80-E4-B9-88-E6-97-B6-E5-80-99-E7-BB-99-E5-8F-98-E9-87-8F-E8-B5-8B-E5-80-BC-E4-B8-BAnull-E5-91-A2-3F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p><strong>在前面的代码</strong></p>
+<ul><li>
+<p>var obj = null 后续 obj = {}</p>
+</li><li>
+<p>作用:将要赋值为对象, 但此时还不确定</p>
+</li></ul>
+
+<p><strong>在后面的代码</strong></p>
+<ul><li>
+<p>obj = null</p>
+</li><li>
+<p>作用: obj指向的对象不再使用将其变成垃圾对象回收掉.</p>
+</li><li>
+<p>在过程中间给obj赋值过对象</p>
+
+<pre>var obj = {} -- 这种方法会占堆空间的地址 obj.xxx = xxx
+堆空间用来存储对象. 变量在栈空间. 变量存储的是地址
+
+console.log(x);  // ReferenceError: x is not defined
+console.log(typeof x); //undefined
+输出没有定义的变量会报错,但是检查类型时却显示为undefined</pre>
+</li></ul>
+<hr>
+
+<h2 id="label-E6-95-B0-E6-8D-AE+-E5-8F-98-E9-87-8F+-E5-86-85-E5-AD-98">数据 变量 内存<span><a href="#label-E6-95-B0-E6-8D-AE+-E5-8F-98-E9-87-8F+-E5-86-85-E5-AD-98">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E6-95-B0-E6-8D-AE">数据<span><a href="#label-E6-95-B0-E6-8D-AE">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>在内存中可读的, 可传递的, 保存了特定信息的&#39;东西&#39;就是数据</p>
+</li><li>
+<p>一切皆数据, 函数也是数据</p>
+</li><li>
+<p>在内存中的所有操作的目标: 数据</p>
+<ul><li>
+<p>算术运算, 逻辑运算</p>
+</li><li>
+<p>赋值</p>
+</li><li>
+<p>参数传递</p>
+</li><li>
+<p>…  数据可以作为参数传递 函数也是数据</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-8F-98-E9-87-8F">变量<span><a href="#label-E5-8F-98-E9-87-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>在程序运行过程中它的值是允许改变的量</p>
+</li><li>
+<p>一个变量对应一块小内存, 它的值保存在此内存中</p>
+</li></ul>
+
+<h4 id="label-E5-86-85-E5-AD-98">内存<span><a href="#label-E5-86-85-E5-AD-98">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>内存条==&gt;集成电路板==&gt;通电(运行内存)==&gt;暂时存储正在运行的程序及其产生的数据==&gt;程序停止==&gt;占用的空间自动释放</p>
+</li><li>
+<p>一块内存条包含2个方面的数据</p>
+<ul><li>
+<p>本身存储的数据 //基本类型数据</p>
+</li><li>
+<p>地址值数据 //堆空间的地址</p>
+</li></ul>
+</li><li>
+<p>内存空间的分类</p>
+<ul><li>
+<p>栈空间: 全局变量(函数名)/局部变量(函数名)</p>
+</li><li>
+<p>堆空间: 对象/函数/数组 函数(有名称的)是一个特别的变量.它变量的值是一个函数存在堆空间里 但函数名存在于栈空间里.</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E5-86-85-E5-AD-98-2C-E6-95-B0-E6-8D-AE-2C+-E5-8F-98-E9-87-8F-E4-B8-89-E8-80-85-E4-B9-8B-E9-97-B4-E7-9A-84-E5-85-B3-E7-B3-BB">内存,数据, 变量三者之间的关系<span><a href="#label-E5-86-85-E5-AD-98-2C-E6-95-B0-E6-8D-AE-2C+-E5-8F-98-E9-87-8F-E4-B8-89-E8-80-85-E4-B9-8B-E9-97-B4-E7-9A-84-E5-85-B3-E7-B3-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>内存就是一个容器, 用来存储(操作)数据</p>
+</li><li>
+<p>变量是这个容器的标识, 后面我们通过变量来找到内存, 操作其中的数据</p>
+</li></ul>
+
+<p><strong>var a = xxx, a中保存的到底做了什么?</strong></p>
+<ul><li>
+<p>xxx是一个基本数据 a保存基本数据</p>
+</li><li>
+<p>xxx是一个对象 a保存对象的地址值</p>
+</li><li>
+<p>xxx是一个变量 a保存是xxx的内容 (等号右边变量的内容拷贝给左边的变量. 可能是基本数据类型也可能是地址值)</p>
+</li></ul>
+
+<p>等号左边是写, 右边是读(将右边的值赋值给左边的变量里)</p>
+
+<p>函数调用x(y) x的形参等于是写 y实参是读</p>
+
+<p>a.xxx 左边读 右边读</p>
+<hr>
+
+<h2 id="label-E5-AF-B9-E8-B1-A1">对象<span><a href="#label-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>多个数据的集合且没有顺序</p>
+</li><li>
+<p>用来保存多个数据的容器</p>
+</li><li>
+<p>方便管理 (增删改查)</p>
+</li></ul>
+
+<h4 id="label-E5-AF-B9-E8-B1-A1-E4-B8-AD-E7-9A-84-E6-95-B0-E6-8D-AE">对象中的数据<span><a href="#label-E5-AF-B9-E8-B1-A1-E4-B8-AD-E7-9A-84-E6-95-B0-E6-8D-AE">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>属性: 属性名(字符串.标识用)和属性值(任意类型)</p>
+</li><li>
+<p>属性值分类: 一般属性, 属性值不是函数时 描述对象的状态 特殊属性, 属性值为函数称为方法. 描述对象的行为</p>
+</li></ul>
+
+<h4 id="label-E8-AF-BB-E5-8F-96-E5-AF-B9-E8-B1-A1-E5-86-85-E9-83-A8-E7-9A-84-E6-95-B0-E6-8D-AE">读取对象内部的数据<span><a href="#label-E8-AF-BB-E5-8F-96-E5-AF-B9-E8-B1-A1-E5-86-85-E9-83-A8-E7-9A-84-E6-95-B0-E6-8D-AE">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>.属性名: 易用, 但有时不能用 (属性名有特殊字符 属性名是一个变量 不确定时)</p>
+</li><li>
+<p>[&#39;属性名&#39;]: 难写, 但更通用</p>
+</li></ul>
+<hr>
+
+<h2 id="label-E5-87-BD-E6-95-B0">函数<span><a href="#label-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>用来实现特定功能的, n条语句的封装体</p>
+</li><li>
+<p>一般使用function关键字来定义函数</p>
+</li></ul>
+
+<h4 id="label-E5-87-BD-E6-95-B0-E7-9A-84-E5-A5-BD-E5-A4-84">函数的好处<span><a href="#label-E5-87-BD-E6-95-B0-E7-9A-84-E5-A5-BD-E5-A4-84">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>提高复用性(减少代码量)</p>
+</li><li>
+<p>便于阅读交流</p>
+</li></ul>
+
+<h4 id="label-E5-87-BD-E6-95-B0-E4-B9-9F-E6-98-AF-E5-AF-B9-E8-B1-A1">函数也是对象<span><a href="#label-E5-87-BD-E6-95-B0-E4-B9-9F-E6-98-AF-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>对象的特点:</p>
+<ul><li>
+<p>属性</p>
+</li><li>
+<p>方法</p>
+</li></ul>
+
+<p>函数的角色:</p>
+<ul><li>
+<p>函数 通过()调用/执行时就是函数</p>
+</li><li>
+<p>构造函数 通过new调用</p>
+</li><li>
+<p>对象 通过 . 来使用其对象的属性或方法</p>
+</li></ul>
+
+<p>1.函数有属性: prototype</p>
+
+<p>2.函数有方法: call()/apply()</p>
+
+<p>3.可以添加新的属性/方法</p>
+
+<p>4.先执行函数定义</p>
+<ul><li>
+<p>{}是函数对象 赋值给函数名</p>
+</li></ul>
+
+<p>5.调用时再执行函数体</p>
+
+<h4 id="label-E5-8C-BF-E5-90-8D-E5-87-BD-E6-95-B0-E8-87-AA-E8-B0-83-E7-94-A8-3A">匿名函数自调用:<span><a href="#label-E5-8C-BF-E5-90-8D-E5-87-BD-E6-95-B0-E8-87-AA-E8-B0-83-E7-94-A8-3A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>(function(w, obj){
+    //实现代码
+  })(window, obj) 
+专业术语为: IIFE 立即调用函数表达式</pre>
+
+<h4 id="label-E5-9B-9E-E8-B0-83-E5-87-BD-E6-95-B0-E5-AE-9A-E4-B9-89">回调函数定义<span><a href="#label-E5-9B-9E-E8-B0-83-E5-87-BD-E6-95-B0-E5-AE-9A-E4-B9-89">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>你定义的</p>
+</li><li>
+<p>你没有调用</p>
+</li><li>
+<p>但最终执行了的(在某个条件下执行)</p>
+</li></ol>
+
+<h4 id="label-E5-B8-B8-E8-A7-81-E7-9A-84-E5-9B-9E-E8-B0-83-E5-87-BD-E6-95-B0">常见的回调函数<span><a href="#label-E5-B8-B8-E8-A7-81-E7-9A-84-E5-9B-9E-E8-B0-83-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>Dom事件监听回调函数</p>
+</li><li>
+<p>定时器回调函数</p>
+</li><li>
+<p>ajax请求回调函数</p>
+</li><li>
+<p>对象生命周期回调函数</p>
+
+<pre> document.getElementById(&#39;btn&#39;).onclick = function (){
+    alert(this.innerHTML)  
+  };
+
+ setTimeout(function (){
+    console.log(&#39;定时器回调函数执行了&#39;);
+  },500)</pre>
+</li></ol>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/06_JavaScript%E9%AB%98%E7%BA%A7/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="06-02.html">下一篇 · 原型</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

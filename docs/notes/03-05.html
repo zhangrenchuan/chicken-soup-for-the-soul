@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>JS语句 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-03.html">JavaScript 基础</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 基础</strong><a href="03-01.html">ECMAScript 与 JavaScript</a><a href="03-02.html">JS基本语法</a><a href="03-03.html">JS数据类型</a><a href="03-04.html">JS运算符</a><a href="03-05.html" aria-current="page">JS语句</a><a href="03-06.html">JS对象</a><a href="03-07.html">JS函数</a><a href="03-08.html">JS数组</a><a href="03-09.html">JS内置对象方法</a><a href="03-10.html">正则表达式</a><a href="03-11.html">DOM</a><a href="03-12.html">BOM</a><a href="03-13.html">JSON</a></nav>
+<article class="paper"><h1>JS语句</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>用 <code>if</code> 决定哪段代码执行，用循环重复执行。读循环时，先找初始值、继续条件和每次怎样变化。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-JS-E8-AF-AD-E5-8F-A5">JS语句<span><a href="#label-JS-E8-AF-AD-E5-8F-A5">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E4-BB-A3-E7-A0-81-E5-9D-97">代码块<span><a href="#label-E4-BB-A3-E7-A0-81-E5-9D-97">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>在js中可以使用{}大括号进行语句分组</p>
+</li><li>
+<p>可以将同一组的语句放到{}中</p>
+</li><li>
+<p>一个大括号中的语句,我们称为是一个代码块,代码块后不用加分号</p>
+</li><li>
+<p>js中的代码块仅有分组的作用,没有其他的作用</p>
+</li></ul>
+
+<h3 id="label-E6-B5-81-E7-A8-8B-E6-8E-A7-E5-88-B6-E8-AF-AD-E5-8F-A5">流程控制语句<span><a href="#label-E6-B5-81-E7-A8-8B-E6-8E-A7-E5-88-B6-E8-AF-AD-E5-8F-A5">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>JS中程序的执行顺序是按照自上到下一行一行执行的</p>
+</li><li>
+<p>我们可以通过流程控制语句,来改变程序执行的顺序,或者让某一段程序反复执行多次</p>
+</li><li>
+<p>流程控制语句分类</p>
+<ul><li>
+<p>条件判断语句</p>
+</li><li>
+<p>条件分支语句</p>
+</li><li>
+<p>循环语句</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E6-9D-A1-E4-BB-B6-E5-88-A4-E6-96-AD-E8-AF-AD-E5-8F-A5+-28if-E8-AF-AD-E5-8F-A5-29">条件判断语句 (if语句)<span><a href="#label-E6-9D-A1-E4-BB-B6-E5-88-A4-E6-96-AD-E8-AF-AD-E5-8F-A5+-28if-E8-AF-AD-E5-8F-A5-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>  if(条件表达式){
+        语句....
+    }else{
+        语句....
+    }
+执行流程:
+if..else...语句执行时,会先对if后的条件表达式进行求值判断,
+1. 如果判断结果为true,则执行if后的语句
+2. 如果判断结果为false,则执行else后的语句</pre>
+
+<h4 id="label-E6-9D-A1-E4-BB-B6-E5-88-86-E6-94-AF-E8-AF-AD-E5-8F-A5+-28switch-29">条件分支语句 (switch)<span><a href="#label-E6-9D-A1-E4-BB-B6-E5-88-86-E6-94-AF-E8-AF-AD-E5-8F-A5+-28switch-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>switch(条件表达式){
+    case 表达式 :
+        语句.....
+        break; --&gt; 终止当前语句,不执行后面的语句
+    case 表达式 :
+        语句.....
+        break;
+    default:
+        语句.....
+        break;
+}
+执行流程:
+switch..case..语句执行时,
+1. 会将switch后的条件表达式自上向下和case后的表达式进行全等比较.如果全等则会执行当前case的所有语句.
+2. 如果不全等,则继续向下比较其他case,直到找到全等case为止
+3. 如果所有case的表达式都不符合全等要求.则执行default后的语句.
+注意: break关键字执行时. switch语句立即结束</pre>
+
+<h4 id="label-E5-BE-AA-E7-8E-AF-E8-AF-AD-E5-8F-A5">循环语句<span><a href="#label-E5-BE-AA-E7-8E-AF-E8-AF-AD-E5-8F-A5">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>通过循环语句可以使一些语句反复执行多次</p>
+</li><li>
+<p>分类</p>
+<ul><li>
+<p>while 语句</p>
+</li><li>
+<p>do…while 语句</p>
+</li><li>
+<p>for 语句</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-while+-E8-AF-AD-E5-8F-A5">while 语句<span><a href="#label-while+-E8-AF-AD-E5-8F-A5">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre>while(条件表达式){
+   语句....
+}
+执行流程:
+while语句在执行时,会先对条件表达式进行求值判断
+1. 如果结果为true,则执行循环体.执行完毕后,继续对条件表达式判断,如果为true,继续执行循环体
+2. 如果结果为false,则退出循环</pre>
+
+<h5 id="label-do...while+-E8-AF-AD-E5-8F-A5">do…while 语句<span><a href="#label-do...while+-E8-AF-AD-E5-8F-A5">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<pre> do{
+   语句...
+ }while(条件表达式)
+执行流程:
+do..while语句在执行时,会先执行do后的循环体
+1. 然后再判断whie后的条件表达式,如果判断结果为false,则终止循环.
+2. 如果判断结果为true,则继续执行循环体,执行完成以后继续判断,以此类推</pre>
+
+<h6 id="label-E5-8C-BA-E5-88-AB-3A">区别:<span><a href="#label-E5-8C-BA-E5-88-AB-3A">&para;</a> <a href="#top">&uarr;</a></span></h6>
+<ul><li>
+<p>while先判断后执行;do..while是先执行后判断</p>
+</li><li>
+<p>do..while语句至少可以保证循环至少执行一次</p>
+</li></ul>
+
+<h5 id="label-for_in-E9-81-8D-E5-8E-86-E5-BE-AA-E7-8E-AF-E8-AF-AD-E5-8F-A5">for_in遍历循环语句<span><a href="#label-for_in-E9-81-8D-E5-8E-86-E5-BE-AA-E7-8E-AF-E8-AF-AD-E5-8F-A5">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>遍历数组内的元素</p>
+
+<pre>for (变量 in 数组)
+{
+    在此执行代码
+}</pre>
+
+<h5 id="label-for-E5-BE-AA-E7-8E-AF-E8-AF-AD-E5-8F-A5">for循环语句<span><a href="#label-for-E5-BE-AA-E7-8E-AF-E8-AF-AD-E5-8F-A5">&para;</a> <a href="#top">&uarr;</a></span></h5>
+
+<p>for( 初始化表达式 ; 条件表达式 ; 更新表达式 ){  (循环体)语句.… } 执行流程: 1.执行初始化表达式,来初始化变量 2.执行条件表达式,来判断是否执行循环体  如果条件为false,则直接退出循环  如果条件为ture,则执行循环体 3.执行循环体 4.执行更新表达式  再重复第2步</p>
+</li><li>
+<p>在for循环中,初始化表达式只会执行一次</p>
+</li><li>
+<p>for循环功能和while循环功能是重复的</p>
+</li></ul>
+
+<h6 id="label-for-E5-BE-AA-E7-8E-AF-E3-81-AE-E4-B9-9D-E4-B9-9D-E4-B9-98-E6-B3-95-E8-A1-A8">for循环の九九乘法表<span><a href="#label-for-E5-BE-AA-E7-8E-AF-E3-81-AE-E4-B9-9D-E4-B9-9D-E4-B9-98-E6-B3-95-E8-A1-A8">&para;</a> <a href="#top">&uarr;</a></span></h6>
+
+<pre>//控制高度
+for(var x=1;x&lt;10 ;x++){
+
+	//控制宽度
+	for(y=1;y&lt;=x ;y++){
+		document.write(&quot;&lt;span&gt;&quot;+x+&quot;*&quot;+y+&quot;=&quot;+x*y +&quot;&lt;/span&gt;&quot;);		
+	}document.write(&quot;&lt;br /&gt;&quot;)
+}</pre>
+
+<h4 id="label-break+-26+continue+-26+return">break &amp; continue &amp; return<span><a href="#label-break+-26+continue+-26+return">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>break</p>
+<ul><li>
+<p>用来退出switch语句和循环语句</p>
+</li><li>
+<p>可以立刻退出离它最近的循环语句</p>
+</li><li>
+<p>还可以用来优化启动时间</p>
+</li></ul>
+</li><li>
+<p>continue</p>
+<ul><li>
+<p>用来跳过当次循环</p>
+</li></ul>
+</li><li>
+<p>return</p>
+<ul><li>
+<p>直接跳出函数</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-try_catch-E8-AF-AD-E5-8F-A5">try_catch语句<span><a href="#label-try_catch-E8-AF-AD-E5-8F-A5">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>try 允许在执行时进行错误测试的代码块</p>
+</li><li>
+<p>catch 允许当 try 代码块发生错误时，所执行的代码块</p>
+</li><li>
+<p>JavaScript 语句 try 和 catch 是成对出现的</p>
+
+<pre>try
+  {
+  //在这里运行代码
+  }
+catch(err)
+  {
+  //在这里处理错误
+  }</pre>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/03_JS/JS%E8%AF%AD%E5%8F%A5.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="03-04.html">上一篇 · JS运算符</a><a href="03-06.html">下一篇 · JS对象</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

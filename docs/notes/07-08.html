@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>NPM · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-07.html">Node.js：文件、HTTP 与服务端</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Node.js：文件、HTTP 与服务端</strong><a href="07-01.html">Node基础</a><a href="07-02.html">HTTP入门</a><a href="07-03.html">HTTP服务器建立</a><a href="07-04.html">路由</a><a href="07-05.html">Buffer 缓冲区</a><a href="07-06.html">FS模块</a><a href="07-07.html">Node模块系统</a><a href="07-08.html" aria-current="page">NPM</a><a href="07-09.html">路径</a><a href="07-10.html">模块分类</a><a href="07-11.html">数据库Mongoose</a><a href="07-12.html">Express</a><a href="07-13.html">cookie</a><a href="07-14.html">JSON&amp;XML</a></nav>
+<article class="paper"><h1>NPM</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>npm 帮你安装依赖和运行项目脚本。<code>package.json</code> 记录项目所需的包和脚本，拿到项目后可以先看里面的 <code>scripts</code>。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-NPM">NPM<span><a href="#label-NPM">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>NPM 是 node 的包管理分发工具，现在已经是 JavaScript 各种包的分发管理平台。</p>
+
+<p>查找npm的网站:<a href="https://www.npmjs.com/">www.npmjs.com/</a></p>
+
+<p>包含: 模块(一个js文件) 包(一个 文件夹包括json文件和js文件)</p>
+<ol><li>
+<p>在NodeJs 语言中. 包和模块没有本质的不同</p>
+</li><li>
+<p>包将某个独立的功能封装起来. 用于发布 更新 依赖管理和进行版本控制</p>
+</li><li>
+<p>NodeJs根据CommonJs规范实现包机制.</p>
+</li></ol>
+
+<h4 id="label-NPM-E6-9C-AC-E5-9C-B0-E5-AE-89-E8-A3-85-28JS-E4-BB-A3-E7-A0-81-E4-B8-AD-E4-BD-BF-E7-94-A8-29">NPM本地安装(JS代码中使用)<span><a href="#label-NPM-E6-9C-AC-E5-9C-B0-E5-AE-89-E8-A3-85-28JS-E4-BB-A3-E7-A0-81-E4-B8-AD-E4-BD-BF-E7-94-A8-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>在当前工作目录下启动命令行进行安装</p>
+</li><li>
+<p>命令行输入 npm install PACKAGE_NAME 例子: npm install moment 官网： <a href="http://momentjs.cn">momentjs.cn</a>/ (node时间管理包)</p>
+</li><li>
+<p>卸载: npm uninstall PACKAGE_NAME</p>
+</li></ol>
+
+<h4 id="label-NPM-E5-85-A8-E5-B1-80-E5-AE-89-E8-A3-85-28-E5-91-BD-E4-BB-A4-E8-A1-8C-E4-B8-AD-E4-BD-BF-E7-94-A8-29">NPM全局安装(命令行中使用)<span><a href="#label-NPM-E5-85-A8-E5-B1-80-E5-AE-89-E8-A3-85-28-E5-91-BD-E4-BB-A4-E8-A1-8C-E4-B8-AD-E4-BD-BF-E7-94-A8-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>新建文件夹: D:StudyNodeJsnode_global (建议在NodeJs文件夹下创建)</p>
+</li><li>
+<p>命令行输入 npm config set prefix “D:StudyNodeJsnode_globall”</p>
+</li><li>
+<p>再输入 npm config set registry <a href="https://registry.npm.taobao.org">registry.npm.taobao.org</a></p>
+</li><li>
+<p>输入要下载的npm包. npm install -g PACKAGE_NAME</p>
+</li><li>
+<p>卸载:npm uninstall -g PACKAGE_NAME</p>
+</li></ol>
+
+<h4 id="label-E5-8C-85-E7-9A-84-E8-AF-B4-E6-98-8E-E6-96-87-E4-BB-B6-28package.json-29">包的说明文件(package.json)<span><a href="#label-E5-8C-85-E7-9A-84-E8-AF-B4-E6-98-8E-E6-96-87-E4-BB-B6-28package.json-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>相当于本地项目的一个文档说明</p>
+</li><li>
+<p>允许你指定你项目中所使用的node包版本</p>
+</li><li>
+<p>构建项目更加容易.便于和他人分享</p>
+</li><li>
+<p>npm init 创建一个package文档</p>
+</li></ol>
+
+<h4 id="label-package.json+-E5-B1-9E-E6-80-A7-E8-AF-A6-E8-A7-A3">package.json 属性详解<span><a href="#label-package.json+-E5-B1-9E-E6-80-A7-E8-AF-A6-E8-A7-A3">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>name 包名</p>
+</li><li>
+<p>version 版本号</p>
+</li><li>
+<p>scripts (test)配置npm运行命令</p>
+</li><li>
+<p>npm run xxx npm启动服务</p>
+</li><li>
+<p>start test可以省略run</p>
+</li><li>
+<p>dependencies 运行依赖的包</p>
+<ul><li>
+<p>--save</p>
+</li><li>
+<p>--save</p>
+</li></ul>
+</li><li>
+<p>devDependencies 开发依赖的包</p>
+<ul><li>
+<p>--save-dev</p>
+</li><li>
+<p>--save-dev</p>
+</li></ul>
+</li><li>
+<p>向上的尖括号可以管理二级，三级版本</p>
+<ul><li>
+<p>第一个数字一级版本</p>
+</li><li>
+<p>"jquery": "^3.2.1"</p>
+</li><li>
+<p>第一个数字一级版本</p>
+</li><li>
+<p>"jquery": "^3.2.1"</p>
+</li></ul>
+</li><li>
+<p>波浪线可以管理三级版本。</p>
+<ul><li>
+<p>"jquery": "~3.2.1"</p>
+</li><li>
+<p>“jquery”: “~3.2.1”</p>
+
+<pre>{
+ &quot;name&quot;: &quot;npm_command&quot;, //包名
+ &quot;version&quot;: &quot;1.0.0&quot;, //版本
+ &quot;scripts&quot;: { //配置npm运行命令
+ &quot;start&quot;: &quot;node bin/www&quot;
+ },
+&quot;dependencies&quot;: {//运行依赖的包
+     &quot;jquery&quot;: &quot;^3.2.1&quot;
+  },
+&quot;devDependencies&quot;: {//开发依赖的包
+     &quot;babel&quot;: &quot;^6.23.0&quot;
+  }
+ }</pre>
+</li></ul>
+</li></ul>
+
+<h4 id="label-npm-E5-91-BD-E4-BB-A4-E8-AF-A6-E8-A7-A3">npm命令详解<span><a href="#label-npm-E5-91-BD-E4-BB-A4-E8-AF-A6-E8-A7-A3">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>使用npm命令来下载依赖模块及对项目包(模块)进行管理</p>
+</li><li>
+<p>常用命令：</p>
+</li><li>
+<p>npm init (生成package.json)</p>
+</li><li>
+<p>npm install (安装package.json中的依赖包)</p>
+</li><li>
+<p>npm install packageName -g(全局安装)</p>
+</li><li>
+<p>npm install packageName –save 安装包(局部安装运行依赖)</p>
+</li><li>
+<p>npm install packageName@version –save (安装指定版本的包(局部安装))</p>
+</li><li>
+<p>npm install packageName –save-dev(局部安装–开发依赖)</p>
+</li><li>
+<p>npm info packageName (显示包的信息)</p>
+</li><li>
+<p>npm rm packageName (移除包)</p>
+</li><li>
+<p>npm config get prefix (获取全局安装包的所在地址,并且可见对应的cmd命令)</p>
+</li><li>
+<p>使用npm导致的问题</p>
+<ul><li>
+<p>下载慢</p>
+</li><li>
+<p>甚至下载不了</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-cnpm-28-E6-B7-98-E5-AE-9D-E9-95-9C-E5-83-8F-29">cnpm(淘宝镜像)<span><a href="#label-cnpm-28-E6-B7-98-E5-AE-9D-E9-95-9C-E5-83-8F-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>将npm上的包同步更新到淘宝镜像上，目前是每10分钟同步一次。</p>
+</li><li>
+<p>配置：npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org">registry.npm.taobao.org</a></p>
+</li><li>
+<p>常用命令：使用 cnpm 代替 npm 即可</p>
+</li><li>
+<p>问题：</p>
+</li><li>
+<p>会多下载一些文件/文件夹</p>
+</li><li>
+<p>严重者会导致 webstorm 瘫痪，就像帕金森综合征</p>
+</li><li>
+<p>解决上述问题的办法</p>
+</li><li>
+<p>修改 npm 的下载指向地址</p>
+</li><li>
+<p>npm config set registry “<a href="https://registry.npm.taobao.org">registry.npm.taobao.org</a>”</p>
+</li></ul>
+
+<h4 id="label-yarn+Facebook-E5-BC-80-E5-8F-91-E7-9A-84-E5-8C-85-E7-AE-A1-E7-90-86-E5-B7-A5-E5-85-B7">yarn Facebook开发的包管理工具<span><a href="#label-yarn+Facebook-E5-BC-80-E5-8F-91-E7-9A-84-E5-8C-85-E7-AE-A1-E7-90-86-E5-B7-A5-E5-85-B7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>yarn是Facebook开源的新的包管理器，可以用来代替npm</p>
+</li><li>
+<p>配置 npm install yarn -g</p>
+</li><li>
+<p>特点：有缓存，没有自己的仓库地址</p>
+</li><li>
+<p>常用命令</p>
+</li><li>
+<p>yarn –version 查看版本号</p>
+</li><li>
+<p>yarn 相当于npm install</p>
+</li><li>
+<p>yarn init 生成一个包</p>
+</li><li>
+<p>yarn global package (全局安装)</p>
+</li><li>
+<p>yarn add package (局部安装)</p>
+</li><li>
+<p>yarn add package –dev 开发依赖</p>
+</li><li>
+<p>yarn remove package 移除包</p>
+</li><li>
+<p>yarn list 查看包</p>
+</li><li>
+<p>地址：<a href="https://yarnpkg.com/zh-Hans">yarnpkg.com/zh-Hans</a>/</p>
+</li></ul>
+
+<h4 id="label-cyarn">cyarn<span><a href="#label-cyarn">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>配置：npm install cyarn -g –registry “<a href="https://registry.npm.taobao.org">registry.npm.taobao.org</a>”</p>
+</li><li>
+<p>常用命令：将 yarn 使用cyarn代替即可</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/07_NodeJs/NPM.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="07-07.html">上一篇 · Node模块系统</a><a href="07-09.html">下一篇 · 路径</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

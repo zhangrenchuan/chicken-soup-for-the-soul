@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>生命周期 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-11.html">React：组件、状态与路由</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>React：组件、状态与路由</strong><a href="11-01.html">入门</a><a href="11-02.html">props：接收父组件的数据</a><a href="11-03.html">ref：访问页面元素</a><a href="11-04.html">state：保存组件状态</a><a href="11-05.html" aria-current="page">生命周期</a><a href="11-06.html">脚手架</a><a href="11-07.html">在 React 中获取数据</a><a href="11-08.html">服务器渲染</a><a href="11-09.html">React 界面组件库</a><a href="11-10.html">组件通信</a><a href="11-11.html">React Router 路由</a></nav>
+<article class="paper"><h1>生命周期</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>组件会经历出现、更新和移除。可以按这三个阶段理解初始化、响应变化和清理工作，原文方法名主要用于旧版类组件。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E7-BB-84-E4-BB-B6-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F">组件生命周期<span><a href="#label-E7-BB-84-E4-BB-B6-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h5 id="label-E7-BB-84-E4-BB-B6-E4-B8-89-E4-B8-AA-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F-E7-8A-B6-E6-80-81">组件三个生命周期状态<span><a href="#label-E7-BB-84-E4-BB-B6-E4-B8-89-E4-B8-AA-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F-E7-8A-B6-E6-80-81">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>Mount 插入真实DOM. 渲染</p>
+</li><li>
+<p>Update 被重新渲染</p>
+</li><li>
+<p>Unmount 被移出真实DOM</p>
+</li></ul>
+
+<h5 id="label-E7-BB-84-E4-BB-B6-E7-8A-B6-E6-80-81-E7-9A-84-E5-87-BD-E6-95-B0">组件状态的函数<span><a href="#label-E7-BB-84-E4-BB-B6-E7-8A-B6-E6-80-81-E7-9A-84-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>will指函数在进入状态之前调用，did指 函数在进入状态之后调用</p>
+</li><li>
+<p>componentWillMount() : 将要初始挂载</p>
+</li><li>
+<p>componentDidMount() : 已插入真实DOM,挂载完毕.</p>
+</li><li>
+<p>componentWillUpdate(object nextProps, object nextState) : 将要进行更新state</p>
+</li><li>
+<p>componentDidUpdate(object prevProps, object prevState) : 已经更新state</p>
+</li><li>
+<p>componentWillUnmount() : 将要被移除</p>
+</li></ul>
+
+<h5 id="label-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F-E6-B5-81-E7-A8-8B">生命周期流程<span><a href="#label-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F-E6-B5-81-E7-A8-8B">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>第一次初始化渲染显示 ReactDOM.render()</p>
+<ul><li>
+<p>constructor(): 创建对象初始化state</p>
+</li><li>
+<p>componentWillMount() : 将要插入的回调</p>
+</li><li>
+<p>render() : 用于插入虚拟DOM回调</p>
+</li><li>
+<p>componentDidMount() : 已经插入的回调</p>
+</li></ul>
+</li><li>
+<p>每次更新state: this.setSate()</p>
+<ul><li>
+<p>componentWillUpdate() : 将要更新的回调</p>
+</li><li>
+<p>render() : 更新(重新渲染)</p>
+</li><li>
+<p>componentDidUpdate() : 已经更新的回调</p>
+</li></ul>
+</li><li>
+<p>删除组件 ReactDOM.unmountComponentAtNode</p>
+<ul><li>
+<p>componentWillUnmount() : 组件将要被移除的回调</p>
+</li><li>
+<p>参数填入要移除组件对应的容器</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F-E6-B3-A8-E6-84-8F-E4-BA-8B-E9-A1-B9">生命周期注意事项<span><a href="#label-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F-E6-B3-A8-E6-84-8F-E4-BA-8B-E9-A1-B9">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>一般会在componentDidMount()中: 开启监听 或 发送ajax请求</p>
+</li><li>
+<p>可以在componentWillUnmount()做一些收尾工作: 停止监听</p>
+</li><li>
+<p>componentWillReceiveProps(nextProps)</p>
+<ul><li>
+<p>当组件传入的 props 发生变化时调用</p>
+</li></ul>
+</li></ul>
+
+<p><img src="https://i.imgur.com/Vah6umQ.png"></p>
+
+<p><img src="https://i.imgur.com/jHGTpep.png"></p>
+<hr>
+
+<h4 id="label-webpack_react-E9-9B-86-E6-88-90-E5-BC-80-E5-8F-91">webpack_react集成开发<span><a href="#label-webpack_react-E9-9B-86-E6-88-90-E5-BC-80-E5-8F-91">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ol><li>
+<p>初始化项目</p>
+
+<pre>   |- src------------源码文件夹   
+          |- js---------------js源文件夹
+          |- css--------------css源文件夹
+          App.js ----------- React主组件
+   |- index.html-----页面文件
+   |- webpack.config.js ---- 配置文件
+   |- package.json---项目包配置文件
+     {
+        &quot;name&quot;: &quot;webpack_react&quot;,
+        &quot;version&quot;: &quot;1.0.0&quot;
+      }</pre>
+</li><li>
+<p>下载相关模块包</p>
+</li><li>
+<p>react相关库  - <code>npm install react react-dom --save</code></p>
+</li><li>
+<p>babel相关库  - <code>npm install babel-core babel-preset-es2015 babel-preset-react --save-dev</code></p>
+</li><li>
+<p>webpack相关库  - <code>npm install webpack@1.13.0 babel-loader --save-dev</code>  - <code>npm install webpack-dev-server@1</code></p>
+</li><li>
+<p>css加载器  - <code>npm install style-loader css-loader --save-dev</code></p>
+</li><li>
+<p>webpack配置文件: webpack.config.js</p>
+
+<pre>  module.exports = {
+    //入口js
+    entry: &quot;./src/js/main.js&quot;,
+    //输出
+    output: {
+      path: __dirname,
+      filename: &quot;./dist/bundle.js&quot;
+    },
+
+    module: {
+      loaders: [
+        //babel处理js
+        {
+          test: /\.js?$/,
+          exclude: /node_modules/, //排除此文件夹
+          loader: &#39;babel-loader&#39;
+        },
+        //处理css
+        {
+          test: /\.css$/,
+          loader: &#39;style-loader!css-loader&#39;
+        }
+      ]
+    }
+  }</pre>
+</li><li>
+<p>babel配置文件: .babelrc</p>
+
+<pre class="ruby">  {
+    <span class="ruby-value">&quot;presets&quot;:</span> [<span class="ruby-string">&quot;es2015&quot;</span>, <span class="ruby-string">&quot;react&quot;</span>]
+  }
+</pre>
+</li><li>
+<p>编码</p>
+
+<pre>src/App.js: 应用组件
+
+   import React from &#39;react&#39;
+   export default function App() {  //暴露组件都得使用默认暴露
+      return &lt;h1&gt;Hello React Client Component&lt;/h1&gt;
+   }
+``````````````````````````
+src/js/main.js: 入口js
+
+    import React from &#39;react&#39;
+    import ReactDOM from &#39;react-dom&#39;
+    import App from &#39;../App&#39;
+    //渲染组件标签到页面元素
+    ReactDOM.render(&lt;App /&gt;, document.getElementById(&#39;demo&#39;))
+```````````````````````````
+index.html
+
+    &lt;div id=&quot;container&quot;&gt;&lt;/div&gt; &lt;!-- 设置react主组件容器--&gt;
+    &lt;script type=&#39;text/javascript&#39; src=&#39;dist/bundle.js&#39;&gt;&lt;/script&gt;
+
+```````````````````````
+ src/css/test.css
+
+    body{
+        background : red
+    }</pre>
+</li><li>
+<p>webpack.config.js 配置热加载</p>
+
+<pre>devServer:{
+    contentBase: &#39;./&#39;,//内置服务器动态加载页面所在的目录
+    historyApiFallback:true,//不跳转
+    inline:true
+ }</pre>
+</li><li>
+<p>运行命令</p>
+
+<pre class="ruby"> <span class="ruby-identifier">构建任务：webpack</span>
+ <span class="ruby-identifier">热加载任务：</span> <span class="ruby-identifier">webpack</span><span class="ruby-operator">-</span><span class="ruby-identifier">dev</span><span class="ruby-operator">-</span><span class="ruby-identifier">server</span>
+</pre>
+</li><li>
+<p>package.json: 添加编译/运行脚本</p>
+
+<pre>&quot;scripts&quot;: {
+   &quot;start&quot;: &quot;webpack-dev-server --contentbase src --inline --hot&quot;,
+   &quot;build&quot;: &quot;webpack&quot;
+ }</pre>
+</li></ol>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/11_ReactJs/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="11-04.html">上一篇 · state：保存组件状态</a><a href="11-06.html">下一篇 · 脚手架</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

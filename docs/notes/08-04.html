@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>用 jQuery 发请求 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-08.html">AJAX：请求数据与更新页面</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AJAX：请求数据与更新页面</strong><a href="08-01.html">简介</a><a href="08-02.html">ajax请求</a><a href="08-03.html">前后端交互</a><a href="08-04.html" aria-current="page">用 jQuery 发请求</a><a href="08-05.html">小练习</a><a href="08-06.html">跨域请求</a><a href="08-07.html">前端模版引擎</a><a href="08-08.html">上传下载文件</a><a href="08-09.html">ajax高级</a><a href="08-10.html">版本控制工具</a></nav>
+<article class="paper"><h1>用 jQuery 发请求</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>$.get()</code> 和 <code>$.post()</code> 是快捷写法。<code>$.ajax()</code> 可以详细配置方法、数据类型，以及如何处理成功和失败。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-jQuery+AJXA">jQuery AJXA<span><a href="#label-jQuery+AJXA">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-24.ajax-28-7B-7D-29">$.ajax({})<span><a href="#label-24.ajax-28-7B-7D-29">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>$.ajax({
+	type : 请求方法
+	url: 文件路径: url路由
+	data: 查询字符串(字符串或定义对象都可以)
+	success:function(msg){
+		成功的话返回的数据 readyState=4&amp;&amp;status=200
+ 	}
+	error: funciton(err){
+		consolo.log(err)
+	}
+})</pre>
+
+<h4 id="label-24.get-28-29+-E5-8F-91-E9-80-81get-E8-AF-B7-E6-B1-82">$.get() 发送get请求<span><a href="#label-24.get-28-29+-E5-8F-91-E9-80-81get-E8-AF-B7-E6-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>参数:</p>
+<ul><li>
+<p>url 文件路径 路由</p>
+</li><li>
+<p>data 查询字符串(Key/value)</p>
+</li><li>
+<p>回调函数 (成功接收到信息的时候调用)</p>
+</li><li>
+<p>控制返回内容数据的格式 xml, html, script, json, text, _default</p>
+</li></ul>
+
+<h4 id="label-24.post-28-29+-E5-8F-91-E9-80-81post-E8-AF-B7-E6-B1-82">$.post() 发送post请求<span><a href="#label-24.post-28-29+-E5-8F-91-E9-80-81post-E8-AF-B7-E6-B1-82">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>参数:</p>
+<ul><li>
+<p>url 文件路径 路由</p>
+</li><li>
+<p>data 查询字符串(Key/value)</p>
+</li><li>
+<p>回调函数 (成功接收到信息的时候调用)</p>
+</li><li>
+<p>控制返回内容数据的格式 xml, html, script, json, text, _default</p>
+</li></ul>
+
+<h4 id="label-24.getJSON-28-29+-E5-8F-91-E9-80-81get-E8-AF-B7-E6-B1-82-E8-BD-BD-E5-85-A5JSON-E6-A0-BC-E5-BC-8F-E6-95-B0-E6-8D-AE">$.getJSON() 发送get请求载入JSON格式数据<span><a href="#label-24.getJSON-28-29+-E5-8F-91-E9-80-81get-E8-AF-B7-E6-B1-82-E8-BD-BD-E5-85-A5JSON-E6-A0-BC-E5-BC-8F-E6-95-B0-E6-8D-AE">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>参数:</p>
+<ul><li>
+<p>url 文件路径 路由</p>
+</li><li>
+<p>data 查询字符串(Key/value)</p>
+</li><li>
+<p>回调函数 (成功接收到信息的时候调用)</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/08_AJAX/jQuery_AJAX.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="08-03.html">上一篇 · 前后端交互</a><a href="08-05.html">下一篇 · 小练习</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

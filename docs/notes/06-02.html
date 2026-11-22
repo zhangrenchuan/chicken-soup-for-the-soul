@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>原型 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-06.html">JavaScript 进阶：作用域、闭包和原型</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 进阶：作用域、闭包和原型</strong><a href="06-01.html">数据类型</a><a href="06-02.html" aria-current="page">原型</a><a href="06-03.html">this</a><a href="06-04.html">提升</a><a href="06-05.html">上下文环境对象</a><a href="06-06.html">作用域与作用域链</a><a href="06-07.html">闭包</a><a href="06-08.html">对象创建模式</a><a href="06-09.html">原型链继承</a><a href="06-10.html">线程机制</a><a href="06-11.html">JS引擎</a><a href="06-12.html">Web Workers API</a></nav>
+<article class="paper"><h1>原型</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>对象上找不到某个属性时，JavaScript 会沿着原型继续找。这样多个对象可以共用同一个方法。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E5-8E-9F-E5-9E-8B">原型<span><a href="#label-E5-8E-9F-E5-9E-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E5-87-BD-E6-95-B0-E7-9A-84prototype-E5-B1-9E-E6-80-A7">函数的prototype属性<span><a href="#label-E5-87-BD-E6-95-B0-E7-9A-84prototype-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>每个函数都有一个prototype属性, 它存储的是地址值 默认指向一个原型对象</p>
+</li><li>
+<p>原型对象中有一个属性constructor, 它指向函数对象 给函数原型添加属性(一般都是方法)</p>
+</li><li>
+<p>作用: 函数的所有实例对象自动拥有原型中的属性(方法)</p>
+</li></ul>
+
+<h4 id="label-E6-98-BE-E7-A4-BA-E5-8E-9F-E5-9E-8B-E5-92-8C-E9-9A-90-E5-BC-8F-E5-8E-9F-E5-9E-8B">显示原型和隐式原型<span><a href="#label-E6-98-BE-E7-A4-BA-E5-8E-9F-E5-9E-8B-E5-92-8C-E9-9A-90-E5-BC-8F-E5-8E-9F-E5-9E-8B">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<p>函数的prototype属性(显示原型属性): 在定义函数创建函数对象时自动添加的, 默认值指向一个空的Object对象 (当然它也有__proto__属性)</p>
+
+<p>函数实例对象的__proto__属性(隐式原型属性): 创建实例对象时自动添加的, 默认值为构造函数的显式原型prototype的属性值</p>
+<ol><li>
+<p>每个函数function都有一个prototype属性，即显式原型属性</p>
+</li><li>
+<p>通过函数new出来的实例对象都有一个__proto__属性，可称为隐式原型属性</p>
+</li><li>
+<p>实例对象的隐式原型的值等于其构造函数的显式原型的值</p>
+
+<pre class="ruby"><span class="ruby-identifier">function</span> <span class="ruby-constant">Fn</span>(){}  <span class="ruby-operator">/</span><span class="ruby-regexp">/执行函数定义(也就是创建函数对象)
+Fn.prototype (显式原型)  --&gt; 空Object {}
+var fn = new Fn() /</span><span class="ruby-operator">/</span><span class="ruby-identifier">创建函数Fn的实例对象</span>
+<span class="ruby-identifier">fn</span>.<span class="ruby-identifier">__proto__</span>  (<span class="ruby-identifier">隐式原型</span>) <span class="ruby-operator">===</span> <span class="ruby-constant">Fn</span>.<span class="ruby-identifier">prototype</span>
+</pre>
+</li></ol>
+
+<p><img src="https://i.imgur.com/BPZBODQ.png"></p>
+
+<pre>1.创建函数时会在堆空间里创建出两个对象(函数对象和空的原型对象),三个内存空间
+2.函数对象堆空间的地址值就是定义函数名栈空间的地址值. 
+3.执行函数定义的时候(创建函数时)就会创建出原型对象
+3.原型对象实际上是一个空的Object的实例对象
+4.函数对象原型prototype指向空的Object原型对象{}.地址值等于prototype
+5.原型对象不是我们定义的,它本身就有. 其中包含一些方法 如constructor toString
+5.原型对象的隐式原型__proto__是一个null
+6.__proto__隐式原型在创建对应的实例对象时创建的
+7.函数实例对象__proto__隐式原型的地址值等于函数对象prototype的地址值
+8._proto_和prototype的内容是一样的,所以指向同一个内存原型对象Object{}
+9.当要使用一个对象的某个属性时,如果该对象本身具有则直接使用. 如果没有则去__proto__的原型链中找
+-/ 程序员能直接操作显式原型, 但不能直接操作隐式原型(ES6之前)
+-/ 但是程序最终操作的是隐式原型的属性</pre>
+
+<p><img src="https://i.imgur.com/kVn7hlV.png"></p>
+
+<h3 id="label-E5-8E-9F-E5-9E-8B-E9-93-BE">原型链<span><a href="#label-E5-8E-9F-E5-9E-8B-E9-93-BE">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>访问一个对象的属性时，先在基本属性中查找，如果没有，再沿着实例对象的隐式原型链__proto__这条链向上找. 链条的最后是Object的原型为null.最后找不到返回undefined</p>
+
+<p><strong>别名: 隐式原型链</strong></p>
+
+<p><strong>作用: 查找对象的属性(方法)</strong></p>
+
+<p><img src="https://i.imgur.com/ptEEvTn.png"></p>
+
+<p><img src="https://i.imgur.com/w5uoQST.png"></p>
+
+<pre>console.log(Object, {});
+var obj = {};
+console.log(obj.__proto__ === Object.prototype); //true
+//Object是函数 {}是Object的实例对象
+//所有的实例对象都有隐式原型属性
+//Object原型对象是所有实例对象的顶部
+//Object函数的原型对象的__proto__为null
+由于所有的对象的原型链都会找到Object.prototype，因此所有的对象都会有Object.prototype的方法。这就是所谓的“继承”。
+
+function fn(){}
+console.log(fn.__proto__=== Function.prototype)
+//所有的函数都有显示原型属性 
+//所有函数都是Function(构造函数) 的实例对象
+
+console.log(Function.prototype === Function.__proto__); //true
+Function()函数又是Function自己的实例对象</pre>
+
+<h3 id="label-E5-8E-9F-E5-9E-8B-E9-93-BE-E5-B1-9E-E6-80-A7-E9-97-AE-E9-A2-98">原型链属性问题<span><a href="#label-E5-8E-9F-E5-9E-8B-E9-93-BE-E5-B1-9E-E6-80-A7-E9-97-AE-E9-A2-98">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>读取对象的属性值时(读的操作): 会自动到原型链中查找</p>
+</li><li>
+<p>设置对象的属性值时(写的操作): 不会查找原型链, 如果当前对象中没有此属性, 直接添加此属性并设置其值</p>
+</li><li>
+<p>方法一般定义在原型中, 属性一般通过构造函数定义在对象本身上</p>
+
+<pre>  Person.prototype.setName = function (name){
+    this.name = name;
+  }; //方法多定义在原型中
+
+  Person.prototype.sex = &#39;男&#39;; //原型添加属性 不常用</pre>
+</li></ul>
+
+<p><img src="https://i.imgur.com/fZEHpKb.png"></p>
+
+<h3 id="label-instanceof-E6-98-AF-E5-A6-82-E4-BD-95-E5-88-A4-E6-96-AD-E7-9A-84-3F">instanceof是如何判断的?<span><a href="#label-instanceof-E6-98-AF-E5-A6-82-E4-BD-95-E5-88-A4-E6-96-AD-E7-9A-84-3F">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>表达式: A instanceof B</p>
+<ul><li>
+<p>A实例对象__proto__</p>
+</li><li>
+<p>B构造函数 prototype</p>
+</li></ul>
+</li><li>
+<p>instanceof表示的就是一种继承关系, 或者原型链的结构</p>
+</li><li>
+<p>判断B的构造函数的原型prototype是否在实例对象<em>proto</em>的原型链上.</p>
+</li></ul>
+
+<p>规则:</p>
+
+<p>沿着A实例对象的<em>proto</em>原型链这条线来找, 同时沿着B构造函数的prototype这条线找, 如果两条线能找到同一个对象. 那么就返回true</p>
+
+<p><img src="https://i.imgur.com/h4HsJBp.png"> <img src="https://i.imgur.com/MHBWRKJ.png"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/06_JavaScript%E9%AB%98%E7%BA%A7/%E5%8E%9F%E5%9E%8B.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="06-01.html">上一篇 · 数据类型</a><a href="06-03.html">下一篇 · this</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

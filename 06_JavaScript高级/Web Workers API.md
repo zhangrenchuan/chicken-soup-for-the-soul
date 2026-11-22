@@ -1,3 +1,11 @@
+# Web Workers API
+
+## 先弄懂这件事
+
+Web Worker 可以把耗时计算移到后台，避免界面长时间卡住。页面和 Worker 用 `postMessage()` 交换数据，Worker 不能直接修改页面节点。
+
+## 笔记与示例
+
 ##  Web Workers API
 - 提供了js分线程的实现
 - **分线程主要用来处理长时间的工作且不占用主线程的空间和时间**

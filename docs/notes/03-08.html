@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>JS数组 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-03.html">JavaScript 基础</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 基础</strong><a href="03-01.html">ECMAScript 与 JavaScript</a><a href="03-02.html">JS基本语法</a><a href="03-03.html">JS数据类型</a><a href="03-04.html">JS运算符</a><a href="03-05.html">JS语句</a><a href="03-06.html">JS对象</a><a href="03-07.html">JS函数</a><a href="03-08.html" aria-current="page">JS数组</a><a href="03-09.html">JS内置对象方法</a><a href="03-10.html">正则表达式</a><a href="03-11.html">DOM</a><a href="03-12.html">BOM</a><a href="03-13.html">JSON</a></nav>
+<article class="paper"><h1>JS数组</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>数组按顺序存储多个值，下标从 0 开始。<code>push()</code> 在末尾添加，<code>pop()</code> 从末尾取出。<code>slice()</code> 返回切片，<code>splice()</code> 会修改原数组。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-JS-E6-95-B0-E7-BB-84">JS数组<span><a href="#label-JS-E6-95-B0-E7-BB-84">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>数组也是一个对象,功能和普通对象(Object)的功能类似</p>
+</li><li>
+<p>数组中也可以保存不同的元素(属性)</p>
+</li><li>
+<p>不同的是普通对象是通过一个字符串作为属性名来操作属性的</p>
+</li><li>
+<p>而数字路是通过索引来操作元素的</p>
+<ul><li>
+<p>索引 (index)</p>
+</li><li>
+<p>从0开始的整数</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E6-95-B0-E7-BB-84-E7-9A-84-E6-93-8D-E4-BD-9C">数组的操作<span><a href="#label-E6-95-B0-E7-BB-84-E7-9A-84-E6-93-8D-E4-BD-9C">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>创建数组</p>
+<ul><li>
+<p>var 变量 = new Array()</p>
+</li><li>
+<p>var 变量 = []</p>
+</li></ul>
+</li><li>
+<p>添加元素</p>
+<ul><li>
+<p><a>数组</a> = 值</p>
+</li><li>
+<p><a>arr</a>=10;</p>
+</li></ul>
+</li><li>
+<p>读取数组中的元素</p>
+<ul><li>
+<p><a>数组</a></p>
+</li><li>
+<p><a>console.log(arr</a>)</p>
+</li></ul>
+</li><li>
+<p>获取数组的长度</p>
+<ul><li>
+<p>length属性可以获取或设置数组的长度</p>
+</li></ul>
+</li><li>
+<p>修改length的属性</p>
+<ul><li>
+<p>如果将长度修改为小于之前长度的值,则多余的部分会被删除</p>
+</li><li>
+<p>如果将长度修改为大于之前长度的值,则数组中会创建出空的元素</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-E6-95-B0-E7-BB-84-E5-AD-97-E9-9D-A2-E9-87-8F">数组字面量<span><a href="#label-E6-95-B0-E7-BB-84-E5-AD-97-E9-9D-A2-E9-87-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>使用数组字面量可以创建数组的同时,同时向数组中添加元素</p>
+</li><li>
+<p>数组中可以保存任意类型的元素</p>
+</li><li>
+<p>数组中也可以保存数组.如果保存的依旧是数字,称之为二维数组</p>
+</li></ul>
+<hr>
+
+<h4 id="label-E6-95-B0-E7-BB-84-E7-9A-84-E6-96-B9-E6-B3-95">数组的方法<span><a href="#label-E6-95-B0-E7-BB-84-E7-9A-84-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-push-28-29">push()<span><a href="#label-push-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>向数组末尾添加新的元素,并返回数组新的长度</p>
+
+<h5 id="label-pop-28-29">pop()<span><a href="#label-pop-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>删除数组末尾的元素.并自动修正数组长度</p>
+
+<h5 id="label-unshift-28-29">unshift()<span><a href="#label-unshift-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>向数组最前面添加元素,并返回数组新的长度</p>
+
+<h5 id="label-shift-28-29">shift()<span><a href="#label-shift-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>删除数组最前面的元素.结果并返回被删除的元素</p>
+
+<h5 id="label-slice-28+-29">slice( )<span><a href="#label-slice-28+-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>截取数组中的指定元素</p>
+</li><li>
+<p>第一个参数: 截取开始位置的索引(包括开始的位置)</p>
+</li><li>
+<p>第二个参数: 截取结束位置索引(不包括结束的位置)</p>
+</li><li>
+<p>参数也可以是负数. 负数则从后往前数</p>
+</li><li>
+<p>如果第二个参数省略则从开始截取到最后</p>
+</li><li>
+<p>该方法不会影响到原数组.而是将截取的内容封装成新数组返回(需要有一个变量进行接收)</p>
+
+<h5 id="label-splice-28-29">splice()<span><a href="#label-splice-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>删除数组中的元素并添加新元素</p>
+</li><li>
+<p>一旦执行原数组的元素会被删除</p>
+</li><li>
+<p>第一个参数: 开始位置的索引(包括开始位置)</p>
+</li><li>
+<p>第二个参数: 删除的个数</p>
+</li><li>
+<p>第三个参数: [可选]新添加的元素. 这些元素将会被插入到开始位置之前的位置</p>
+</li><li>
+<p>如果删除个数为0则直接从开始位置索引起添加新元素</p>
+
+<h5 id="label-concat-28-29">concat()<span><a href="#label-concat-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>连接两个或多个数组</p>
+</li><li>
+<p>不影响原数组.返回一个新的数组(需要用变量来接收)</p>
+
+<h5 id="label-join-28-29">join()<span><a href="#label-join-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>将数组中所有的元素链接为字符串(需要一个变量接收新的数组返回结果)</p>
+</li><li>
+<p>参数: 字符串.作为连接符来连接.如果不写则默认使用逗号</p>
+
+<h5 id="label-reverse-28-29">reverse()<span><a href="#label-reverse-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>反转数组</p>
+</li><li>
+<p>影响原数组. 直接在原数组进行反转</p>
+
+<h5 id="label-sort-28-29">sort()<span><a href="#label-sort-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>可以用来对数组中的元素排序</p>
+</li><li>
+<p>会影响到原数组</p>
+</li><li>
+<p>默认它会按照元素的Unicode编码进行排序</p>
+</li><li>
+<p>如果希望使用sort对一个数字型的数组进行排序可能会得到不可预期的结果</p>
+</li></ul>
+<hr>
+
+<h4 id="label-E6-95-B0-E7-BB-84-E5-8E-BB-E9-87-8D">数组去重<span><a href="#label-E6-95-B0-E7-BB-84-E5-8E-BB-E9-87-8D">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<pre>arr = [1,2,3,4,5,6,7,8,9,5,6,3,,4,5,2,2,5,3,2,6,2,1,4,5]
+     //获取数组中的数组
+     for(i=0;i&lt;arr.length;i++){
+      //再次遍历数组.比上一次多一位开始遍历
+    for(j=i+1;j&lt;arr.length;j++){
+      //比较两个遍历数组是否相等
+         if(arr[i]==arr[j]){
+     //进入判断,证明两个数组一样的.则把arr[j]删除
+             arr.splice(j,1);
+       //需要在同位置再比较一次
+                j--;
+          }
+     }
+}
+  console.log(arr)    ----&gt; &quot;1,2,3,4,5,6,7,8,9&quot;</pre>
+
+<h4 id="label-E9-81-8D-E5-8E-86-E6-95-B0-E7-BB-84">遍历数组<span><a href="#label-E9-81-8D-E5-8E-86-E6-95-B0-E7-BB-84">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>遍历数组就是将数组中每一个元素都获取到</p>
+</li><li>
+<p>一般情况下遍历数组使用for循环</p>
+</li><li>
+<p>i 既是索引值</p>
+
+<pre>  for(var i=0 ; i&lt; arr.length; i++){
+  	console.log(arr[i]);
+  }</pre>
+</li></ul>
+
+<h4 id="label-forEach-28-29+-E6-96-B9-E6-B3-95-E9-81-8D-E5-8E-86-E6-95-B0-E7-BB-84">forEach() 方法遍历数组<span><a href="#label-forEach-28-29+-E6-96-B9-E6-B3-95-E9-81-8D-E5-8E-86-E6-95-B0-E7-BB-84">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>由我们定义的但不由我们调用又可以执行的函数称为回调函数</p>
+</li><li>
+<p>forEach() 中的回调函数由浏览器调用</p>
+</li><li>
+<p>浏览器遍历到一个元素就会调用一次</p>
+</li><li>
+<p>回调函数中需要传递三个参数</p>
+<ul><li>
+<p>第一个参数: 正在遍历的元素 ele</p>
+</li><li>
+<p>第二个参数: 遍历元素的索引 index</p>
+</li><li>
+<p>第三个参数: 遍历的整个数组对象 obj</p>
+</li></ul>
+</li><li>
+<p>IE8以下浏览器不支持该方法</p>
+</li></ul>
+
+<h4 id="label-arguments+-E5-87-BD-E6-95-B0">arguments 函数<span><a href="#label-arguments+-E5-87-BD-E6-95-B0">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>arguments是一个类数组对象,在它里面保存着函数执行时的实参</p>
+</li><li>
+<p>函数所有的实参都在arguments中保存.</p>
+</li><li>
+<p>通过arguments即使不定义形参也可以使用参数</p>
+</li><li>
+<p>arguments属性</p>
+<ul><li>
+<p>callee</p>
+</li><li>
+<p>代表当前正在调用的函数对象</p>
+</li></ul>
+</li><li>
+<p>Array.isArray() 检查一个对象是否是数组</p>
+</li></ul>
+<hr>
+
+<h4 id="label-call-E5-92-8Capply">call和apply<span><a href="#label-call-E5-92-8Capply">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>当调用函数对象的call和apply时都会导致函数立即执行, 相当于调用了函数一样</p>
+</li><li>
+<p>如果通过call和apply去调用一个函数,则call和apply中的第一个参数将会是函数中的this</p>
+</li></ul>
+
+<p>区别:</p>
+<ul><li>
+<p>call的参数,需要一个一个列出来</p>
+</li><li>
+<p>apply的参数,需要封装为一个数组传递</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/03_JS/JS%E6%95%B0%E7%BB%84.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="03-07.html">上一篇 · JS函数</a><a href="03-09.html">下一篇 · JS内置对象方法</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>四个重要概念 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-09.html">AngularJS 1.x（旧版）</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>AngularJS 1.x（旧版）</strong><a href="09-01.html">简介</a><a href="09-02.html" aria-current="page">四个重要概念</a><a href="09-03.html">四个重要对象</a><a href="09-04.html">三个页面语法</a><a href="09-05.html">三个对象详解</a><a href="09-06.html">两个重要扩展模块</a><a href="09-07.html">ajax封装</a></nav>
+<article class="paper"><h1>四个重要概念</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>双向绑定让输入框和数据互相更新。依赖注入让框架把需要的服务交给函数。MVC 和 MVVM 都可以从数据、界面、协调逻辑这几部分理解。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-E5-9B-9B-E4-B8-AA-E9-87-8D-E8-A6-81-E6-A6-82-E5-BF-B5">四个重要概念<span><a href="#label-E5-9B-9B-E4-B8-AA-E9-87-8D-E8-A6-81-E6-A6-82-E5-BF-B5">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E5-8F-8C-E5-90-91-E6-95-B0-E6-8D-AE-E7-BB-91-E5-AE-9A">双向数据绑定<span><a href="#label-E5-8F-8C-E5-90-91-E6-95-B0-E6-8D-AE-E7-BB-91-E5-AE-9A">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>数据可以从View视图层流向Model模型层. 也可以从Model模型层流向View视图层</p>
+</li><li>
+<p>当改变View中的数据. Model对象对应属性也随之改变</p>
+<ul><li>
+<p>ng-model 指令</p>
+</li><li>
+<p>数据从 View –&gt; Model</p>
+</li></ul>
+</li><li>
+<p>当Model对象的属性发生改变时,页面对应数据也随之更新</p>
+<ul><li>
+<p>{{}} 表达式</p>
+</li><li>
+<p>数据从 Model –&gt; View</p>
+</li></ul>
+</li><li>
+<p>ng-model是双向数据绑定</p>
+</li><li>
+<p>ng-inite 和 {{}} 是单向数据绑定</p>
+</li></ul>
+
+<h4 id="label-E4-BE-9D-E8-B5-96-E6-B3-A8-E5-85-A5">依赖注入<span><a href="#label-E4-BE-9D-E8-B5-96-E6-B3-A8-E5-85-A5">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>依赖对象: 完成某个特定功能需要依赖某个对象才能实现</p>
+</li><li>
+<p>依赖注入: 依赖对象以形参的形式被注入进来使用</p>
+</li><li>
+<p>$scope就是依赖对象. 并且是以声明式依赖注入的形式进行使用</p>
+</li><li>
+<p>回调函数中的某些形参就是依赖对象(event).传入的方式就叫做依赖注入</p>
+</li><li>
+<p>声明式: 更加注重执行的结果</p>
+</li><li>
+<p>命令式: 更加注重执行的过程</p>
+</li></ul>
+
+<h4 id="label-MVC-E6-A8-A1-E5-BC-8F">MVC模式<span><a href="#label-MVC-E6-A8-A1-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Model 模型</p>
+<ul><li>
+<p>存储数据的实体模型</p>
+</li><li>
+<p>操作数据的业务模型</p>
+</li></ul>
+</li><li>
+<p>View 视图</p>
+<ul><li>
+<p>显示Model的数据</p>
+</li><li>
+<p>响应用户操作. 与用户进行交互</p>
+</li></ul>
+</li><li>
+<p>Controller 控制器</p>
+<ul><li>
+<p>操作模型数据.更新视图</p>
+</li><li>
+<p>view和model的桥梁</p>
+</li><li>
+<p>Angular中初始化Model的数据并为其添加行为方法</p>
+</li></ul>
+</li></ul>
+
+<h4 id="label-M-V-VM-E6-A8-A1-E5-BC-8F">M-V-VM模式<span><a href="#label-M-V-VM-E6-A8-A1-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>Angular实际使用的是M-V-VM模式</p>
+</li><li>
+<p>View 视图</p>
+<ul><li>
+<p>显示VM中的数据</p>
+</li><li>
+<p>与用户交互</p>
+</li></ul>
+</li><li>
+<p>Model 模型</p>
+<ul><li>
+<p>Angular的内存. 作用域对象</p>
+</li><li>
+<p>scope中各个数据对象</p>
+</li></ul>
+</li><li>
+<p>ViewModel 视图模型</p>
+<ul><li>
+<p>$scope作用域与ViewModel层关联</p>
+</li><li>
+<p>Controller控制器用来辅助 ViewModel层</p>
+</li></ul>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/09_Angular/%E5%9B%9B%E4%B8%AA%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="09-01.html">上一篇 · 简介</a><a href="09-03.html">下一篇 · 四个重要对象</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

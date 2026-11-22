@@ -1,3 +1,11 @@
+# DOM
+
+## 先弄懂这件事
+
+DOM 把页面表示成一棵节点树。用 `document.querySelector()` 找到元素，再用 `textContent` 改文字或用 `classList` 改样式类。
+
+## 笔记与示例
+
 # DOM 基础
 ## Document Object Model 
 - 文档对象模型

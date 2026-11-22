@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>JS内置对象方法 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-03.html">JavaScript 基础</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>JavaScript 基础</strong><a href="03-01.html">ECMAScript 与 JavaScript</a><a href="03-02.html">JS基本语法</a><a href="03-03.html">JS数据类型</a><a href="03-04.html">JS运算符</a><a href="03-05.html">JS语句</a><a href="03-06.html">JS对象</a><a href="03-07.html">JS函数</a><a href="03-08.html">JS数组</a><a href="03-09.html" aria-current="page">JS内置对象方法</a><a href="03-10.html">正则表达式</a><a href="03-11.html">DOM</a><a href="03-12.html">BOM</a><a href="03-13.html">JSON</a></nav>
+<article class="paper"><h1>JS内置对象方法</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p><code>Date</code> 处理日期时间，<code>Math</code> 提供数学工具。读日期时注意 <code>getDate()</code> 是这个月的第几天，<code>getDay()</code> 是星期几。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-Javascript+Date">Javascript Date<span><a href="#label-Javascript+Date">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-Date+-E6-98-AF-E4-B8-80-E4-B8-AA-E7-94-A8-E6-9D-A5-E8-A1-A8-E7-A4-BA-E6-97-B6-E9-97-B4-E7-9A-84-E5-AF-B9-E8-B1-A1">Date 是一个用来表示时间的对象<span><a href="#label-Date+-E6-98-AF-E4-B8-80-E4-B8-AA-E7-94-A8-E6-9D-A5-E8-A1-A8-E7-A4-BA-E6-97-B6-E9-97-B4-E7-9A-84-E5-AF-B9-E8-B1-A1">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>直接调用构造函数创建时间对象</p>
+</li><li>
+<p>var date = new Date()</p>
+</li></ul>
+
+<h4 id="label-Date-E7-9A-84-E6-96-B9-E6-B3-95">Date的方法<span><a href="#label-Date-E7-9A-84-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-getTime-28-29">getTime()<span><a href="#label-getTime-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>获取当前日期对象的时间戳</p>
+</li><li>
+<p>时间戳是指格林威治标准时间1970年1月1日0时0分0秒到现在花费的毫米数</p>
+</li><li>
+<p>计算机底层,所有时间都是以时间戳的形式保存的</p>
+</li></ul>
+
+<h5 id="label-now-28-29">now()<span><a href="#label-now-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>获取代码执行时的时间戳</p>
+</li><li>
+<p><code>Date.now()</code></p>
+</li></ul>
+
+<h5 id="label-getDate-28-29">getDate()<span><a href="#label-getDate-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>获取当前日期</p>
+
+<h5 id="label-getDay-28-29">getDay()<span><a href="#label-getDay-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>获取当前日期是星期几</p>
+
+<h5 id="label-getMonth-28-29">getMonth()<span><a href="#label-getMonth-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>获取当前的月份</p>
+</li><li>
+<p>返回值是 0-11 0代表一月</p>
+
+<h5 id="label-getFullYear-28-29">getFullYear()<span><a href="#label-getFullYear-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>获取当前的年份</p>
+</li></ul>
+<hr>
+
+<h2 id="label-Javascript+Math">Javascript Math<span><a href="#label-Javascript+Math">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>Math可以用来做数学运算相关的操作</p>
+</li><li>
+<p>Math并不是一个构造函数,我们也不需要去创建一个Math类型</p>
+</li><li>
+<p>Math是一个工具类.它里面封装了一些数学运算相关的常量和方法</p>
+</li></ul>
+
+<h4 id="label-Math-E5-B8-B8-E7-94-A8-E5-B1-9E-E6-80-A7">Math常用属性<span><a href="#label-Math-E5-B8-B8-E7-94-A8-E5-B1-9E-E6-80-A7">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-Math.PI+-E5-9C-86-E5-91-A8-E7-8E-87">Math.PI 圆周率<span><a href="#label-Math.PI+-E5-9C-86-E5-91-A8-E7-8E-87">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>console.log(Math.PI) —&gt; “3.141592653589793”</p>
+
+<h5 id="label-Math.abs-28-29">Math.abs()<span><a href="#label-Math.abs-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>获取一个数的绝对值</p>
+
+<h5 id="label-Math.ceil-28-29">Math.ceil()<span><a href="#label-Math.ceil-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>对一个数进行向上取整</p>
+</li><li>
+<p>只要小数点后有值,就向上进1</p>
+
+<h5 id="label-Math.floor-28-29">Math.floor()<span><a href="#label-Math.floor-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>对一个数进行向下取整</p>
+</li><li>
+<p>小数点后的值都舍去</p>
+
+<h5 id="label-Math.round-28-29">Math.round()<span><a href="#label-Math.round-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>对一个数四舍五入取整</p>
+
+<h5 id="label-Math.random-28-29">Math.random()<span><a href="#label-Math.random-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>产生0-1之间的随机数</p>
+
+<h5 id="label-Math.max-28-29">Math.max()<span><a href="#label-Math.max-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>可以从多个值中获取到最大值</p>
+
+<h5 id="label-Math.min-28-29">Math.min()<span><a href="#label-Math.min-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>可以从多个值中获取到最小值</p>
+
+<h5 id="label-Math.pow-28x-2Cy-29">Math.pow(x,y)<span><a href="#label-Math.pow-28x-2Cy-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>获取x 的y次幂</p>
+
+<h5 id="label-Math.sqrt-28x-29">Math.sqrt(x)<span><a href="#label-Math.sqrt-28x-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>求一个数的平方根</p>
+</li></ul>
+<hr>
+
+<h4 id="label-E5-8C-85-E8-A3-85-E7-B1-BB">包装类<span><a href="#label-E5-8C-85-E8-A3-85-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>通过包装类可以将一个基本数据类型包装为一个对象</p>
+</li><li>
+<p>String()</p>
+</li><li>
+<p>将一个基本数据类型包装为String对象</p>
+</li><li>
+<p>boolean()</p>
+</li><li>
+<p>将一个基本数据类型包装为Boolean对象</p>
+</li><li>
+<p>number()</p>
+</li><li>
+<p>将一个基本数据类型包装为number对象</p>
+</li><li>
+<p><strong>注意: 开发中不要使用包装类来创建基本数据类型的对象</strong></p>
+</li></ul>
+<hr>
+
+<h2 id="label-JS-E4-B8-AD-E5-AD-97-E7-AC-A6-E4-B8-B2-E7-9A-84-E7-9B-B8-E5-85-B3-E6-96-B9-E6-B3-95">JS中字符串的相关方法<span><a href="#label-JS-E4-B8-AD-E5-AD-97-E7-AC-A6-E4-B8-B2-E7-9A-84-E7-9B-B8-E5-85-B3-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>在解析器底层保存字符串时,实际上是以字符数组的形式保存的</p>
+</li><li>
+<p>所以字符串的操作方法和数组的方法非常相似</p>
+
+<h5 id="label-length">length<span><a href="#label-length">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>可以用来获取字符串的长度</p>
+
+<h5 id="label-charAt-28-29">charAt()<span><a href="#label-charAt-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>可以根据索引来获取指定位置的字符</p>
+</li><li>
+<p>参数: 索引值</p>
+
+<h5 id="label-charCodeAt-28-29">charCodeAt()<span><a href="#label-charCodeAt-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>可以根据索引来获取指定位置的字符的字符编码</p>
+</li><li>
+<p>参数: 字符编码</p>
+
+<h5 id="label-String.fromCharCode-28-29">String.fromCharCode()<span><a href="#label-String.fromCharCode-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>根据字符编码(十进制)获取字符</p>
+</li><li>
+<p>参数: 字符编码</p>
+
+<h5 id="label-concat-28-29">concat()<span><a href="#label-concat-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>连接两个或多个字符串</p>
+
+<h5 id="label-indexOf-28-29">indexOf()<span><a href="#label-indexOf-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>检索指定字符串在当前字符串的位置</p>
+</li><li>
+<p>第一个参数: 要查询的字符串</p>
+</li><li>
+<p>第二个参数: 指定查找开始的位置</p>
+</li><li>
+<p>返回值:默认返回字符串第一次出现的位置. 如果找不到返回 -1</p>
+
+<h5 id="label-lastIndexOf-28+-29">lastIndexOf( )<span><a href="#label-lastIndexOf-28+-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>检索指定字符串在当前字符串中的位置</p>
+</li><li>
+<p>lastIndexOf( )是从后往前找</p>
+
+<h5 id="label-slice-28-29">slice()<span><a href="#label-slice-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>截取一个字符串中的内容</p>
+</li><li>
+<p>第一个参数: 截取开始位置的索引 (包括开始位置)</p>
+</li><li>
+<p>第二个参数: 截取结束位置的索引</p>
+</li><li>
+<p>可以接收负数作为参数. 从后往前找</p>
+</li><li>
+<p>如果省略第二个参数.则截取到最后</p>
+
+<h5 id="label-substring-28-29">substring()<span><a href="#label-substring-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>截取一个字符串中的内容</p>
+</li><li>
+<p>第一个参数: 截取开始位置的索引 (包括开始位置)</p>
+</li><li>
+<p>第二个参数: 截取结束位置的索引</p>
+</li><li>
+<p>不接收负数. 如果为负数默认是0</p>
+</li><li>
+<p>如果第二个参数小于第一个参数.则会自动反转两个参数的位置</p>
+</li><li>
+<p>如果省略第二个参数.则截取到最后</p>
+
+<h5 id="label-substr-28-29">substr()<span><a href="#label-substr-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>截取字符串</p>
+</li><li>
+<p>第一个参数: 截取开始位置的索引 (包括开始位置)</p>
+</li><li>
+<p>第二个参数: 截取的个数</p>
+</li><li>
+<p>可以接收负数作为参数. 从后往前找</p>
+</li><li>
+<p>如果省略第二个参数.则截取到最后</p>
+
+<h5 id="label-split-28-29">split()<span><a href="#label-split-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>将字符串拆分为一个数组</p>
+</li><li>
+<p><a>参数:</a> 字符串.根据字符串对字符串进行拆分</p>
+
+<h5 id="label-toLowerCase-28-29">toLowerCase()<span><a href="#label-toLowerCase-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>字符串转换为小写</p>
+
+<h5 id="label-toUpperCase-28-29">toUpperCase()<span><a href="#label-toUpperCase-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>字符串转换为大写</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/03_JS/JS%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="03-08.html">上一篇 · JS数组</a><a href="03-10.html">下一篇 · 正则表达式</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>HTML入门 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-01.html">HTML：页面结构</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>HTML：页面结构</strong><a href="01-01.html" aria-current="page">HTML入门</a></nav>
+<article class="paper"><h1>HTML入门</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>HTML 给页面内容安上标题、段落、链接和图片等结构。先写一个包含 <code>&lt;h1&gt;</code> 和 <code>&lt;p&gt;</code> 的页面，用浏览器打开，看看标签如何改变内容的含义。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h1 id="label-HTML">HTML<span><a href="#label-HTML">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<h3 id="label-E8-BD-AF-E4-BB-B6-E6-9E-B6-E6-9E-84">软件架构<span><a href="#label-E8-BD-AF-E4-BB-B6-E6-9E-B6-E6-9E-84">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<h5 id="label-C-2FS+-E5-AE-A2-E6-88-B7-E7-AB-AF-2F-E6-9C-8D-E5-8A-A1-E5-99-A8">C/S 客户端/服务器<span><a href="#label-C-2FS+-E5-AE-A2-E6-88-B7-E7-AB-AF-2F-E6-9C-8D-E5-8A-A1-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>桌面上使用的软件都属于C/S构架的</p>
+</li><li>
+<p>用户通过客户端来使用软件</p>
+</li><li>
+<p>而在远程的服务器来处理软件的业务逻辑</p>
+</li><li>
+<p>特点：</p>
+<ul><li>
+<p>使用C/S架构的软件必须要安装</p>
+</li><li>
+<p>软件更新时服务器和客户端都需要更新</p>
+</li><li>
+<p>C/S架构的软件不能跨平台使用</p>
+</li><li>
+<p>C/S架构的软件服务器和客户端采用自有的协议，比较安全。</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-B-2FS+-E6-B5-8F-E8-A7-88-E5-99-A8-2F-E6-9C-8D-E5-8A-A1-E5-99-A8">B/S 浏览器/服务器<span><a href="#label-B-2FS+-E6-B5-8F-E8-A7-88-E5-99-A8-2F-E6-9C-8D-E5-8A-A1-E5-99-A8">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>B/S本质上也是一种C/S</p>
+</li><li>
+<p>不同的是 B/S框架的软件使用浏览器作为客户端</p>
+</li><li>
+<p>B/S架构的软件都是通过访问网页的形式使用的</p>
+</li><li>
+<p>特点：</p>
+<ul><li>
+<p>使用B/S架构的软件不需要安装，只需要系统中有浏览器即可</p>
+</li><li>
+<p>B/S软件更新时客户端不需要更新</p>
+</li><li>
+<p>B/S架构的软件可以跨平台使用</p>
+</li><li>
+<p>B/S架构的软件服务器和浏览器之间的通信采用HTTP协议。较不安全</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E8-BF-9B-E5-88-B6">进制<span><a href="#label-E8-BF-9B-E5-88-B6">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>十进制</p>
+<ul><li>
+<p>0,1,2,3,4,5,6,7,8,9,10,11,12</p>
+</li></ul>
+</li><li>
+<p>二进制</p>
+<ul><li>
+<p>满2进1</p>
+</li><li>
+<p>计算机底层保存数据时采用二进制</p>
+</li><li>
+<p>0,1 / 10,11/ 100,111</p>
+</li></ul>
+</li><li>
+<p>八进制</p>
+<ul><li>
+<p>满8进1</p>
+</li><li>
+<p>0,1,2,3,4,5,6,7</p>
+</li><li>
+<p>10,11,12,13 … 17</p>
+</li></ul>
+</li><li>
+<p>十六进制</p>
+<ul><li>
+<p>满16进1</p>
+</li><li>
+<p>使用abcdef代表11,12,13,14,15,16</p>
+</li><li>
+<p>0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E7-BC-96-E7-A0-81">编码<span><a href="#label-E7-BC-96-E7-A0-81">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>将字符串转换称二进制码的过程称为编码</p>
+</li><li>
+<p>将二进制码转换为字符串的过程称为解码</p>
+</li><li>
+<p>编码和解码所遵循的规则称为 字符集</p>
+</li><li>
+<p>常见字符集</p>
+<ul><li>
+<p>ASCII</p>
+</li><li>
+<p>ISO-8859-1</p>
+</li><li>
+<p>GB2312</p>
+</li><li>
+<p>GBK</p>
+</li><li>
+<p>UTF-8 万国码，几乎支持所有字符</p>
+</li></ul>
+</li><li>
+<p>乱码的根本原因就是编码和解码所采用的字符集不同所造成的</p>
+</li></ul>
+
+<h3 id="label-E7-BD-91-E9-A1-B5-E7-BB-93-E6-9E-84">网页结构<span><a href="#label-E7-BD-91-E9-A1-B5-E7-BB-93-E6-9E-84">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>结构</p>
+<ul><li>
+<p>定义出网页的整体结构</p>
+</li><li>
+<p>使用HTML来定义页面的结构</p>
+</li></ul>
+</li><li>
+<p>表现</p>
+<ul><li>
+<p>网页的所有外在显示的内容都属于表现</p>
+</li><li>
+<p>使用CSS来设置页面的样式</p>
+</li></ul>
+</li><li>
+<p>行为:</p>
+<ul><li>
+<p>行为用来处理用户和网页之间的交互</p>
+</li><li>
+<p>使用JavaScript来处理页面中的交互行为</p>
+</li></ul>
+</li><li>
+<p>一个设计优良的网页要求结构, 表现, 行为三者分离</p>
+</li></ul>
+<hr>
+
+<h2 id="label-HTML+-E7-AE-80-E4-BB-8B">HTML 简介<span><a href="#label-HTML+-E7-AE-80-E4-BB-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>超文本标记语言</p>
+</li><li>
+<p>HTML负责页面的结构. 它是通过HTML标签的形式来定义出页面中的各个部分</p>
+</li><li>
+<p>HTML页面基本结构</p>
+
+<pre>&lt;!doctype html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot; /&gt;
+        &lt;title&gt;&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+</li></ul>
+
+<h3 id="label-HTML+-E6-A0-87-E7-AD-BE">HTML 标签<span><a href="#label-HTML+-E6-A0-87-E7-AD-BE">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>标签又称之为元素</p>
+</li><li>
+<p>普通标签</p>
+<ul><li>
+<p>语法&lt;标签名&gt;&lt;/标签名&gt;</p>
+</li></ul>
+</li><li>
+<p>自结束标签</p>
+<ul><li>
+<p>语法:&lt;标签名/&gt;</p>
+</li></ul>
+</li><li>
+<p>属性</p>
+<ul><li>
+<p>可以在标签或自结束标签中为标签(元素)添加属性</p>
+</li><li>
+<p>语法:</p>
+</li><li>
+<p><code>&lt;标签名 属性名=“属性值”&gt;&lt;/标签名&gt;</code></p>
+</li><li>
+<p><code>&lt;标签名 属性名=“属性值” /&gt;</code></p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-HTML-E5-B8-B8-E7-94-A8-E6-A0-87-E7-AD-BE">HTML常用标签<span><a href="#label-HTML-E5-B8-B8-E7-94-A8-E6-A0-87-E7-AD-BE">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p><code>&lt;!doctype html&gt;</code></p>
+<ul><li>
+<p>文档声明. 表示当前页面是以HTML5规范编写的</p>
+</li></ul>
+</li><li>
+<p><code>&lt;html&gt;</code></p>
+<ul><li>
+<p>网页的根标签,有且只有一个.网页的所有内容都在根标签中</p>
+</li></ul>
+</li><li>
+<p><code>&lt;head&gt;</code></p>
+<ul><li>
+<p>网页的头部标签. 可以帮助浏览器来解析页面或帮助搜索引擎检索网页</p>
+</li></ul>
+</li><li>
+<p><code>&lt;title&gt;</code></p>
+<ul><li>
+<p>网页的标题标签. 内容会默认显示在网页的标题栏中</p>
+</li><li>
+<p>搜索引擎检索网页时会主要检索title中的内容.来判断网页的主要内容.会影响到网页在搜索引擎的排名</p>
+</li></ul>
+</li><li>
+<p><code>&lt;meat/&gt;</code></p>
+<ul><li>
+<p>定义当前页面的字符集</p>
+<ul><li>
+<p><code>&lt;meta charset=&quot;utf-8&quot; /&gt;</code></p>
+</li></ul>
+</li><li>
+<p>可以定义网页中的关键字</p>
+<ul><li>
+<p><code>&lt;meta name=&quot;keyword&quot; content=&quot;前端,html5,java”/&gt;</code></p>
+</li></ul>
+</li><li>
+<p>可以设置网页的描述信息</p>
+<ul><li>
+<p><code>&lt;meta name=&quot;description&quot; content=&quot;专注于搜集美女图片的网站&quot; /&gt;</code></p>
+</li></ul>
+</li><li>
+<p>可以用来做重定向请求</p>
+<ul><li>
+<p><code>&lt;meta http-equiv=&quot;refresh&quot; content=&quot;3;url=http://www.baidu.com&quot; /&gt;</code></p>
+</li></ul>
+</li><li>
+<p>可用来制作网站的小图标</p>
+<ul><li>
+<p><code>&lt;link href=&quot;img/icon_mouse_32.ico&quot; rel=&quot;shortcut icon&quot; type=&quot;image/x-icon&quot;/&gt;</code></p>
+</li></ul>
+</li></ul>
+</li><li>
+<p><code>&lt;body&gt;</code></p>
+<ul><li>
+<p>网页的主题. 所有可见内容都应该写在body标签中</p>
+</li></ul>
+</li><li>
+<p><code>&lt;h1&gt;~&lt;h6&gt;</code></p>
+<ul><li>
+<p>内容标题标签</p>
+</li><li>
+<p>从h1到h6重要性依次递减</p>
+</li><li>
+<p>一般一个页面中只有一个h1标签</p>
+</li><li>
+<p>一般只使用h1-h3</p>
+</li></ul>
+</li><li>
+<p><code>&lt;p&gt;</code></p>
+<ul><li>
+<p>网页中的段落标签</p>
+</li></ul>
+</li><li>
+<p><code>&lt;br/&gt;</code></p>
+<ul><li>
+<p>换行</p>
+</li></ul>
+</li><li>
+<p><code>&lt;hr/&gt;</code></p>
+<ul><li>
+<p>水平分割线</p>
+</li></ul>
+</li><li>
+<p><code>&lt;ul&gt;&lt;li&gt;</code></p>
+<ul><li>
+<p>无序列表</p>
+</li></ul>
+</li><li>
+<p><code>&lt;ol&gt;&lt;li&gt;</code></p>
+<ul><li>
+<p>有序列表</p>
+</li></ul>
+</li><li>
+<p><code>&lt;dl&gt;&lt;dt&gt;&lt;dd&gt;</code></p>
+<ul><li>
+<p>定义列表</p>
+</li></ul>
+</li><li>
+<p><code>&lt;img/&gt;</code></p>
+<ul><li>
+<p>图标标签</p>
+</li><li>
+<p>属性:</p>
+</li><li>
+<p>src: 指向外部图片的路径</p>
+</li><li>
+<p>alt: 图标描述信息</p>
+</li></ul>
+</li><li>
+<p><code>&lt;a&gt;</code></p>
+<ul><li>
+<p>通过超链接可以使从一个页面跳转到另一个页面</p>
+</li><li>
+<p>属性:</p>
+</li><li>
+<p>href: 指定要打开的页面地址或路径</p>
+</li><li>
+<p><a>target:</a> 要打开页面的位置</p>
+<ul><li>
+<p>_self: 默认值.当前窗口的卡爱</p>
+</li><li>
+<p>_blank: 在新的窗口的打开</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p><code>&lt;!-- --&gt;</code></p>
+<ul><li>
+<p>html注释的内容</p>
+</li><li>
+<p>用来对代码进行描述或解释说明</p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-E5-AE-9E-E4-BD-93+-28-E8-BD-AC-E4-B9-89-E5-AD-97-E7-AC-A6-29">实体 (转义字符)<span><a href="#label-E5-AE-9E-E4-BD-93+-28-E8-BD-AC-E4-B9-89-E5-AD-97-E7-AC-A6-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>可以使用实体来表示一些特殊符号</p>
+</li><li>
+<p>语法:</p>
+<ul><li>
+<p>&amp;实体名字; ©</p>
+</li><li>
+<p>&amp;#x四位code编码;☭</p>
+</li></ul>
+</li><li>
+<p>常用实体:</p>
+<ul><li>
+<p>空格 <code>&amp;nbsp;</code></p>
+</li><li>
+<p>小于号&lt; <code>&amp;lt;</code></p>
+</li><li>
+<p>大于号&gt; <code>&amp;gt;</code></p>
+</li><li>
+<p>版权符号 <code>&amp;copy;</code></p>
+</li></ul>
+</li></ul>
+
+<h3 id="label-HTML+-E8-A1-A8-E6-A0-BC">HTML 表格<span><a href="#label-HTML+-E8-A1-A8-E6-A0-BC">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>使用 <code>&lt;table&gt;</code> 标签创建表格</p>
+</li><li>
+<p>在<code>table</code>标签中使用 <code>&lt;tr&gt;</code>来代表表格中的一行</p>
+</li><li>
+<p>在<code>&lt;tr&gt;</code>标签中使用<code>&lt;td&gt;</code>代表每一行中的单元格</p>
+</li><li>
+<p><code>&lt;thead&gt;</code></p>
+<ul><li>
+<p>表示表格的头部.永远显示在表格头部</p>
+</li><li>
+<p>可以将头部信息的<code>&lt;tr&gt;</code>放到<code>&lt;th&gt;</code> 中填写头部信息</p>
+</li></ul>
+</li><li>
+<p><code>&lt;tbody&gt;</code></p>
+<ul><li>
+<p>表示表格的主体. 可以将主题的<code>&lt;tr&gt;</code>放到““&lt;tbody&gt;““`中</p>
+</li></ul>
+</li><li>
+<p><code>&lt;tfoot&gt;</code></p>
+<ul><li>
+<p>表示表格的底部. 可以将底部的<code>&lt;tr&gt;</code>放到<code>&lt;tfoot&gt;</code>中</p>
+</li></ul>
+</li><li>
+<p>注意: 默认情况下的如果创建一个表格没有指定<code>&lt;tbody&gt;</code>时浏览器会自动添加一个.并将所有<code>&lt;tr&gt;</code>都放到<code>&lt;tbody&gt;</code>里.选择器使用后代选择器</p>
+</li></ul>
+
+<h3 id="label-HTML+-E8-A1-A8-E5-8D-95">HTML 表单<span><a href="#label-HTML+-E8-A1-A8-E5-8D-95">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>使用 <code>&lt;form&gt;</code> 标签来创建表单</p>
+</li><li>
+<p>表单标签必须有一个action属性</p>
+<ul><li>
+<p>action需要一个服务器地址.当提交表单时,会提交到该地址</p>
+</li></ul>
+</li></ul>
+
+<h5 id="label-E8-A1-A8-E5-8D-95-E5-B8-B8-E7-94-A8-E7-A7-8D-E7-B1-BB">表单常用种类<span><a href="#label-E8-A1-A8-E5-8D-95-E5-B8-B8-E7-94-A8-E7-A7-8D-E7-B1-BB">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>文本框</p>
+<ul><li>
+<p>使用input标签创建</p>
+</li><li>
+<p><code>type=&quot;text&quot;</code></p>
+</li><li>
+<p>提交到服务器元素必须指定name属性</p>
+</li></ul>
+</li><li>
+<p>密码框</p>
+<ul><li>
+<p>使用input标签创建</p>
+</li><li>
+<p><code>type=&quot;password&quot;</code></p>
+</li></ul>
+</li><li>
+<p>提交按钮</p>
+<ul><li>
+<p>使用input标签创建</p>
+</li><li>
+<p><code>type=&quot;submit&quot;</code></p>
+</li><li>
+<p>提交按钮中可通过设置value的值指定按钮中的文字</p>
+</li></ul>
+</li><li>
+<p>单选项</p>
+<ul><li>
+<p>使用input标签创建</p>
+</li><li>
+<p><code>type=&quot;radio&quot;</code></p>
+</li><li>
+<p><code>checked=&quot;checked&quot;</code> 单选框默认选中状态</p>
+</li><li>
+<p>name属性用来对单选项分组</p>
+</li><li>
+<p>value属性会提交到服务器</p>
+</li></ul>
+</li><li>
+<p>多选项</p>
+<ul><li>
+<p>使用input标签创建</p>
+</li><li>
+<p><code>type=&quot;checkbox&quot;</code></p>
+</li><li>
+<p><code>checked=&quot;checked&quot;</code> 多选框默认选中状态</p>
+</li><li>
+<p>name属性用来对单选项分组</p>
+</li><li>
+<p>value属性会提交到服务器</p>
+</li></ul>
+</li><li>
+<p>下拉列表</p>
+<ul><li>
+<p>使用<code>&lt;select&gt;</code>标签创建下拉列表</p>
+</li><li>
+<p><code>&lt;select&gt;</code>标签需要name属性</p>
+</li><li>
+<p>使用<code>&lt;option&gt;</code>标签来向下拉列表中添加选项</p>
+</li><li>
+<p><code>&lt;option&gt;</code>标签需要value属性</p>
+</li><li>
+<p>可以为某个<code>&lt;option&gt;</code>添加<code>selected=“selected”</code>设置默认选中状态</p>
+</li><li>
+<p>可以为<code>&lt;select&gt;</code>添加一个属性<code>multiple=&quot;multiple&quot;</code>可以设置多选</p>
+</li></ul>
+</li><li>
+<p>重置按钮</p>
+<ul><li>
+<p>使用input标签创建</p>
+</li><li>
+<p><code>type=&quot;reset&quot;</code></p>
+</li></ul>
+</li><li>
+<p>按钮</p>
+<ul><li>
+<p><code>type=&quot;button&quot;</code>创建一个单纯的按钮</p>
+</li><li>
+<p>也可以使用 <code>&lt;button&gt;</code> 标签来创建</p>
+</li><li>
+<p><code>&lt;button&gt;</code>更加灵活</p>
+</li></ul>
+</li></ul>
+
+<blockquote>
+<p>本笔记由 <strong>张人川</strong> © 编写</p>
+
+<p>博客地址: <a href="http://www.zhangrenchuan.com">Incheon’life</a></p>
+
+<p>转载请注明作者信息 ©</p>
+</blockquote>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/01_HTML/HTML%E5%85%A5%E9%97%A8.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

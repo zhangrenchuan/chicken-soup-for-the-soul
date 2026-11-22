@@ -1,3 +1,11 @@
+# ajax封装
+
+## 先弄懂这件事
+
+这篇介绍如何把 AngularJS 里的请求代码封装起来。把地址和请求细节放进服务，控制器就可以专心处理页面数据。
+
+## 笔记与示例
+
 ## AJAX 封装
 
 - $http({}) GET请求
@@ -31,4 +39,4 @@
 	- 需要在后面写 ?callback=JSON_CALLBACK
 	- &符号后写请求的内容
 	- ````$http.jsonp('http://localhost:4000/angular_node/jsonp?callback=JSON_CALLBACK&username=wukong')````
-	- 再调用success(function(data){}) 
+	- 再调用success(function(data){})

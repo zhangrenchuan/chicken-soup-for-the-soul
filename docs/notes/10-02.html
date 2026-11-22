@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>ES5 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-10.html">ECMAScript、模块化与构建</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>ECMAScript、模块化与构建</strong><a href="10-01.html">简介</a><a href="10-02.html" aria-current="page">ES5</a><a href="10-03.html">ES6</a><a href="10-04.html">ES7</a><a href="10-05.html">JS模块化</a><a href="10-06.html">自动化工具</a></nav>
+<article class="paper"><h1>ES5</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>ES5 引入严格模式，并加入多个常用方法。学习时可以先用 <code>JSON.parse()</code> 读数据，再用数组的 <code>map()</code> 生成新列表。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h2 id="label-ECMAScript+5">ECMAScript 5<span><a href="#label-ECMAScript+5">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h4 id="label-E4-B8-A5-E6-A0-BC-E6-A8-A1-E5-BC-8F">严格模式<span><a href="#label-E4-B8-A5-E6-A0-BC-E6-A8-A1-E5-BC-8F">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>除了正常运行的模式(混杂模式).ES5添加了第二种运行模式:严格模式</p>
+</li><li>
+<p>目的</p>
+<ul><li>
+<p>消除Javascript语法的一些不合理、不严谨之处，减少一些怪异行为</p>
+</li><li>
+<p>消除代码运行的一些不安全之处，为代码的安全运行保驾护航</p>
+</li><li>
+<p>为未来新版本的Javascript做好铺垫</p>
+</li></ul>
+</li><li>
+<p>使用:</p>
+<ul><li>
+<p>全局作用域或函数中定义一个<code>&#39;use strict&#39;</code>字符串</p>
+</li></ul>
+</li><li>
+<p>语法限制</p>
+<ol><li>
+<p>必须使用var声明变量</p>
+</li><li>
+<p>禁止自定义函数中的this指向window</p>
+</li><li>
+<p>新增eval的自身作用域.不能再修改全局中的变量</p>
+<ul><li>
+<p>eval()解析里面的字符串. 并运行里面的字符串代码</p>
+</li></ul>
+</li><li>
+<p>对象不能有重名属性</p>
+</li></ol>
+</li></ul>
+<hr>
+
+<h4 id="label-JSON-E5-AD-97-E7-AC-A6-E4-B8-B2-E6-96-B9-E6-B3-95">JSON字符串方法<span><a href="#label-JSON-E5-AD-97-E7-AC-A6-E4-B8-B2-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<ul><li>
+<p>JSON.stringify(obj/arr)</p>
+<ul><li>
+<p>js对象(数组)转换为json的对象(数组)</p>
+</li></ul>
+</li><li>
+<p>JSON.parse(json)</p>
+<ul><li>
+<p>json的对象(数组)转换为js对象(数组)</p>
+</li></ul>
+</li></ul>
+<hr>
+
+<h4 id="label-Object-E6-89-A9-E5-B1-95-E6-96-B9-E6-B3-95">Object扩展方法<span><a href="#label-Object-E6-89-A9-E5-B1-95-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-get+propertyName-28-29-7B-7D">get propertyName(){}<span><a href="#label-get+propertyName-28-29-7B-7D">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>用来得到当前属性值的回调函数</p>
+
+<h5 id="label-set+propertyName-28-29-7B-7D">set propertyName(){}<span><a href="#label-set+propertyName-28-29-7B-7D">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>用来监视当前属性值变化的回调函数</p>
+
+<h5 id="label-Object.create-28prototype-2C+-5Bdescriptors-5D-29">Object.create(prototype, [descriptors])<span><a href="#label-Object.create-28prototype-2C+-5Bdescriptors-5D-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+</li><li>
+<p>指定 对象的原型创建新的对象</p>
+</li><li>
+<p>第一个参数: 对象</p>
+<ul><li>
+<p>传入对象的原型属性可被新创建的对象访问</p>
+</li><li>
+<p>新创建的对象的隐式原型属性指向第一个参数里对象的显示原型属性</p>
+</li></ul>
+</li><li>
+<p>第二个参数: 为新的对象指定新的属性, 并对属性进行描述(对象)</p>
+<ul><li>
+<p>value : 通过value指定值</p>
+</li><li>
+<p>writable : 标识当前属性值是否是可修改的, 默认为true可修改</p>
+</li></ul>
+</li></ul>
+
+<p><strong>例</strong></p>
+
+<pre>  var obj = {
+    name:&#39;wukong&#39;,
+    age:39
+  };
+  var obj1 = {};
+
+  obj1 = Object.create(obj,{ //obj是obj1的原型对象
+    sex:{
+      value:&#39;男&#39;,
+      writable:true //可修改属性
+    }
+  });
+
+  obj1.sex = &quot;女&quot;;
+  console.log(obj1.sex); //女</pre>
+
+<h5 id="label-Object.defineProperties-28object-2C+descriptors-29">Object.defineProperties(object, descriptors)<span><a href="#label-Object.defineProperties-28object-2C+descriptors-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>第一个参数: 要扩展属性的对象</p>
+</li><li>
+<p>第二个参数: 为对象指定新的属性(对象).使用存取器属性</p>
+<ul><li>
+<p>get : 用来得到当前属性值的回调函数. 通过get设置的不能直接修改属性</p>
+</li><li>
+<p>set : 用来监视当前属性值变化的回调函数</p>
+</li></ul>
+</li></ul>
+
+<p><strong>例</strong></p>
+
+<pre>  var obj = {
+    firstName:&#39;wukong&#39;,
+    lastName:&quot;sun&quot;
+  };
+  Object.defineProperties(obj,{
+      fullName:{
+        get:function () {
+        	  return this.firstName + &quot;-&quot; + this.lastName
+        },
+        set:function (data) {
+        	var names = data.split(&#39;-&#39;);
+        	this.firstName = names[0]
+            this.lastName = names[1]
+        }
+      }
+  })
+  console.log(obj.fullName); //wukong-sun
+
+  obj.firstName = &#39;tim&#39;;
+  obj.lastName = &#39;duncan&#39;
+  console.log(obj.fullName); //tim-duncan
+
+  obj2.fullName = &quot;zrc-sss&quot;;
+  console.log(obj.fullName); //zrc-sss</pre>
+<hr>
+
+<h4 id="label-Array-E6-89-A9-E5-B1-95-E6-96-B9-E6-B3-95">Array扩展方法<span><a href="#label-Array-E6-89-A9-E5-B1-95-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-indexOf-28value-29">indexOf(value)<span><a href="#label-indexOf-28value-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>得到 数组值 在数组中出现第一次的下标</p>
+</li></ul>
+
+<h5 id="label-lastIndexOf-28value-29">lastIndexOf(value)<span><a href="#label-lastIndexOf-28value-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>得到 数组值 在数组中最后一次出现的下标</p>
+</li></ul>
+
+<h5 id="label-forEach-28function-28item-2C+index-29-7B-7D-29">forEach(function(item, index){})<span><a href="#label-forEach-28function-28item-2C+index-29-7B-7D-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>遍历数组</p>
+</li><li>
+<p>第一个参数: 数组元素</p>
+</li><li>
+<p>第二个参数: 数组元素下标</p>
+</li></ul>
+
+<h5 id="label-map-28function-28item-2C+index-29-7B-7D-29">map(function(item, index){})<span><a href="#label-map-28function-28item-2C+index-29-7B-7D-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>遍历数组</p>
+</li><li>
+<p>可在遍历数组后对数组元素进行修改</p>
+</li><li>
+<p>并返回加工后的新数组值</p>
+</li><li>
+<p>需要一个变量来接收</p>
+
+<pre>var arr = [1,2,3,4,5,5];
+var arr1 = arr.map(function (item,index) {
+  	  return item +10
+})
+console.log(arr,arr1); //[10,20,30,40,50,50]</pre>
+</li></ul>
+
+<h5 id="label-filter-28function-28item-2C+index-29-7B-7D-29">filter(function(item, index){})<span><a href="#label-filter-28function-28item-2C+index-29-7B-7D-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>遍历数组</p>
+</li><li>
+<p>可在遍历数组后对数组元素进行过滤操作</p>
+</li><li>
+<p>返回条件为true的元素值</p>
+</li><li>
+<p>需要一个变量来接收</p>
+
+<pre>var arr = [1,2,3,4,5,5];
+var arr1 = arr.filter(function (item,index) {
+  	  return item &gt; 2
+})
+console.log(arr,arr1); //[3,4,5,5]</pre>
+</li></ul>
+<hr>
+
+<h4 id="label-Function-E6-89-A9-E5-B1-95-E6-96-B9-E6-B3-95">Function扩展方法<span><a href="#label-Function-E6-89-A9-E5-B1-95-E6-96-B9-E6-B3-95">&para;</a> <a href="#top">&uarr;</a></span></h4>
+
+<h5 id="label-Function.prototype.bind-28obj-29">Function.prototype.bind(obj)<span><a href="#label-Function.prototype.bind-28obj-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>将函数内的this绑定为obj, 并将函数返回</p>
+</li></ul>
+
+<h5 id="label-E5-8C-BA-E5-88-ABbind-28-29-E4-B8-8Ecall-28-29-E5-92-8Capply-28-29">区别bind()与call()和apply()<span><a href="#label-E5-8C-BA-E5-88-ABbind-28-29-E4-B8-8Ecall-28-29-E5-92-8Capply-28-29">&para;</a> <a href="#top">&uarr;</a></span></h5>
+<ul><li>
+<p>都能指定函数的this</p>
+</li><li>
+<p>call()/apply()是指向this之后立即调用函数</p>
+</li><li>
+<p>bind()是指定this之后将函数返回.需要手动再调用</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/10_ECMAScript/ES5.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="10-01.html">上一篇 · 简介</a><a href="10-03.html">下一篇 · ES6</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

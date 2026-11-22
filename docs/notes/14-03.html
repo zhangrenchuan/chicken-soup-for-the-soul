@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>生命周期 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-14.html">Vue：基础用法与原理（含旧版示例）</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>Vue：基础用法与原理（含旧版示例）</strong><a href="14-01.html">概述</a><a href="14-02.html">使用Vue</a><a href="14-03.html" aria-current="page">生命周期</a><a href="14-04.html">重要属性</a><a href="14-05.html">插件</a><a href="14-06.html">Vue重要知识支持</a><a href="14-07.html">Vue 响应式原理示例</a></nav>
+<article class="paper"><h1>生命周期</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>生命周期按组件创建、挂载、更新和销毁来理解。例如要使用已经渲染出来的 DOM，可以在挂载之后执行相关代码。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F">生命周期<span><a href="#label-E7-94-9F-E5-91-BD-E5-91-A8-E6-9C-9F">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ol><li>
+<p>生命周期初始化显示</p>
+</li><li>
+<p>new vue()</p>
+</li><li>
+<p><strong>created() 创建</strong></p>
+<ul><li>
+<p>在此启动异步任务,比如ajax请求, 定时器</p>
+</li></ul>
+</li><li>
+<p>beforeCompiled() 模版编译解析之前</p>
+</li><li>
+<p>compiled() 编译解析完成</p>
+</li><li>
+<p>ready() 页面真正显示</p>
+</li><li>
+<p>销毁vue实例: vm.$destory()</p>
+</li><li>
+<p><strong>beforeDestroy() 销毁实例之前</strong></p>
+<ul><li>
+<p>在此做一些收尾的工作: 如清理定时器</p>
+</li></ul>
+</li><li>
+<p>destroyed() 销毁完成</p>
+</li></ol>
+
+<p><img src="https://i.imgur.com/iWhprsn.png"></p>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/14_Vue/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="14-02.html">上一篇 · 使用Vue</a><a href="14-04.html">下一篇 · 重要属性</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

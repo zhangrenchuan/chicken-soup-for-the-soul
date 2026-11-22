@@ -1,3 +1,11 @@
+# jQuery动画
+
+## 先弄懂这件事
+
+名字能看出动画用途。`fadeIn()` 是淡入，`slideUp()` 是收起，`animate()` 可改变支持动画的数值属性。
+
+## 笔记与示例
+
 ## jQuery动画效果
 
 ### 显示和隐藏效果
@@ -169,4 +177,3 @@
 		$("#panel").click(function(){
 		    $(this).animate({left: "500px"}, 3000).animate({height: "200px"}, 3000);
 		})
-

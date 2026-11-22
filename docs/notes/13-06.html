@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="按章节查找和阅读前端开发笔记，从 HTML、CSS 和 JavaScript 入门。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' https:; base-uri 'none'; form-action 'none'">
+<title>画一条物理像素宽的线 · 前端学习笔记</title>
+<link rel="stylesheet" href="../site.css">
+
+</head>
+<body>
+<a href="#main" class="skip">跳到正文</a>
+<header class="top"><div class="wrap"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true">&lt;/&gt;</span>前端学习笔记</a>
+<nav aria-label="主导航"><a href="../index.html#catalog">章节目录</a></nav></div></header>
+<main class="wrap" id="main">
+<nav class="crumb" aria-label="当前位置"><a href="../index.html">首页</a> / <a href="../chapter-13.html">移动网页：像素、视口和适配</a></nav>
+<div class="reader"><nav class="side" aria-label="本章文章"><strong>移动网页：像素、视口和适配</strong><a href="13-01.html">像素概念</a><a href="13-02.html">视口概念</a><a href="13-03.html">缩放行为</a><a href="13-04.html">META标签</a><a href="13-05.html">适配方案</a><a href="13-06.html" aria-current="page">画一条物理像素宽的线</a><a href="13-07.html">移动端事件&amp;问题综合</a><a href="13-08.html">移动端价值链&amp;浏览器</a><a href="13-09.html">zepto框架</a></nav>
+<article class="paper"><h1>画一条物理像素宽的线</h1>
+<section class="intro"><h2>先弄懂这件事</h2>
+<p>CSS 里写的 <code>1px</code> 是一个 CSS 像素，高像素密度屏幕可能用多个物理像素来显示它。要画很细的线，先确定设计要的是哪个单位。</p>
+</section>
+<h2 id="label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">笔记与示例<span><a href="#label-E7-AC-94-E8-AE-B0-E4-B8-8E-E7-A4-BA-E4-BE-8B">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-1-E7-89-A9-E7-90-86-E5-83-8F-E7-B4-A0-E7-9A-84-E5-AE-9E-E7-8E-B0">1物理像素的实现<span><a href="#label-1-E7-89-A9-E7-90-86-E5-83-8F-E7-B4-A0-E7-9A-84-E5-AE-9E-E7-8E-B0">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<ul><li>
+<p>1物理像素边框指的是高度为1物理像素</p>
+</li><li>
+<p>基于rem实现:</p>
+<ul><li>
+<p>页面上px的元素变成原来的一半</p>
+</li><li>
+<p>页面上rem的元素变成原来的两倍</p>
+</li><li>
+<p>页面上px的元素变成原来的一半</p>
+</li><li>
+<p>页面上rem的元素变成原来的两倍</p>
+</li></ul>
+</li><li>
+<p>实现方法:</p>
+<ul><li>
+<p>前提要有完美视口的meta标签</p>
+</li><li>
+<p>获得像素比</p>
+</li><li>
+<p>定义缩放比 <code>1 / 像素比</code></p>
+</li><li>
+<p>获取理想视口宽度并放大回去 <code>*像素比</code>. 相当于rem没有变化</p>
+<ul><li>
+<p>有meta标签: <code>document.documentElement.clientWidth</code></p>
+</li><li>
+<p>有meta标签: <code>document.documentElement.clientWidth</code></p>
+</li></ul>
+</li><li>
+<p>改变style的样式, 使html的font-size变成布局视口的宽度</p>
+</li><li>
+<p>获取meta标签并修改initial-scale的值</p>
+
+<h6 id="label-E4-BB-A3-E7-A0-81-E5-AE-9E-E7-8E-B0">代码实现<span><a href="#label-E4-BB-A3-E7-A0-81-E5-AE-9E-E7-8E-B0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+</li><li>
+<p>前提要有完美视口的meta标签</p>
+</li><li>
+<p>获得像素比</p>
+</li><li>
+<p>定义缩放比 <code>1 / 像素比</code></p>
+</li><li>
+<p>获取理想视口宽度并放大回去 <code>*像素比</code>. 相当于rem没有变化</p>
+<ul><li>
+<p>有meta标签: <code>document.documentElement.clientWidth</code></p>
+</li></ul>
+</li><li>
+<p>改变style的样式, 使html的font-size变成布局视口的宽度</p>
+</li><li>
+<p>获取meta标签并修改initial-scale的值</p>
+
+<h6 id="label-E4-BB-A3-E7-A0-81-E5-AE-9E-E7-8E-B0">代码实现<span><a href="#label-E4-BB-A3-E7-A0-81-E5-AE-9E-E7-8E-B0">&para;</a> <a href="#top">&uarr;</a></span></h6>
+</li></ul>
+
+<p>//获得像素比  var dpr = window.devicePixelRatio || 1;  var scale = 1 / dpr;</p>
+
+<p>//rem不变  var width = document.documentElement.clientWidth * dpr;  var styleNode = document.createElement(&#39;style&#39;);  styleNode.innerHTML = “html{font-size:” + width + “px!important}”;  document.head.appendChild(styleNode);</p>
+
+<p>//px值 变成一半  var metaNode = <a>document.querySelector(‘meta</a>&#39;);  metaNode.setAttribute(&#39;content&#39;,&#39;width=device-width,initial-scale=&#39;+ scale +&#39;,user-scalable=no&#39;);</p>
+
+<p> //CSS设置 height:1px. 就是1物理像素高度</p>
+</li></ul>
+
+<p class="meta"><a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul/blob/master/13_%E7%A7%BB%E5%8A%A8%E7%AB%AF/1%E7%89%A9%E7%90%86%E5%83%8F%E7%B4%A0%E7%9A%84%E5%AE%9E%E7%8E%B0.md">查看原文</a></p>
+<nav class="pager" aria-label="文章翻页"><a href="13-05.html">上一篇 · 适配方案</a><a href="13-07.html">下一篇 · 移动端事件&amp;问题综合</a></nav></article></div></main>
+<footer class="wrap foot">原作者 <a href="https://github.com/zhangrenchuan/chicken-soup-for-the-soul">zhangrenchuan</a> · <a href="../LICENSE.txt">原仓库许可</a></footer>
+</body></html>

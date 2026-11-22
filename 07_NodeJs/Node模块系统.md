@@ -1,3 +1,11 @@
+# Node模块系统
+
+## 先弄懂这件事
+
+CommonJS 用 `require()` 加载模块，以 `module.exports` 作为导出结果。给 `exports` 添加属性有效，直接替换 `exports` 变量则不会替换导出结果。
+
+## 笔记与示例
+
 ## node模块系统
 - 让NodeJs文件可以互相调用
 - 每一个JS文件都是一个模块
